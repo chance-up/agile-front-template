@@ -11,5 +11,13 @@ interface UserInfo {
   public_repos: number;
   bio: string;
 }
+interface UserRawData {
+  data: UserInfo[];
+  page: number;
+  per_page: number;
+  support: Object;
+  total: number;
+  total_page: number;
+}
 
-export { UserList, UserInfo };
+export { UserList, UserInfo, UserRawData };
