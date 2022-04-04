@@ -69,3 +69,7 @@ import Hello from '../components/HelloWorld.vue';
 // Even better!
 import Hello from '@/components/HelloWorld.vue';
 ```
+
+## Git Rule
+
+-
