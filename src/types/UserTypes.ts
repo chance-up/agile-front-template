@@ -4,20 +4,15 @@ interface UserList {
 }
 
 interface UserInfo {
-  login: string;
-  avatar_url: string;
-  html_url: string;
-  blog: string;
-  public_repos: number;
-  bio: string;
+  avatar: string;
+  email: string;
+  first_name: string;
+  id: number;
+  last_name: string;
 }
 interface UserRawData {
   data: UserInfo[];
   page: number;
-  per_page: number;
-  support: Object;
-  total: number;
-  total_page: number;
 }
 
 export { UserList, UserInfo, UserRawData };

@@ -7,7 +7,7 @@
       <div class="col-md-8">
         <div class="card-body">
           <h5 class="card-title">Card title</h5>
-          <p class="card-text">{{ userList.login }}</p>
+          <p class="card-text">{{ userInfo.id }}</p>
           <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
       </div>
@@ -16,25 +16,17 @@
 </template>
 <script lang="ts">
 import { UserInfo } from '@/types/UserTypes';
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
+import
 
 const UserModule = namespace('UserModule');
 @Component
 export default class Home extends Vue {
-  // @UserModule.State('userInfo')
-  // private userList!: UserInfo;
-  // //@UserStore.Getter('doubledCount')
-  // //private doubledCount!: number;
-  // @UserModule.Action('getUserInfoMuAct')
-  // private incr!: (delta: number) => void;
-  // get userProfile() {
-  //   return UserModule.userProfile;
-  // }
-  // @Watch('userProfile')
-  // changeProfile(profile: UserProfile) {
-  //   this.profile = profile;
-  // }
+  @Watch('userInfo')
+  // method
+  @UserModule.State
+  private userInfo!: UserInfo;
 }
 </script>
 <style lang=""></style>

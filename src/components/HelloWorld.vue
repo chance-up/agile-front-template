@@ -95,9 +95,17 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
+@Component({
+  components: {},
+})
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
+
+  /*
+    @Prop(String) private msg!: string;
+    @Prop([String, Number]) private msg!: string;
+    @Prop({ default: 'hi' }) private msg!: string;
+  */
 }
 </script>
 

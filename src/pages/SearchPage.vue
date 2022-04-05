@@ -9,8 +9,8 @@
 </template>
 <script>
 import { Component, Vue } from 'vue-property-decorator';
-import Button from '@/components/Button/Button.vue';
-import Input from '@/components/Input/Input.vue';
+import Button from '@/components/tagItem/Button/Button.vue';
+import Input from '@/components/tagItem/Input/Input.vue';
 
 @Component({
   components: {

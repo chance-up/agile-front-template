@@ -44,7 +44,8 @@ components/
 
 ### 4. 싱글 파일 컴포넌트 이름 규칙 지정(casing)
 
-- 단일 파일 구성 요소 의 파일 이름은 항상 PascalCase 로 작성
+- 단일 파일 구성 요소의 파일 이름은 항상 PascalCase 로 작성
+  (폴더명은 CamelCase)
 
 ```
 // Bad
@@ -73,3 +74,32 @@ import Hello from '@/components/HelloWorld.vue';
 ## Git Rule
 
 -
+
+## Component 선언 시
+
+```
+@Component({
+  components: {
+    Button,
+    Input,
+  },
+})
+```
+
+## store 모듈 내 메서드를 component에서 참조 시 메서드 명 통일하는 방식으로 사용
+
+```
+
+  @UserModule.Action
+  private getUserListAction!: (page: number) => void;
+
+```
+
+## 함수 선언 방법은 ES6문법 사용
+
+```
+[ES6] const getUserList = async(page: string)=>{}
+
+[ES5] async function getUserList(page: string) {}
+
+```

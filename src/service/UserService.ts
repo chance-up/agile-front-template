@@ -1,21 +1,28 @@
 import axios, { AxiosResponse } from 'axios';
-import { UserRawData } from '@/types/UserTypes';
+import { UserRawData, UserInfo } from '@/types/UserTypes';
 const config = {
   baseURL: 'https://reqres.in/api',
   headers: { Accept: 'application/json' },
 };
 const api = axios.create(config);
 
-// const fetchedList = false;
-
 //유저 리스트 불러오기
-async function getUserList(page: string) {
+
+const getUserList = async (page: string) => {
+  // async function getUserList(page: string) {
   // if (fetchedList) {
   //   return Promise.resolve(true);
   // } else {
-  return await api.get('users?page=' + page).then((response: AxiosResponse<UserRawData>) => {
-    console.log(response);
-  });
+  return await api
+    .get('users?page=' + page)
+    .then((response: AxiosResponse<UserRawData>) => {
+      console.log(response.data);
+      console.log(response.data.data[1].id);
+      return response.data;
+    })
+    .catch(() => {
+      return console.log('Get UserList Fail');
+    });
   // return await user_api
   //   .get('/users?page=' + page)
   //   .then((response: AxiosResponse<User[]>) => {
@@ -25,18 +32,20 @@ async function getUserList(page: string) {
   //   .catch(() => {
   //     return console.log('Get UserList Fail');
   //   });
+};
+
+async function getUser(id: number) {
+  return await api
+    .get(`/users/${id}`)
+    .then((response: AxiosResponse<UserInfo>) => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch(() => {
+      return console.log('Get User Fail');
+    });
 }
 
-// async function getUser(id: number) {
-//   return await user_api
-//     .get(`/users/${id}`)
-//     .then((response: AxiosResponse<User>) => {
-//       return response.data;
-//     })
-//     .catch(() => {
-//       return console.log('Get User Fail');
-//     });
-// }
 // //게시글 편집
 // async function editUser(data: User) {
 //   return await user_api
@@ -77,4 +86,4 @@ async function getUserList(page: string) {
 //       console.log('Delete fail');
 //     });
 // }
-export { getUserList };
+export { getUserList, getUser };

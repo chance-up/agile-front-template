@@ -11,18 +11,22 @@ const UserModule = namespace('UserModule');
 @Component
 export default class Button extends Vue {
   mounted() {
-    this.getUser(2);
+    //this.getUser(1);
+    this.getUserAction(1);
   }
   @Prop() private text!: string;
 
-  @UserModule.State('userInfo')
-  private userList!: UserInfo;
+  @UserModule.State
+  private userInfo!: UserInfo;
 
   //@UserStore.Getter('doubledCount')
   //private doubledCount!: number;
 
-  @UserModule.Action('getUserInfoAction')
-  private getUser!: (delta: number) => void;
+  @UserModule.Action
+  private getUserListAction!: (page: number) => void;
+
+  @UserModule.Action
+  private getUserAction!: (id: number) => void;
 }
 </script>
 <style scoped>

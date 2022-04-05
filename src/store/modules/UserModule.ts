@@ -1,4 +1,4 @@
-import { getUserList } from '@/service/UserService';
+import { getUserList, getUser } from '@/service/UserService';
 import { UserList, UserInfo } from '@/types/UserTypes';
 import { Module, VuexModule, Mutation, Action, MutationAction } from 'vuex-module-decorators';
 
@@ -9,13 +9,23 @@ class UserStore extends VuexModule {
   // User Search 기능 start
   // State 정의
   userInfo: UserInfo = {
-    login: 'login',
-    avatar_url: 'avatar_url',
-    html_url: 'html_url',
-    blog: 'blog',
-    public_repos: 0,
-    bio: 'bio',
+    avatar: '',
+    email: '',
+    first_name: '',
+    id: 0,
+    last_name: '',
   };
+
+  @Action
+  async getUserListAction(page: string) {
+    const data = await getUserList(page);
+    return { userInfo: data };
+  }
+  @Action
+  async getUserAction(id: number) {
+    const data = await getUser(id);
+    return { userInfo: data };
+  }
 
   // Mutation 정의
   @Mutation
@@ -31,14 +41,7 @@ class UserStore extends VuexModule {
   // }
 
   // MutationAction 정의: mutation 과 action을 합친 기능, 위 Mutation + Action 과 같은 기능임
-  @Action
-  async getUserInfoAction(page: string) {
-    const data = await getUserList(page);
-    //console.log(data);
-    //console.log(data);
 
-    return { userInfo: data };
-  }
   // User Search 기능 fin
 
   // User List 기능 start
