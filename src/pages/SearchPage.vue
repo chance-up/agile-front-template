@@ -15,7 +15,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 //import { UserInfo } from '@/types/UserTypes';
 //import { namespace } from 'vuex-class';
-//import UserStore from '@/store/modules/UserModule';
+import UserStore from '@/store/modules/UserModule';
 
 import Button from '@/components/commons/Button/Button.vue';
 import Input from '@/components/commons/Input/Input.vue';
@@ -34,14 +34,20 @@ export default class SearchPage extends Vue {
   mounted() {
     //this.getUser(1);
     // this.getUserAction(1);
+    console.log();
   }
   value = null;
-
-  @Watch('value')
-  onChildChanged(val: string) {
-    console.log(val);
-    //this.childValue = val;
+  get searchText() {
+    return UserStore.searchText;
   }
+
+  //UserStore.searchText = this.value;
+
+  // @Watch('value')
+  // onChildChanged(val: string) {
+  //   console.log(val);
+  //   //this.childValue = val;
+  // }
   //UserStore.ß
 
   // @UserModule.State
