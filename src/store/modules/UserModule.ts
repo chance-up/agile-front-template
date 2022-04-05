@@ -1,13 +1,16 @@
 import { getUserList, getUser } from '@/service/UserService';
 import { UserList, UserInfo } from '@/types/UserTypes';
-import { Module, VuexModule, Mutation, Action, MutationAction } from 'vuex-module-decorators';
+import {
+  Module,
+  VuexModule,
+  Mutation,
+  Action,
+  MutationAction,
+  getModule,
+} from 'vuex-module-decorators';
 
 @Module({ namespaced: true })
 class UserStore extends VuexModule {
-  // vuex-module-decorators 의의: Composition API 형태로 기능별로 묶을 수 있음
-
-  // User Search 기능 start
-  // State 정의
   userInfo: UserInfo = {
     avatar: '',
     email: '',
@@ -16,9 +19,10 @@ class UserStore extends VuexModule {
     last_name: '',
   };
 
-  @Action
-  async getUserListAction(page: string) {
+  @MutationAction({ mutate: ['userInfo'] })
+  async getUserListMAction(page: string) {
     const data = await getUserList(page);
+    console.log(data);
     return { userInfo: data };
   }
   @Action
@@ -70,4 +74,4 @@ class UserStore extends VuexModule {
 
   // User List 기능 fin
 }
-export default UserStore;
+export default getModule(UserStore);
