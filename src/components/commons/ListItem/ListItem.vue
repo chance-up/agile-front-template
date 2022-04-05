@@ -18,13 +18,10 @@
 import { UserInfo } from '@/types/UserTypes';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
-import
 
 const UserModule = namespace('UserModule');
 @Component
 export default class Home extends Vue {
-  @Watch('userInfo')
-  // method
   @UserModule.State
   private userInfo!: UserInfo;
 }

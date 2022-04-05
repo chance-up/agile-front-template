@@ -9,29 +9,14 @@ const api = axios.create(config);
 //유저 리스트 불러오기
 
 const getUserList = async (page: string) => {
-  // async function getUserList(page: string) {
-  // if (fetchedList) {
-  //   return Promise.resolve(true);
-  // } else {
   return await api
     .get('users?page=' + page)
     .then((response: AxiosResponse<UserRawData>) => {
-      console.log(response.data);
-      console.log(response.data.data[1].id);
       return response.data;
     })
     .catch(() => {
       return console.log('Get UserList Fail');
     });
-  // return await user_api
-  //   .get('/users?page=' + page)
-  //   .then((response: AxiosResponse<User[]>) => {
-  //     console.log(response.data);
-  //     return response.data;
-  //   })
-  //   .catch(() => {
-  //     return console.log('Get UserList Fail');
-  //   });
 };
 
 async function getUser(id: number) {
