@@ -15,7 +15,8 @@ export class ApiResponse extends Axios {
     url: string,
     config?: AxiosRequestConfig<D>
   ): Promise<R> {
-    return axios.get(url);
+    const result: Promise<R> = axios.get(url);
+    return result;
   }
 
   post<T = any, R = AxiosResponse<T, any>, D = any>(

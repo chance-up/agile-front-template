@@ -71,10 +71,6 @@ import Hello from '../components/HelloWorld.vue';
 import Hello from '@/components/HelloWorld.vue';
 ```
 
-## Git Rule
-
--
-
 ## Component 선언 시
 
 ```
@@ -103,3 +99,9 @@ import Hello from '@/components/HelloWorld.vue';
 [ES5] async function getUserList(page: string) {}
 
 ```
+
+## Component는 재사용을 위해 Store 접근,api 통신 등의 코드가 없어야 한다.
+
+## Git Rule
+
+-

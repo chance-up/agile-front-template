@@ -1,17 +1,10 @@
 import { getUserList, getUser } from '@/service/UserService';
-import { UserList, UserInfo } from '@/types/UserTypes';
-import {
-  Module,
-  VuexModule,
-  Mutation,
-  Action,
-  MutationAction,
-  getModule,
-} from 'vuex-module-decorators';
+import { UserList, UserInfo, UserRawData } from '@/types/UserTypes';
+import { Module, VuexModule, Mutation, Action, MutationAction } from 'vuex-module-decorators';
 
 @Module({ name: 'UserStore' })
-class UserStore extends VuexModule {
-  searchText = '';
+export default class UserStore extends VuexModule {
+  searchText = '11';
   userInfo: UserInfo = {
     avatar: '',
     email: '',
@@ -20,11 +13,16 @@ class UserStore extends VuexModule {
     last_name: '',
   };
 
-  @MutationAction({ mutate: ['userInfo'] })
+  userRawData: UserRawData = {
+    data: [],
+    page: 0,
+  };
+
+  @MutationAction({ mutate: ['userRawData'] })
   async getUserListMAction(page: string) {
     const data = await getUserList(page);
-    console.log(data);
-    return { userInfo: data };
+    //console.log(data);
+    return { userRawData: data };
   }
 
   @Mutation
@@ -80,5 +78,3 @@ class UserStore extends VuexModule {
 
   // User List 기능 fin
 }
-
-export default UserStore;
