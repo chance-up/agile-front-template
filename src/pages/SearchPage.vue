@@ -7,21 +7,19 @@
     </div>
     <div class="row">
       <div class="col-8"><Card /></div>
+      <input type="text" v-model="value" />
       <h1>{{ value }}</h1>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-//import { UserInfo } from '@/types/UserTypes';
-//import { namespace } from 'vuex-class';
-import UserStore from '@/store/modules/UserModule';
+import { getModule } from 'vuex-module-decorators';
+import UserModule from '@/store/modules/UserModule';
 
 import Button from '@/components/commons/Button/Button.vue';
 import Input from '@/components/commons/Input/Input.vue';
 import Card from '@/components/commons/Card/Card.vue';
-
-//const UserModule = namespace('UserModule');
 
 @Component({
   components: {
@@ -34,11 +32,15 @@ export default class SearchPage extends Vue {
   mounted() {
     //this.getUser(1);
     // this.getUserAction(1);
-    console.log();
+    // console.log();
   }
   value = null;
+  userModule = getModule(UserModule, this.$store);
   get searchText() {
-    return UserStore.searchText;
+    return this.userModule.searchText;
+  }
+  set searchText(val: string) {
+    this.userModule.setSearchText(val);
   }
 
   //UserStore.searchText = this.value;

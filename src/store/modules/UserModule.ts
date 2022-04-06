@@ -9,8 +9,9 @@ import {
   getModule,
 } from 'vuex-module-decorators';
 
-@Module({ namespaced: true })
+@Module({ name: 'UserStore' })
 class UserStore extends VuexModule {
+  searchText = '';
   userInfo: UserInfo = {
     avatar: '',
     email: '',
@@ -25,17 +26,22 @@ class UserStore extends VuexModule {
     console.log(data);
     return { userInfo: data };
   }
-  @Action
-  async getUserAction(id: number) {
-    const data = await getUser(id);
-    return { userInfo: data };
-  }
 
-  // Mutation 정의
   @Mutation
-  userInfoMut(data: UserInfo) {
-    this.userInfo = data;
+  setSearchText(val: string) {
+    this.searchText = val;
   }
+  // @Action
+  // async getUserAction(id: number) {
+  //   const data = await getUser(id);
+  //   return { userInfo: data };
+  // }
+
+  // // Mutation 정의
+  // @Mutation
+  // userInfoMut(data: UserInfo) {
+  //   this.userInfo = data;
+  // }
 
   // Action 정의
   // @Action({ commit: 'userInfoMut' })
@@ -50,28 +56,29 @@ class UserStore extends VuexModule {
 
   // User List 기능 start
   // State 정의
-  userList: UserList[] = [];
+  // userList: UserList[] = [];
 
-  // Mutation 정의
-  @Mutation
-  userListMut(data: UserList[]) {
-    this.userList = data;
-  }
+  // // Mutation 정의
+  // @Mutation
+  // userListMut(data: UserList[]) {
+  //   this.userList = data;
+  // }
 
-  // Action 정의
-  @Action({ commit: 'userListMut' })
-  async getUserListAct(keyword: string) {
-    const data = await getUserList(keyword);
-    return data;
-  }
+  // // Action 정의
+  // @Action({ commit: 'userListMut' })
+  // async getUserListAct(keyword: string) {
+  //   const data = await getUserList(keyword);
+  //   return data;
+  // }
 
-  // MutationAction 정의: mutation 과 action을 합친 기능, 위 Mutation + Action 과 같은 기능임
-  @MutationAction({ mutate: ['userList'] })
-  async getUserListMuAct(userName: string) {
-    const data = await getUserList(userName);
-    return { userList: data };
-  }
+  // // MutationAction 정의: mutation 과 action을 합친 기능, 위 Mutation + Action 과 같은 기능임
+  // @MutationAction({ mutate: ['userList'] })
+  // async getUserListMuAct(userName: string) {
+  //   const data = await getUserList(userName);
+  //   return { userList: data };
+  // }
 
   // User List 기능 fin
 }
-export default getModule(UserStore);
+
+export default UserStore;
