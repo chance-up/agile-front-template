@@ -17,13 +17,10 @@
 <script lang="ts">
 import { UserInfo } from '@/types/UserTypes';
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { namespace } from 'vuex-class';
 
-const UserModule = namespace('UserModule');
 @Component
 export default class Home extends Vue {
-  @UserModule.State
-  private userInfo!: UserInfo;
+  
 }
 </script>
 <style lang=""></style>
