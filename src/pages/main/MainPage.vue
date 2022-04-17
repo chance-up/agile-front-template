@@ -9,19 +9,19 @@
       <router-link to="/monitoring">모니터링</router-link>|
       <router-link to="/management">Management</router-link>
     </nav>
-    <!-- <nav>
-      <router-link to="/dashboard">Monitoring</router-link> |
-      <router-link to="/log">Log</router-link> |
-      <router-link to="/statistic">Statictic</router-link> |
-      <router-link to="/traffic">Traffic</router-link>
-    </nav> -->
+    <!-- <vue-dropdown :config="config" @setSelectedOption="setNewSelectedOption($event)"></vue-dropdown> -->
     <h5>This is Main Page</h5>
 
     <router-view />
   </div>
 </template>
 <script>
-export default {};
+import { Component, Vue, Watch } from 'vue-property-decorator';
+
+@Component({
+  components: {},
+})
+export default class MainPage extends Vue {}
 </script>
 <style scoped>
 .main-image {
