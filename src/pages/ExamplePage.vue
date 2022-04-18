@@ -32,7 +32,7 @@ import Card from '@/components/commons/Card.vue';
     Card,
   },
 })
-export default class SearchPage extends Vue {
+export default class ExamplePage extends Vue {
   public created() {
     //console.log(this.searchText);
   }
@@ -64,7 +64,7 @@ export default class SearchPage extends Vue {
   // :clickEvent="this.userModule.getUserListMAction"
   // 와 같이 바로 넣어줘도 되고, 아래와 같이 메서드를 하나 만들어서 넣어줘도 된다.
   getUserList = async () => {
-    const temp1 = await this.userModule.getUserListMAction('2');
+    const temp1 = await this.userModule.getUserListMAction('1');
     console.log(this.userRawData);
     console.log(this.userRawData.data);
 

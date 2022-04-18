@@ -5,6 +5,10 @@ Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
+    path: '/e',
+    component: () => import('@/pages/ExamplePage.vue'),
+  },
+  {
     path: '/',
     name: 'index',
     component: () => import('@/pages/LoginPage.vue'),
