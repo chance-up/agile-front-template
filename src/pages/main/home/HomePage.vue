@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 import UserStore from '@/store/modules/UserModule';
 

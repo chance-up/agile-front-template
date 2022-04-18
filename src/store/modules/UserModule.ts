@@ -13,16 +13,15 @@ export default class UserStore extends VuexModule {
     last_name: '',
   };
 
-  userRawData: UserRawData = {
+  userRawDatas: UserRawData = {
     data: [],
     page: 0,
   };
 
-  @MutationAction({ mutate: ['userRawData'] })
+  @MutationAction({ mutate: ['userRawDatas'] })
   async getUserListMAction(page: string) {
     const data = await getUserList(page);
-    //console.log(data);
-    return { userRawData: data };
+    return { userRawDatas: data };
   }
 
   @Mutation
