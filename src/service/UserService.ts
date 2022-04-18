@@ -23,13 +23,20 @@ const getUserList = async (page: string) => {
     });
 };
 
-async function test(page: string) {
-  const response = await ApiResponse.getInstance().get<GateWayResponse<UserRawData>>(
-    'users?page=' + page
-  );
-
-  return response.data;
-}
+const test = async (page: string) => {
+  try {
+    const response = await ApiResponse.getInstance().get<GateWayResponse<UserRawData>>(
+      'users?page=' + page
+    );
+    return response.data;
+  } catch (error) {
+    if (error as ParameterError) {
+      throw new ParameterError();
+    } else {
+      throw error;
+    }
+  }
+};
 
 async function getUser(id: number) {
   return await api

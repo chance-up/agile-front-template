@@ -15,7 +15,7 @@ export default class ExampleModule extends VuexModule {
 
   @MutationAction({ mutate: ['userInfo'] })
   async getUserListMAction(page: string) {
-    const data = await test(page);
+    const data = await test('123123123');
 
     console.log(data);
     return { userInfo: data };
