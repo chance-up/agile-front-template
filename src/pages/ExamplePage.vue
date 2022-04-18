@@ -8,16 +8,19 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-8"><Card /></div>
-      <input type="text" v-model="searchText" />
-      <h1>{{ searchText }}</h1>
-
-      <h1>{{ value }}</h1>
+      <div class="row justify-content-md-center">
+        <Card
+          :text="userRawData.first_name"
+          :imgUrl="userRawData.avatar"
+          v-for="(userRawData, idx) in userRawDatas.data"
+          :key="idx"
+        />
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 import UserStore from '@/store/modules/UserModule';
 
@@ -55,20 +58,16 @@ export default class ExamplePage extends Vue {
   get userInfo() {
     return this.userModule.userInfo;
   }
-  get userRawData() {
-    return this.userModule.userRawData;
+  get userRawDatas() {
+    return this.userModule.userRawDatas;
   }
 
   // action 사용
   // action은 템플릿에서
   // :clickEvent="this.userModule.getUserListMAction"
   // 와 같이 바로 넣어줘도 되고, 아래와 같이 메서드를 하나 만들어서 넣어줘도 된다.
-  getUserList = async () => {
-    const temp1 = await this.userModule.getUserListMAction('1');
-    console.log(this.userRawData);
-    console.log(this.userRawData.data);
-
-    return;
+  getUserList = () => {
+    this.userModule.getUserListMAction('1');
   };
 
   //UserStore.searchText = this.value;
