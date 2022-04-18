@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
 const axios = Axios.create({
-  baseURL: 'https://tb.safe2gopass.com',
+  baseURL: 'https://reqres.in/api',
   headers: {
     Accept: 'application/json',
     Authorization: 'Basic QU5EOnNhZmUyZ29fYW5k',

@@ -1,4 +1,4 @@
-import { getUserList } from '@/service/UserService';
+import { getUserList, test } from '@/service/UserService';
 import { UserInfo } from '@/types/UserTypes';
 import { Module, VuexModule, Mutation, Action, MutationAction } from 'vuex-module-decorators';
 
@@ -15,7 +15,8 @@ export default class ExampleModule extends VuexModule {
 
   @MutationAction({ mutate: ['userInfo'] })
   async getUserListMAction(page: string) {
-    const data = await getUserList(page);
+    const data = await test(page);
+
     console.log(data);
     return { userInfo: data };
   }

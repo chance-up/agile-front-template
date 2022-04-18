@@ -1,5 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { UserRawData, UserInfo } from '@/types/UserTypes';
+import { ApiResponse } from '@/api/ApiResponse';
+import { GateWayResponse } from '@/types/GateWayResponse';
+import { ParameterError } from '@/error/Errors';
 const config = {
   baseURL: 'https://reqres.in/api',
   headers: { Accept: 'application/json' },
@@ -12,12 +15,21 @@ const getUserList = async (page: string) => {
   return await api
     .get('users?page=' + page)
     .then((response: AxiosResponse<UserRawData>) => {
+      console.log(response.data);
       return response.data;
     })
     .catch(() => {
       return console.log('Get UserList Fail');
     });
 };
+
+async function test(page: string) {
+  const response = await ApiResponse.getInstance().get<GateWayResponse<UserRawData>>(
+    'users?page=' + page
+  );
+
+  return response.data;
+}
 
 async function getUser(id: number) {
   return await api
@@ -71,4 +83,4 @@ async function getUser(id: number) {
 //       console.log('Delete fail');
 //     });
 // }
-export { getUserList, getUser };
+export { getUserList, getUser, test };
