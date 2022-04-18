@@ -1,5 +1,5 @@
 import { Axios, AxiosRequestConfig, AxiosResponse } from 'axios';
-import axios from '@/service/axios';
+import axios from '@/api/axios';
 
 export class ApiResponse extends Axios {
   private static instance: ApiResponse;

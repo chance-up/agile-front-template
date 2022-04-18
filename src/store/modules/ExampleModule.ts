@@ -13,18 +13,10 @@ export default class ExampleModule extends VuexModule {
     last_name: '',
   };
 
-
   @MutationAction({ mutate: ['userInfo'] })
   async getUserListMAction(page: string) {
     const data = await getUserList(page);
     console.log(data);
     return { userInfo: data };
   }
-
-  //   @Mutation
-  //   setSearchText(val: string) {
-  //     this.searchText = val;
-  //   }
-
-  // @Action
 }
