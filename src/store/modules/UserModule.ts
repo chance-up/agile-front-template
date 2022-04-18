@@ -1,4 +1,5 @@
 import { test } from '@/service/UserService';
+import { GateWayResponse } from '@/types/GateWayResponse';
 import { UserList, UserInfo, UserRawData } from '@/types/UserTypes';
 import { Module, VuexModule, Mutation, Action, MutationAction } from 'vuex-module-decorators';
 
@@ -18,12 +19,12 @@ export default class UserStore extends VuexModule {
     page: 0,
   };
 
-  @MutationAction({ mutate: ['userInfo'] })
+  @MutationAction({ mutate: ['userRawDatas'] })
   async getUserListMAction(page: string) {
     const data = await test('1');
 
     console.log(data);
-    return { userInfo: data };
+    return { userRawDatas: data };
   }
 
   @Mutation
