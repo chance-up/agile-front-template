@@ -21,10 +21,16 @@ export default class UserStore extends VuexModule {
 
   @MutationAction({ mutate: ['userRawDatas'] })
   async getUserListMAction(page: string) {
-    const data = await test('1');
+    try {
+      const data = await test('1');
 
-    console.log(data);
-    return { userRawDatas: data };
+      console.log(data);
+      return { userRawDatas: data };
+    } catch (error) {
+      alert(error);
+    }
+
+    return { userRawDatas: null };
   }
 
   @Mutation

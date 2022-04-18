@@ -28,6 +28,7 @@ const test = async (page: string) => {
     const response = await ApiResponse.getInstance().get<GateWayResponse<UserRawData>>(
       'users?page=' + page
     );
+    throw new ParameterError();
     return response;
   } catch (error) {
     if (error as ParameterError) {
