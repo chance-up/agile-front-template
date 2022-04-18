@@ -1,7 +1,9 @@
-import { Axios, AxiosRequestConfig, AxiosResponse } from 'axios';
 import axios from '@/api/axios';
+import { GateWayResponse } from '@/types/GateWayResponse';
+import { AxiosResponse } from 'axios';
+import { ParameterError } from '@/error/Errors';
 
-export class ApiResponse extends Axios {
+export class ApiResponse {
   private static instance: ApiResponse;
 
   public static getInstance(): ApiResponse {
@@ -11,21 +13,35 @@ export class ApiResponse extends Axios {
     return ApiResponse.instance;
   }
 
-  get<T = any, R = AxiosResponse<T, any>, D = any>(
-    url: string,
-    config?: AxiosRequestConfig<D>
-  ): Promise<R> {
-    const result: Promise<R> = axios.get(url);
-    return result;
+  public async get<T>(url: string, query?: any): Promise<GateWayResponse<T>> {
+    const response: AxiosResponse = await axios.get<T>(url, {
+      params: {
+        query,
+      },
+    });
+
+    if ('S' == response.data.returnCode) {
+      return response.data;
+    } else {
+      if (response.data.errorCode == 'API_4001') {
+        throw new ParameterError();
+      }
+
+      return response.data;
+    }
   }
 
-  post<T = any, R = AxiosResponse<T, any>, D = any>(
-    url: string,
-    data?: D,
-    config?: AxiosRequestConfig<D>
-  ): Promise<R> {
-    return axios.post(url, data);
+  public async post<T>(url: string, data: any): Promise<GateWayResponse<T>> {
+    const response: AxiosResponse = await axios.post<T>(url, data);
+
+    if ('S' == response.data.returnCode) {
+      return response.data;
+    } else {
+      if (response.data.errorCode == 'API_4001') {
+        throw new ParameterError();
+      }
+
+      return response.data;
+    }
   }
 }
-
-export interface ApiPromise<T> extends Promise<AxiosResponse<T>> {}

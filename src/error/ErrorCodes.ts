@@ -1,0 +1,4 @@
+const ERROR = {
+  PARAMETER_ERROR: '200',
+  PASSWORD_INCORRECT : '333'
+};
