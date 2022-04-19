@@ -15,6 +15,11 @@ export default class ExampleModule extends VuexModule {
 
   @MutationAction({ mutate: ['userInfo'] })
   async getUserListMAction(page: string) {
+    try {
+      
+    } catch (error) {
+      
+    }
     const data = await test(page);
 
     console.log(data);
