@@ -4,6 +4,7 @@ import { ApiResponse } from '@/api/ApiResponse';
 
 import { Module, VuexModule, Mutation, Action, MutationAction } from 'vuex-module-decorators';
 import { ParameterError } from '@/error/Errors';
+import axios from '@/api/axios';
 
 @Module({ name: 'TestModule' })
 export default class TestModule extends VuexModule {
@@ -92,9 +93,11 @@ export default class TestModule extends VuexModule {
   async getUserListAction(page: string) {
     try {
       if (!this.fetchedList) {
-        const response = await ApiResponse.getInstance().get<GateWayResponse<UserList>>(
-          '/users?page=' + page
-        );
+        const response = await ApiResponse.getInstance().get<GateWayResponse<UserList>>('/users', {
+          params: {
+            page: page,
+          },
+        });
         this.context.commit('getUserListMutation', response.data);
       }
     } catch (error) {
@@ -162,7 +165,7 @@ export default class TestModule extends VuexModule {
         item = data;
         console.log(item);
       }
-      
+
       return item;
     });
 
@@ -201,9 +204,7 @@ export default class TestModule extends VuexModule {
   @Action
   async deleteUserAction(id: number) {
     try {
-      const response = await ApiResponse.getInstance().delete<GateWayResponse<Data>>(
-        '/users/' + id
-      );
+      const response = await ApiResponse.getInstance().delete<GateWayResponse<Data>>('/users/', id);
 
       this.context.commit('deleteUserMutation', id);
     } catch (error) {
