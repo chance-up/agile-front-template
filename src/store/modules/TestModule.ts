@@ -1,5 +1,5 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
-import { UserList } from '@/types/TestType';
+import { UserList, Data } from '@/types/TestType';
 import { ApiResponse } from '@/api/ApiResponse';
 
 import { Module, VuexModule, Mutation, Action, MutationAction } from 'vuex-module-decorators';
@@ -20,6 +20,8 @@ export default class TestModule extends VuexModule {
       text: '',
     },
   };
+
+  public list: Array<Data> = [];
 
   @Mutation
   setItem(test: UserList): void {
@@ -49,6 +51,36 @@ export default class TestModule extends VuexModule {
       console.log(response1);
 
       this.context.commit('setItem', response);
+    } catch (error) {
+      if (error as ParameterError) {
+        this.context.commit('showAlert');
+        console.log('ParameterError');
+      } else {
+        console.log('ParameterError');
+      }
+    }
+  }
+
+  //post
+  @Mutation
+  public postAlert(data: Data): void {
+    this.list.push(data);
+    alert(this.list);
+  }
+
+  @Action
+  async postTest(data: Data) {
+    try {
+      const response = await ApiResponse.getInstance().post<GateWayResponse<UserList>>('/users', {
+        avatar: 'test',
+        email: 'test',
+        first_name: 'test',
+        id: 0,
+        last_name: 'test',
+      });
+      console.log(response);
+
+      this.context.commit('postAlert', response);
     } catch (error) {
       if (error as ParameterError) {
         this.context.commit('showAlert');

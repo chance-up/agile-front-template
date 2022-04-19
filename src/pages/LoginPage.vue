@@ -26,6 +26,7 @@
             </button>
             <button type="submit" class="btn btn-secondary">Register</button>
           </form>
+          <button class="btn btn-secondary" @click="create()">Post Test</button>
         </div>
       </div>
     </div>
@@ -34,9 +35,19 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
+import { Data } from '@/types/TestType';
+import User from '@/store/modules/TestModule';
 
 @Component
-export default class LoginPage extends Vue {}
+export default class LoginPage extends Vue {
+  user = getModule(User, this.$store);
+
+  create() {
+    console.log('test');
+    this.user.postTest;
+  }
+}
 </script>
 <style scoped>
 body {

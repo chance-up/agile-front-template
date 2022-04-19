@@ -1,7 +1,7 @@
 interface UserList {
   data: Data;
   support: Support;
-} 
+}
 
 interface Data {
   avatar: string;
@@ -15,4 +15,4 @@ interface Support {
   text: string;
 }
 
-export { UserList };
+export { UserList, Data };
