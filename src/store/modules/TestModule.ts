@@ -89,7 +89,7 @@ export default class TestModule extends VuexModule {
   }
 
   @Action
-  async getUserListAction(page: number) {
+  async getUserListAction(page: string) {
     try {
       if (!this.fetchedList) {
         const response = await ApiResponse.getInstance().get<GateWayResponse<UserList>>(
@@ -168,7 +168,6 @@ export default class TestModule extends VuexModule {
   @Action
   async editUserAction(data: Data) {
     try {
-      console.log(data);
       const response = await ApiResponse.getInstance().put<GateWayResponse<Data>>(
         '/users/' + data.id,
         {
@@ -199,13 +198,10 @@ export default class TestModule extends VuexModule {
   async deleteUserAction(id: number) {
     try {
       const response = await ApiResponse.getInstance().delete<GateWayResponse<Data>>(
-        '/users/' + id,
-        {
-          id,
-        }
+        '/users/' + id
       );
 
-      this.context.commit('deleteUserMutation', response.data);
+      this.context.commit('deleteUserMutation', id);
     } catch (error) {
       if (error as ParameterError) {
         this.context.commit('showAlert');

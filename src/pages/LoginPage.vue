@@ -30,7 +30,7 @@
           <button class="btn btn-secondary" @click="getUser()">getUser Test</button>
           <button class="btn btn-secondary" @click="createUser()">create Test</button>
           <button class="btn btn-secondary" @click="editUser()">edit Test</button>
-          <button class="btn btn-secondary" @click="deleteUser()">dekete Test</button>
+          <button class="btn btn-secondary" @click="deleteUser()">delete Test</button>
         </div>
       </div>
     </div>
@@ -54,8 +54,8 @@ export default class LoginPage extends Vue {
     last_name: 'test',
   };
   getList() {
-    this.user.getUserListAction(1);
-    this.user.getUserListAction(2);
+    this.user.getUserListAction('1');
+    this.user.getUserListAction('2');
   }
   getUser() {
     this.user.getUserAction(1);

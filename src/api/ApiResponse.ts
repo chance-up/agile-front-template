@@ -43,9 +43,9 @@ export class ApiResponse {
     return response.data;
   }
 
-  public async delete<T>(url: string, data: any): Promise<GateWayResponse<T>> {
+  public async delete<T>(url: string, data?: any): Promise<GateWayResponse<T>> {
     const response: AxiosResponse = await axios.delete<T>(url, data);
-    console.log(response.statusText);
+    console.log(response.status);
     return response.data;
   }
 }
