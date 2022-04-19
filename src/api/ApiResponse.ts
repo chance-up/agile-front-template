@@ -14,34 +14,31 @@ export class ApiResponse {
   }
 
   public async get<T>(url: string, query?: any): Promise<GateWayResponse<T>> {
-    const response: AxiosResponse = await axios.get<T>(url, {
-      params: {
-        query,
-      },
-    });
+    const response: AxiosResponse = await axios.get<T>(url, query);
+    return response.data;
+    // if ('S' == response.data.returnCode) {
+    //   return response.data.data;
+    // } else {
+    //   if (response.data.errorCode == 'API_4001') {
+    //     throw new ParameterError();
+    //   }
 
-    if ('S' == response.data.returnCode) {
-      return response.data;
-    } else {
-      if (response.data.errorCode == 'API_4001') {
-        throw new ParameterError();
-      }
-
-      return response.data;
-    }
+    //   return response.data;
+    // }
   }
 
   public async post<T>(url: string, data: any): Promise<GateWayResponse<T>> {
     const response: AxiosResponse = await axios.post<T>(url, data);
+    return response.data;
+  }
 
-    if ('S' == response.data.returnCode) {
-      return response.data;
-    } else {
-      if (response.data.errorCode == 'API_4001') {
-        throw new ParameterError();
-      }
+  public async put<T>(url: string, data: any): Promise<GateWayResponse<T>> {
+    const response: AxiosResponse = await axios.put<T>(url, data);
+    return response.data;
+  }
 
-      return response.data;
-    }
+  public async delete<T>(url: string, data?: any): Promise<GateWayResponse<T>> {
+    const response: AxiosResponse = await axios.delete<T>(url, data);
+    return response.data;
   }
 }
