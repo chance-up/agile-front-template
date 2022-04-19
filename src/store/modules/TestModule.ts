@@ -93,7 +93,7 @@ export default class TestModule extends VuexModule {
     try {
       if (!this.fetchedList) {
         const response = await ApiResponse.getInstance().get<GateWayResponse<UserList>>(
-          '/users?pages=' + page
+          '/users?page=' + page
         );
         this.context.commit('getUserListMutation', response.data);
       }
@@ -160,6 +160,7 @@ export default class TestModule extends VuexModule {
     this.list.map((item) => {
       if (item.id === data.id) {
         item = data;
+        console.log(item);
       }
     });
     console.log(this.list);
