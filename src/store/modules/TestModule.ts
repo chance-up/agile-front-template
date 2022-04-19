@@ -65,20 +65,19 @@ export default class TestModule extends VuexModule {
   @Mutation
   public postAlert(data: Data): void {
     this.list.push(data);
-    alert(this.list);
+    alert(this.list[0].id);
   }
 
   @Action
-  async postTest(data: Data) {
+  async postTest() {
     try {
-      const response = await ApiResponse.getInstance().post<GateWayResponse<UserList>>('/users', {
+      const response = await ApiResponse.getInstance().post<GateWayResponse<Data>>('/users', {
         avatar: 'test',
         email: 'test',
         first_name: 'test',
         id: 0,
         last_name: 'test',
       });
-      console.log(response);
 
       this.context.commit('postAlert', response);
     } catch (error) {

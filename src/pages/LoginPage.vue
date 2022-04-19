@@ -45,7 +45,7 @@ export default class LoginPage extends Vue {
 
   create() {
     console.log('test');
-    this.user.postTest;
+    this.user.postTest();
   }
 }
 </script>

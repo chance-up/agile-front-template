@@ -19,29 +19,21 @@ export class ApiResponse {
         query,
       },
     });
+    return response.data;
+    // if ('S' == response.data.returnCode) {
+    //   return response.data.data;
+    // } else {
+    //   if (response.data.errorCode == 'API_4001') {
+    //     throw new ParameterError();
+    //   }
 
-    if ('S' == response.data.returnCode) {
-      return response.data;
-    } else {
-      if (response.data.errorCode == 'API_4001') {
-        throw new ParameterError();
-      }
-
-      return response.data;
-    }
+    //   return response.data;
+    // }
   }
 
   public async post<T>(url: string, data: any): Promise<GateWayResponse<T>> {
     const response: AxiosResponse = await axios.post<T>(url, data);
-
-    if ('S' == response.data.returnCode) {
-      return response.data;
-    } else {
-      if (response.data.errorCode == 'API_4001') {
-        throw new ParameterError();
-      }
-
-      return response.data;
-    }
+    console.log(response.data);
+    return response.data;
   }
 }
