@@ -170,7 +170,7 @@ export default class TestModule extends VuexModule {
     try {
       console.log(data);
       const response = await ApiResponse.getInstance().put<GateWayResponse<Data>>(
-        '/users' + data.id,
+        '/users/' + data.id,
         {
           data,
         }
