@@ -157,12 +157,15 @@ export default class TestModule extends VuexModule {
   // 유저 편집
   @Mutation
   public editUserMutation(data: Data): void {
-    this.list.map((item) => {
-      if (item.id === data.id) {
+    this.list = this.list.map((item: Data) => {
+      if (item.id == data.id) {
         item = data;
         console.log(item);
       }
+      
+      return item;
     });
+
     console.log(this.list);
   }
 
