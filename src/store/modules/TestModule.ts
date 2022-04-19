@@ -21,8 +21,6 @@ export default class TestModule extends VuexModule {
     },
   };
 
-  public list: Array<Data> = [];
-
   @Mutation
   setItem(test: UserList): void {
     this.test = test;
@@ -61,25 +59,153 @@ export default class TestModule extends VuexModule {
     }
   }
 
-  //post
+  /////////////////////////////////////////////////////////////////////
+  public list: Array<Data> = [];
+  public fetchedList = false;
+  public member_id = 0;
+  public user: Data = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    avatar: '',
+    id: 0,
+  };
+
   @Mutation
-  public postAlert(data: Data): void {
-    this.list.push(data);
-    alert(this.list[0].id);
+  public pickId(id: number): void {
+    this.member_id = id;
+  }
+  @Action
+  public pickMember(id: number) {
+    this.context.commit('pickId', id);
+  }
+
+  // 유저 리스트 불러오기
+  @Mutation
+  getUserListMutation(data: Array<Data>) {
+    this.fetchedList = true;
+    this.list = [...this.list, ...data];
+    console.log(this.list);
   }
 
   @Action
-  async postTest() {
+  async getUserListAction(page: number) {
+    try {
+      if (!this.fetchedList) {
+        const response = await ApiResponse.getInstance().get<GateWayResponse<UserList>>(
+          '/users?pages=' + page
+        );
+        this.context.commit('getUserListMutation', response.data);
+      }
+    } catch (error) {
+      if (error as ParameterError) {
+        this.context.commit('showAlert');
+        console.log('ParameterError');
+      } else {
+        console.log('ParameterError');
+      }
+    }
+  }
+
+  //유저 검색
+  @Mutation
+  getUserMutation(data: Data) {
+    this.user = data;
+    console.log(this.user);
+  }
+
+  @Action
+  async getUserAction(id: number) {
+    try {
+      const response = await ApiResponse.getInstance().get<GateWayResponse<Data>>('/users/' + id);
+      this.context.commit('getUserMutation', response.data);
+    } catch (error) {
+      if (error as ParameterError) {
+        this.context.commit('showAlert');
+        console.log('ParameterError');
+      } else {
+        console.log('ParameterError');
+      }
+    }
+  }
+
+  //유저 생성
+  @Mutation
+  public createUserMutation(data: Data): void {
+    this.list.push(data);
+    console.log(this.list);
+  }
+
+  @Action
+  async createUserAction(data: Data) {
     try {
       const response = await ApiResponse.getInstance().post<GateWayResponse<Data>>('/users', {
-        avatar: 'test',
-        email: 'test',
-        first_name: 'test',
-        id: 0,
-        last_name: 'test',
+        data,
       });
 
-      this.context.commit('postAlert', response);
+      this.context.commit('createUserMutation', response.data);
+    } catch (error) {
+      if (error as ParameterError) {
+        this.context.commit('showAlert');
+        console.log('ParameterError');
+      } else {
+        console.log('ParameterError');
+      }
+    }
+  }
+
+  // 유저 편집
+  @Mutation
+  public editUserMutation(data: Data): void {
+    this.list.map((item) => {
+      if (item.id === data.id) {
+        item = data;
+      }
+    });
+    console.log(this.list);
+  }
+
+  @Action
+  async editUserAction(data: Data) {
+    try {
+      console.log(data);
+      const response = await ApiResponse.getInstance().put<GateWayResponse<Data>>(
+        '/users' + data.id,
+        {
+          data,
+        }
+      );
+      this.context.commit('editUserMutation', response.data);
+    } catch (error) {
+      if (error as ParameterError) {
+        this.context.commit('showAlert');
+        console.log('ParameterError');
+      } else {
+        console.log('ParameterError');
+      }
+    }
+  }
+
+  // 유저 삭제
+  @Mutation
+  public deleteUserMutation(id: number): void {
+    this.list = this.list.filter((item) => {
+      return item.id !== id;
+    });
+    console.log(this.list);
+  }
+
+  @Action
+  async deleteUserAction(id: number) {
+    try {
+      const response = await ApiResponse.getInstance().delete<GateWayResponse<Data>>(
+        '/users/' + id,
+        {
+          id,
+        }
+      );
+
+      this.context.commit('deleteUserMutation', response.data);
     } catch (error) {
       if (error as ParameterError) {
         this.context.commit('showAlert');

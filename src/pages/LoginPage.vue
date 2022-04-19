@@ -26,7 +26,11 @@
             </button>
             <button type="submit" class="btn btn-secondary">Register</button>
           </form>
-          <button class="btn btn-secondary" @click="create()">Post Test</button>
+          <button class="btn btn-secondary" @click="getList()">getList Test</button>
+          <button class="btn btn-secondary" @click="getUser()">getUser Test</button>
+          <button class="btn btn-secondary" @click="createUser()">create Test</button>
+          <button class="btn btn-secondary" @click="editUser()">edit Test</button>
+          <button class="btn btn-secondary" @click="deleteUser()">dekete Test</button>
         </div>
       </div>
     </div>
@@ -42,10 +46,29 @@ import User from '@/store/modules/TestModule';
 @Component
 export default class LoginPage extends Vue {
   user = getModule(User, this.$store);
-
-  create() {
-    console.log('test');
-    this.user.postTest();
+  data: Data = {
+    avatar: 'test',
+    email: 'test',
+    id: 2,
+    first_name: 'test',
+    last_name: 'test',
+  };
+  getList() {
+    this.user.getUserListAction(1);
+    this.user.getUserListAction(2);
+  }
+  getUser() {
+    this.user.getUserAction(1);
+  }
+  createUser() {
+    this.user.createUserAction(this.data);
+    // this.user.postTest(data);
+  }
+  editUser() {
+    this.user.editUserAction(this.data);
+  }
+  deleteUser() {
+    this.user.deleteUserAction(2);
   }
 }
 </script>

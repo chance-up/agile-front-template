@@ -36,4 +36,16 @@ export class ApiResponse {
     console.log(response.data);
     return response.data;
   }
+
+  public async put<T>(url: string, data: any): Promise<GateWayResponse<T>> {
+    const response: AxiosResponse = await axios.put<T>(url, data);
+    console.log(response.status);
+    return response.data;
+  }
+
+  public async delete<T>(url: string, data: any): Promise<GateWayResponse<T>> {
+    const response: AxiosResponse = await axios.delete<T>(url, data);
+    console.log(response.statusText);
+    return response.data;
+  }
 }
