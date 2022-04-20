@@ -27,7 +27,7 @@
     font-style: normal;
     font-weight: 500;
     src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');
-}
+} 
 
 @font-face {
     font-family: 'Noto Sans KR';
@@ -93,30 +93,6 @@
 .mid-btn >i{margin-right: 10px;}
 
 
-.lg-btn{border-radius: 8px; padding: 14px 30px; font-size: 16px; font-weight: 400; line-height: 20px;}
-.lg-btn >i{margin-right: 10px;}
-
-
-.purple-btn{background: #8041F7!important; border:1px #8041F7 solid !important; color: #fff;}
-.purple-btn:hover{box-shadow: 1px 1px 5px #ccc;}
-.purple-btn:focus{box-shadow: 1px 1px 5px #ccc;}
-.purple-btn:active{background: #5614D3 !important; border:1px #5614D3 solid !important; box-shadow: 1px 1px 5px #ccc;}
-.purple-btn >i{}
-
-
-.white-btn{background: #fff!important; border:1px #777 solid !important; color: #777;}
-.white-btn:hover{box-shadow: 1px 1px 5px #ccc;}
-.white-btn:focus{box-shadow: 1px 1px 5px #ccc;}
-.white-btn:active{background: #F1F1F1 !important; border:1px #777 solid !important; box-shadow: 1px 1px 5px #ccc;}
-
-
-.gray-btn{background: #F3F7F9!important; border:1px #F3F7F9 solid !important; color: #868B9B;}
-.gray-btn:hover{box-shadow: 1px 1px 5px #ccc;}
-.gray-btn:focus{box-shadow: 1px 1px 5px #ccc;}
-.white-btn:active{background: #E5ECEF !important; border:1px #E5ECEF solid !important; box-shadow: 1px 1px 5px #ccc;}
-
-
-
 
 .mod_btn{display: inline-block; width: 24px; height: 24px; background: url("../assets/mod_ico.svg") no-repeat center center; margin-right: 5px;}
 .mod_btn:hover{background: url("../assets/mod_ico_over.svg") no-repeat center center;}
@@ -135,12 +111,12 @@
 
 
 
-.badge{display: inline-block; padding: 3px 8px; border-radius: 8px; font-size: 12px !important; font-weight: 400 !important; line-height: 18px !important; cursor: default; margin: 0 2px;}
 
-.badge.red{background-color: #FFDBDB; color: #FF4E63 !important;}
-.badge.syan{background-color: #C4F7F5; color: #00CEC6 !important;}
-.badge.blue{background-color: #C0E1FD; color: #1C98FB !important;}
-.badge.violet{background-color: #ECE1FE; color: #8041F7 !important;}
+
+.badge-red{display: inline-block; background-color: #FFDBDB; padding: 3px 8px; border-radius: 8px; color: #FF4E63; font-size: 12px; font-weight: 400;line-height: 18px; cursor: default;margin: 0 2px;}
+.badge-syan{display: inline-block; background-color: #C4F7F5; padding: 3px 8px; border-radius: 8px; color: #00CEC6; font-size: 12px; font-weight: 400;line-height: 18px; cursor: default;margin: 0 2px;}
+.badge-blue{display: inline-block; background-color: #C0E1FD; padding: 3px 8px; border-radius: 8px; color: #1C98FB; font-size: 12px; font-weight: 400;line-height: 18px; cursor: default;margin: 0 2px;}
+.badge-violet{display: inline-block; background-color: #ECE1FE; padding: 3px 8px; border-radius: 8px; color: #8041F7; font-size: 12px; font-weight: 400;line-height: 18px; cursor: default;margin: 0 2px;}
 
 
 /*  check box    */
@@ -156,7 +132,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
   }
-
+  
   .checkbox input {
     position: absolute;
     top: 0;
@@ -168,7 +144,7 @@
     margin: 0 0;
     z-index: 2;
   }
-
+  
   .checkmark {
     position: absolute;
     top: 0;
@@ -177,15 +153,15 @@
     height: 22px;
     background: url("../assets/check_off.svg") no-repeat center center;
   }
-
+  
   .checkbox:hover input ~ .checkmark {background: url("../assets/check_over.svg") no-repeat center center;}
-
+  
   .checkbox input:checked ~ .checkmark { background: url("../assets/check_on.svg") no-repeat center center; }
-
+  
   .checkmark:after {display: none; position: absolute;}
-
+  
   .checkbox input:checked ~ .checkmark:after {display: block; }
-
+  
   .checkbox .checkmark:after {
     top: 2px;
     left: 7px;
@@ -201,8 +177,8 @@
 
 /**** select  ****/
 select {
-	-moz-appearance:none; /* Firefox */
-	-webkit-appearance:none; /* Safari and Chrome */
+	-moz-appearance:none; /* Firefox */ 
+	-webkit-appearance:none; /* Safari and Chrome */ 
 	appearance:none;
 	background-image:url("../assets/select_down.svg");
 	background-repeat: no-repeat;
@@ -222,7 +198,7 @@ select::-ms-expand {display:none} /*  ie  */
 
 
 
-/*  radio
+/*  radio    
 
 .radio-check{display: inline-block; position: relative; width: auto; height: 30px; line-height: 30px; margin-right: 15px; font-weight: 400; padding-left:25px; font-size: 16px; cursor: pointer; text-align: left; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;}
 
@@ -240,14 +216,14 @@ select::-ms-expand {display:none} /*  ie  */
 */
 
 
-.textarea{display: inline-table; width: 366px; height: 126px; background-color: #F3F7F9; border: 1px #F3F7F9 solid; border-radius: 8px; padding: 12px 12px; font-size: 14px; font-weight: 400; color: #333; line-height: 24px; word-break: break-all; white-space: normal; text-align: left;}
+textarea.editor{width: auto; height: 300px; border: 1px #ccc solid; margin: 20px 0px; overflow-y: auto;  padding: 20px 20px; font-size: 16px; font-weight: 300; color: #666; line-height: 24px; word-break: break-all; white-space: normal; text-align: left;}
 
 
-.disable{background-color:#e5e5e5 !important; border: 1px #e5e5e5 solid !important; cursor: default;}
-.disable:focus, .disable:active{outline:1px #e5e5e5 solid;}
+.disable{background-color:#e5e5e5 !important; border: 1px #e5e5e5 solid !important;}
 
 
-/* paging
+
+/* paging   
 
 .page-wrap{width: 100%; height: auto; position: relative; padding: 20px 0px; background: #f1f1f1; margin: 20px 0px;}
 .page-wrap ul{text-align: center; width: auto; height: auto; position: relative; margin: 0 auto;}
@@ -266,11 +242,5 @@ select::-ms-expand {display:none} /*  ie  */
 
 */
 
-.lg{width:366px !important;}
-.mid{width:156px !important;}
-.sm{width:49px !important;}
 
-.check-ok{background-image: url("../assets/ok.svg"); background-position: right 12px center; background-repeat: no-repeat;}
-.check-false{background-image: url("../assets/false.svg"); background-position: right 12px center; background-repeat: no-repeat;}
 
-.noti{font-size: 13px; font-weight: 400; line-height: 24px; color: #F82929 !important; text-align: left;}

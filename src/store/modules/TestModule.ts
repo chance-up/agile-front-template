@@ -35,10 +35,10 @@ export default class TestModule extends VuexModule {
   @Action
   async getTest() {
     try {
-      const response = await ApiResponse.getInstance().get<GateWayResponse<UserList>>(
-        'air/utilGdnc/inquiryInspectionCenterList'
-      );
-      console.log(response);
+      // const response = await ApiResponse.getInstance().get<GateWayResponse<UserList>>(
+      //   'air/utilGdnc/inquiryInspectionCenterList'
+      // );
+      // console.log(response);
 
       const response1 = await ApiResponse.getInstance().get<GateWayResponse<UserList>>(
         '/air/inscntrAdm/inquiryRgnInspectionCenterList',
@@ -49,7 +49,7 @@ export default class TestModule extends VuexModule {
       );
       console.log(response1);
 
-      this.context.commit('setItem', response);
+      this.context.commit('setItem', response1);
     } catch (error) {
       if (error as ParameterError) {
         this.context.commit('showAlert');
@@ -93,10 +93,8 @@ export default class TestModule extends VuexModule {
   async getUserListAction(page: string) {
     try {
       if (!this.fetchedList) {
-        const response = await ApiResponse.getInstance().get<GateWayResponse<UserList>>('/users', {
-          params: {
-            page: page,
-          },
+        const response = await ApiResponse.getInstance().get<GateWayResponse<UserList>>('/users/', {
+          page: page,
         });
         this.context.commit('getUserListMutation', response.data);
       }
