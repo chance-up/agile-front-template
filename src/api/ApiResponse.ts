@@ -14,7 +14,10 @@ export class ApiResponse {
   }
 
   public async get<T>(url: string, query?: any): Promise<GateWayResponse<T>> {
-    const response: AxiosResponse = await axios.get<T>(url, query);
+    const response: AxiosResponse = await axios.get<T>(url, {
+      params: query,
+    });
+    console.log('response', response.data);
     return response.data;
     // if ('S' == response.data.returnCode) {
     //   return response.data.data;
