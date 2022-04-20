@@ -29,7 +29,6 @@
 </template>
 
 <script lang="ts">
-import InputGroup from '@/components/api/InputGroup.vue';
 import InfoGroup from '@/components/api/InfoGroup.vue';
 import MethodGroup from '@/components/api/MethodGroup.vue';
 import URIGroup from '@/components/api/URIGroup.vue';
@@ -40,7 +39,6 @@ import { DummyApiResponse, dummyData } from '@/types/ApiType';
 
 @Component({
   components: {
-    InputGroup,
     InfoGroup,
     MethodGroup,
     URIGroup,
