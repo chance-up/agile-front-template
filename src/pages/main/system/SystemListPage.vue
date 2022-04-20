@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>this is the SystemListPage</h1>
     <h1>{{ test.data.email }}</h1>
     <Button text="Search" :clickEvent="getUserList" />
   </div>
@@ -16,7 +17,7 @@ import { UserList } from '@/types/TestType';
     Button,
   },
 })
-export default class PlatformPage extends Vue {
+export default class SystemManagementPage extends Vue {
   testModule = getModule(TestModule, this.$store);
 
   getUserList() {
