@@ -40,7 +40,6 @@
               <td>
                 {{ list.update }}
               </td>
-
               <td>
                 <button class="mod_btn"><i>수정</i></button>
                 <button class="del_btn"><i>삭제</i></button>
@@ -86,18 +85,10 @@ export default class ServiceManagementPage extends Vue {
       label: '담당자명',
       placeholder: '입력해주세요.',
     },
-    // {
-    //   type: 'selectBox',
-    //   label: '기본정보',
-    //   placeholder: '입력해주세요.',
-    //   selectOptions: ['api id', 'api 명', '플랫폼명', 'uri'],
-    // },
   ];
 
   listOption = {
     listMainTitle: '서비스 리스트',
-    // listBtnTitle: '등록',
-    // listItemTitle: ['No.', '시스템 ID', '시스템명', '담당자', 'Update'],
     listArrays: [
       {
         no: '1',
