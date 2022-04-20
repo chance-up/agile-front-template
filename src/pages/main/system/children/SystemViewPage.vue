@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>This is ServiceAuth Page!</h1>
+    <h1>This is systemView Page!</h1>
   </div>
 </template>
 <script>

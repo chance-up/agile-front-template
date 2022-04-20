@@ -11,7 +11,8 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'index',
-    component: () => import('@/pages/LoginPage.vue'),
+    //component: () => import('@/pages/LoginPage.vue'),
+    component: () => import('@/pages/main/MainPage.vue'),
   },
   {
     path: '/login',
@@ -33,20 +34,38 @@ const routes: Array<RouteConfig> = [
         name: 'home',
         component: () => import('@/pages/main/home/HomePage.vue'),
       },
+
+      // System
       {
-        path: '/platform',
-        name: 'platform',
-        component: () => import('@/pages/main/platform/PlatformPage.vue'),
+        path: '/system_list',
+        name: 'system_list',
+        component: () => import('@/pages/main/system/SystemListPage.vue'),
       },
+      {
+        path: '/system_edit',
+        name: 'system_register',
+        component: () => import('@/pages/main/system/children/SystemEditPage.vue'),
+      },
+      {
+        path: '/system_register',
+        name: 'system_register',
+        component: () => import('@/pages/main/system/children/SystemRegisterPage.vue'),
+      },
+      {
+        path: '/system_view',
+        name: 'system_view',
+        component: () => import('@/pages/main/system/children/SystemViewPage.vue'),
+      },
+
       {
         path: '/api',
         name: 'api',
         component: () => import('@/pages/main/api/ApiPage.vue'),
       },
       {
-        path: '/serviceAuth',
-        name: 'serviceAuth',
-        component: () => import('@/pages/main/serviceAuth/ServiceAuth.vue'),
+        path: '/service',
+        name: 'service',
+        component: () => import('@/pages/main/serviceManagement/ServiceManagementPage.vue'),
       },
       {
         path: '/monitoring',
