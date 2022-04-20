@@ -5,25 +5,17 @@ Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
-    path: '/e',
-    component: () => import('@/pages/ExamplePage.vue'),
-  },
-  {
     path: '/',
     name: 'index',
     //component: () => import('@/pages/LoginPage.vue'),
     component: () => import('@/pages/main/MainPage.vue'),
   },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/pages/LoginPage.vue'),
-  },
-  {
-    path: '/about',
-    name: 'about',
-    component: () => import('@/pages/AboutPage.vue'),
-  },
+  // {
+  //   path: '/login',
+  //   name: 'login',
+  //   component: () => import('@/pages/LoginPage.vue'),
+  // },
+
   {
     path: '/main',
     name: 'main',

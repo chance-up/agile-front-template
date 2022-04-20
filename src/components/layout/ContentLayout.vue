@@ -16,8 +16,8 @@
       </div>
       <div class="form-wrap">
         <slot name="contents" />
-        <slot name="buttons" />
       </div>
+      <slot name="buttons" />
     </div>
   </article>
   <!-- </div> -->
