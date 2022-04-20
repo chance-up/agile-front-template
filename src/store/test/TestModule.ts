@@ -4,7 +4,7 @@ import { ApiResponse } from '@/api/ApiResponse';
 
 import { Module, VuexModule, Mutation, Action, MutationAction } from 'vuex-module-decorators';
 import { ParameterError } from '@/error/Errors';
-import axios from '@/api/axios';
+import axios from '@/api/AxiosClient';
 
 @Module({ name: 'TestModule' })
 export default class TestModule extends VuexModule {

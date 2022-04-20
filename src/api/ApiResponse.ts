@@ -1,8 +1,7 @@
-import axios from '@/api/axios';
+import axios from '@/api/AxiosClient';
+import { isMockData } from '@/api/AxiosClient';
 import { GateWayResponse } from '@/types/GateWayResponse';
 import { AxiosResponse } from 'axios';
-import { ParameterError } from '@/error/Errors';
-
 export class ApiResponse {
   private static instance: ApiResponse;
 
@@ -13,12 +12,22 @@ export class ApiResponse {
     return ApiResponse.instance;
   }
 
-  public async get<T>(url: string, query?: any): Promise<GateWayResponse<T>> {
+  public async get<T>(url: string, query?: any): Promise<T> {
     const response: AxiosResponse = await axios.get<T>(url, {
       params: query,
     });
-    console.log('response', response.data);
-    return response.data;
+    // if (200 === response.data.common.code) {
+    //   throw Error();
+    // }
+    if (isMockData(url)) {
+      return JSON.parse(response.data);
+    } else {
+      return response.data;
+    }
+
+    // console.log('DATA =>' + response.data);
+
+    // return response.data;
     // if ('S' == response.data.returnCode) {
     //   return response.data.data;
     // } else {
@@ -32,16 +41,28 @@ export class ApiResponse {
 
   public async post<T>(url: string, data: any): Promise<GateWayResponse<T>> {
     const response: AxiosResponse = await axios.post<T>(url, data);
-    return response.data;
+    if (isMockData(url)) {
+      return JSON.parse(response.data);
+    } else {
+      return response.data;
+    }
   }
 
   public async put<T>(url: string, data: any): Promise<GateWayResponse<T>> {
     const response: AxiosResponse = await axios.put<T>(url, data);
-    return response.data;
+    if (isMockData(url)) {
+      return JSON.parse(response.data);
+    } else {
+      return response.data;
+    }
   }
 
   public async delete<T>(url: string, data?: any): Promise<GateWayResponse<T>> {
     const response: AxiosResponse = await axios.delete<T>(url, data);
-    return response.data;
+    if (isMockData(url)) {
+      return JSON.parse(response.data);
+    } else {
+      return response.data;
+    }
   }
 }
