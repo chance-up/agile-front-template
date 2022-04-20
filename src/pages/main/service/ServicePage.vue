@@ -35,7 +35,7 @@
               <td>{{ list.serviceId }}</td>
               <td>{{ list.authMethod }}</td>
               <td>
-                {{ list.update }}
+                {{ list.period }}
               </td>
               <td>
                 {{ list.update }}
