@@ -8,32 +8,31 @@
       <!------- navigation -------->
       <nav id="navi">
         <ul>
-          <li class="on">
-            <a href="/home">Home</a>
+          <li :class="{ on: navState.homeState }" @click="changeNavState('homeState')">
+            <router-link to="/home">Home</router-link>
           </li>
-          <li>
-            <a href="/system_list">시스템 관리</a>
+          <li :class="{ on: navState.systemState }" @click="changeNavState('systemState')">
+            <router-link to="/system_list">시스템 관리</router-link>
           </li>
-          <li>
-            <a href="/api">API관리</a>
+          <li :class="{ on: navState.apiState }" @click="changeNavState('apiState')">
+            <router-link to="/api">API관리</router-link>
           </li>
-          <li>
-            <a href="/service">서비스 관리</a>
+          <li :class="{ on: navState.serviceState }" @click="changeNavState('serviceState')">
+            <router-link to="/service">서비스 관리</router-link>
           </li>
-          <li>
-            <a href="/monitoring">모니터링</a>
+          <li :class="{ on: navState.monitoringState }" @click="changeNavState('monitoringState')">
+            <router-link to="/monitoring">모니터링</router-link>
           </li>
-          <li>
-            <a href="javascript:void(0)" @click="isActive = !isActive">Menagement</a>
-            <div class="depth-menu" v-if="isActive">
+          <li :class="{ on: navState.showManagement }" @click="navState.showManagement = !navState.showManagement">
+            <a href="javascript:void(0)">Menagement</a>
+            <div class="depth-menu" v-if="navState.showManagement">
               <ul>
                 <li>
-                  <i></i>
+                  <i><img src="@/assets/user_ico.svg" alt="사용자 관리" /></i>
                   <a href="javascript:void(0)">사용자 관리</a>
                 </li>
                 <li>
-                  <i></i>
-                  <!-- <i><img src="@/assets/power_ico.svg" alt="권한관리" /></i> -->
+                  <i><img src="@/assets/power_ico.svg" alt="권한관리" /></i>
                   <a href="javascript:void(0)">권한 관리</a>
                 </li>
               </ul>
@@ -53,42 +52,31 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-
+interface NavState {
+  [key: string]: boolean;
+  homeState: boolean;
+  systemState: boolean;
+  apiState: boolean;
+  serviceState: boolean;
+  monitoringState: boolean;
+  showManagement: boolean;
+}
 @Component
 export default class MainHeader extends Vue {
-  isActive = false;
+  navState: NavState = {
+    homeState: true,
+    systemState: false,
+    apiState: false,
+    serviceState: false,
+    monitoringState: false,
+    showManagement: false,
+  };
+  changeNavState(state: string) {
+    for (const key of Object.keys(this.navState)) {
+      this.navState[key] = false;
+    }
+    this.navState[state] = true;
+  }
 }
 </script>
-<style>
-#navi ul li > .depth-menu {
-  display: block;
-  margin-top: 10px;
-  padding: 25px 25px;
-  width: 110px;
-  position: absolute;
-  background-color: #fff;
-  border-radius: 20px;
-  box-shadow: 1px 1px 5px #ccc;
-}
-#navi ul li > .depth-menu ul li {
-  display: block;
-  position: relative;
-  width: 100%;
-  height: 20px;
-  margin-bottom: 20px;
-  text-align: left;
-}
-#navi ul li > .depth-menu ul li i {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  background: url('') no-repeat center center;
-}
-#navi ul li > .depth-menu ul li a {
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  color: #333;
-}
-</style>
+<style></style>
