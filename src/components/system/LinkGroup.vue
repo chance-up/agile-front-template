@@ -6,7 +6,7 @@
         <select>
           <option>https</option>
           <option>http</option>
-          <option v-for="(option, idx) in options" :key="idx" :value="option" :selected="option == options[type.type]">
+          <option v-for="(option, idx) in options" :key="idx" :value="option" :selected="option === options[type.type]">
             {{ option }}
           </option>
         </select>

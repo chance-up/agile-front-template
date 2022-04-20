@@ -173,12 +173,9 @@ export default class TestModule extends VuexModule {
   @Action
   async editUserAction(data: Data) {
     try {
-      const response = await ApiResponse.getInstance().put<GateWayResponse<Data>>(
-        '/users/' + data.id,
-        {
-          data,
-        }
-      );
+      const response = await ApiResponse.getInstance().put<GateWayResponse<Data>>('/users/' + data.id, {
+        data,
+      });
       this.context.commit('editUserMutation', response.data);
     } catch (error) {
       if (error as ParameterError) {

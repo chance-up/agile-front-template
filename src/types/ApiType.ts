@@ -25,6 +25,5 @@ export const dummyData: DummyApiResponse = {
   reqHdlGrp: 'REQ.API & Login Authentication',
   resHdlGrp: 'RES.DEFAULT',
   timeOut: 30,
-  apiCmt:
-    'API별 분/시/일/월 단위 총량, TPS API별 분/시/일/월 단위 총량, API별 분/시/일/월 단위 총량',
+  apiCmt: 'API별 분/시/일/월 단위 총량, TPS API별 분/시/일/월 단위 총량, API별 분/시/일/월 단위 총량',
 };

@@ -4,11 +4,7 @@
     <h2 class="h2-tit">검색</h2>
     <template v-for="(option, index) in searchPanelOption">
       <div class="search-cont" :key="index">
-        <InputBox
-          v-if="option.type === 'inputBox'"
-          :label="option.label"
-          :placeholder="option.placeholder"
-        />
+        <InputBox v-if="option.type === 'inputBox'" :label="option.label" :placeholder="option.placeholder" />
 
         <SelectBox
           v-if="option.type === 'selectBox'"

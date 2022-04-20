@@ -1,7 +1,7 @@
 <template>
   <ListLayout :title="title">
     <template slot="search-form">
-      <SearchForm />
+      <SearchForm :searchPanelOption="searchOption" />
     </template>
     <template slot="list-form">
       <ListForm :title="listOption.listMainTitle">
@@ -123,6 +123,31 @@ import ListForm from '@/components/system/ListForm.vue';
 })
 export default class ServiceManagementPage extends Vue {
   title = '서비스 관리';
+
+  searchOption = [
+    {
+      type: 'inputBox',
+      label: '시스템명',
+      placeholder: '입력해주세요.',
+    },
+    {
+      type: 'inputBox',
+      label: '시스템ID',
+      placeholder: '입력해주세요.',
+    },
+    {
+      type: 'inputBox',
+      label: '담당자명',
+      placeholder: '입력해주세요.',
+    },
+    // {
+    //   type: 'selectBox',
+    //   label: '기본정보',
+    //   placeholder: '입력해주세요.',
+    //   selectOptions: ['api id', 'api 명', '플랫폼명', 'uri'],
+    // },
+  ];
+
   listOption = {
     listMainTitle: '서비스 리스트',
     // listBtnTitle: '등록',
