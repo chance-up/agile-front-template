@@ -12,13 +12,13 @@
             <a href="/home">Home</a>
           </li>
           <li>
-            <a href="/platform">플랫폼관리</a>
+            <a href="/system_list">시스템 관리</a>
           </li>
           <li>
             <a href="/api">API관리</a>
           </li>
           <li>
-            <a href="/serviceAuth">인증관리</a>
+            <a href="/service">서비스 관리</a>
           </li>
           <li>
             <a href="/monitoring">모니터링</a>
