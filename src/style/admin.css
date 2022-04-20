@@ -78,7 +78,7 @@
 
 .form-cont{position: relative; text-align: left; display: flex; flex-direction: column;}
 .form-cont .icon{width: 24px; height: 42px; }
-.form-cont p{line-height: 42px; text-align:left; color: #333; font-size: 14px; font-weight: 400;}
+.form-cont p{line-height: 42px; text-align:left; color: #333; font-size: 14px; font-weight: 400; max-width: 390px;}
 .form-cont span{line-height: 42px; text-align:left; color: #333; font-size: 14px; font-weight: 400;}
 
 .form-cont .input-box{background-color: #F3F7F9; border: 1px #F3F7F9 solid;}
@@ -87,6 +87,12 @@
 .form-group{position: relative; min-height: 42px; display: flex; flex-direction: row; align-items: center; margin-bottom: 15px;}
 .form-group:last-child{margin-bottom: 0px;}
 .form-group .img{margin-right: 15px;}
+
+
+.sla-form{}
+.sla-form span{padding: 0px 5px;}
+.sla-form span:first-child{padding: 0px 5px 0px 0px;}
+.sla-form .bold{font-weight: 700;}
 
 
 .domain-wrap{display: inline-block; position: relative; text-align: left; margin-bottom: 15px;}

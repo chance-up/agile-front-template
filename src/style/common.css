@@ -27,7 +27,7 @@
     font-style: normal;
     font-weight: 500;
     src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');
-}
+} 
 
 @font-face {
     font-family: 'Noto Sans KR';
@@ -156,7 +156,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
   }
-
+  
   .checkbox input {
     position: absolute;
     top: 0;
@@ -168,7 +168,7 @@
     margin: 0 0;
     z-index: 2;
   }
-
+  
   .checkmark {
     position: absolute;
     top: 0;
@@ -177,15 +177,15 @@
     height: 22px;
     background: url("../assets/check_off.svg") no-repeat center center;
   }
-
+  
   .checkbox:hover input ~ .checkmark {background: url("../assets/check_over.svg") no-repeat center center;}
-
+  
   .checkbox input:checked ~ .checkmark { background: url("../assets/check_on.svg") no-repeat center center; }
-
+  
   .checkmark:after {display: none; position: absolute;}
-
+  
   .checkbox input:checked ~ .checkmark:after {display: block; }
-
+  
   .checkbox .checkmark:after {
     top: 2px;
     left: 7px;
@@ -201,8 +201,8 @@
 
 /**** select  ****/
 select {
-	-moz-appearance:none; /* Firefox */
-	-webkit-appearance:none; /* Safari and Chrome */
+	-moz-appearance:none; /* Firefox */ 
+	-webkit-appearance:none; /* Safari and Chrome */ 
 	appearance:none;
 	background-image:url("../assets/select_down.svg");
 	background-repeat: no-repeat;
@@ -222,7 +222,7 @@ select::-ms-expand {display:none} /*  ie  */
 
 
 
-/*  radio
+/*  radio    
 
 .radio-check{display: inline-block; position: relative; width: auto; height: 30px; line-height: 30px; margin-right: 15px; font-weight: 400; padding-left:25px; font-size: 16px; cursor: pointer; text-align: left; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;}
 
@@ -247,7 +247,7 @@ select::-ms-expand {display:none} /*  ie  */
 .disable:focus, .disable:active{outline:1px #e5e5e5 solid;}
 
 
-/* paging
+/* paging   
 
 .page-wrap{width: 100%; height: auto; position: relative; padding: 20px 0px; background: #f1f1f1; margin: 20px 0px;}
 .page-wrap ul{text-align: center; width: auto; height: auto; position: relative; margin: 0 auto;}
