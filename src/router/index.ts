@@ -43,7 +43,7 @@ const routes: Array<RouteConfig> = [
       },
       {
         path: '/system_edit',
-        name: 'system_register',
+        name: 'system_edit',
         component: () => import('@/pages/main/system/children/SystemEditPage.vue'),
       },
       {
