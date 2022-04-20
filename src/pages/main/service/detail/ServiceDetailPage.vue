@@ -4,7 +4,7 @@
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
         <InfoGroup inputNm="서비스명" :value="dumyData.svcNm" />
-        <InfoGroup inputNm="API ID" :value="dumyData.svcId" />
+        <InfoGroup inputNm="서비스ID" :value="dumyData.svcId" />
         <InfoGroup inputNm="담당자 이름" :value="dumyData.MngNm" />
         <InfoGroup inputNm="소속" :value="dumyData.depart" />
         <InfoGroup inputNm="E-mail" :value="dumyData.email" />

@@ -12,7 +12,7 @@ export interface DummyServiceResponse {
 
 export const dummyData: DummyServiceResponse = {
   svcNm: '서비스A',
-  svcId: 'SERVRCE_ID_NUMBER',
+  svcId: 'SERVICE ID_NUMBER',
   MngNm: '홍길동',
   depart: 'Agile Core Team',
   email: 'abcabc@kt.com',
