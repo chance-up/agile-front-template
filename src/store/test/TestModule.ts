@@ -2,9 +2,8 @@ import { GateWayResponse } from '@/types/GateWayResponse';
 import { UserList, Data } from '@/types/test/TestType';
 import { ApiResponse } from '@/api/ApiResponse';
 
-import { Module, VuexModule, Mutation, Action, MutationAction } from 'vuex-module-decorators';
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import { ParameterError } from '@/error/Errors';
-import axios from '@/api/AxiosClient';
 
 @Module({ name: 'TestModule' })
 export default class TestModule extends VuexModule {
@@ -173,12 +172,9 @@ export default class TestModule extends VuexModule {
   @Action
   async editUserAction(data: Data) {
     try {
-      const response = await ApiResponse.getInstance().put<GateWayResponse<Data>>(
-        '/users/' + data.id,
-        {
-          data,
-        }
-      );
+      const response = await ApiResponse.getInstance().put<GateWayResponse<Data>>('/users/' + data.id, {
+        data,
+      });
       this.context.commit('editUserMutation', response.data);
     } catch (error) {
       if (error as ParameterError) {

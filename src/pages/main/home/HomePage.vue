@@ -6,8 +6,6 @@
 </template>
 <script>
 import { Component, Vue } from 'vue-property-decorator';
-import { getModule } from 'vuex-module-decorators';
-
 import Dropdown from '@/components/commons/Dropdown.vue';
 
 @Component({
