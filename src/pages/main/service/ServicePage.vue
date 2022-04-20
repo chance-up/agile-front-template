@@ -6,9 +6,6 @@
     <template slot="list-form">
       <ListForm :title="listOption.listMainTitle">
         <template slot="list-table">
-          <caption>
-            서비스명, 서비스ID, 인증수단, 유효기간, Update, 수정, 삭제 항목 테이블
-          </caption>
           <colgroup>
             <col width="7%" />
             <col width="18%" />
@@ -30,71 +27,20 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td><span class="bold">서비스명 텍스트 길이 얼마나 긴가요</span></td>
-              <td>서비스ID_title</td>
-              <td>Basic Auth</td>
-              <td><span>YYYY-MM-DD</span> ~ <span>YYYY-MM-DD</span></td>
+            <tr v-for="(list, index) in listOption.listArrays" :key="index">
+              <td>{{ list.no }}</td>
               <td>
-                <p>YYYY-MM-DD hh:mm:ss</p>
+                <span class="bold">{{ list.serviceName }}</span>
+              </td>
+              <td>{{ list.serviceId }}</td>
+              <td>{{ list.authMethod }}</td>
+              <td>
+                {{ list.update }}
               </td>
               <td>
-                <button class="mod_btn"><i>수정</i></button>
-                <button class="del_btn"><i>삭제</i></button>
+                {{ list.update }}
               </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td><span class="bold">서비스명 텍스트 길이 얼마나 긴가요</span></td>
-              <td>서비스ID_title</td>
-              <td>Basic Auth</td>
-              <td><span>YYYY-MM-DD</span> ~ <span>YYYY-MM-DD</span></td>
-              <td>
-                <p>YYYY-MM-DD hh:mm:ss</p>
-              </td>
-              <td>
-                <button class="mod_btn"><i>수정</i></button>
-                <button class="del_btn"><i>삭제</i></button>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td><span class="bold">서비스명 텍스트 길이 얼마나 긴가요</span></td>
-              <td>서비스ID_title</td>
-              <td>Basic Auth</td>
-              <td><span>YYYY-MM-DD</span> ~ <span>YYYY-MM-DD</span></td>
-              <td>
-                <p>YYYY-MM-DD hh:mm:ss</p>
-              </td>
-              <td>
-                <button class="mod_btn"><i>수정</i></button>
-                <button class="del_btn"><i>삭제</i></button>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td><span class="bold">서비스명 텍스트 길이 얼마나 긴가요</span></td>
-              <td>서비스ID_title</td>
-              <td>Basic Auth</td>
-              <td><span>YYYY-MM-DD</span> ~ <span>YYYY-MM-DD</span></td>
-              <td>
-                <p>YYYY-MM-DD hh:mm:ss</p>
-              </td>
-              <td>
-                <button class="mod_btn"><i>수정</i></button>
-                <button class="del_btn"><i>삭제</i></button>
-              </td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td><span class="bold">서비스명 텍스트 길이 얼마나 긴가요</span></td>
-              <td>서비스ID_title</td>
-              <td>Basic Auth</td>
-              <td><span>YYYY-MM-DD</span> ~ <span>YYYY-MM-DD</span></td>
-              <td>
-                <p>YYYY-MM-DD hh:mm:ss</p>
-              </td>
+
               <td>
                 <button class="mod_btn"><i>수정</i></button>
                 <button class="del_btn"><i>삭제</i></button>
@@ -155,73 +101,83 @@ export default class ServiceManagementPage extends Vue {
     listArrays: [
       {
         no: '1',
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
+        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
+        serviceId: '서비스ID_title',
+        authMethod: 'Basic Auth',
+        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
+        update: 'YYYY-MM-DD hh:mm:ss',
       },
       {
         no: '2',
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
+        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
+        serviceId: '서비스ID_title',
+        authMethod: 'Basic Auth',
+        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
+        update: 'YYYY-MM-DD hh:mm:ss',
       },
       {
         no: '3',
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
+        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
+        serviceId: '서비스ID_title',
+        authMethod: 'Basic Auth',
+        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
+        update: 'YYYY-MM-DD hh:mm:ss',
       },
       {
         no: '4',
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
+        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
+        serviceId: '서비스ID_title',
+        authMethod: 'Basic Auth',
+        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
+        update: 'YYYY-MM-DD hh:mm:ss',
       },
       {
         no: '5',
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
+        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
+        serviceId: '서비스ID_title',
+        authMethod: 'Basic Auth',
+        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
+        update: 'YYYY-MM-DD hh:mm:ss',
       },
       {
         no: '6',
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
+        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
+        serviceId: '서비스ID_title',
+        authMethod: 'Basic Auth',
+        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
+        update: 'YYYY-MM-DD hh:mm:ss',
       },
       {
         no: '7',
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
+        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
+        serviceId: '서비스ID_title',
+        authMethod: 'Basic Auth',
+        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
+        update: 'YYYY-MM-DD hh:mm:ss',
       },
       {
         no: '8',
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
+        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
+        serviceId: '서비스ID_title',
+        authMethod: 'Basic Auth',
+        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
+        update: 'YYYY-MM-DD hh:mm:ss',
       },
       {
         no: '9',
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
+        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
+        serviceId: '서비스ID_title',
+        authMethod: 'Basic Auth',
+        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
+        update: 'YYYY-MM-DD hh:mm:ss',
       },
       {
         no: '10',
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
+        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
+        serviceId: '서비스ID_title',
+        authMethod: 'Basic Auth',
+        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
+        update: 'YYYY-MM-DD hh:mm:ss',
       },
     ],
   };
