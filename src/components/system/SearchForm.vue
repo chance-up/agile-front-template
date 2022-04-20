@@ -2,18 +2,22 @@
   <!------- 검색 -------->
   <div class="search-wrap">
     <h2 class="h2-tit">검색</h2>
-    <div class="search-cont">
-      <label class="label" for="sysName">시스템명</label>
-      <input type="text" id="sysName" class="input-box" placeholder="입력해주세요." />
-    </div>
-    <div class="search-cont">
-      <label class="label" for="">시스템ID</label>
-      <input type="text" id="" class="input-box" placeholder="입력해주세요." />
-    </div>
-    <div class="search-cont">
-      <label class="label" for="">담당자명</label>
-      <input type="text" id="" class="input-box" placeholder="입력해주세요." />
-    </div>
+    <template v-for="(option, index) in searchPanelOption">
+      <div class="search-cont" :key="index">
+        <InputBox
+          v-if="option.type === 'inputBox'"
+          :label="option.label"
+          :placeholder="option.placeholder"
+        />
+
+        <SelectBox
+          v-if="option.type === 'selectBox'"
+          :label="option.label"
+          :placeholder="option.placeholder"
+          :selectOptions="option.selectOptions"
+        />
+      </div>
+    </template>
 
     <button class="mid-btn">
       <i><img src="@/assets/search_ico.svg" alt="검색" /></i>Search
@@ -23,8 +27,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import InputBox from './search-option/InputBox.vue';
+import SelectBox from './search-option/SelectBox.vue';
 
-@Component
-export default class SystemManagement extends Vue {}
+@Component({
+  components: {
+    InputBox,
+    SelectBox,
+  },
+})
+export default class SystemManagement extends Vue {
+  @Prop() public searchPanelOption!: object[] | null;
+}
 </script>
