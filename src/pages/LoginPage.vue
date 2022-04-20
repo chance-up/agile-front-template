@@ -40,8 +40,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import { Data } from '@/types/TestType';
-import User from '@/store/modules/TestModule';
+import { Data } from '@/types/test/TestType';
+import User from '@/store/test/TestModule';
 
 @Component
 export default class LoginPage extends Vue {

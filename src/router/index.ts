@@ -44,17 +44,17 @@ const routes: Array<RouteConfig> = [
       {
         path: '/system_edit',
         name: 'system_edit',
-        component: () => import('@/pages/main/system/children/SystemEditPage.vue'),
+        component: () => import('@/pages/main/system/edit/SystemEditPage.vue'),
       },
       {
         path: '/system_register',
         name: 'system_register',
-        component: () => import('@/pages/main/system/children/SystemRegisterPage.vue'),
+        component: () => import('@/pages/main/system/register/SystemRegisterPage.vue'),
       },
       {
         path: '/system_view',
         name: 'system_view',
-        component: () => import('@/pages/main/system/children/SystemViewPage.vue'),
+        component: () => import('@/pages/main/system/detail/SystemDetailPage.vue'),
       },
 
       {
@@ -65,7 +65,7 @@ const routes: Array<RouteConfig> = [
       {
         path: '/service',
         name: 'service',
-        component: () => import('@/pages/main/serviceManagement/ServiceManagementPage.vue'),
+        component: () => import('@/pages/main/service/ServicePage.vue'),
       },
       {
         path: '/monitoring',
@@ -97,12 +97,12 @@ const routes: Array<RouteConfig> = [
       {
         path: '/management',
         name: 'management',
-        component: () => import('@/pages/main/management/Management.vue'),
+        component: () => import('@/pages/main/management/ManagementPage.vue'),
       },
       {
-        path: '/mypage',
-        name: 'mypage',
-        component: () => import('@/pages/main/myPage/MyPage.vue'),
+        path: '/my',
+        name: 'my',
+        component: () => import('@/pages/main/my/MyPage.vue'),
       },
     ],
   },

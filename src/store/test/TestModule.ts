@@ -1,5 +1,5 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
-import { UserList, Data } from '@/types/TestType';
+import { UserList, Data } from '@/types/test/TestType';
 import { ApiResponse } from '@/api/ApiResponse';
 
 import { Module, VuexModule, Mutation, Action, MutationAction } from 'vuex-module-decorators';

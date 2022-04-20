@@ -102,6 +102,10 @@ import Hello from '@/components/HelloWorld.vue';
 
 ## Component는 재사용을 위해 Store 접근,api 통신 등의 코드가 없어야 한다.
 
+## @MutationAction 사용 지양
+
 ## Git Rule
 
 -
+
+##

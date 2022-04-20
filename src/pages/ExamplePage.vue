@@ -22,7 +22,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import UserStore from '@/store/modules/UserModule';
 
 import Button from '@/components/commons/Button.vue';
 import Input from '@/components/commons/Input.vue';
@@ -39,7 +38,7 @@ export default class ExamplePage extends Vue {
   public created() {
     //console.log(this.searchText);
   }
-  userModule = getModule(UserStore, this.$store);
+  //userModule = getModule(UserStore, this.$store);
 
   value = null;
 
@@ -47,28 +46,28 @@ export default class ExamplePage extends Vue {
   // Store의 state인 searchText를 사용할 수 있다.
 
   // getter(store 에서 자동 생성) 사용
-  get searchText() {
-    return this.userModule.searchText;
-  }
-  // mutation 사용
-  set searchText(val: string) {
-    this.userModule.setSearchText(val);
-  }
+  // get searchText() {
+  //   return this.userModule.searchText;
+  // }
+  // // mutation 사용
+  // set searchText(val: string) {
+  //   this.userModule.setSearchText(val);
+  // }
 
-  get userInfo() {
-    return this.userModule.userInfo;
-  }
-  get userRawDatas() {
-    return this.userModule.userRawDatas;
-  }
+  // get userInfo() {
+  //   return this.userModule.userInfo;
+  // }
+  // get userRawDatas() {
+  //   return this.userModule.userRawDatas;
+  // }
 
   // action 사용
   // action은 템플릿에서
   // :clickEvent="this.userModule.getUserListMAction"
-  // 와 같이 바로 넣어줘도 되고, 아래와 같이 메서드를 하나 만들어서 넣어줘도 된다.
-  getUserList = () => {
-    this.userModule.getUserListMAction('1');
-  };
+  // // 와 같이 바로 넣어줘도 되고, 아래와 같이 메서드를 하나 만들어서 넣어줘도 된다.
+  // getUserList = () => {
+  //   this.userModule.getUserListMAction('1');
+  // };
 
   //UserStore.searchText = this.value;
 

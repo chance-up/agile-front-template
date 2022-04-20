@@ -7,7 +7,6 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import UserStore from '@/store/modules/UserModule';
 
 import Dropdown from '@/components/commons/Dropdown.vue';
 
@@ -16,8 +15,6 @@ import Dropdown from '@/components/commons/Dropdown.vue';
     Dropdown,
   },
 })
-export default class HomePage extends Vue {
-  userModule = getModule(UserStore, this.$store);
-}
+export default class HomePage extends Vue {}
 </script>
 <style lang=""></style>

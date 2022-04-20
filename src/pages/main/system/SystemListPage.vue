@@ -9,8 +9,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Button from '@/components/commons/Button.vue';
 import { getModule } from 'vuex-module-decorators';
-import TestModule from '@/store/modules/TestModule';
-import { UserList } from '@/types/TestType';
 
 @Component({
   components: {
@@ -18,17 +16,15 @@ import { UserList } from '@/types/TestType';
   },
 })
 export default class SystemManagementPage extends Vue {
-  testModule = getModule(TestModule, this.$store);
-
-  getUserList() {
-    console.log('getUserList');
-    this.testModule.getTest();
-  }
-
-  get test(): UserList {
-    console.log('TEST UserList');
-    return this.testModule.test;
-  }
+  //testModule = getModule(TestModule, this.$store);
+  // getUserList() {
+  //   console.log('getUserList');
+  //   this.testModule.getTest();
+  // }
+  // get test(): UserList {
+  //   console.log('TEST UserList');
+  //   return this.testModule.test;
+  // }
 }
 </script>
 <style lang=""></style>
