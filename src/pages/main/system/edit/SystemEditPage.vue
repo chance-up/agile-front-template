@@ -1,124 +1,49 @@
 <template>
-  <!------- contents area -------->
-  <article class="contents-wrap">
-    <div class="tit-wrap">
-      <h1 class="h1-tit">시스템 정보 수정</h1>
-      <div class="directory-wrap">
-        <span>시스템 관리</span>
-        <i><img src="@/assets/arrow_right.svg" alt="디렉토리목록" /></i>
-        <span>시스템 정보 수정</span>
-      </div>
-    </div>
-
-    <div class="box comp">
-      <div class="box-tit">
-        <h2 class="h2-tit">기본정보 수정</h2>
-      </div>
-
-      <!--- form field --->
-      <div class="form-wrap">
-        <ul>
-          <li>
-            <label for="" class="point">시스템명</label>
-            <div class="form-cont">
-              <input
-                type="text"
-                id=""
-                class="input-box lg disable"
-                placeholder="[백엔드시스템명_양식]"
-              />
-            </div>
-          </li>
-          <li>
-            <label for="" class="point">시스템 ID</label>
-            <div class="form-cont">
-              <input type="text" id="" class="input-box lg disable" placeholder="수정불가" />
-            </div>
-          </li>
-          <li>
-            <label for="" class="point">담당자 이름</label>
-            <div class="form-cont">
-              <input type="text" id="" class="input-box lg check-false" placeholder="placeholder" />
-              <p class="red-txt noti">중복된 API ID 입니다.</p>
-            </div>
-          </li>
-          <li>
-            <label for="" class="point">소속</label>
-            <div class="form-cont">
-              <input type="text" id="" class="input-box lg check-ok" placeholder="placeholder" />
-            </div>
-          </li>
-          <li>
-            <label for="" class="point">E-mail</label>
-            <div class="form-cont">
-              <input type="text" id="" class="input-box lg check-ok" placeholder="placeholder" />
-            </div>
-          </li>
-          <li>
-            <label for="" class="point">연동방식</label>
-            <div class="form-cont">
-              <div class="domain-wrap">
-                <select>
-                  <option>https</option>
-                  <option>http</option>
-                </select>
-                <span>://</span>
-                <input type="text" id="" class="input-box mid" placeholder="도메인" />
-                <span>:</span>
-                <input type="text" id="" class="input-box sm" placeholder="port" />
-                <button>
-                  <i><img src="@/assets/plus.svg" alt="추가" /></i>
-                </button>
-              </div>
-              <div class="domain-wrap">
-                <select>
-                  <option>https</option>
-                  <option>http</option>
-                </select>
-                <span>://</span>
-                <input type="text" id="" class="input-box mid" placeholder="도메인" />
-                <span>:</span>
-                <input type="text" id="" class="input-box sm" placeholder="port" />
-                <button>
-                  <i><img src="@/assets/minus.svg" alt="삭제" /></i>
-                </button>
-              </div>
-              <div class="domain-wrap">
-                <select>
-                  <option>https</option>
-                  <option>http</option>
-                </select>
-                <span>://</span>
-                <input type="text" id="" class="input-box mid" placeholder="도메인" />
-                <span>:</span>
-                <input type="text" id="" class="input-box sm" placeholder="port" />
-                <button>
-                  <i><img src="@/assets/minus.svg" alt="삭제" /></i>
-                </button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <label for="" class="point">시스템 설명</label>
-            <div class="form-cont">
-              <textarea class="textarea"></textarea>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <!--- // form field --->
-
-      <!--- btn-wrap --->
+  <ContentLayout title="시스템 정보 수정" subTitle="기본정보 수정" depth="시스템 관리">
+    <template v-slot:contents>
+      <ul>
+        <InputGroup inputNm="시스템명" :place="dumyData.sysNm" inputClass="input-box lg disable" />
+        <InputGroup inputNm="시스템 ID" :place="dumyData.sysId" inputClass="input-box lg disable" />
+        <InputGroup
+          inputNm="담당자 이름"
+          :place="dumyData.sysId"
+          inputClass="input-box lg check-false"
+          validCheck="중복된 API ID 입니다."
+        />
+        <InputGroup inputNm="소속" :place="dumyData.belong" inputClass="input-box lg check-ok" />
+        <InputGroup inputNm="E-mail" :place="dumyData.eMail" inputClass="input-box lg check-ok" />
+        <LinkGroup inputNm="연동방식" :linkType="dumyData.linkType" />
+        <TextAreaGroup inputNm="시스템 설명" />
+      </ul>
+    </template>
+    <template v-slot:buttons>
       <div class="btn-wrap">
         <button class="lg-btn purple-btn">저장</button>
         <button class="lg-btn white-btn">취소</button>
       </div>
-      <!--- // btn-wrap --->
-    </div>
-    <!--- // comp --->
-  </article>
+    </template>
+  </ContentLayout>
 </template>
-<script>
-export default {};
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import ContentLayout from '@/components/layout/ContentLayout.vue';
+import InputGroup from '@/components/system/InputGroup.vue';
+import LinkGroup from '@/components/system/LinkGroup.vue';
+import TextAreaGroup from '@/components/system/TextAreaGroup.vue';
+import { DummySystemResponse, dummyData } from '@/types/SystemType';
+
+@Component({
+  components: {
+    ContentLayout,
+    InputGroup,
+    LinkGroup,
+    TextAreaGroup,
+  },
+})
+export default class SystemEditPage extends Vue {
+  get dumyData(): DummySystemResponse {
+    return dummyData;
+  }
+}
 </script>
 <style lang=""></style>
