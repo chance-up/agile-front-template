@@ -9,14 +9,14 @@
     "modify": "수정",
     "delete": "삭제",
     "save": "저장",
-    "register":"등록",
-    "search":"검색"
+    "register": "등록",
+    "search": "검색"
   },
   "message": {
     "example": "example",
     "hello": "example { name }"
   },
-  "api" : {
+  "api": {
     "name": "명",
     "id": "ID",
     "basic": "기본",
@@ -43,6 +43,8 @@
     "edit": "수정",
     "delete": "삭제",
     "list": "목록",
-    "placeholder": "입력해주세요."
+    "placeholder": "입력해주세요.",
+    "interlock": "연동",
+    "handler": "handler"
   }
 }
