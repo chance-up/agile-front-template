@@ -29,6 +29,7 @@
     "action": "Action",
     "edit": "수정",
     "delete": "삭제",
-    "list": "목록"
+    "list": "목록",
+    "placeholder": "입력해주세요."
   }
 }
