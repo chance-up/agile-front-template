@@ -50,7 +50,10 @@
                 {{ list.update_data }}
               </td>
               <td>
-                <button class="mod-btn">
+                <button
+                  class="mod-btn"
+                  @click="$router.push({ path: '/service-edit', params: { id: list.serviceId } })"
+                >
                   <i>{{ $t('common.modify') }}</i>
                 </button>
                 <button class="del-btn">
