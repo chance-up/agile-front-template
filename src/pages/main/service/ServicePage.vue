@@ -115,19 +115,19 @@ export default class ServiceManagementPage extends Vue {
   text2 = '';
   text3 = '';
 
-  saveMySession(id: string) {
-    this.text1 = this.searchOption[0].text;
-    sessionStorage.setItem('text1', JSON.stringify(this.text1));
+  // saveMySession(id: string) {
+  //   this.text1 = this.searchOption[0].text;
+  //   sessionStorage.setItem('text1', JSON.stringify(this.text1));
 
-    this.text2 = this.searchOption[1].text;
-    sessionStorage.setItem('text2', JSON.stringify(this.text2));
+  //   this.text2 = this.searchOption[1].text;
+  //   sessionStorage.setItem('text2', JSON.stringify(this.text2));
 
-    this.text3 = this.searchOption[2].text;
-    sessionStorage.setItem('text3', JSON.stringify(this.text3));
+  //   this.text3 = this.searchOption[2].text;
+  //   sessionStorage.setItem('text3', JSON.stringify(this.text3));
 
-    console.log(this.text1);
-    this.$router.push({ path: '/service-detail', params: { id: id } });
-  }
+  //   console.log(this.text1);
+  //   this.$router.push({ path: '/service-detail', params: { id: id } });
+  // }
 
   // load() {
   //   if (sessionStorage.getItem('infiniteScrollEnabled') !== null) {
