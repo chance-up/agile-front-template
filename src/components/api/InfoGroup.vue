@@ -1,6 +1,6 @@
 <template lang="">
   <li>
-    <label>{{ inputNm }}</label>
+    <label class="label">{{ inputNm }}</label>
     <div class="form-cont">
       <p>{{ value }}</p>
     </div>
