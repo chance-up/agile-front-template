@@ -1,13 +1,13 @@
 <template>
   <!-- 페이지 최상단에 들어갈 타이들을 넘겨주세요 (ex. 시스템 관리) -->
-  <ListLayout :title="$t('system.top_title')">
+  <ListLayout :title="$t('system.list_top_title')">
     <template slot="search-form">
       <!-- 검색 컴포넌트의 옵션이 조금씩 다르니 페이지에 맞는 옵션으로 넘겨주세요. -->
       <SearchForm :searchPanelOption="searchOption" />
     </template>
     <template slot="list-form">
       <!-- 리스트 컴포넌트에서 사용할 타이틀(ex. 시스템 리스트)을 넘겨주세요. -->
-      <ListForm :title="$t('system.list_title')">
+      <ListForm :title="$t('system.list_cont_title')">
         <!-- 리스트 우측 상단에 들어갈 버튼은 template로 묶어서 넣어주시면 됩니다. -->
         <template slot="list-btn-area">
           <button class="mid-btn" @click="onClickEvent">
@@ -37,13 +37,13 @@
           <!-- 각 리스트 페이지에 맞는 데이터로 v-for 돌려주시면 됩니다. <td> 태그 안이 조금씩 다를 수 있으니 퍼블리싱 파일 참조하면서 수정해주세요. -->
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
-              <td>{{ index + 1 }}</td>
-              <td>
-                <span class="bold" @click="getRoutePage('system_view')">{{ list.nm }}</span>
+              <td @click="getRoutePage('system_view')">{{ index + 1 }}</td>
+              <td @click="getRoutePage('system_view')">
+                <span class="bold">{{ list.nm }}</span>
               </td>
-              <td>{{ list.id }}</td>
-              <td>{{ list.tkcgrNm }}</td>
-              <td>
+              <td @click="getRoutePage('system_view')">{{ list.id }}</td>
+              <td @click="getRoutePage('system_view')">{{ list.tkcgrNm }}</td>
+              <td @click="getRoutePage('system_view')">
                 <p>
                   {{ list.updatedAt === null ? list.createdAt : list.updatedAt }}
                 </p>

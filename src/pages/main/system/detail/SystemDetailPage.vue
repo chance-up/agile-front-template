@@ -2,7 +2,7 @@
   <ContentLayout
     :title="$t('system.detail_top_title')"
     :subTitle="$t('system.detail_cont_title')"
-    :depth="$t('system.depth')"
+    :depth="$t('system.detail_depth')"
   >
     <template v-slot:contents>
       <ul>

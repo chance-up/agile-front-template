@@ -1,25 +1,29 @@
 <template>
-  <ContentLayout title="시스템 정보 수정" subTitle="기본정보 수정" depth="시스템 관리">
+  <ContentLayout
+    :title="$t('system.modify_top_title')"
+    :subTitle="$t('system.modify_cont_title')"
+    :depth="$t('system.modify_depth')"
+  >
     <template v-slot:contents>
       <ul>
-        <InputGroup inputNm="시스템명" :place="dumyData.sysNm" inputClass="input-box lg" :disabled="true" />
-        <InputGroup inputNm="시스템 ID" :place="dumyData.sysId" inputClass="input-box lg" :disabled="true" />
+        <InputGroup :inputNm="$t('system.name')" :place="dumyData.sysNm" inputClass="input-box lg" :disabled="true" />
+        <InputGroup :inputNm="$t('system.id')" :place="dumyData.sysId" inputClass="input-box lg" :disabled="true" />
         <InputGroup
-          inputNm="담당자 이름"
+          :inputNm="$t('system.tkcgrNm')"
           :place="dumyData.mgrNm"
           inputClass="input-box lg check-false"
           validCheck="중복된 API ID 입니다."
         />
-        <InputGroup inputNm="소속" :place="dumyData.belong" inputClass="input-box lg check-ok" />
-        <InputGroup inputNm="E-mail" :place="dumyData.eMail" inputClass="input-box lg check-ok" />
-        <LinkGroup inputNm="연동방식" :linkType="dumyData.linkType" />
-        <TextAreaGroup inputNm="시스템 설명" />
+        <InputGroup :inputNm="$t('system.tkcgrPos')" :place="dumyData.belong" inputClass="input-box lg check-ok" />
+        <InputGroup :inputNm="$t('system.tkcgrEml')" :place="dumyData.eMail" inputClass="input-box lg check-ok" />
+        <LinkGroup :inputNm="$t('system.ifGrp')" :linkType="dumyData.linkType" />
+        <TextAreaGroup :inputNm="$t('system.desc')" />
       </ul>
     </template>
     <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn">저장</button>
-        <button class="lg-btn white-btn">취소</button>
+        <button class="lg-btn purple-btn">{{ $t('common.modify') }}</button>
+        <button class="lg-btn white-btn">{{ $t('common.cancel') }}</button>
       </div>
     </template>
   </ContentLayout>

@@ -31,7 +31,7 @@ const routes: Array<RouteConfig> = [
       {
         path: '/system_list',
         name: 'system_list',
-        component: () => import('@/pages/main/system/SystemListPage.vue'),
+        component: () => import('@/pages/main/system/SystemPage.vue'),
       },
       {
         path: '/system_edit',
