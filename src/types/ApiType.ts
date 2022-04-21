@@ -11,6 +11,7 @@ export interface DummyApiResponse {
   resHdlGrp: string;
   timeOut: number;
   apiCmt: string;
+  updateTime: string;
 }
 
 export const dummyData: DummyApiResponse = {
@@ -26,4 +27,18 @@ export const dummyData: DummyApiResponse = {
   resHdlGrp: 'RES.DEFAULT',
   timeOut: 30,
   apiCmt: 'API별 분/시/일/월 단위 총량, TPS API별 분/시/일/월 단위 총량, API별 분/시/일/월 단위 총량',
+  updateTime: '2020-01-01 00:00:00',
 };
+
+export const dummyList: DummyApiResponse[] = [
+  dummyData,
+  dummyData,
+  dummyData,
+  dummyData,
+  dummyData,
+  dummyData,
+  dummyData,
+  dummyData,
+  dummyData,
+  dummyData,
+];
