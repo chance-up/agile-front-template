@@ -111,7 +111,7 @@
   width: 20px;
   height: 20px;
   display: inline-block;
-  background: url('') no-repeat center center;
+  background: no-repeat center center;
   /* background: url('../assets/user_ico.svg') no-repeat center center; */
 }
 #navi ul li.on > .depth-menu ul li a {
