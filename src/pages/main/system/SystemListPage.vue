@@ -49,8 +49,8 @@
                 </p>
               </td>
               <td>
-                <button class="mod_btn" @click="getRoutePage('system_edit')"><i>수정</i></button>
-                <button class="del_btn" @click="deleteSystem()"><i>삭제</i></button>
+                <button class="mod-btn" @click="getRoutePage('system_edit')"><i>수정</i></button>
+                <button class="del-btn" @click="deleteSystem()"><i>삭제</i></button>
               </td>
             </tr>
           </tbody>

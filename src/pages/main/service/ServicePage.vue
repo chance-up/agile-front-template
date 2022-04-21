@@ -30,7 +30,7 @@
             <tr
               v-for="(list, index) in listOption"
               :key="index"
-              @click="$router.push({ path: '/service_detail', Param: list.serviceId })"
+              @click="$router.push({ path: '/service_detail', params: { id: list.serviceId } })"
             >
               <td>{{ index + 1 }}</td>
               <td>
@@ -45,10 +45,10 @@
                 {{ list.update }}
               </td>
               <td>
-                <button class="mod_btn">
+                <button class="mod-btn">
                   <i>{{ $t('common.modify') }}</i>
                 </button>
-                <button class="del_btn">
+                <button class="del-btn">
                   <i>{{ $t('common.delete') }}</i>
                 </button>
               </td>
