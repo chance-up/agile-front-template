@@ -21,7 +21,7 @@
 
     <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn">수정</button>
+        <button class="lg-btn purple-btn" @click="$router.push('/service-edit')">수정</button>
         <button class="lg-btn white-btn">삭제</button>
         <button class="lg-btn gray-btn" @click="$router.go(-1)">목록</button>
       </div>

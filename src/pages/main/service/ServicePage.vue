@@ -5,6 +5,11 @@
     </template>
     <template slot="list-form">
       <ListForm :title="listTitle">
+        <template slot="list-btn-area">
+          <button class="mid-btn" @click="$router.push('/service-register')">
+            <i><img src="@/assets/check_ico.svg" alt="등록" /></i>등록
+          </button>
+        </template>
         <template slot="list-table">
           <colgroup>
             <col width="7%" />
@@ -27,19 +32,21 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(list, index) in listOption"
-              :key="index"
-              @click="$router.push({ path: '/service_detail', Param: list.serviceId })"
-            >
+            <tr v-for="(list, index) in listOption" :key="index">
               <td>{{ index + 1 }}</td>
-              <td>
+              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
                 <span class="bold">{{ list.serviceNm }}</span>
               </td>
-              <td>{{ list.serviceId }}</td>
-              <td>{{ list.authMethod[0] }}</td>
-              <td>{{ list.start_validity_date }} ~ {{ list.end_validity_date }}</td>
-              <td>
+              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
+                {{ list.serviceId }}
+              </td>
+              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
+                {{ list.authMethod[0] }}
+              </td>
+              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
+                {{ list.start_validity_date }} ~ {{ list.end_validity_date }}
+              </td>
+              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
                 {{ list.update_data }}
               </td>
               <td>
@@ -103,5 +110,50 @@ export default class ServiceManagementPage extends Vue {
   created() {
     this.serviceModule.getServiceList();
   }
+
+  text1 = '';
+  text2 = '';
+  text3 = '';
+
+  saveMySession(id: string) {
+    this.text1 = this.searchOption[0].text;
+    sessionStorage.setItem('text1', JSON.stringify(this.text1));
+
+    this.text2 = this.searchOption[1].text;
+    sessionStorage.setItem('text2', JSON.stringify(this.text2));
+
+    this.text3 = this.searchOption[2].text;
+    sessionStorage.setItem('text3', JSON.stringify(this.text3));
+
+    console.log(this.text1);
+    this.$router.push({ path: '/service-detail', params: { id: id } });
+  }
+
+  // load() {
+  //   if (sessionStorage.getItem('infiniteScrollEnabled') !== null) {
+  //     let storedV1 = JSON.parse(sessionStorage.getItem('text1')!);
+  //     if (storedV1) {
+  //       this.searchOption[0].text = storedV1;
+  //       this.text1 = storedV1;
+  //     }
+  //   }
+
+  //   if (sessionStorage.getItem('infiniteScrollEnabled') !== null) {
+  //     let storedV2 = JSON.parse(sessionStorage.getItem('text2')!);
+  //     if (storedV2) {
+  //       this.searchOption[1].text = storedV2;
+  //       this.text2 = storedV2;
+  //     }
+  //   }
+
+  //   if (sessionStorage.getItem('infiniteScrollEnabled') !== null) {
+  //     let storedV3 = JSON.parse(sessionStorage.getItem('text2')!);
+  //     if (storedV3) {
+  //       this.searchOption[2].text = storedV3;
+  //       this.text3 = storedV3;
+  //     }
+  //   }
+  //   console.log(this.text1);
+  // }
 }
 </script>

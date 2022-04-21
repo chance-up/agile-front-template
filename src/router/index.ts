@@ -75,9 +75,19 @@ const routes: Array<RouteConfig> = [
         component: () => import('@/pages/main/service/ServicePage.vue'),
       },
       {
-        path: '/service_detail',
-        name: 'service_detail',
+        path: '/service-detail',
+        name: 'service-detail',
         component: () => import('@/pages/main/service/detail/ServiceDetailPage.vue'),
+      },
+      {
+        path: '/service-register',
+        name: 'service-register',
+        component: () => import('@/pages/main/service/register/ServiceRegisterPage.vue'),
+      },
+      {
+        path: '/service-edit',
+        name: 'service-edit',
+        component: () => import('@/pages/main/service/edit/ServiceEditPage.vue'),
       },
       {
         path: '/monitoring',
