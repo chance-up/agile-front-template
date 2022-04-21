@@ -25,24 +25,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component({
-  props: {
-    title: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    subTitle: {
-      type: String,
-      default: '',
-    },
-    depth: {
-      type: String,
-    },
-  },
-})
-export default class ContentLayout extends Vue {}
+@Component
+export default class ContentLayout extends Vue {
+  @Prop() title!: string | null;
+  @Prop() subTitle!: string | null;
+  @Prop() depth!: string | null;
+}
 </script>

@@ -14,26 +14,12 @@
   </li>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
-
-const URIGroupProps = Vue.extend({
-  props: {
-    inputNm: {
-      type: String,
-      default: '',
-    },
-    uriSer: {
-      type: String,
-      default: '',
-    },
-    uriSys: {
-      type: String,
-      default: '',
-    },
-  },
-});
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class URIGroup extends URIGroupProps {}
+export default class URIGroup extends Vue {
+  @Prop() public inputNm!: string | null;
+  @Prop() public uriSer!: string | null;
+  @Prop() public uriSys!: string | null;
+}
 </script>

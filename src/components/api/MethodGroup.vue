@@ -21,22 +21,11 @@
   </li>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
-
-const MethodGroupProps = Vue.extend({
-  props: {
-    inputNm: {
-      type: String,
-      default: '',
-    },
-    methods: {
-      type: Array,
-      default: () => [],
-    },
-  },
-});
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class MethodGroup extends MethodGroupProps {}
+export default class MethodGroup extends Vue {
+  @Prop() public inputNm!: string | null;
+  @Prop() public methods!: string[];
+}
 </script>

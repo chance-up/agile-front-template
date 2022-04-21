@@ -71,13 +71,11 @@
         </ListForm>
       </template>
     </ListLayout>
-    <ApiDetailPage />
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import ApiDetailPage from './detail/ApiDetailPage.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import ListLayout from '@/components/layout/ListLayout.vue';
 import SearchForm from '@/components/api/SearchForm.vue';
@@ -85,7 +83,6 @@ import ListForm from '@/components/api/ListForm.vue';
 import { DummyApiResponse, dummyList } from '@/types/ApiType';
 @Component({
   components: {
-    ApiDetailPage,
     ContentLayout,
     ListLayout,
     SearchForm,
