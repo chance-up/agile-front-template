@@ -1,17 +1,17 @@
 <template>
   <!-- 페이지 최상단에 들어갈 타이들을 넘겨주세요 (ex. 시스템 관리) -->
-  <ListLayout :title="title">
+  <ListLayout :title="$t('system.top_title')">
     <template slot="search-form">
       <!-- 검색 컴포넌트의 옵션이 조금씩 다르니 페이지에 맞는 옵션으로 넘겨주세요. -->
       <SearchForm :searchPanelOption="searchOption" />
     </template>
     <template slot="list-form">
       <!-- 리스트 컴포넌트에서 사용할 타이틀(ex. 시스템 리스트)을 넘겨주세요. -->
-      <ListForm :title="listOption.listMainTitle">
+      <ListForm :title="$t('system.list_title')">
         <!-- 리스트 우측 상단에 들어갈 버튼은 template로 묶어서 넣어주시면 됩니다. -->
         <template slot="list-btn-area">
           <button class="mid-btn" @click="onClickEvent">
-            <i><img src="@/assets/check_ico.svg" alt="등록" /></i>등록
+            <i><img src="@/assets/check_ico.svg" alt="등록" /></i>{{ $t('common.register') }}
           </button>
         </template>
         <!-- 각 페이지마다 테이블 규격이 조금씩 달라서 template으로 묶어서 colgroup ~ tbody까지 넣어주시면 됩니다. -->
@@ -26,12 +26,12 @@
           </colgroup>
           <thead>
             <tr>
-              <th>No.</th>
-              <th>시스템명</th>
-              <th>시스템ID</th>
-              <th>담당자</th>
-              <th>Update</th>
-              <th>Action</th>
+              <th>{{ $t('system.no') }}</th>
+              <th>{{ $t('system.name') }}</th>
+              <th>{{ $t('system.id') }}</th>
+              <th>{{ $t('system.tkcgr') }}</th>
+              <th>{{ $t('system.update') }}</th>
+              <th>{{ $t('system.action') }}</th>
             </tr>
           </thead>
           <!-- 각 리스트 페이지에 맞는 데이터로 v-for 돌려주시면 됩니다. <td> 태그 안이 조금씩 다를 수 있으니 퍼블리싱 파일 참조하면서 수정해주세요. -->
@@ -49,8 +49,12 @@
                 </p>
               </td>
               <td>
-                <button class="mod-btn" @click="getRoutePage('system_edit')"><i>수정</i></button>
-                <button class="del-btn" @click="deleteSystem()"><i>삭제</i></button>
+                <button class="mod-btn" @click="getRoutePage('system_edit')">
+                  <i>{{ $t('common.modify') }}</i>
+                </button>
+                <button class="del-btn" @click="deleteSystem()">
+                  <i>{{ $t('common.delete') }}</i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -107,7 +111,6 @@ export default class SystemManagement extends Vue {
     console.log('Not yet implemented');
   }
 
-  title = '시스템 관리';
   searchOption: SearchOption[] = [
     //inputBox 옵션
     {
