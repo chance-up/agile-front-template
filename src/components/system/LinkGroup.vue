@@ -1,6 +1,6 @@
 <template>
   <li>
-    <label for="" class="point">{{ inputNm }}</label>
+    <label for="" class="label point">{{ inputNm }}</label>
     <div class="form-cont">
       <div class="domain-wrap" v-for="(type, idx) in linkType" :key="idx">
         <select>
