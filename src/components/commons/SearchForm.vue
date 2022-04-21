@@ -24,8 +24,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import InputBox from './search-option/InputBox.vue';
-import SelectBox from './search-option/SelectBox.vue';
+import InputBox from '@/components/commons/search-option/InputBox.vue';
+import SelectBox from '@/components/commons/search-option/SelectBox.vue';
 
 @Component({
   components: {

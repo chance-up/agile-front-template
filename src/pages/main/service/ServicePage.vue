@@ -59,8 +59,8 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import ListLayout from '@/components/layout/ListLayout.vue';
-import SearchForm from '@/components/system/SearchForm.vue';
-import ListForm from '@/components/system/ListForm.vue';
+import SearchForm from '@/components/commons/SearchForm.vue';
+import ListForm from '@/components/commons/ListForm.vue';
 
 @Component({
   components: {
