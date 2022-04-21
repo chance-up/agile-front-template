@@ -45,10 +45,10 @@
                 {{ list.update }}
               </td>
               <td>
-                <button class="mod_btn">
+                <button class="mod-btn">
                   <i>{{ $t('common.modify') }}</i>
                 </button>
-                <button class="del_btn">
+                <button class="del-btn">
                   <i>{{ $t('common.delete') }}</i>
                 </button>
               </td>
