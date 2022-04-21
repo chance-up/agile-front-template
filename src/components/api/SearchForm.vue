@@ -1,7 +1,7 @@
 <template>
   <!------- 검색 -------->
   <div class="search-wrap">
-    <h2 class="h2-tit">검색</h2>
+    <h2 class="h2-tit">{{ this.$t('api.search') }}</h2>
     <template v-for="(option, index) in searchPanelOption">
       <div class="search-cont" :key="index">
         <InputBox v-if="option.type === 'inputBox'" :label="option.label" :placeholder="option.placeholder" />
@@ -16,7 +16,7 @@
     </template>
 
     <button class="mid-btn">
-      <i><img src="@/assets/search_ico.svg" alt="검색" /></i>Search
+      <i><img src="@/assets/search_ico.svg" :alt="this.$t('api.search')" /></i>Search
     </button>
   </div>
   <!------- // 검색 -------->

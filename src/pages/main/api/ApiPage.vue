@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ListLayout title="API관리" subTitle="API List">
+    <ListLayout :title="`${this.$t('api.api')}${this.$t('api.management')}`" subTitle="API List">
       <template v-slot:search-form>
         <SearchForm :searchPanelOption="searchOption" />
       </template>
@@ -21,19 +21,22 @@
             <thead>
               <tr>
                 <th>No.</th>
-                <th>플랫폼명</th>
-                <th>API ID</th>
-                <th>API 명</th>
-                <th>Method</th>
-                <th>URI</th>
-                <th>Time out<br />(ms)</th>
-                <th>Update</th>
-                <th>Action</th>
+                <th>{{ $t('api.platform') + $t('api.name') }}</th>
+                <th>{{ $t('api.api') + ' ' + $t('api.id') }}</th>
+                <th>{{ $t('api.api') + ' ' + $t('api.name') }}</th>
+                <th>{{ $t('api.method') }}</th>
+                <th>{{ $t('api.uri') }}</th>
+                <th>{{ $t('api.timeOut') }}<br />(ms)</th>
+                <th>{{ $t('api.update') }}</th>
+                <th>{{ $t('api.action') }}</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(apiData, index) in dummyList" :key="index">
-                <!-- @click="$router.push({ path: '/api_detail', Param: list.apiId })" -->
+              <tr
+                v-for="(apiData, index) in dummyList"
+                :key="index"
+                @click="$router.push({ path: '/api-detail', Param: apiData.apiId })"
+              >
                 <td>{{ index + 1 }}</td>
                 <td>
                   <span class="bold">{{ apiData.sysNm }}</span>
@@ -62,8 +65,12 @@
                   ><span>{{ new Date(apiData.updateTime).toISOString().slice(11, 19) }}</span>
                 </td>
                 <td>
-                  <button class="mod_btn"><i>수정</i></button>
-                  <button class="del_btn"><i>삭제</i></button>
+                  <button class="mod_btn">
+                    <i>{{ $t('api.edit') }}</i>
+                  </button>
+                  <button class="del_btn">
+                    <i>{{ $t('api.delete') }}</i>
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -93,9 +100,14 @@ export default class ApiPage extends Vue {
   searchOption = [
     {
       type: 'selectBox',
-      label: '기본정보',
-      placeholder: '입력해주세요.',
-      selectOptions: ['api id', 'api 명', '플랫폼명', 'url'],
+      label: `${this.$t('api.basic')}` + `${this.$t('api.information')}`,
+      placeholder: `${this.$t('api.placeholder')}`,
+      selectOptions: [
+        `${this.$t('api.api')} ${this.$t('api.id')}`,
+        `${this.$t('api.api')} ${this.$t('api.name')}`,
+        `${this.$t('api.platform')}${this.$t('api.name')}`,
+        `${this.$t('api.uri')}`,
+      ],
     },
   ];
   get dummyList(): DummyApiResponse[] {
