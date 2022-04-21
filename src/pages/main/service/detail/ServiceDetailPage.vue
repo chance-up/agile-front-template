@@ -1,27 +1,25 @@
 <template>
   <ContentLayout title="서비스 정보 확인" subTitle="기본정보 확인" depth="서비스 관리">
     <template v-slot:contents>
-      <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
-        <InfoGroup inputNm="서비스명" :value="dumyData.svcNm" />
-        <InfoGroup inputNm="서비스ID" :value="dumyData.svcId" />
-        <InfoGroup inputNm="담당자 이름" :value="dumyData.MngNm" />
-        <InfoGroup inputNm="소속" :value="dumyData.depart" />
+        <InfoGroup inputNm="서비스명" :value="dumyData.serviceName" />
+        <InfoGroup inputNm="서비스ID" :value="dumyData.serviceId" />
+        <InfoGroup inputNm="담당자 이름" :value="dumyData.ManagerName" />
+        <InfoGroup inputNm="소속" :value="dumyData.department" />
         <InfoGroup inputNm="E-mail" :value="dumyData.email" />
         <InfoGroup inputNm="서비스 기간" :value="dumyData.period" />
         <AuthGroup
           inputNm="인중 수단"
-          :AuthNm="dumyData.authMtd[0]"
-          :AuthId="dumyData.authMtd[1]"
-          :AuthPw="dumyData.authMtd[2]"
+          :AuthNm="dumyData.authMethod[0]"
+          :AuthId="dumyData.authMethod[1]"
+          :AuthPw="dumyData.authMethod[2]"
         />
-        <SlaGroup inputNm="SLA 정책 관리" :term="dumyData.slaPlc[0]" :count="dumyData.slaPlc[1]" />
-        <InfoGroup inputNm="서비스 설명" :value="dumyData.scvEx" />
+        <SlaGroup inputNm="SLA 정책 관리" :term="dumyData.slaPolicy[0]" :count="dumyData.slaPolicy[1]" />
+        <InfoGroup inputNm="서비스 설명" :value="dumyData.serviceEx" />
       </ul>
     </template>
 
     <template v-slot:buttons>
-      <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
         <button class="lg-btn purple-btn">수정</button>
         <button class="lg-btn white-btn">삭제</button>
