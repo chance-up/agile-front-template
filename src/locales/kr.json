@@ -9,6 +9,7 @@
     "modify": "수정",
     "delete": "삭제",
     "save": "저장",
+    "list": "목록",
     "register": "등록",
     "search": "검색"
   },
@@ -54,6 +55,24 @@
     "id": "서비스ID",
     "authentication_method": "인증수단",
     "validity": "유효기간",
+    "update": "Update",
+    "action": "Action"
+  },
+  "system": {
+    "top_title": "시스템 관리",
+    "list_title": "시스템 리스트",
+    "detail_top_title": "시스템 정보 확인",
+    "detail_cont_title": "기본정보 확인",
+    "depth": "시스템 정보 관리",
+    "no": "No.",
+    "name": "시스템명",
+    "id": "시스템ID",
+    "tkcgr": "담당자",
+    "tkcgrNm": "담당자 이름",
+    "tkcgrPos": "소속",
+    "tkcgrEml": "이메일",
+    "ifGrp": "연동방식",
+    "desc": "시스템 설명",
     "update": "Update",
     "action": "Action"
   }
