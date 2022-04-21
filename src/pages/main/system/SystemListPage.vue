@@ -36,16 +36,16 @@
           </thead>
           <!-- 각 리스트 페이지에 맞는 데이터로 v-for 돌려주시면 됩니다. <td> 태그 안이 조금씩 다를 수 있으니 퍼블리싱 파일 참조하면서 수정해주세요. -->
           <tbody>
-            <tr v-for="(list, index) in listOption.listArrays" :key="index">
+            <tr v-for="(list, index) in listOption" :key="index">
               <td>{{ index + 1 }}</td>
               <td>
-                <span class="bold" @click="getRoutePage('system_view')">{{ list.systemName }}</span>
+                <span class="bold" @click="getRoutePage('system_view')">{{ list.nm }}</span>
               </td>
-              <td>{{ list.systemId }}</td>
-              <td>{{ list.manager }}</td>
+              <td>{{ list.id }}</td>
+              <td>{{ list.tkcgrNm }}</td>
               <td>
                 <p>
-                  {{ list.update }}
+                  {{ list.updatedAt === null ? list.createdAt : list.updatedAt }}
                 </p>
               </td>
               <td>
@@ -62,10 +62,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
+
+import SystemModule from '@/store/modules/SystemModule';
 
 import ListLayout from '@/components/layout/ListLayout.vue';
 import SearchForm from '@/components/commons/SearchForm.vue';
 import ListForm from '@/components/commons/ListForm.vue';
+
+import { SearchOption } from '@/types/SearchType';
+import { DummySystemListResponse } from '@/types/SystemType';
 
 @Component({
   components: {
@@ -75,8 +81,18 @@ import ListForm from '@/components/commons/ListForm.vue';
   },
 })
 export default class SystemManagement extends Vue {
+  systemModule = getModule(SystemModule, this.$store);
+
+  created() {
+    this.systemModule.getSystemList();
+  }
+
+  get listOption(): DummySystemListResponse[] {
+    return this.systemModule.listOption;
+  }
+
   onClickEvent() {
-    this.$router.push('/system_register');
+    this.$router.push({ name: 'system_register' });
   }
 
   getRoutePage(page: string, id?: number): void {
@@ -92,7 +108,7 @@ export default class SystemManagement extends Vue {
   }
 
   title = '시스템 관리';
-  searchOption = [
+  searchOption: SearchOption[] = [
     //inputBox 옵션
     {
       type: 'inputBox',
@@ -118,72 +134,5 @@ export default class SystemManagement extends Vue {
     //   selectOptions: ['api id', 'api 명', '플랫폼명', 'uri'],
     // },
   ];
-  listOption = {
-    listMainTitle: '시스템 리스트',
-    // listBtnTitle: '등록',
-    // listItemTitle: ['No.', '시스템 ID', '시스템명', '담당자', 'Update'],
-    listArrays: [
-      {
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
-      },
-      {
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
-      },
-      {
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
-      },
-      {
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
-      },
-      {
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
-      },
-      {
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
-      },
-      {
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
-      },
-      {
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
-      },
-      {
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
-      },
-      {
-        systemId: 'systemId',
-        systemName: 'systemName',
-        manager: 'manager',
-        update: 'update',
-      },
-    ],
-  };
 }
 </script>
