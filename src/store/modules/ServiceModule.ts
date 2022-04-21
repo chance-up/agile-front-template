@@ -21,6 +21,7 @@ export default class ServiceModule extends VuexModule {
     serviceEx: '',
   };
 
+  //서비스 리스트 요청
   @Mutation
   setServiceList(list: ServiceResponse[]): void {
     this.services = list;
@@ -39,6 +40,7 @@ export default class ServiceModule extends VuexModule {
     console.log('SERVICE TEST', response);
   }
 
+  //서비스 상세 요청
   @Mutation
   setService(data: DummyServiceResponse): void {
     this.service = data;
@@ -59,6 +61,31 @@ export default class ServiceModule extends VuexModule {
     this.context.commit('setService', response);
   }
 
+  //서비스 등록 요청
+  @Mutation
+  public createServiceMutation(data: DummyServiceResponse): void {
+    this.service = data;
+  }
+
+  @Action
+  async createserviceAction(data: DummyServiceResponse) {
+    try {
+      const response = await ApiResponse.getInstance().post<GateWayResponse<DummyServiceResponse>>('/service', {
+        data,
+      });
+
+      this.context.commit('createserviceMutation', response.data);
+    } catch (error) {
+      if (error as ParameterError) {
+        this.context.commit('showAlert');
+        console.log('ParameterError');
+      } else {
+        console.log('ParameterError');
+      }
+    }
+  }
+
+  //서비스 수정 요청
   @Mutation
   public editServiceMutation(data: DummyServiceResponse): void {
     this.service = data;
@@ -96,6 +123,7 @@ export default class ServiceModule extends VuexModule {
     }
   }
 
+  //서비스 삭제 요청
   @Mutation
   public deleteServiceMutation(id: string): void {
     this.services = this.services.filter((item) => {
