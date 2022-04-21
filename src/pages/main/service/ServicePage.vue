@@ -30,7 +30,7 @@
             <tr
               v-for="(list, index) in listOption"
               :key="index"
-              @click="$router.push({ path: '/service_detail', Param: list.serviceId })"
+              @click="$router.push({ path: '/service_detail', params: { id: list.serviceId } })"
             >
               <td>{{ index + 1 }}</td>
               <td>
