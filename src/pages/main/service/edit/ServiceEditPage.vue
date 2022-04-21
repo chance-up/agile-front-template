@@ -1,5 +1,5 @@
 <template>
-  <ContentLayout title="서비스 등록" subTitle="기본정보 등록" depth="서비스 관리">
+  <ContentLayout title="서비스 인증 정보 수정" subTitle="기본정보 수정" depth="서비스 관리">
     <template v-slot:contents>
       <ul>
         <InputGroup inputNm="서비스명" placeholder="placeholder" inputClass="input-box lg check-ok" :disabled="true" />
