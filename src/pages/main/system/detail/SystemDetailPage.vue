@@ -24,7 +24,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-import InfoGroup from '@/components/api/InfoGroup.vue';
+import InfoGroup from '@/components/api/detail/InfoGroup.vue';
 import { DummySystemResponse, dummyData } from '@/types/SystemType';
 
 @Component({

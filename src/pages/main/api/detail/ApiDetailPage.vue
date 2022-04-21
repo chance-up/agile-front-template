@@ -42,9 +42,9 @@
 </template>
 
 <script lang="ts">
-import InfoGroup from '@/components/api/InfoGroup.vue';
-import MethodGroup from '@/components/api/MethodGroup.vue';
-import URIGroup from '@/components/api/URIGroup.vue';
+import InfoGroup from '@/components/api/detail/InfoGroup.vue';
+import MethodGroup from '@/components/api/detail/MethodGroup.vue';
+import URIGroup from '@/components/api/detail/URIGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import Vue from 'vue';
 import Component from 'vue-class-component';

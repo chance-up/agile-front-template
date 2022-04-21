@@ -3,7 +3,7 @@
     <div class="tb-tit">
       <h2 class="h2-tit">{{ title }}</h2>
       <div class="btn-wrap">
-        <button class="mid-btn">
+        <button class="mid-btn" @click="$router.push({ path: '/api-register' })">
           <i><img src="@/assets/check_ico.svg" :alt="this.$t('api.register')" /></i>{{ this.$t('api.register') }}
         </button>
       </div>
