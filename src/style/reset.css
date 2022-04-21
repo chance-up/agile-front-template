@@ -188,9 +188,27 @@ input:disabled {
   border: 1px #e5e5e5 solid !important;
 }
 
+/**** select  ****/
+select {
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  appearance: none;
+  background-image: url('../assets/select_down.svg');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 24px 24px;
+}
+select::-ms-expand {
+  display: none;
+} /*  ie  */
+
 select:focus,
 select:active {
   outline: 1px #8041f7 solid;
+}
+select:disabled {
+  background: #e5e5e5 !important;
+  border: 1px #e5e5e5 solid !important;
 }
 
 textarea:focus,
