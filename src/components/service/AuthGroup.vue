@@ -17,30 +17,12 @@
   </li>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
-
-const AuthGroupProps = Vue.extend({
-  props: {
-    inputNm: {
-      type: String,
-      default: '',
-    },
-    AuthNm: {
-      type: String,
-      default: '',
-    },
-    AuthId: {
-      type: String,
-      default: '',
-    },
-    AuthPw: {
-      type: String,
-      default: '',
-    },
-  },
-});
-
+import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
-export default class AuthGroup extends AuthGroupProps {}
+export default class AuthReqGroup extends Vue {
+  @Prop({ default: '' }) inputNm!: string;
+  @Prop({ default: '' }) AuthNm!: string;
+  @Prop({ default: '' }) AuthId!: string;
+  @Prop({ default: '' }) AuthPw!: string;
+}
 </script>

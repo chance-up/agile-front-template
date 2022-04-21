@@ -34,25 +34,25 @@
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
               <td>{{ index + 1 }}</td>
-              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
                 <span class="bold">{{ list.serviceNm }}</span>
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
                 {{ list.serviceId }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
                 {{ list.authMethod[0] }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
                 {{ list.start_validity_date }} ~ {{ list.end_validity_date }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
                 {{ list.update_data }}
               </td>
               <td>
                 <button
                   class="mod-btn"
-                  @click="$router.push({ path: '/service-edit', params: { id: list.serviceId } })"
+                  @click="$router.push({ path: '/service-edit', params: { serviceId: list.serviceId } })"
                 >
                   <i>{{ $t('common.modify') }}</i>
                 </button>

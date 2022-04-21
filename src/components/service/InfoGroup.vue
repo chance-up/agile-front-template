@@ -7,19 +7,11 @@
   </li>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
-
-const InfoGroupProps = Vue.extend({
-  props: {
-    inputNm: {
-      type: String,
-      default: '',
-    },
-    value: [String, Number],
-  },
-});
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class InfoGroup extends InfoGroupProps {}
+export default class InfoGroup extends Vue {
+  @Prop() public inputNm!: string | null;
+  @Prop() public value!: string | number | null;
+}
 </script>
