@@ -17,13 +17,13 @@
           </colgroup>
           <thead>
             <tr>
-              <th>No.</th>
-              <th>서비스명</th>
-              <th>서비스ID</th>
-              <th>인증수단</th>
-              <th>유효기간</th>
-              <th>Update</th>
-              <th>Action</th>
+              <th>{{ $t('service.no') }}</th>
+              <th>{{ $t('service.name') }}</th>
+              <th>{{ $t('service.id') }}</th>
+              <th>{{ $t('service.authentication_method') }}</th>
+              <th>{{ $t('service.validity') }}</th>
+              <th>{{ $t('service.update') }}</th>
+              <th>{{ $t('service.action') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -45,8 +45,12 @@
                 {{ list.update }}
               </td>
               <td>
-                <button class="mod_btn"><i>수정</i></button>
-                <button class="del_btn"><i>삭제</i></button>
+                <button class="mod_btn">
+                  <i>{{ $t('common.modify') }}</i>
+                </button>
+                <button class="del_btn">
+                  <i>{{ $t('common.delete') }}</i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -72,7 +76,7 @@ import { DummyServiceResponse, dummyData } from '@/types/ServiceType';
   },
 })
 export default class ServiceManagementPage extends Vue {
-  title = '서비스 관리';
+  title = this.$t('service.title');
 
   get dumyData(): DummyServiceResponse {
     return dummyData;
