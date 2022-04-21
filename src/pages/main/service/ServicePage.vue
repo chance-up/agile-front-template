@@ -4,7 +4,7 @@
       <SearchForm :searchPanelOption="searchOption" />
     </template>
     <template slot="list-form">
-      <ListForm :title="listOption.listMainTitle">
+      <ListForm :title="listTitle">
         <template slot="list-table">
           <colgroup>
             <col width="7%" />
@@ -28,16 +28,16 @@
           </thead>
           <tbody>
             <tr
-              v-for="(list, index) in listOption.listArrays"
+              v-for="(list, index) in listOption"
               :key="index"
               @click="$router.push({ path: '/service_detail', Param: list.serviceId })"
             >
-              <td>{{ list.no }}</td>
+              <td>{{ index + 1 }}</td>
               <td>
                 <span class="bold">{{ list.serviceName }}</span>
               </td>
               <td>{{ list.serviceId }}</td>
-              <td>{{ list.authMethod }}</td>
+              <td>{{ list.authMethod[0] }}</td>
               <td>
                 {{ list.period }}
               </td>
@@ -55,12 +55,14 @@
     </template>
   </ListLayout>
 </template>
-<script>
+<script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import ListLayout from '@/components/layout/ListLayout.vue';
 import SearchForm from '@/components/commons/SearchForm.vue';
 import ListForm from '@/components/commons/ListForm.vue';
+
+import { DummyServiceResponse, dummyData } from '@/types/ServiceType';
 
 @Component({
   components: {
@@ -71,6 +73,10 @@ import ListForm from '@/components/commons/ListForm.vue';
 })
 export default class ServiceManagementPage extends Vue {
   title = '서비스 관리';
+
+  get dumyData(): DummyServiceResponse {
+    return dummyData;
+  }
 
   searchOption = [
     {
@@ -90,90 +96,14 @@ export default class ServiceManagementPage extends Vue {
     },
   ];
 
-  listOption = {
-    listMainTitle: '서비스 리스트',
-    listArrays: [
-      {
-        no: '1',
-        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
-        serviceId: '서비스ID_title',
-        authMethod: 'Basic Auth',
-        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
-        update: 'YYYY-MM-DD hh:mm:ss',
-      },
-      {
-        no: '2',
-        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
-        serviceId: '서비스ID_title',
-        authMethod: 'Basic Auth',
-        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
-        update: 'YYYY-MM-DD hh:mm:ss',
-      },
-      {
-        no: '3',
-        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
-        serviceId: '서비스ID_title',
-        authMethod: 'Basic Auth',
-        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
-        update: 'YYYY-MM-DD hh:mm:ss',
-      },
-      {
-        no: '4',
-        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
-        serviceId: '서비스ID_title',
-        authMethod: 'Basic Auth',
-        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
-        update: 'YYYY-MM-DD hh:mm:ss',
-      },
-      {
-        no: '5',
-        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
-        serviceId: '서비스ID_title',
-        authMethod: 'Basic Auth',
-        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
-        update: 'YYYY-MM-DD hh:mm:ss',
-      },
-      {
-        no: '6',
-        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
-        serviceId: '서비스ID_title',
-        authMethod: 'Basic Auth',
-        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
-        update: 'YYYY-MM-DD hh:mm:ss',
-      },
-      {
-        no: '7',
-        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
-        serviceId: '서비스ID_title',
-        authMethod: 'Basic Auth',
-        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
-        update: 'YYYY-MM-DD hh:mm:ss',
-      },
-      {
-        no: '8',
-        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
-        serviceId: '서비스ID_title',
-        authMethod: 'Basic Auth',
-        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
-        update: 'YYYY-MM-DD hh:mm:ss',
-      },
-      {
-        no: '9',
-        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
-        serviceId: '서비스ID_title',
-        authMethod: 'Basic Auth',
-        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
-        update: 'YYYY-MM-DD hh:mm:ss',
-      },
-      {
-        no: '10',
-        serviceName: '서비스명 텍스트 길이 얼마나 긴가요',
-        serviceId: '서비스ID_title',
-        authMethod: 'Basic Auth',
-        period: 'YYYY-MM-DD ~ YYYY-MM-DD',
-        update: 'YYYY-MM-DD hh:mm:ss',
-      },
-    ],
-  };
+  listTitle = '서비스 리스트';
+
+  listOption: DummyServiceResponse[] = [];
+
+  created() {
+    for (let i = 0; i < 10; i++) {
+      this.listOption.push(this.dumyData);
+    }
+  }
 }
 </script>

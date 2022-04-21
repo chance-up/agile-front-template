@@ -1,23 +1,27 @@
 export interface DummyServiceResponse {
-  svcNm: string;
-  svcId: string;
-  MngNm: string;
-  depart: string;
+  no: string;
+  serviceName: string;
+  serviceId: string;
+  ManagerName: string;
+  department: string;
   email: string;
   period: string;
-  authMtd: string[];
-  slaPlc: string[];
-  scvEx: string;
+  update: string;
+  authMethod: string[];
+  slaPolicy: string[];
+  serviceEx: string;
 }
 
 export const dummyData: DummyServiceResponse = {
-  svcNm: '서비스A',
-  svcId: 'SERVICE ID_NUMBER',
-  MngNm: '홍길동',
-  depart: 'Agile Core Team',
+  no: '1',
+  serviceName: '서비스A',
+  serviceId: 'SERVICE ID_NUMBER',
+  ManagerName: '홍길동',
+  department: 'Agile Core Team',
   email: 'abcabc@kt.com',
   period: '2202-04-01 ~ 2022-04-01',
-  authMtd: ['Basic Auth', 'passp2p_WOOOO', 'passp2p_WOOOO'],
-  slaPlc: ['분', '30'],
-  scvEx: '서비스 설명',
+  update: 'YYYY-MM-DD hh:mm:ss',
+  authMethod: ['Basic Auth', 'passp2p_WOOOO', 'passp2p_WOOOO'],
+  slaPolicy: ['분', '30'],
+  serviceEx: '서비스 설명',
 };
