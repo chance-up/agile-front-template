@@ -3,6 +3,7 @@ import { ApiResponse } from '@/api/ApiResponse';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import { ServiceResponse, DummyServiceResponse } from '@/types/ServiceType';
 import { addMock } from '@/api/AxiosClient';
+import { ParameterError } from '@/error/Errors';
 @Module({ name: 'ServiceModule' })
 export default class ServiceModule extends VuexModule {
   public services: ServiceResponse[] = [];
@@ -56,5 +57,66 @@ export default class ServiceModule extends VuexModule {
     console.log('detail' + response);
 
     this.context.commit('setService', response);
+  }
+
+  @Mutation
+  public editServiceMutation(data: DummyServiceResponse): void {
+    this.service = data;
+    this.services = this.services.map((item: ServiceResponse) => {
+      if (item.serviceId == data.serviceId) {
+        item.serviceNm = data.serviceNm;
+        item.serviceId = data.serviceId;
+        item.authMethod = data.authMethod;
+        item.start_validity_date = data.start_validity_date;
+        item.end_validity_date = data.end_validity_date;
+        item.update_date = data.update_date;
+        console.log(item);
+      }
+      return item;
+    });
+  }
+
+  @Action
+  async editServiceAction(data: DummyServiceResponse) {
+    try {
+      const response = await ApiResponse.getInstance().put<GateWayResponse<DummyServiceResponse>>(
+        '/service/' + data.serviceId,
+        {
+          data,
+        }
+      );
+      this.context.commit('editServiceMutation', response.data);
+    } catch (error) {
+      if (error as ParameterError) {
+        this.context.commit('showAlert');
+        console.log('ParameterError');
+      } else {
+        console.log('ParameterError');
+      }
+    }
+  }
+
+  @Mutation
+  public deleteServiceMutation(id: string): void {
+    this.services = this.services.filter((item) => {
+      return item.serviceId !== id;
+    });
+    console.log(this.services);
+  }
+
+  @Action
+  async deleteServiceAction(id: string) {
+    try {
+      await ApiResponse.getInstance().delete<GateWayResponse<DummyServiceResponse>>('/service/delete', id);
+
+      this.context.commit('deleteServiceMutation', id);
+    } catch (error) {
+      if (error as ParameterError) {
+        this.context.commit('showAlert');
+        console.log('ParameterError');
+      } else {
+        console.log('ParameterError');
+      }
+    }
   }
 }

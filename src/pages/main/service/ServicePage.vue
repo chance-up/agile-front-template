@@ -47,7 +47,7 @@
                 {{ list.start_validity_date }} ~ {{ list.end_validity_date }}
               </td>
               <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
-                {{ list.update_data }}
+                {{ list.update_date }}
               </td>
               <td>
                 <button
@@ -56,7 +56,7 @@
                 >
                   <i>{{ $t('common.modify') }}</i>
                 </button>
-                <button class="del-btn">
+                <button class="del-btn" @click="deleteService(list.serviceId)">
                   <i>{{ $t('common.delete') }}</i>
                 </button>
               </td>
@@ -108,6 +108,14 @@ export default class ServiceManagementPage extends Vue {
 
   get listOption(): ServiceResponse[] {
     return this.serviceModule.services;
+  }
+
+  deleteService(ServiceId: string) {
+    if (confirm('정말 삭제하시겠습니까??') == true) {
+      this.serviceModule.deleteServiceAction(ServiceId);
+    } else {
+      return;
+    }
   }
 
   created() {

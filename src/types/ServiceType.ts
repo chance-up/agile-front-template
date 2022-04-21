@@ -4,7 +4,7 @@ export interface ServiceResponse {
   authMethod: string[];
   start_validity_date: string;
   end_validity_date: string;
-  update_data: string;
+  update_date: string;
 }
 
 export interface DummyServiceResponse {
