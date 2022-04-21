@@ -60,6 +60,11 @@ const routes: Array<RouteConfig> = [
         component: () => import('@/pages/main/service/ServicePage.vue'),
       },
       {
+        path: '/service_detail',
+        name: 'service_detail',
+        component: () => import('@/pages/main/service/detail/ServiceDetailPage.vue'),
+      },
+      {
         path: '/monitoring',
         name: 'monitoring',
         component: () => import('@/pages/main/monitoring/Monitoring.vue'),
