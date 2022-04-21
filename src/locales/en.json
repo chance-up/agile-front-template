@@ -2,5 +2,33 @@
   "message": {
     "example": "example",
     "hello": "example { name }"
+  },
+  "api" : {
+    "name": "명",
+    "id": "ID",
+    "basic": "기본",
+    "management": "관리",
+    "information": "정보",
+    "confirm": "확인",
+    "system": "시스템",
+    "interface": "인터페이스",
+    "number": "번호",
+    "flatform": "플랫폼",
+    "register": "등록",
+    "search": "검색",
+    "group": "그룹",
+    "request": "요청",
+    "response": "응답",
+    "description": "설명",
+    "api": "API",
+    "method": "Method",
+    "uri": "URI",
+    "timeOut": "Time out",
+    "timeOutMS": "타임아웃(ms)",
+    "update": "Update",
+    "action": "Action",
+    "edit": "수정",
+    "delete": "삭제",
+    "list": "목록"
   }
 }
