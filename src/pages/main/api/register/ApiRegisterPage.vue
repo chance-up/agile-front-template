@@ -4,25 +4,10 @@
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
         <SelectForm groupNm="시스템명" :optionList="dummySystemList" />
-        <li>
-          <label for="" class="label point">API ID</label>
-          <div class="form-cont">
-            <input type="text" id="" class="input-box lg check-ok" placeholder="placeholder" />
-          </div>
-        </li>
-        <li>
-          <label for="" class="label point">API 명</label>
-          <div class="form-cont">
-            <input type="text" id="" class="input-box lg check-false" placeholder="placeholder" />
-            <p class="red-txt noti">중복된 API ID 입니다.</p>
-          </div>
-        </li>
-        <li>
-          <label for="" class="label point">인터페이스 번호</label>
-          <div class="form-cont">
-            <input type="text" id="" class="input-box lg" placeholder="시스템명_버전_API ID" disabled />
-          </div>
-        </li>
+        <TextForm groupNm="API ID" :check="true" type="text" :required="true" />
+        <TextForm groupNm="API 명" type="text" :required="true" />
+        <TextForm groupNm="인터페이스 번호" type="text" :required="true" />
+
         <li>
           <label for="" class="label point">Method</label>
           <div class="form-cont">
@@ -65,22 +50,13 @@
             </div>
           </div>
         </li>
+
         <SelectForm groupNm="시스템 연동 정보" :optionList="dummySystemInfList" />
 
         <HandlerGroupForm groupNm="요청 handler 그룹" />
         <HandlerGroupForm groupNm="응답 handler 그룹" />
-        <li>
-          <label class="label point">타임아웃(ms)</label>
-          <div class="form-cont">
-            <input type="text" id="" class="input-box lg" placeholder="number" />
-          </div>
-        </li>
-        <li>
-          <label for="" class="label">시스템 설명</label>
-          <div class="form-cont">
-            <textarea class="textarea"></textarea>
-          </div>
-        </li>
+        <TextForm groupNm="타임아웃(ms)" type="text" :required="true" />
+        <TextForm groupNm="시스템 설명" type="textarea" />
       </ul>
     </template>
 
@@ -100,11 +76,13 @@ import { Component, Vue } from 'vue-property-decorator';
 import { dummySystemList, dummySystemInfList } from '@/types/ApiType';
 import HandlerGroupForm from '@/components/api/register/HandlerGroup.vue';
 import SelectForm from '@/components/api/register/SelectForm.vue';
+import TextForm from '@/components/api/register/TextForm.vue';
 @Component({
   components: {
     ContentLayout,
     HandlerGroupForm,
     SelectForm,
+    TextForm,
   },
 })
 export default class ApiRegisterPage extends Vue {

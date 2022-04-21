@@ -42,3 +42,29 @@ export const dummyList: DummyApiResponse[] = [
   dummyData,
   dummyData,
 ];
+
+export const dummySystemList: string[] = [
+  '시스템1',
+  '시스템2',
+  '시스템3',
+  '시스템4',
+  '시스템5',
+  '시스템6',
+  '시스템7',
+  '시스템8',
+  '시스템9',
+  '시스템10',
+];
+
+export const dummySystemInfList: string[] = [
+  'test1.com',
+  'test2.com',
+  'test3.com',
+  'test4.com',
+  'test5.com',
+  'test6.com',
+  'test7.com',
+  'test8.com',
+  'test9.com',
+  'test10.com',
+];
