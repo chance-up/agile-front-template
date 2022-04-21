@@ -4,7 +4,7 @@
       <h2 class="h2-tit">{{ title }}</h2>
       <div class="btn-wrap">
         <button class="mid-btn">
-          <i><img src="@/assets/check_ico.svg" alt="등록" /></i>등록
+          <i><img src="@/assets/check_ico.svg" :alt="this.$t('api.register')" /></i>{{ this.$t('api.register') }}
         </button>
       </div>
     </div>

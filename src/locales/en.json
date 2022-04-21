@@ -1,4 +1,17 @@
 {
+  "common": {
+    "ok": "확인",
+    "cancel": "취소",
+    "yes": "예",
+    "no": "아니오",
+    "close": "닫기",
+    "finish": "완료",
+    "modify": "수정",
+    "delete": "삭제",
+    "save": "저장",
+    "register":"등록",
+    "search":"검색"
+  },
   "message": {
     "example": "example",
     "hello": "example { name }"
