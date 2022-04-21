@@ -65,10 +65,10 @@
                   ><span>{{ new Date(apiData.updateTime).toISOString().slice(11, 19) }}</span>
                 </td>
                 <td>
-                  <button class="mod_btn">
+                  <button class="mod-btn">
                     <i>{{ $t('api.edit') }}</i>
                   </button>
-                  <button class="del_btn">
+                  <button class="del-btn">
                     <i>{{ $t('api.delete') }}</i>
                   </button>
                 </td>
