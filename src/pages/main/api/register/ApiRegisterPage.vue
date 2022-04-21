@@ -3,14 +3,7 @@
     <template v-slot:contents>
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
-        <li>
-          <label for="" class="label point">시스템명</label>
-          <div class="form-cont">
-            <select class="select-box">
-              <option>선택해주세요</option>
-            </select>
-          </div>
-        </li>
+        <SelectForm groupNm="시스템명" :optionList="dummySystemList" />
         <li>
           <label for="" class="label point">API ID</label>
           <div class="form-cont">
@@ -72,78 +65,10 @@
             </div>
           </div>
         </li>
-        <li>
-          <label class="label point">시스템 연동 정보</label>
-          <div class="form-cont">
-            <select class="select-box">
-              <option>시스템 등록에서 설정한 값</option>
-            </select>
-          </div>
-        </li>
-        <li>
-          <label class="label point">요청 handler 그룹</label>
-          <div class="form-cont">
-            <!--  multi select -->
-            <div class="multi-wrap">
-              <div class="select-row">handler 그룹을 선택해주세요</div>
-              <!--  dropdown시 active class 추가-->
-              <div class="select-form none">
-                <!--  dropdown시 block class 추가-->
-                <ul>
-                  <li>
-                    <span>API & Login Authentication Group</span>
-                    <a href="" class="multi-btn"></a>
-                  </li>
-                  <li>
-                    <span>API & Login Authentication 2</span>
-                    <a href="" class="multi-btn"></a>
-                  </li>
-                  <li>
-                    <span>API & Login Authentication 3</span>
-                    <a href="" class="multi-btn"></a>
-                  </li>
-                  <li>
-                    <span>API & Login Authentication 4</span>
-                    <a href="" class="multi-btn"></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!--  // multi select -->
-          </div>
-        </li>
-        <li>
-          <label class="label point">응답 handler 그룹</label>
-          <div class="form-cont">
-            <!--  multi select -->
-            <div class="multi-wrap">
-              <div class="select-row">handler 그룹을 선택해주세요</div>
-              <!--  dropdown시 active class 추가-->
-              <div class="select-form none">
-                <!--  dropdown시 block class 추가-->
-                <ul>
-                  <li>
-                    <span>API & Login Authentication Group</span>
-                    <a href="" class="multi-btn"></a>
-                  </li>
-                  <li>
-                    <span>API & Login Authentication 2</span>
-                    <a href="" class="multi-btn"></a>
-                  </li>
-                  <li>
-                    <span>API & Login Authentication 3</span>
-                    <a href="" class="multi-btn"></a>
-                  </li>
-                  <li>
-                    <span>API & Login Authentication 4</span>
-                    <a href="" class="multi-btn"></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!--  // multi select -->
-          </div>
-        </li>
+        <SelectForm groupNm="시스템 연동 정보" :optionList="dummySystemInfList" />
+
+        <HandlerGroupForm groupNm="요청 handler 그룹" />
+        <HandlerGroupForm groupNm="응답 handler 그룹" />
         <li>
           <label class="label point">타임아웃(ms)</label>
           <div class="form-cont">
@@ -170,21 +95,24 @@
 </template>
 
 <script lang="ts">
-import InfoGroup from '@/components/api/detail/InfoGroup.vue';
-import MethodGroup from '@/components/api/detail/MethodGroup.vue';
-import URIGroup from '@/components/api/detail/URIGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-import Vue from 'vue';
-import Component from 'vue-class-component';
-import { DummyApiResponse, dummyData } from '@/types/ApiType';
-
+import { Component, Vue } from 'vue-property-decorator';
+import { dummySystemList, dummySystemInfList } from '@/types/ApiType';
+import HandlerGroupForm from '@/components/api/register/HandlerGroup.vue';
+import SelectForm from '@/components/api/register/SelectForm.vue';
 @Component({
   components: {
-    InfoGroup,
-    MethodGroup,
-    URIGroup,
     ContentLayout,
+    HandlerGroupForm,
+    SelectForm,
   },
 })
-export default class ApiRegisterPage extends Vue {}
+export default class ApiRegisterPage extends Vue {
+  get dummySystemList(): string[] {
+    return dummySystemList;
+  }
+  get dummySystemInfList(): string[] {
+    return dummySystemInfList;
+  }
+}
 </script>

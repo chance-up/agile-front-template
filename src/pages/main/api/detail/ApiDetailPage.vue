@@ -46,8 +46,7 @@ import InfoGroup from '@/components/api/detail/InfoGroup.vue';
 import MethodGroup from '@/components/api/detail/MethodGroup.vue';
 import URIGroup from '@/components/api/detail/URIGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component, Vue } from 'vue-property-decorator';
 import { DummyApiResponse, dummyData } from '@/types/ApiType';
 
 @Component({
