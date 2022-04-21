@@ -198,7 +198,7 @@ export default class TestModule extends VuexModule {
   @Action
   async deleteUserAction(id: number) {
     try {
-      const response = await ApiResponse.getInstance().delete<GateWayResponse<Data>>('/users/', id);
+      await ApiResponse.getInstance().delete<GateWayResponse<Data>>('/users/', id);
 
       this.context.commit('deleteUserMutation', id);
     } catch (error) {

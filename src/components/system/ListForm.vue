@@ -3,7 +3,7 @@
     <div class="tb-tit">
       <h2 class="h2-tit">{{ title }}</h2>
       <div class="btn-wrap">
-        <button class="mid-btn">
+        <button class="mid-btn" @click="clickEvent">
           <i><img src="@/assets/check_ico.svg" alt="등록" /></i>등록
         </button>
       </div>
@@ -25,6 +25,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class ListForm extends Vue {
   @Prop() title!: string;
+  @Prop() clickEvent!: () => void;
 
   getDetailInfo() {
     console.log('getDetailInfo');

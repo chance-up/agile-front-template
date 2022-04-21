@@ -4,7 +4,7 @@
       <SearchForm :searchPanelOption="searchOption" />
     </template>
     <template slot="list-form">
-      <ListForm :title="listOption.listMainTitle">
+      <ListForm :title="listOption.listMainTitle" :clickEvent="goToRegisterPage">
         <template slot="list-table">
           <colgroup>
             <col width="10%" />
@@ -38,8 +38,8 @@
                 </p>
               </td>
               <td>
-                <button class="mod_btn"><i>수정</i></button>
-                <button class="del_btn"><i>삭제</i></button>
+                <button class="mod_btn" @click="goToEditPage(list)"><i>수정</i></button>
+                <button class="del_btn" @click="deleteSystem()"><i>삭제</i></button>
               </td>
             </tr>
           </tbody>
@@ -64,6 +64,16 @@ import ListForm from '@/components/system/ListForm.vue';
   },
 })
 export default class SystemManagement extends Vue {
+  goToRegisterPage() {
+    this.$router.push('/system_register');
+  }
+  goToEditPage(list: any) {
+    console.log(list);
+    this.$router.push('/system_edit');
+  }
+  deleteSystem() {
+    console.log('Not yet implemented');
+  }
   title = '시스템 관리';
   searchOption = [
     {

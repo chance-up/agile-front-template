@@ -2,11 +2,11 @@
   <ContentLayout title="시스템 정보 수정" subTitle="기본정보 수정" depth="시스템 관리">
     <template v-slot:contents>
       <ul>
-        <InputGroup inputNm="시스템명" :place="dumyData.sysNm" inputClass="input-box lg disable" />
-        <InputGroup inputNm="시스템 ID" :place="dumyData.sysId" inputClass="input-box lg disable" />
+        <InputGroup inputNm="시스템명" :place="dumyData.sysNm" inputClass="input-box lg" :disabled="true" />
+        <InputGroup inputNm="시스템 ID" :place="dumyData.sysId" inputClass="input-box lg" :disabled="true" />
         <InputGroup
           inputNm="담당자 이름"
-          :place="dumyData.sysId"
+          :place="dumyData.mgrNm"
           inputClass="input-box lg check-false"
           validCheck="중복된 API ID 입니다."
         />

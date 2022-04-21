@@ -54,7 +54,6 @@
 <script>
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import ServiceDetailPage from './detail/ServiceDetailPage.vue';
 import ListLayout from '@/components/layout/ListLayout.vue';
 import SearchForm from '@/components/system/SearchForm.vue';
 import ListForm from '@/components/system/ListForm.vue';
