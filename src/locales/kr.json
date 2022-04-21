@@ -44,7 +44,16 @@
     "delete": "삭제",
     "list": "목록",
     "placeholder": "입력해주세요.",
-    "interlock": "연동",
-    "handler": "handler"
+    "interlock": "연동"
+  },
+  "service" : {
+    "title": "서비스 리스트",
+    "no": "No.",
+    "name": "서비스명",
+    "id": "서비스ID",
+    "authentication_method": "인증수단",
+    "validity": "유효기간",
+    "update": "Update",
+    "action": "Action"
   }
 }

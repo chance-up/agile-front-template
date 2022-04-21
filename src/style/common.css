@@ -75,6 +75,9 @@
 .mr10 {
   margin-right: 10px;
 }
+.mr15 {
+  margin-right: 15px !important;
+}
 .mr20 {
   margin-right: 20px;
 }
@@ -139,15 +142,6 @@
   text-decoration: underline;
 }
 
-.del-btn {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.del-btn:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-
 .mid-btn {
   background: #ece1fe !important;
   border-radius: 8px;
@@ -169,6 +163,13 @@
 }
 .mid-btn > i {
   margin-right: 10px;
+}
+
+.sm-btn {
+  margin-left: 15px;
+  padding: 13px;
+  background-color: #333;
+  border-radius: 8px;
 }
 
 .lg-btn {
@@ -235,45 +236,50 @@
   box-shadow: 1px 1px 5px #ccc;
 }
 
-.mod_btn {
+.mod-btn {
   display: inline-block;
   width: 24px;
   height: 24px;
   background: url('../assets/mod_ico.svg') no-repeat center center;
   margin-right: 5px;
 }
-.mod_btn:hover {
+.mod-btn:hover {
   background: url('../assets/mod_ico_over.svg') no-repeat center center;
 }
-.mod_btn:focus {
+.mod-btn:focus {
   background: url('../assets/mod_ico_over.svg') no-repeat center center;
 }
-.mod_btn:active {
+.mod-btn:active {
   background: url('../assets/mod_ico_active.svg') no-repeat center center;
 }
 
-.mod_btn > i {
+.mod-btn > i {
   display: none;
 }
 
-.del_btn {
+.del-btn {
   display: inline-block;
   width: 24px;
   height: 24px;
   background: url('../assets/del_ico.svg') no-repeat center center;
 }
-.del_btn:hover {
+.del-btn:hover {
   background: url('../assets/del_ico_over.svg') no-repeat center center;
 }
-.del_btn:focus {
+.del-btn:focus {
   background: url('../assets/del_ico_over.svg') no-repeat center center;
 }
-.del_btn:active {
+.del-btn:active {
   background: url('../assets/del_ico_active.svg') no-repeat center center;
 }
 
-.del_btn > i {
+.del-btn > i {
   display: none;
+}
+
+.tip-btn {
+  width: 24px;
+  height: 24px;
 }
 
 .badge {
@@ -305,12 +311,11 @@
 }
 
 /*  check box    */
-.checkbox {
+.check {
   display: inline-block;
   width: 22px;
   height: 22px;
   position: relative;
-  margin-top: 7px;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
@@ -318,7 +323,7 @@
   -ms-user-select: none;
 }
 
-.checkbox input {
+.check input {
   position: absolute;
   top: 0;
   left: 0;
@@ -339,11 +344,11 @@
   background: url('../assets/check_off.svg') no-repeat center center;
 }
 
-.checkbox:hover input ~ .checkmark {
+.check:hover input ~ .checkmark {
   background: url('../assets/check_over.svg') no-repeat center center;
 }
 
-.checkbox input:checked ~ .checkmark {
+.check input:checked ~ .checkmark {
   background: url('../assets/check_on.svg') no-repeat center center;
 }
 
@@ -352,11 +357,11 @@
   position: absolute;
 }
 
-.checkbox input:checked ~ .checkmark:after {
+.check input:checked ~ .checkmark:after {
   display: block;
 }
 
-.checkbox .checkmark:after {
+.check .checkmark:after {
   top: 2px;
   left: 7px;
   width: 5px;
@@ -367,20 +372,6 @@
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
 }
-
-/**** select  ****/
-select {
-  -moz-appearance: none; /* Firefox */
-  -webkit-appearance: none; /* Safari and Chrome */
-  appearance: none;
-  background-image: url('../assets/select_down.svg');
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: 24px 24px;
-}
-select::-ms-expand {
-  display: none;
-} /*  ie  */
 
 .discription {
   font-weight: 300;
@@ -398,13 +389,14 @@ select::-ms-expand {
 }
 
 .text {
-  display: block !important;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 24px;
+  text-align: left;
+  color: #777;
+  font-size: 14px;
+  font-weight: 400;
 }
 
-/*  radio    
+/*  radio
 
 .radio-check{display: inline-block; position: relative; width: auto; height: 30px; line-height: 30px; margin-right: 15px; font-weight: 400; padding-left:25px; font-size: 16px; cursor: pointer; text-align: left; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;}
 
@@ -448,7 +440,7 @@ select::-ms-expand {
   outline: 1px #e5e5e5 solid;
 }
 
-/* paging   
+/* paging
 
 .page-wrap{width: 100%; height: auto; position: relative; padding: 20px 0px; background: #f1f1f1; margin: 20px 0px;}
 .page-wrap ul{text-align: center; width: auto; height: auto; position: relative; margin: 0 auto;}
@@ -489,9 +481,16 @@ select::-ms-expand {
 }
 
 .noti {
-  font-size: 13px;
+  font-size: 13px !important;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 24px !important;
   color: #f82929 !important;
   text-align: left;
+}
+
+.block {
+  display: block !important;
+}
+.none {
+  display: none !important;
 }
