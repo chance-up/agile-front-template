@@ -1,6 +1,6 @@
 <template>
   <li>
-    <label for="" class="point">{{ inputNm }}</label>
+    <label for="" class="label point">{{ inputNm }}</label>
     <div class="form-cont">
       <input type="text" id="" :class="inputClass" :placeholder="place" :disabled="disabled" />
       <p v-if="validCheck !== ''" class="red-txt noti">{{ validCheck }}</p>

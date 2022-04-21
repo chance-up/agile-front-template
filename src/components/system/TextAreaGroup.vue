@@ -1,6 +1,6 @@
 <template>
   <li>
-    <label for="" class="point">{{ inputNm }}</label>
+    <label for="" class="label point">{{ inputNm }}</label>
     <div class="form-cont">
       <textarea class="textarea"></textarea>
     </div>
