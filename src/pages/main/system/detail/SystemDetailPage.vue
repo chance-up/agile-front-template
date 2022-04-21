@@ -54,7 +54,7 @@ export default class SystemDetailPage extends Vue {
 
   onClickEvent(event: string) {
     if (event === 'previous') {
-      this.$router.push({ name: 'system_list' });
+      this.$router.go(-1);
     } else {
       console.log(event, ' 로직');
     }
