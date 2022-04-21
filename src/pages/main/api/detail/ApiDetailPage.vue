@@ -1,28 +1,41 @@
 <template lang="html">
-  <ContentLayout title="API 정보 확인" subTitle="기본정보 확인" depth="API 관리">
+  <ContentLayout
+    :title="`${$t('api.api')}` + ' ' + `${$t('api.information')}` + ' ' + `${$t('api.confirm')}`"
+    :subTitle="`${$t('api.basic')}` + `${$t('api.information')}` + ' ' + `${$t('api.confirm')}`"
+    :depth="`${$t('api.api')}` + ' ' + `${$t('api.management')}`"
+  >
     <template v-slot:contents>
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
-        <InfoGroup inputNm="시스템명" :value="dumyData.sysNm" />
-        <InfoGroup inputNm="API ID" :value="dumyData.apiId" />
-        <InfoGroup inputNm="API 명" :value="dumyData.apiNm" />
-        <InfoGroup inputNm="인터페이스 번호" :value="dumyData.itfNum" />
-        <MethodGroup inputNm="Method" :methods="dumyData.methods" />
-        <URIGroup inputNm="URI" :uriSer="dumyData.uriSer" :uriSys="dumyData.uriSys" />
-        <InfoGroup inputNm="시스템 연동 정보" :value="dumyData.sysSync" />
-        <InfoGroup inputNm="요청 handler 그룹" :value="dumyData.reqHdlGrp" />
-        <InfoGroup inputNm="응답 handler 그룹" :value="dumyData.resHdlGrp" />
-        <InfoGroup inputNm="타임아웃(ms)" :value="dumyData.timeOut" />
-        <InfoGroup inputNm="API 설명" :value="dumyData.apiCmt" />
+        <InfoGroup :inputNm="`${$t('api.system')}` + `${$t('api.name')}`" :value="dumyData.sysNm" />
+        <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.id')}`" :value="dumyData.apiId" />
+        <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.name')}`" :value="dumyData.apiNm" />
+        <InfoGroup :inputNm="`${$t('api.interface')}` + ' ' + `${$t('api.number')}`" :value="dumyData.itfNum" />
+        <MethodGroup :inputNm="`${$t('api.method')}`" :methods="dumyData.methods" />
+        <URIGroup :inputNm="`${$t('api.uri')}`" :uriSer="dumyData.uriSer" :uriSys="dumyData.uriSys" />
+        <InfoGroup
+          :inputNm="`${$t('api.system')}` + ' ' + `${$t('api.interlock')}` + ' ' + `${$t('api.information')}`"
+          :value="dumyData.sysSync"
+        />
+        <InfoGroup
+          :inputNm="`${$t('api.request')}` + ' ' + `${$t('api.handler')}` + ' ' + `${$t('api.group')}`"
+          :value="dumyData.reqHdlGrp"
+        />
+        <InfoGroup
+          :inputNm="`${$t('api.response')}` + ' ' + `${$t('api.handler')}` + ' ' + `${$t('api.group')}`"
+          :value="dumyData.resHdlGrp"
+        />
+        <InfoGroup :inputNm="`${$t('api.timeOutMS')}`" :value="dumyData.timeOut" />
+        <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.description')}`" :value="dumyData.apiCmt" />
       </ul>
     </template>
 
     <template v-slot:buttons>
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn">수정</button>
-        <button class="lg-btn white-btn">삭제</button>
-        <button class="lg-btn gray-btn">목록</button>
+        <button class="lg-btn purple-btn">{{ $t('api.edit') }}</button>
+        <button class="lg-btn white-btn">{{ $t('api.delete') }}</button>
+        <button class="lg-btn gray-btn">{{ $t('api.list') }}</button>
       </div>
     </template>
   </ContentLayout>

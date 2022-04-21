@@ -43,7 +43,9 @@
     "edit": "수정",
     "delete": "삭제",
     "list": "목록",
-    "placeholder": "입력해주세요."
+    "placeholder": "입력해주세요.",
+    "interlock": "연동",
+    "handler": "handler"
   },
   "service" : {
     "title": "서비스 리스트",
