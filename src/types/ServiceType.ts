@@ -1,3 +1,12 @@
+export interface ServiceResponse {
+  serviceNm: string;
+  serviceId: string;
+  authMethod: string[];
+  start_validity_date: string;
+  end_validity_date: string;
+  update_data: string;
+}
+
 export interface DummyServiceResponse {
   no: string;
   serviceName: string;

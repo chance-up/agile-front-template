@@ -30,19 +30,17 @@
             <tr
               v-for="(list, index) in listOption"
               :key="index"
-              @click="$router.push({ path: '/service_detail', params: { id: list.serviceId } })"
+              @click="$router.push({ path: '/service_detail', Param: list.serviceId })"
             >
               <td>{{ index + 1 }}</td>
               <td>
-                <span class="bold">{{ list.serviceName }}</span>
+                <span class="bold">{{ list.serviceNm }}</span>
               </td>
               <td>{{ list.serviceId }}</td>
               <td>{{ list.authMethod[0] }}</td>
+              <td>{{ list.start_validity_date }} ~ {{ list.end_validity_date }}</td>
               <td>
-                {{ list.period }}
-              </td>
-              <td>
-                {{ list.update }}
+                {{ list.update_data }}
               </td>
               <td>
                 <button class="mod-btn">
@@ -60,13 +58,13 @@
   </ListLayout>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
 import ListLayout from '@/components/layout/ListLayout.vue';
 import SearchForm from '@/components/commons/SearchForm.vue';
 import ListForm from '@/components/commons/ListForm.vue';
-
-import { DummyServiceResponse, dummyData } from '@/types/ServiceType';
+import ServiceModule from '@/store/modules/ServiceModule';
+import { ServiceResponse } from '@/types/ServiceType';
 
 @Component({
   components: {
@@ -77,10 +75,8 @@ import { DummyServiceResponse, dummyData } from '@/types/ServiceType';
 })
 export default class ServiceManagementPage extends Vue {
   title = this.$t('service.title');
-
-  get dumyData(): DummyServiceResponse {
-    return dummyData;
-  }
+  listTitle = '서비스 리스트';
+  serviceModule = getModule(ServiceModule, this.$store);
 
   searchOption = [
     {
@@ -100,14 +96,12 @@ export default class ServiceManagementPage extends Vue {
     },
   ];
 
-  listTitle = '서비스 리스트';
-
-  listOption: DummyServiceResponse[] = [];
+  get listOption(): ServiceResponse[] {
+    return this.serviceModule.services;
+  }
 
   created() {
-    for (let i = 0; i < 10; i++) {
-      this.listOption.push(this.dumyData);
-    }
+    this.serviceModule.getServiceList();
   }
 }
 </script>
