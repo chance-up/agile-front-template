@@ -63,8 +63,8 @@
     <template v-slot:buttons>
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn">등록</button>
-        <button class="lg-btn white-btn">취소</button>
+        <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">등록</button>
+        <button class="lg-btn white-btn" @click="$router.go(-1)">취소</button>
       </div>
     </template>
   </ContentLayout>
