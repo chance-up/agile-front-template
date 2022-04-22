@@ -8,7 +8,7 @@
     <td @click="$router.push({ path: '/api-detail', Param: apiData.id })">{{ apiData.nm }}</td>
     <td>
       <span
-        v-for="(method, idx) in apiData.methods"
+        v-for="(method, idx) in apiData.meth"
         :key="idx"
         class="badge"
         :class="{
@@ -28,7 +28,7 @@
       ><span>{{ apiData.upd_dt.slice(11, 19) }}</span>
     </td>
     <td>
-      <button class="mod-btn" @click="$router.push({ path: '/api-edit', Param: apiData.id })">
+      <button class="mod-btn" @click="$router.push({ name: 'api-edit', params: { id: apiData.id } })">
         <i>{{ $t('api.edit') }}</i>
       </button>
       <button class="del-btn">

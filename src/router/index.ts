@@ -60,7 +60,7 @@ const routes: Array<RouteConfig> = [
         component: () => import('@/pages/main/api/detail/ApiDetailPage.vue'),
       },
       {
-        path: '/api-edit',
+        path: '/api-edit/:id',
         name: 'api-edit',
         component: () => import('@/pages/main/api/edit/ApiEditPage.vue'),
       },
