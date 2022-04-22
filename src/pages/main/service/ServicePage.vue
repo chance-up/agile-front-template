@@ -35,19 +35,19 @@
             <tr v-for="(list, index) in listOption" :key="index">
               <td>{{ index + 1 }}</td>
               <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
-                <span class="bold">{{ list.serviceNm }}</span>
+                <span class="bold">{{ list.nm }}</span>
               </td>
               <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
-                {{ list.serviceId }}
+                {{ list.id }}
               </td>
               <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
-                {{ list.authMethod[0] }}
+                {{ list.athn }}
               </td>
               <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
-                {{ list.start_validity_date }} ~ {{ list.end_validity_date }}
+                {{ list.svc_st_dt }} ~ {{ list.svc_end_dt }}
               </td>
               <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
-                {{ list.update_date }}
+                {{ list.upd_dt }}
               </td>
               <td>
                 <button

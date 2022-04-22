@@ -39,8 +39,8 @@ export default class SystemModule extends VuexModule {
     //   '/system/list/',
     //   '[{"id": 1,"nm": "systemName1", "tkcgrNm": "managerName1","tkcgrPos": "managerPosition1","tkcgrEml": "managerEmail1","ifGrp": "interfaceGroup1","desc": "systemDescription1","createdAt": "2020-01-01","createdBy": "systemUser1","updatedAt": null,"updatedBy": null},{"id": 1,"nm": "systemName1", "tkcgrNm": "managerName1","tkcgrPos": "managerPosition1","tkcgrEml": "managerEmail1","ifGrp": "interfaceGroup1","desc": "systemDescription1","createdAt": "2020-01-01","createdBy": "systemUser1","updatedAt": null,"updatedBy": null},{"id": 1,"nm": "systemName1", "tkcgrNm": "managerName1","tkcgrPos": "managerPosition1","tkcgrEml": "managerEmail1","ifGrp": "interfaceGroup1","desc": "systemDescription1","createdAt": "2020-01-01","createdBy": "systemUser1","updatedAt": null,"updatedBy": null},{"id": 1,"nm": "systemName1", "tkcgrNm": "managerName1","tkcgrPos": "managerPosition1","tkcgrEml": "managerEmail1","ifGrp": "interfaceGroup1","desc": "systemDescription1","createdAt": "2020-01-01","createdBy": "systemUser1","updatedAt": null,"updatedBy": null},{"id": 1,"nm": "systemName1", "tkcgrNm": "managerName1","tkcgrPos": "managerPosition1","tkcgrEml": "managerEmail1","ifGrp": "interfaceGroup1","desc": "systemDescription1","createdAt": "2020-01-01","createdBy": "systemUser1","updatedAt": null,"updatedBy": null},{"id": 1,"nm": "systemName1", "tkcgrNm": "managerName1","tkcgrPos": "managerPosition1","tkcgrEml": "managerEmail1","ifGrp": "interfaceGroup1","desc": "systemDescription1","createdAt": "2020-01-01","createdBy": "systemUser1","updatedAt": null,"updatedBy": null}]'
     // );
-    const response = await ApiResponse.getInstance().get<GateWayResponse<SystemRes>>('/system/list');
-    console.log('listOption', response.data.value);
+    const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse[]>>('/system/list');
+    console.log('listOption', typeof response);
     this.context.commit('setSystemList', response.data.value);
 
     // this.context.commit('setSystemList', response.data);

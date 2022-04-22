@@ -34,7 +34,6 @@ import DateGroup from '@/components/service/DateGroup.vue';
 import AuthReqGroup from '@/components/service/AuthReqGroup.vue';
 import SlaReqGroup from '@/components/service/SlqReqGroup.vue';
 import SysExGroup from '@/components/service/SysExGroup.vue';
-import { DummyServiceResponse, dummyData } from '@/types/ServiceType';
 
 @Component({
   components: {
@@ -46,9 +45,5 @@ import { DummyServiceResponse, dummyData } from '@/types/ServiceType';
     SysExGroup,
   },
 })
-export default class SystemRegisterPage extends Vue {
-  get dumyData(): DummyServiceResponse {
-    return dummyData;
-  }
-}
+export default class SystemRegisterPage extends Vue {}
 </script>

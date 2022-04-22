@@ -1,36 +1,130 @@
+import { Common, Data, GateWayResponse, Pagination } from './GateWayResponse';
+
 export interface ServiceResponse {
-  serviceNm: string;
-  serviceId: string;
-  authMethod: string[];
-  start_validity_date: string;
-  end_validity_date: string;
-  update_date: string;
+  id: string;
+  nm: string;
+  tkcgr_nm: string;
+  tkcgr_pos: string;
+  tkcgr_eml: string;
+  sla_type: string;
+  sla_cnt: number;
+  svc_st_dt: string;
+  svc_end_dt: string;
+  athn: string;
+  api_aut: string;
+  desc: string;
+  cret_dt: string;
+  upd_dt: string;
+  cret_id: string;
+  upd_id: string;
 }
 
-export interface DummyServiceResponse {
-  serviceNm: string;
-  serviceId: string;
-  ManagerNm: string;
-  department: string;
-  email: string;
-  start_validity_date: string;
-  end_validity_date: string;
-  update_date: string;
-  authMethod: string[];
-  slaPolicy: string[];
-  serviceEx: string;
+export interface ServiceRegisterRequest {
+  id: string;
+  nm: string;
+  tkcgr_nm: string;
+  tkcgr_pos: string;
+  tkcgr_eml: string;
+  sla_type: string;
+  sla_cnt: number;
+  svc_st_dt: string;
+  svc_end_dt: string;
+  athn: string;
+  api_aut: string;
+  desc: string;
 }
 
-export const dummyData: DummyServiceResponse = {
-  serviceNm: '서비스A',
-  serviceId: 'SERVICE ID_NUMBER',
-  ManagerNm: '홍길동',
-  department: 'Agile Core Team',
-  email: 'abcabc@kt.com',
-  start_validity_date: '2022-04-01',
-  end_validity_date: '2022-04-01',
-  update_date: 'YYYY-MM-DD hh:mm:ss',
-  authMethod: ['Basic Auth', 'passp2p_WOOOO', 'passp2p_WOOOO'],
-  slaPolicy: ['분', '30'],
-  serviceEx: '서비스 설명',
+export const pagination: Pagination = {
+  page: 1,
+  size: 1,
+  total_elements: 1,
+  total_pages: 1,
+  current_elements: 1,
+  current_page: 1,
+  order_by: '',
+  sort_by: '',
+  limit: 1,
+};
+
+export const common: Common = {
+  code: 200,
+  message: '',
+};
+
+export const serviceListResponse: ServiceResponse[] = [
+  {
+    id: 'KT_COM',
+    nm: 'KT닷컴',
+    tkcgr_nm: '이경민',
+    tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
+    tkcgr_eml: 'km0403.lee@kt.com',
+    sla_type: 'SECOND',
+    sla_cnt: 10,
+    svc_st_dt: '2022-04-13 00:00:00',
+    svc_end_dt: '9999-12-31 00:00:00',
+    athn: 'aasdasdasd',
+    api_aut: 'admin',
+    desc: 'test',
+    cret_dt: '2022-04-20 17:44:23',
+    upd_dt: '2022-04-20 17:44:23',
+    cret_id: 'AUTH_ADMIN',
+    upd_id: 'AUTH_ADMIN',
+  },
+  {
+    id: 'Safe2go',
+    nm: 'safe2gogogo',
+    tkcgr_nm: '박재원',
+    tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
+    tkcgr_eml: 'parkjaewon@kt.com',
+    sla_type: 'SECOND',
+    sla_cnt: 10,
+    svc_st_dt: '2022-04-13 00:00:00',
+    svc_end_dt: '9999-12-31 00:00:00',
+    athn: 'zxczxczxc',
+    api_aut: 'admin',
+    desc: 'test',
+    cret_dt: '2022-04-20 17:44:23',
+    upd_dt: '2022-04-20 17:44:23',
+    cret_id: 'AUTH_ADMIN',
+    upd_id: 'AUTH_ADMIN',
+  },
+];
+
+export const serviceResponse: ServiceResponse = {
+  id: 'KT_COM',
+  nm: 'KT닷컴',
+  tkcgr_nm: '이경민',
+  tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
+  tkcgr_eml: 'km0403.lee@kt.com',
+  sla_type: 'SECOND',
+  sla_cnt: 10,
+  svc_st_dt: '2022-04-13 00:00:00',
+  svc_end_dt: '9999-12-31 00:00:00',
+  athn: 'aasdasdasd',
+  api_aut: 'admin',
+  desc: 'test',
+  cret_dt: '2022-04-20 17:44:23',
+  upd_dt: '2022-04-20 17:44:23',
+  cret_id: 'AUTH_ADMIN',
+  upd_id: 'AUTH_ADMIN',
+};
+
+export const serviceListData: Data<ServiceResponse[]> = {
+  pagination: pagination,
+  value: serviceListResponse,
+};
+
+export const serviceData: Data<ServiceResponse> = {
+  pagination: pagination,
+  value: serviceResponse,
+};
+
+export const getServiceInfo: GateWayResponse<ServiceResponse[]> = {
+  common: common,
+  data: serviceListData,
+};
+
+export const getServiceId: GateWayResponse<ServiceResponse> = {
+  common: common,
+  data: serviceData,
 };
