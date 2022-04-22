@@ -43,11 +43,23 @@ import InfoGroup from '@/components/api/detail/InfoGroup.vue';
 })
 export default class SystemDetailPage extends Vue {
   systemModule = getModule(SystemModule, this.$store);
-  systemItem: SystemResponse = {} as SystemResponse;
+  systemItem: SystemResponse = {
+    id: '',
+    nm: '',
+    tkcgr_nm: '',
+    tkcgr_pos: '',
+    tkcgr_eml: '',
+    if_grp: '',
+    desc: '',
+    created_at: '',
+    created_by: '',
+    updated_at: '',
+    updated_by: '',
+  };
 
   created() {
     this.systemModule.getSystemDetail(this.$route.query.id as string).then((res) => {
-      this.systemItem = res;
+      this.systemItem = res.data.value;
     });
   }
 
@@ -56,8 +68,8 @@ export default class SystemDetailPage extends Vue {
   }
 
   onClickEdit() {
-    // this.$router.push({ name: 'system_edit', query: { id: this.$route.query.id } });
-    this.$router.push({ name: 'system_edit' });
+    this.$router.push({ name: 'system_edit', query: { id: this.$route.query.id } });
+    // this.$router.push({ name: 'system_edit' });
   }
 
   onClickDelete() {

@@ -7,7 +7,7 @@
     <template v-slot:contents>
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul v-if="mockData !== null">
-        <InfoGroup :inputNm="`${$t('api.system')}` + `${$t('api.name')}`" :value="mockData.sys_no" />
+        <InfoGroup :inputNm="`${$t('api.system')}` + `${$t('api.name')}`" :value="mockData.sys_id" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.id')}`" :value="mockData.id" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.name')}`" :value="mockData.nm" />
         <InfoGroup :inputNm="`${$t('api.interface')}` + ' ' + `${$t('api.number')}`" :value="mockData.if_no" />
@@ -33,7 +33,9 @@
     <template v-slot:buttons>
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="$router.push({ path: '/api-edit' })">{{ $t('api.edit') }}</button>
+        <button class="lg-btn purple-btn" @click="$router.push({ name: 'api-edit', params: { id: mockData.id } })">
+          {{ $t('api.edit') }}
+        </button>
         <button class="lg-btn white-btn" @click="$router.push({ path: '/api' })">{{ $t('api.delete') }}</button>
         <button class="lg-btn gray-btn" @click="$router.go(-1)">{{ $t('api.list') }}</button>
       </div>

@@ -2,25 +2,52 @@
   <ContentLayout title="서비스 등록" subTitle="기본정보 등록" depth="서비스 관리">
     <template v-slot:contents>
       <ul>
-        <InputGroup inputNm="서비스명" placeholder="placeholder" inputClass="input-box lg check-ok" />
-        <InputGroup inputNm="서비스 ID" placeholder="placeholder" inputClass="input-box lg check-ok" />
+        <InputGroup
+          inputNm="서비스명"
+          placeholder="placeholder"
+          inputClass="input-box lg check-ok"
+          :childValue.sync="formData.nm"
+        />
+        <InputGroup
+          inputNm="서비스 ID"
+          placeholder="placeholder"
+          inputClass="input-box lg check-ok"
+          :childValue.sync="formData.id"
+        />
         <InputGroup
           inputNm="담당자 이름"
           placeholder="placeholder"
           validCheck="중복된 API ID 입니다."
           inputClass="input-box lg check-false"
+          :childValue.sync="formData.tkcgr_nm"
         />
-        <InputGroup inputNm="소속" placeholder="placeholder" inputClass="input-box lg check-ok" />
-        <InputGroup inputNm="E-mail" placeholder="placeholder" inputClass="input-box lg check-ok" />
-        <DateGroup inputNm="서비스 기간" placeholderStart="YYYY-MM-DD" placeholderENd="YYYY-MM-DD" />
-        <AuthREqGroup imputNm="인증수단" />
-        <SlaReqGroup inputNm="SLA 정책관리" />
-        <SysExGroup inputNm="시스템 설명" />
+        <InputGroup
+          inputNm="소속"
+          placeholder="placeholder"
+          inputClass="input-box lg check-ok"
+          :childValue.sync="formData.tkcgr_pos"
+        />
+        <InputGroup
+          inputNm="E-mail"
+          placeholder="placeholder"
+          inputClass="input-box lg check-ok"
+          :childValue.sync="formData.tkcgr_eml"
+        />
+        <DateGroup
+          inputNm="서비스 기간"
+          placeholderStart="YYYY-MM-DD"
+          placeholderENd="YYYY-MM-DD"
+          :childValueStart="formData.svc_st_dt"
+          :childValueEnd="formData.svc_end_dt"
+        />
+        <AuthReqGroup imputNm="인증수단" :childValue="formData.athn" />
+        <SlaReqGroup inputNm="SLA 정책관리" :childTypeValue="formData.sla_type" :childCountValue="formData.sla_cnt" />
+        <SysExGroup inputNm="시스템 설명" :childValue="formData.desc" />
       </ul>
     </template>
     <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn">등록</button>
+        <button class="lg-btn purple-btn" @click="submitForm()">등록</button>
         <button class="lg-btn white-btn" @click="$router.go(-1)">취소</button>
       </div>
     </template>
@@ -34,6 +61,9 @@ import DateGroup from '@/components/service/DateGroup.vue';
 import AuthReqGroup from '@/components/service/AuthReqGroup.vue';
 import SlaReqGroup from '@/components/service/SlqReqGroup.vue';
 import SysExGroup from '@/components/service/SysExGroup.vue';
+import { getModule } from 'vuex-module-decorators';
+import ServiceModule from '@/store/modules/ServiceModule';
+import { ServiceRegisterRequest } from '@/types/ServiceType';
 
 @Component({
   components: {
@@ -45,5 +75,38 @@ import SysExGroup from '@/components/service/SysExGroup.vue';
     SysExGroup,
   },
 })
-export default class SystemRegisterPage extends Vue {}
+export default class SystemRegisterPage extends Vue {
+  serviceName = '';
+  serviceId = '';
+  position = '';
+  email = '';
+  startDateg = '';
+  endDate = '';
+
+  serviceModule = getModule(ServiceModule, this.$store);
+
+  formData: ServiceRegisterRequest = {
+    id: '',
+    nm: '',
+    tkcgr_nm: '',
+    tkcgr_pos: '',
+    tkcgr_eml: '',
+    sla_type: '',
+    sla_cnt: 0,
+    svc_st_dt: '',
+    svc_end_dt: '',
+    athn: '',
+    api_aut: '',
+    desc: '',
+  };
+
+  submitForm(): void {
+    if (confirm('서비스를 등록하시겠습니까?') == true) {
+      console.log(this.formData);
+      this.serviceModule.createserviceAction(this.formData);
+    } else {
+      return;
+    }
+  }
+}
 </script>
