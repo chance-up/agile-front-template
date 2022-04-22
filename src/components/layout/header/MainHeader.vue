@@ -47,11 +47,13 @@
         <p><a class="link" href="javascript:void(0)">로그아웃</a></p>
         <i><img src="@/assets/member_ico.svg" alt="멤버 아이콘" /></i>
       </div>
+      <h1>hahah{{ $router.fullPath }}</h1>
     </header>
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+
 interface NavState {
   [key: string]: boolean;
   homeState: boolean;
@@ -76,6 +78,12 @@ export default class MainHeader extends Vue {
       this.navState[key] = false;
     }
     this.navState[state] = true;
+  }
+
+  created() {
+    const path = this.$route.path;
+    const paths = path.split('/');
+    this.changeNavState(paths[1] + 'State');
   }
 }
 </script>
