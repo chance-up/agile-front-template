@@ -32,43 +32,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(apiData, index) in dummyList" :key="index">
-                <td>{{ index + 1 }}</td>
-                <td>
-                  <span class="bold">{{ apiData.sysNm }}</span>
-                </td>
-                <td>{{ apiData.apiId }}</td>
-                <td @click="$router.push({ path: '/api-detail', Param: apiData.apiId })">{{ apiData.apiNm }}</td>
-                <td>
-                  <span
-                    v-for="(method, idx) in apiData.methods"
-                    :key="idx"
-                    class="badge"
-                    :class="{
-                      syan: method == 'GET',
-                      red: method == 'DELETE',
-                      blue: method == 'POST',
-                      violet: method == 'PUT',
-                    }"
-                  >
-                    {{ method }}
-                  </span>
-                </td>
-                <td class="tl">{{ apiData.uriSer }}</td>
-                <td>{{ apiData.timeOut }}</td>
-                <td>
-                  <span>{{ new Date(apiData.updateTime).toISOString().slice(0, 10) }}</span
-                  ><span>{{ new Date(apiData.updateTime).toISOString().slice(11, 19) }}</span>
-                </td>
-                <td>
-                  <button class="mod-btn" @click="$router.push({ path: '/api-edit', Param: apiData.apiId })">
-                    <i>{{ $t('api.edit') }}</i>
-                  </button>
-                  <button class="del-btn">
-                    <i>{{ $t('api.delete') }}</i>
-                  </button>
-                </td>
-              </tr>
+              <ListRow v-for="(apiData, index) in dummyList" :key="index" :apiData="apiData" :index="index" />
             </tbody>
           </template>
         </ListForm>
@@ -80,8 +44,9 @@
 import { Component, Vue } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import ListLayout from '@/components/layout/ListLayout.vue';
-import SearchForm from '@/components/api/SearchForm.vue';
-import ListForm from '@/components/api/ListForm.vue';
+import SearchForm from '@/components/api/list/SearchForm.vue';
+import ListForm from '@/components/api/list/ListForm.vue';
+import ListRow from '@/components/api/list/ListRow.vue';
 import { DummyApiResponse, dummyList } from '@/types/ApiType';
 @Component({
   components: {
@@ -89,6 +54,7 @@ import { DummyApiResponse, dummyList } from '@/types/ApiType';
     ListLayout,
     SearchForm,
     ListForm,
+    ListRow,
   },
 })
 export default class ApiPage extends Vue {

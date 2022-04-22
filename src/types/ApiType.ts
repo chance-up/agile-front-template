@@ -14,7 +14,7 @@ export interface DummyApiResponse {
   updateTime: string;
 }
 
-export interface apiSearchQuery {
+export interface ApiSearchQuery {
   apiId?: string;
   apiName?: string;
   platformName?: string;

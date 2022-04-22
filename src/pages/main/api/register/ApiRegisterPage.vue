@@ -8,48 +8,8 @@
         <TextForm groupNm="API 명" type="text" :required="true" />
         <TextForm groupNm="인터페이스 번호" type="text" :required="true" />
 
-        <li>
-          <label for="" class="label point">Method</label>
-          <div class="form-cont">
-            <div class="check-group">
-              <div class="check-box">
-                <div class="check"><input type="checkbox" id="checkGet" /><span class="checkmark"></span></div>
-                <label for="checkGet">GET</label>
-              </div>
-
-              <div class="check-box">
-                <div class="check"><input type="checkbox" id="checkPost" /><span class="checkmark"></span></div>
-                <label for="checkPost">POST</label>
-              </div>
-
-              <div class="check-box">
-                <div class="check"><input type="checkbox" id="checkPut" /><span class="checkmark"></span></div>
-                <label for="checkPut">PUT</label>
-              </div>
-
-              <div class="check-box">
-                <div class="check"><input type="checkbox" id="checkDelete" /><span class="checkmark"></span></div>
-                <label for="checkDelete">DELETE</label>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <label class="label point">URI</label>
-          <div class="form-cont">
-            <div class="form-group">
-              <img class="img" src="@/assets/in.svg" alt="uri" />
-              <input type="text" id="" class="input-box uri-input" placeholder="자동생성/변경불가" disabled />
-            </div>
-            <div class="form-group">
-              <img class="img" src="@/assets/out.svg" alt="uri" />
-              <input type="text" id="" class="input-box uri-input" placeholder="자동생성/변경불가" disabled />
-              <button class="sm-btn">
-                <i><img src="@/assets/edit.svg" alt="수정" /></i>
-              </button>
-            </div>
-          </div>
-        </li>
+        <MethodForm groupNm="Method" />
+        <UriForm groupNm="URI" />
 
         <SelectForm groupNm="시스템 연동 정보" :optionList="dummySystemInfList" />
 
@@ -77,12 +37,16 @@ import { dummySystemList, dummySystemInfList } from '@/types/ApiType';
 import HandlerGroupForm from '@/components/api/register/HandlerGroup.vue';
 import SelectForm from '@/components/api/register/SelectForm.vue';
 import TextForm from '@/components/api/register/TextForm.vue';
+import MethodForm from '@/components/api/register/MethodForm.vue';
+import UriForm from '@/components/api/register/UriForm.vue';
 @Component({
   components: {
     ContentLayout,
     HandlerGroupForm,
     SelectForm,
     TextForm,
+    MethodForm,
+    UriForm,
   },
 })
 export default class ApiRegisterPage extends Vue {

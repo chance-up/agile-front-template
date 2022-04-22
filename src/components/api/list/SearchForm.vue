@@ -33,7 +33,7 @@ import SelectBox from '@/components/api/search-option/SelectBox.vue';
     SelectBox,
   },
 })
-export default class SystemManagement extends Vue {
+export default class SearchForm extends Vue {
   @Prop() public searchPanelOption!: object[] | null;
 }
 </script>

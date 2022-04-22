@@ -33,6 +33,7 @@
     <template v-slot:buttons>
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
+        <button @click="test">test</button>
         <button class="lg-btn purple-btn" @click="$router.push({ path: '/api-edit' })">{{ $t('api.edit') }}</button>
         <button class="lg-btn white-btn" @click="$router.push({ path: '/api' })">{{ $t('api.delete') }}</button>
         <button class="lg-btn gray-btn" @click="$router.go(-1)">{{ $t('api.list') }}</button>
@@ -48,7 +49,7 @@ import URIGroup from '@/components/api/detail/URIGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue } from 'vue-property-decorator';
 import { DummyApiResponse, dummyData } from '@/types/ApiType';
-
+import { getApiDetail } from '@/api/api';
 @Component({
   components: {
     InfoGroup,
@@ -60,6 +61,16 @@ import { DummyApiResponse, dummyData } from '@/types/ApiType';
 export default class ApiDetailPage extends Vue {
   get dumyData(): DummyApiResponse {
     return dummyData;
+  }
+  mockData: DummyApiResponse | undefined;
+  test() {
+    console.log(this.mockData);
+  }
+  created() {
+    getApiDetail(1).then((res) => {
+      console.log(res);
+      this.mockData = res.data;
+    });
   }
 }
 </script>
