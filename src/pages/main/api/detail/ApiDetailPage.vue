@@ -6,7 +6,7 @@
   >
     <template v-slot:contents>
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
-      <ul v-if="mockData !== undefined">
+      <ul v-if="mockData !== null">
         <InfoGroup :inputNm="`${$t('api.system')}` + `${$t('api.name')}`" :value="mockData.sys_no" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.id')}`" :value="mockData.id" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.name')}`" :value="mockData.nm" />
@@ -58,16 +58,31 @@ import { getApiDetail } from '@/api/api';
   },
 })
 export default class ApiDetailPage extends Vue {
-  mockData: ApiDetailResponse | undefined = undefined;
+  // mockData: ApiDetailResponse = {
+  //   sys_id: '',
+  //   id: '',
+  //   nm: '',
+  //   if_no: '',
+  //   meth: [],
+  //   uri_in: '',
+  //   uri_out: '',
+  //   if_grp: '',
+  //   req_handlr_grp_id: '',
+  //   res_handlr_grp_id: '',
+  //   time_out: 0,
+  //   desc: '',
+  //   cret_dt: '',
+  //   cret_id: '',
+  //   upd_dt: '',
+  //   upd_id: '',
+  // };
 
+  mockData: ApiDetailResponse | null = null;
   created() {
     getApiDetail(1).then((res) => {
       console.log(res);
       this.mockData = res;
     });
   }
-  // get mockData(): ApiDetailResponse {
-  //   return this.$store.state.apiDetail;
-  // }
 }
 </script>
