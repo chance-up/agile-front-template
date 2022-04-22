@@ -14,6 +14,55 @@ export interface DummyApiResponse {
   updateTime: string;
 }
 
+export interface ApiResponse {
+  id: string;
+  sys_id: string;
+  nm: string;
+  if_no: string;
+  meth: any;
+  uri_in: string;
+  uri_out: string;
+  if_grp: string;
+  req_handlr_grp_id: string;
+  res_handlr_grp_id: string;
+  time_out: number;
+  desc: string | null;
+  cret_dt: string | null;
+  cret_id: string | null;
+  upd_dt: string | null;
+  upd_id: string | null;
+}
+
+export interface ApiEditRequestBody {
+  id: string;
+  sys_id: string;
+  nm: string;
+  if_no: string;
+  meth: any;
+  uri_in: string;
+  uri_out: string;
+  if_grp: string;
+  req_handlr_grp_id: string;
+  res_handlr_grp_id: string;
+  time_out: number;
+  desc: string | null;
+}
+
+export interface ApiCreateRequestBody {
+  id: string;
+  sys_id: string;
+  nm: string;
+  if_no: string;
+  meth: any;
+  uri_in: string;
+  uri_out: string;
+  if_grp: string;
+  req_handlr_grp_id: string;
+  res_handlr_grp_id: string;
+  time_out: number;
+  desc: string | null;
+}
+
 export interface ApiSearchQuery {
   apiId?: string;
   apiName?: string;
