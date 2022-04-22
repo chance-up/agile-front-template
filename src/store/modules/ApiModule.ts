@@ -8,19 +8,19 @@ import { ApiResponse } from '@/api/ApiResponse';
 export default class ApiModule extends VuexModule {
   public apiList: ApiDetailResponse[] = [];
 
+  //api 리스트 요청
   @Mutation
-  setApiList(list: ApiDetailResponse[]) {
+  setApiList(list: ApiDetailResponse[]): void {
+    console.log('set API list', list);
     this.apiList = list;
   }
 
   @Action
   async getApiList(searchQuery?: ApiSearchQuery) {
     addMock('/api/list', JSON.stringify(apiMockList));
-    const response = await ApiResponse.getInstance().get<GateWayResponse<ApiDetailResponse[]>>(
-      '/api/list',
-      searchQuery
-    );
-    this.context.commit('setApiList', response.data.value);
+    const response = await ApiResponse.getInstance().get<ApiDetailResponse[]>('/api/list', searchQuery);
+    console.log(response);
+    this.context.commit('setApiList', response);
   }
 
   // @Action
