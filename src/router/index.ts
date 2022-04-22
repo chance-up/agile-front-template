@@ -55,7 +55,7 @@ const routes: Array<RouteConfig> = [
         component: () => import('@/pages/main/api/ApiPage.vue'),
       },
       {
-        path: '/api-detail',
+        path: '/api-detail/:id',
         name: 'api-detail',
         component: () => import('@/pages/main/api/detail/ApiDetailPage.vue'),
       },

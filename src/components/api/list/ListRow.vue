@@ -5,7 +5,7 @@
       <span class="bold">{{ apiData.sys_id }}</span>
     </td>
     <td>{{ apiData.id }}</td>
-    <td @click="$router.push({ path: '/api-detail', Param: apiData.id })">{{ apiData.nm }}</td>
+    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">{{ apiData.nm }}</td>
     <td>
       <span
         v-for="(method, idx) in apiData.meth"
