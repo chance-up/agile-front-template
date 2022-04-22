@@ -46,12 +46,12 @@ export default class SlaReqGroup extends Vue {
     this.syncedChildValue1 = val;
   }
 
-  @PropSync('childCountValue', { type: String })
-  syncedChildValue2!: string;
+  @PropSync('childCountValue', { type: Number })
+  syncedChildValue2!: number;
 
   count = null;
   @Watch('inputValue')
-  onChildChanged2(val: string) {
+  onChildChanged2(val: number) {
     this.syncedChildValue2 = val;
   }
 
