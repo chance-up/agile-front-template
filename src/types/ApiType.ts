@@ -165,3 +165,18 @@ export const dummySystemInfList: string[] = [
   'test9.com',
   'test10.com',
 ];
+
+export interface ApiInfoEdit {
+  id: 'getCustInfo';
+  sys_id: 'id2';
+  nm: '고객 정보 조회 UPDATE';
+  if_no: 'IF_CAPRI_0001';
+  meth: 'POST';
+  uri_in: '/CAPRI/v1/getCustInfo';
+  uri_out: '/CAPRI/v1/getCustInfo';
+  if_grp: 'authentication';
+  req_handlr_grp_id: 'REQ.DEFAULT';
+  res_handlr_grp_id: 'RES.DEFAULT';
+  time_out: 3000;
+  desc: 'kt 가입자 고객 정보 제공';
+}
