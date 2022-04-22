@@ -6,34 +6,33 @@
   >
     <template v-slot:contents>
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
-      <ul>
-        <InfoGroup :inputNm="`${$t('api.system')}` + `${$t('api.name')}`" :value="dumyData.sysNm" />
-        <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.id')}`" :value="dumyData.apiId" />
-        <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.name')}`" :value="dumyData.apiNm" />
-        <InfoGroup :inputNm="`${$t('api.interface')}` + ' ' + `${$t('api.number')}`" :value="dumyData.itfNum" />
-        <MethodGroup :inputNm="`${$t('api.method')}`" :methods="dumyData.methods" />
-        <URIGroup :inputNm="`${$t('api.uri')}`" :uriSer="dumyData.uriSer" :uriSys="dumyData.uriSys" />
+      <ul v-if="mockData !== undefined">
+        <InfoGroup :inputNm="`${$t('api.system')}` + `${$t('api.name')}`" :value="mockData.sys_no" />
+        <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.id')}`" :value="mockData.id" />
+        <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.name')}`" :value="mockData.nm" />
+        <InfoGroup :inputNm="`${$t('api.interface')}` + ' ' + `${$t('api.number')}`" :value="mockData.if_no" />
+        <MethodGroup :inputNm="`${$t('api.method')}`" :methods="mockData.meth" />
+        <URIGroup :inputNm="`${$t('api.uri')}`" :uriSer="mockData.uri_in" :uriSys="mockData.uri_out" />
         <InfoGroup
           :inputNm="`${$t('api.system')}` + ' ' + `${$t('api.interlock')}` + ' ' + `${$t('api.information')}`"
-          :value="dumyData.sysSync"
+          :value="mockData.if_grp"
         />
         <InfoGroup
           :inputNm="`${$t('api.request')}` + ' ' + `${$t('api.handler')}` + ' ' + `${$t('api.group')}`"
-          :value="dumyData.reqHdlGrp"
+          :value="mockData.req_handlr_grp_id"
         />
         <InfoGroup
           :inputNm="`${$t('api.response')}` + ' ' + `${$t('api.handler')}` + ' ' + `${$t('api.group')}`"
-          :value="dumyData.resHdlGrp"
+          :value="mockData.res_handlr_grp_id"
         />
-        <InfoGroup :inputNm="`${$t('api.timeOutMS')}`" :value="dumyData.timeOut" />
-        <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.description')}`" :value="dumyData.apiCmt" />
+        <InfoGroup :inputNm="`${$t('api.timeOutMS')}`" :value="mockData.time_out" />
+        <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.description')}`" :value="mockData.desc" />
       </ul>
     </template>
 
     <template v-slot:buttons>
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
-        <button @click="test">test</button>
         <button class="lg-btn purple-btn" @click="$router.push({ path: '/api-edit' })">{{ $t('api.edit') }}</button>
         <button class="lg-btn white-btn" @click="$router.push({ path: '/api' })">{{ $t('api.delete') }}</button>
         <button class="lg-btn gray-btn" @click="$router.go(-1)">{{ $t('api.list') }}</button>
@@ -48,7 +47,7 @@ import MethodGroup from '@/components/api/detail/MethodGroup.vue';
 import URIGroup from '@/components/api/detail/URIGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue } from 'vue-property-decorator';
-import { ApiDetailResponse, apiMockData } from '@/types/ApiType';
+import { ApiDetailResponse } from '@/types/ApiType';
 import { getApiDetail } from '@/api/api';
 @Component({
   components: {
@@ -59,18 +58,16 @@ import { getApiDetail } from '@/api/api';
   },
 })
 export default class ApiDetailPage extends Vue {
-  get dumyData(): ApiDetailResponse {
-    return apiMockData;
-  }
-  mockData: ApiDetailResponse | undefined;
-  test() {
-    console.log(this.mockData);
-  }
+  mockData: ApiDetailResponse | undefined = undefined;
+
   created() {
     getApiDetail(1).then((res) => {
       console.log(res);
-      this.mockData = res.data.value;
+      this.mockData = res;
     });
   }
+  // get mockData(): ApiDetailResponse {
+  //   return this.$store.state.apiDetail;
+  // }
 }
 </script>
