@@ -48,7 +48,7 @@ import MethodGroup from '@/components/api/detail/MethodGroup.vue';
 import URIGroup from '@/components/api/detail/URIGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue } from 'vue-property-decorator';
-import { DummyApiResponse, dummyData } from '@/types/ApiType';
+import { ApiDetailResponse, apiMockData } from '@/types/ApiType';
 import { getApiDetail } from '@/api/api';
 @Component({
   components: {
@@ -59,10 +59,10 @@ import { getApiDetail } from '@/api/api';
   },
 })
 export default class ApiDetailPage extends Vue {
-  get dumyData(): DummyApiResponse {
-    return dummyData;
+  get dumyData(): ApiDetailResponse {
+    return apiMockData;
   }
-  mockData: DummyApiResponse | undefined;
+  mockData: ApiDetailResponse | undefined;
   test() {
     console.log(this.mockData);
   }
