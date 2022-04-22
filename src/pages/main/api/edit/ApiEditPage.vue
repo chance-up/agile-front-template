@@ -74,7 +74,7 @@ import ContentLayout from '@/components/layout/ContentLayout.vue';
 
 import EditInputSelectGroup from '@/components/api/edit/EditInputSelectGroup.vue';
 import InputGroup from '@/components/system/InputGroup.vue';
-import InterfaceGroup from '@/components/system/LinkGroup.vue';
+import InterfaceGroup from '@/components/system/InterfaceGroup.vue';
 import EditTextAreaGroup from '@/components/api/edit/EditTextAreaGroup.vue';
 // import { DummySystemResponse, dummyData } from '@/types/SystemType';
 import EditMethodGroup from '@/components/api/edit/EditMethodGroup.vue';
