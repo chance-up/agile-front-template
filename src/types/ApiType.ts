@@ -165,3 +165,18 @@ export const dummySystemInfList: string[] = [
   'test9.com',
   'test10.com',
 ];
+
+export interface ApiInfoEdit {
+  id: string;
+  sys_id: string;
+  nm: string;
+  if_no: string;
+  meth: string;
+  uri_in: string;
+  uri_out: string;
+  if_grp: string;
+  req_handlr_grp_id: string;
+  res_handlr_grp_id: string;
+  time_out: number;
+  desc: string;
+}
