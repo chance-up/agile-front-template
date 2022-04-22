@@ -19,3 +19,26 @@ export interface SystemResponse {
   updated_at: string;
   updated_by: string;
 }
+
+export const dummyData = {
+  common: {
+    code: '200',
+    message: '정상처리되었습니다.',
+  },
+  data: {
+    value: {
+      id: 'id3',
+      nm: 'nm3',
+      tkcgr_nm: 'tkcgrNm3',
+      tkcgr_pos: 'tkcgrPos3',
+      tkcgr_eml: 'tkcgrEml3',
+      if_grp: 'ifGrp3',
+      desc: 'desc3',
+      created_at: '2022-04-20 17:44:23',
+      created_by: 'createdByTest',
+      updated_at: '2022-04-20 17:44:23',
+      updated_by: 'updatedByTest',
+    },
+    pagination: null,
+  },
+};
