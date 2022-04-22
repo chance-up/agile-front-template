@@ -16,7 +16,7 @@
         />
         <InputGroup :inputNm="$t('system.tkcgrPos')" :place="dumyData.belong" inputClass="input-box lg check-ok" />
         <InputGroup :inputNm="$t('system.tkcgrEml')" :place="dumyData.eMail" inputClass="input-box lg check-ok" />
-        <LinkGroup :inputNm="$t('system.ifGrp')" :linkType="dumyData.linkType" />
+        <InterfaceGroup :inputNm="$t('system.ifGrp')" :linkType="dumyData.linkType" />
         <TextAreaGroup :inputNm="$t('system.desc')" />
       </ul>
     </template>
@@ -32,7 +32,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/system/InputGroup.vue';
-import LinkGroup from '@/components/system/LinkGroup.vue';
+import InterfaceGroup from '@/components/system/InterfaceGroup.vue';
 import TextAreaGroup from '@/components/system/TextAreaGroup.vue';
 import { SystemResponse } from '@/types/SystemType';
 
@@ -40,7 +40,7 @@ import { SystemResponse } from '@/types/SystemType';
   components: {
     ContentLayout,
     InputGroup,
-    LinkGroup,
+    InterfaceGroup,
     TextAreaGroup,
   },
 })

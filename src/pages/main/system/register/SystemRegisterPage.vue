@@ -6,13 +6,29 @@
   >
     <template v-slot:contents>
       <ul>
-        <InputGroup :inputNm="$t('system.name')" place="시스템명" inputClass="input-box lg check-ok" />
-        <InputGroup inputNm="$t('system.id')" place="시스템 ID" inputClass="input-box lg" />
-        <InputGroup inputNm="$t('system.tkcgrNm')" place="담당자 이름" inputClass="input-box lg check-false" />
-        <InputGroup inputNm="$t('system.tkcgrPos')" place="소속" inputClass="input-box lg check-ok" />
-        <InputGroup inputNm="$t('system.tkcgrEml')" place="E-Mail" inputClass="input-box lg check-ok" />
-        <LinkGroup inputNm="$t('system.ifGrp')" linkType="연동방식" />
-        <TextAreaGroup inputNm="$t('system.desc')" />
+        <InputGroup :inputNm="$t('system.name')" :place="$t('system.name')" inputClass="input-box lg check-ok" />
+        <InputGroup :inputNm="$t('system.id')" :place="$t('system.id')" inputClass="input-box lg" />
+        <InputGroup
+          :inputNm="$t('system.tkcgrNm')"
+          :place="$t('system.tkcgrNm')"
+          inputClass="input-box lg check-false"
+        />
+        <InputGroup
+          :inputNm="$t('system.tkcgrPos')"
+          :place="$t('system.tkcgrPos')"
+          inputClass="input-box lg check-ok"
+        />
+        <InputGroup
+          :inputNm="$t('system.tkcgrEml')"
+          :place="$t('system.tkcgrEml')"
+          inputClass="input-box lg check-ok"
+        />
+        <InterfaceGroup :inputNm="$t('system.ifGrp')">
+          <template v-slot:interface>
+            <Interface />
+          </template>
+        </InterfaceGroup>
+        <TextAreaGroup :inputNm="$t('system.desc')" />
       </ul>
     </template>
     <template v-slot:buttons>
@@ -27,15 +43,16 @@
 import { Component, Vue } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/system/InputGroup.vue';
-import LinkGroup from '@/components/system/LinkGroup.vue';
+import InterfaceGroup from '@/components/system/InterfaceGroup.vue';
+import Interface from '@/components/system/Interface.vue';
 import TextAreaGroup from '@/components/system/TextAreaGroup.vue';
-import { SystemResponse } from '@/types/SystemType';
 
 @Component({
   components: {
     ContentLayout,
     InputGroup,
-    LinkGroup,
+    InterfaceGroup,
+    Interface,
     TextAreaGroup,
   },
 })
