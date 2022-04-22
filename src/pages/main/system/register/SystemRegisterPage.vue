@@ -6,17 +6,12 @@
   >
     <template v-slot:contents>
       <ul>
-        <InputGroup :inputNm="$t('system.name')" :place="dumyData.sysNm" inputClass="input-box lg check-ok" />
-        <InputGroup inputNm="$t('system.id')" :place="dumyData.sysId" inputClass="input-box lg" />
-        <InputGroup
-          inputNm="$t('system.tkcgrNm')"
-          :place="dumyData.sysId"
-          inputClass="input-box lg check-false"
-          validCheck="중복된 API ID 입니다."
-        />
-        <InputGroup inputNm="$t('system.tkcgrPos')" :place="dumyData.belong" inputClass="input-box lg check-ok" />
-        <InputGroup inputNm="$t('system.tkcgrEml')" :place="dumyData.eMail" inputClass="input-box lg check-ok" />
-        <LinkGroup inputNm="$t('system.ifGrp')" :linkType="dumyData.linkType" />
+        <InputGroup :inputNm="$t('system.name')" place="시스템명" inputClass="input-box lg check-ok" />
+        <InputGroup inputNm="$t('system.id')" place="시스템 ID" inputClass="input-box lg" />
+        <InputGroup inputNm="$t('system.tkcgrNm')" place="담당자 이름" inputClass="input-box lg check-false" />
+        <InputGroup inputNm="$t('system.tkcgrPos')" place="소속" inputClass="input-box lg check-ok" />
+        <InputGroup inputNm="$t('system.tkcgrEml')" place="E-Mail" inputClass="input-box lg check-ok" />
+        <LinkGroup inputNm="$t('system.ifGrp')" linkType="연동방식" />
         <TextAreaGroup inputNm="$t('system.desc')" />
       </ul>
     </template>
