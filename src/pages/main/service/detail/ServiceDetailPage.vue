@@ -2,20 +2,20 @@
   <ContentLayout title="서비스 정보 확인" subTitle="기본정보 확인" depth="서비스 관리">
     <template v-slot:contents>
       <ul>
-        <InfoGroup inputNm="서비스명" :value="serviceOption.serviceNm" />
-        <InfoGroup inputNm="서비스ID" :value="serviceOption.serviceId" />
-        <InfoGroup inputNm="담당자 이름" :value="serviceOption.ManagerNm" />
-        <InfoGroup inputNm="소속" :value="serviceOption.department" />
-        <InfoGroup inputNm="E-mail" :value="serviceOption.email" />
-        <InfoGroup inputNm="서비스 기간" :value="serviceOption.start_validity_date" />
-        <AuthGroup
+        <InfoGroup inputNm="서비스명" :value="serviceOption.nm" />
+        <InfoGroup inputNm="서비스ID" :value="serviceOption.id" />
+        <InfoGroup inputNm="담당자 이름" :value="serviceOption.tkcgr_nm" />
+        <InfoGroup inputNm="소속" :value="serviceOption.tkcgr_pos" />
+        <InfoGroup inputNm="E-mail" :value="serviceOption.tkcgr_eml" />
+        <InfoGroup inputNm="서비스 기간" :value="serviceOption.svc_st_dt" />
+        <!-- <AuthGroup
           inputNm="인중 수단"
           :AuthNm="serviceOption.authMethod[0]"
           :AuthId="serviceOption.authMethod[1]"
           :AuthPw="serviceOption.authMethod[2]"
-        />
-        <SlaGroup inputNm="SLA 정책 관리" :term="serviceOption.slaPolicy[0]" :count="serviceOption.slaPolicy[1]" />
-        <InfoGroup inputNm="서비스 설명" :value="serviceOption.serviceEx" />
+        /> -->
+        <SlaGroup inputNm="SLA 정책 관리" :term="serviceOption.sla_type" :count="serviceOption.sla_cnt" />
+        <InfoGroup inputNm="서비스 설명" :value="serviceOption.desc" />
       </ul>
     </template>
 
@@ -35,7 +35,7 @@ import SlaGroup from '@/components/service/SlaGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { DummyServiceResponse } from '@/types/ServiceType';
+import { ServiceResponse } from '@/types/ServiceType';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { Prop } from 'vue-property-decorator';
@@ -53,7 +53,7 @@ export default class ServiceDetailPage extends Vue {
 
   serviceModule = getModule(ServiceModule, this.$store);
 
-  get serviceOption(): DummyServiceResponse {
+  get serviceOption(): ServiceResponse {
     return this.serviceModule.service;
   }
 
