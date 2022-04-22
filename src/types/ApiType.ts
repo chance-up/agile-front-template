@@ -167,16 +167,16 @@ export const dummySystemInfList: string[] = [
 ];
 
 export interface ApiInfoEdit {
-  id: 'getCustInfo';
-  sys_id: 'id2';
-  nm: '고객 정보 조회 UPDATE';
-  if_no: 'IF_CAPRI_0001';
-  meth: 'POST';
-  uri_in: '/CAPRI/v1/getCustInfo';
-  uri_out: '/CAPRI/v1/getCustInfo';
-  if_grp: 'authentication';
-  req_handlr_grp_id: 'REQ.DEFAULT';
-  res_handlr_grp_id: 'RES.DEFAULT';
-  time_out: 3000;
-  desc: 'kt 가입자 고객 정보 제공';
+  id: string;
+  sys_id: string;
+  nm: string;
+  if_no: string;
+  meth: string;
+  uri_in: string;
+  uri_out: string;
+  if_grp: string;
+  req_handlr_grp_id: string;
+  res_handlr_grp_id: string;
+  time_out: number;
+  desc: string;
 }
