@@ -19,7 +19,7 @@ export interface ApiDetailResponse {
   sys_id: string;
   nm: string;
   if_no: string;
-  meth: any;
+  meth: string[];
   uri_in: string;
   uri_out: string;
   if_grp: string;
@@ -38,7 +38,7 @@ export interface ApiEditRequestBody {
   sys_id: string;
   nm: string;
   if_no: string;
-  meth: any;
+  meth: string[];
   uri_in: string;
   uri_out: string;
   if_grp: string;
@@ -53,7 +53,7 @@ export interface ApiCreateRequestBody {
   sys_id: string;
   nm: string;
   if_no: string;
-  meth: any;
+  meth: string[];
   uri_in: string;
   uri_out: string;
   if_grp: string;
@@ -76,7 +76,7 @@ export const apiMockData: ApiDetailResponse = {
   sys_id: 'id1',
   nm: '고객 정보 조회',
   if_no: 'IF_CAPRI_000122',
-  meth: 'GET',
+  meth: ['GET', 'POST'],
   uri_in: '/CAPRI/v1/getCustInfo22',
   uri_out: '/CAPRI/v1/getCustInfo22',
   if_grp: 'authentication',
@@ -95,7 +95,7 @@ export const apiMockData2: ApiDetailResponse = {
   sys_id: 'id2',
   nm: '고객 정보 조회',
   if_no: 'IF_CAPRI_000122',
-  meth: 'GET',
+  meth: ['GET', 'DELETE'],
   uri_in: '/CAPRI/v1/getCustInfo22',
   uri_out: '/CAPRI/v1/getCustInfo22',
   if_grp: 'authentication',
