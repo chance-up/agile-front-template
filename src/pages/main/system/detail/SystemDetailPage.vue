@@ -8,10 +8,10 @@
       <ul>
         <InfoGroup :inputNm="$t('system.name')" :value="systemItem.nm" />
         <InfoGroup :inputNm="$t('system.id')" :value="systemItem.id" />
-        <InfoGroup :inputNm="$t('system.tkcgrNm')" :value="systemItem.tkcgrNm" />
-        <InfoGroup :inputNm="$t('system.tkcgrPos')" :value="systemItem.tkcgrPos" />
-        <InfoGroup :inputNm="$t('system.tkcgrEml')" :value="systemItem.tkcgrEml" />
-        <InfoGroup :inputNm="$t('system.ifGrp')" :value="systemItem.ifGrp" />
+        <InfoGroup :inputNm="$t('system.tkcgrNm')" :value="systemItem.tkcgr_nm" />
+        <InfoGroup :inputNm="$t('system.tkcgrPos')" :value="systemItem.tkcgr_pos" />
+        <InfoGroup :inputNm="$t('system.tkcgrEml')" :value="systemItem.tkcgr_eml" />
+        <InfoGroup :inputNm="$t('system.ifGrp')" :value="systemItem.if_grp" />
         <InfoGroup :inputNm="$t('system.desc')" :value="systemItem.desc" />
       </ul>
     </template>
@@ -43,13 +43,12 @@ import InfoGroup from '@/components/api/detail/InfoGroup.vue';
 })
 export default class SystemDetailPage extends Vue {
   systemModule = getModule(SystemModule, this.$store);
-
-  // get systemItem(): SystemResponse {
-  //   return this.systemModule.systemItem;
-  // }
+  systemItem: SystemResponse = {} as SystemResponse;
 
   created() {
-    this.systemModule.getSystemDetail(1);
+    this.systemModule.getSystemDetail(this.$route.query.id as string).then((res) => {
+      this.systemItem = res;
+    });
   }
 
   onClickEvent(event: string) {
