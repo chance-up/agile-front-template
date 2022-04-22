@@ -14,7 +14,7 @@ export interface DummyApiResponse {
   updateTime: string;
 }
 
-export interface ApiResponse {
+export interface ApiDetailResponse {
   id: string;
   sys_id: string;
   nm: string;
@@ -70,6 +70,46 @@ export interface ApiSearchQuery {
   uri?: string;
   page?: number;
 }
+
+export const apiMockData: ApiDetailResponse = {
+  id: 'getCustInfo11',
+  sys_id: 'id1',
+  nm: '고객 정보 조회',
+  if_no: 'IF_CAPRI_000122',
+  meth: 'GET',
+  uri_in: '/CAPRI/v1/getCustInfo22',
+  uri_out: '/CAPRI/v1/getCustInfo22',
+  if_grp: 'authentication',
+  req_handlr_grp_id: 'REQ.DEFAULT',
+  res_handlr_grp_id: 'RES.DEFAULT',
+  time_out: 3000,
+  desc: 'kt 가입자 고객 정보 제공',
+  cret_dt: '2022-04-22 11:23:35',
+  cret_id: 'ktds',
+  upd_dt: '2022-04-22 11:23:35',
+  upd_id: null,
+};
+
+export const apiMockData2: ApiDetailResponse = {
+  id: 'getCustInfo22',
+  sys_id: 'id2',
+  nm: '고객 정보 조회',
+  if_no: 'IF_CAPRI_000122',
+  meth: 'GET',
+  uri_in: '/CAPRI/v1/getCustInfo22',
+  uri_out: '/CAPRI/v1/getCustInfo22',
+  if_grp: 'authentication',
+  req_handlr_grp_id: 'REQ.DEFAULT',
+  res_handlr_grp_id: 'RES.DEFAULT',
+  time_out: 3000,
+  desc: 'kt 가입자 고객 정보 제공',
+  cret_dt: '2022-04-22 11:23:35',
+  cret_id: 'ktds',
+  upd_dt: '2022-04-22 11:23:35',
+  upd_id: null,
+};
+
+export const apiMockList: ApiDetailResponse[] = [apiMockData, apiMockData2];
 
 export const dummyData: DummyApiResponse = {
   sysNm: '플랫폼 서비스A',

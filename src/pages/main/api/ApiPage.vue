@@ -32,7 +32,7 @@
               </tr>
             </thead>
             <tbody>
-              <ListRow v-for="(apiData, index) in dummyList" :key="index" :apiData="apiData" :index="index" />
+              <ListRow v-for="(apiData, index) in apiList" :key="index" :apiData="apiData" :index="index" />
             </tbody>
           </template>
         </ListForm>
@@ -47,7 +47,10 @@ import ListLayout from '@/components/layout/ListLayout.vue';
 import SearchForm from '@/components/api/list/SearchForm.vue';
 import ListForm from '@/components/api/list/ListForm.vue';
 import ListRow from '@/components/api/list/ListRow.vue';
-import { DummyApiResponse, dummyList } from '@/types/ApiType';
+import { ApiDetailResponse } from '@/types/ApiType';
+import ApiModule from '@/store/modules/ApiModule';
+import { getModule } from 'vuex-module-decorators';
+
 @Component({
   components: {
     ContentLayout,
@@ -71,8 +74,15 @@ export default class ApiPage extends Vue {
       ],
     },
   ];
-  get dummyList(): DummyApiResponse[] {
-    return dummyList;
+  apiModule = getModule(ApiModule, this.$store);
+
+  created() {
+    this.apiModule.getApiList();
+  }
+
+  get apiList(): ApiDetailResponse[] {
+    console.log(this.apiModule.apiList);
+    return this.apiModule.apiList;
   }
 }
 </script>

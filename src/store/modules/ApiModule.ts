@@ -1,22 +1,26 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
-import { dummyList, DummyApiResponse, ApiSearchQuery } from '@/types/ApiType';
-import { ApiResponse } from '@/api/ApiResponse';
+import { ApiSearchQuery, apiMockList, ApiDetailResponse } from '@/types/ApiType';
 import { addMock } from '@/api/AxiosClient';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
+import { ApiResponse } from '@/api/ApiResponse';
 
 @Module({ name: 'ApiModule' })
 export default class ApiModule extends VuexModule {
-  public apiList: DummyApiResponse[] = [];
+  public apiList: ApiDetailResponse[] = [];
+
   @Mutation
-  setApiList(list: DummyApiResponse[]) {
+  setApiList(list: ApiDetailResponse[]) {
     this.apiList = list;
   }
 
   @Action
-  async getApiList(searchQuery: ApiSearchQuery) {
-    addMock('/api/list', JSON.stringify(dummyList));
-    const response = await ApiResponse.getInstance().get<GateWayResponse<DummyApiResponse[]>>('/api/list', searchQuery);
-    this.context.commit('setApiList', response.data);
+  async getApiList(searchQuery?: ApiSearchQuery) {
+    addMock('/api/list', JSON.stringify(apiMockList));
+    const response = await ApiResponse.getInstance().get<GateWayResponse<ApiDetailResponse[]>>(
+      '/api/list',
+      searchQuery
+    );
+    this.context.commit('setApiList', response.data.value);
   }
 
   // @Action
