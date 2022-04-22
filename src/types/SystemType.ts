@@ -9,18 +9,13 @@ export interface SystemInterfaceGroup {
 export interface SystemResponse {
   id: string; // system id(PK)
   nm: string; // system name
-  tkcgrNm: string; // 담당자 이름
-  tkcgrPos: string; //담당자 소속
-  tkcgrEml: string; //담당자 이메일
-  ifGrp: string; //연동 그룹
+  tkcgr_nm: string; // 담당자 이름
+  tkcgr_pos: string; //담당자 소속
+  tkcgr_eml: string; //담당자 이메일
+  if_grp: string; //연동 그룹
   desc: string; //설명
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string;
-  updatedBy: string;
-}
-
-export interface SystemRes {
-  value: SystemResponse[];
-  pagination: object;
+  created_at: string;
+  created_by: string;
+  updated_at: string;
+  updated_by: string;
 }
