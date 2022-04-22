@@ -59,8 +59,10 @@ export class ApiResponse {
     }
   }
 
-  public async delete<T>(url: string, data?: any): Promise<GateWayResponse<T>> {
-    const response: AxiosResponse = await axios.delete<T>(url, data);
+  public async delete<T>(url: string, query?: any): Promise<GateWayResponse<T>> {
+    const response: AxiosResponse = await axios.get<T>(url, {
+      params: query,
+    });
     if (isMockData(url)) {
       return JSON.parse(response.data);
     } else {
