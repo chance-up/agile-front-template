@@ -231,7 +231,7 @@ import ContentLayout from '@/components/layout/ContentLayout.vue';
 
 import EditSelectGroup from '@/components/api/edit/EditSelectGroup.vue';
 import InputGroup from '@/components/system/InputGroup.vue';
-import LinkGroup from '@/components/system/LinkGroup.vue';
+import InterfaceGroup from '@/components/system/InterfaceGroup.vue';
 import TextAreaGroup from '@/components/system/TextAreaGroup.vue';
 import { SystemResponse } from '@/types/SystemType';
 
@@ -239,7 +239,7 @@ import { SystemResponse } from '@/types/SystemType';
   components: {
     ContentLayout,
     InputGroup,
-    LinkGroup,
+    InterfaceGroup,
     TextAreaGroup,
     EditSelectGroup,
   },

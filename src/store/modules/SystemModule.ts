@@ -1,5 +1,5 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
-import { SystemResponse, SystemRes } from '@/types/SystemType';
+import { SystemResponse } from '@/types/SystemType';
 import { SearchCondition } from '@/types/SearchType';
 import { ApiResponse } from '@/api/ApiResponse';
 import { addMock } from '@/api/AxiosClient';
