@@ -75,7 +75,7 @@ import SearchForm from '@/components/commons/SearchForm.vue';
 import ListForm from '@/components/commons/ListForm.vue';
 
 import { SearchOption } from '@/types/SearchType';
-import { DummySystemListResponse } from '@/types/SystemType';
+import { SystemResponse } from '@/types/SystemType';
 
 @Component({
   components: {
@@ -91,7 +91,7 @@ export default class SystemManagement extends Vue {
     this.systemModule.getSystemList();
   }
 
-  get listOption(): DummySystemListResponse[] {
+  get listOption(): SystemResponse[] {
     return this.systemModule.listOption;
   }
 

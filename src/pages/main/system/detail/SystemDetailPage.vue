@@ -29,7 +29,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 
-import { DummySystemResponse } from '@/types/SystemType';
+import { SystemResponse } from '@/types/SystemType';
 import SystemModule from '@/store/modules/SystemModule';
 
 import ContentLayout from '@/components/layout/ContentLayout.vue';
@@ -44,9 +44,9 @@ import InfoGroup from '@/components/api/detail/InfoGroup.vue';
 export default class SystemDetailPage extends Vue {
   systemModule = getModule(SystemModule, this.$store);
 
-  get systemItem(): DummySystemResponse {
-    return this.systemModule.systemItem;
-  }
+  // get systemItem(): SystemResponse {
+  //   return this.systemModule.systemItem;
+  // }
 
   created() {
     this.systemModule.getSystemDetail(1);

@@ -30,7 +30,7 @@ import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/system/InputGroup.vue';
 import LinkGroup from '@/components/system/LinkGroup.vue';
 import TextAreaGroup from '@/components/system/TextAreaGroup.vue';
-import { DummySystemResponse, dummyData } from '@/types/SystemType';
+import { SystemResponse } from '@/types/SystemType';
 
 @Component({
   components: {
@@ -41,9 +41,9 @@ import { DummySystemResponse, dummyData } from '@/types/SystemType';
   },
 })
 export default class ApiEditPage extends Vue {
-  get dumyData(): DummySystemResponse {
-    return dummyData;
-  }
+  // get dumyData(): SystemResponse {
+  //   return dummyData;
+  // }
 }
 </script>
 <style lang=""></style>
