@@ -22,12 +22,12 @@
   </li>
 </template>
 <script lang="ts">
-import { SystemLinkType } from '@/types/SystemType';
+import { SystemInterfaceGroup } from '@/types/SystemType';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class LinkGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
-  @Prop({ default: '' }) linkType!: Array<SystemLinkType>;
+  @Prop({ default: '' }) linkType!: Array<SystemInterfaceGroup>;
   options: string[] = ['https', 'http'];
 }
 </script>
