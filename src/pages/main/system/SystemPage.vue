@@ -37,13 +37,13 @@
           <!-- 각 리스트 페이지에 맞는 데이터로 v-for 돌려주시면 됩니다. <td> 태그 안이 조금씩 다를 수 있으니 퍼블리싱 파일 참조하면서 수정해주세요. -->
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
-              <td @click="getRoutePage('system_view')">{{ index + 1 }}</td>
-              <td @click="getRoutePage('system_view')">
+              <td @click="getRoutePage('system_view', list.id)">{{ index + 1 }}</td>
+              <td @click="getRoutePage('system_view', list.id)">
                 <span class="bold">{{ list.nm }}</span>
               </td>
-              <td @click="getRoutePage('system_view')">{{ list.id }}</td>
-              <td @click="getRoutePage('system_view')">{{ list.tkcgr_nm }}</td>
-              <td @click="getRoutePage('system_view')">
+              <td @click="getRoutePage('system_view', list.id)">{{ list.id }}</td>
+              <td @click="getRoutePage('system_view', list.id)">{{ list.tkcgr_nm }}</td>
+              <td @click="getRoutePage('system_view', list.id)">
                 <p>
                   {{ list.updatedAt === null ? list.createdAt : list.updated_at }}
                 </p>
@@ -99,9 +99,9 @@ export default class SystemManagement extends Vue {
     this.$router.push({ name: 'system_register' });
   }
 
-  getRoutePage(page: string, id?: number): void {
+  getRoutePage(page: string, id?: string): void {
     if (id) {
-      this.$router.push({ name: page, params: { id: String(id) } });
+      this.$router.push({ name: page, query: { id: id } });
     } else {
       this.$router.push({ name: page });
     }
