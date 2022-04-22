@@ -1,46 +1,28 @@
 <template>
   <li>
-    <label>{{ inputNm }}</label>
+    <label class="label">{{ inputNm }}</label>
     <div class="form-cont">
       <div class="form-group">
         <p>{{ AuthNm }}</p>
       </div>
       <div class="form-group">
-        <span class="label">ID :</span>
+        <label class="label">ID :</label>
         <span>{{ AuthId }}</span>
       </div>
       <div class="form-group">
-        <span class="label">PW :</span>
+        <label class="label">PW :</label>
         <span>{{ AuthPw }}</span>
       </div>
     </div>
   </li>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
-
-const AuthGroupProps = Vue.extend({
-  props: {
-    inputNm: {
-      type: String,
-      default: '',
-    },
-    AuthNm: {
-      type: String,
-      default: '',
-    },
-    AuthId: {
-      type: String,
-      default: '',
-    },
-    AuthPw: {
-      type: String,
-      default: '',
-    },
-  },
-});
-
+import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
-export default class AuthGroup extends AuthGroupProps {}
+export default class AuthReqGroup extends Vue {
+  @Prop({ default: '' }) inputNm!: string;
+  @Prop({ default: '' }) AuthNm!: string;
+  @Prop({ default: '' }) AuthId!: string;
+  @Prop({ default: '' }) AuthPw!: string;
+}
 </script>

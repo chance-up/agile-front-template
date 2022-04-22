@@ -14,6 +14,14 @@ export interface DummyApiResponse {
   updateTime: string;
 }
 
+export interface apiSearchQuery {
+  apiId?: string;
+  apiName?: string;
+  platformName?: string;
+  uri?: string;
+  page?: number;
+}
+
 export const dummyData: DummyApiResponse = {
   sysNm: '플랫폼 서비스A',
   apiId: 'API ID_NUMBER',

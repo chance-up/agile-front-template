@@ -32,17 +32,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="(apiData, index) in dummyList"
-                :key="index"
-                @click="$router.push({ path: '/api-detail', Param: apiData.apiId })"
-              >
+              <tr v-for="(apiData, index) in dummyList" :key="index">
                 <td>{{ index + 1 }}</td>
                 <td>
                   <span class="bold">{{ apiData.sysNm }}</span>
                 </td>
                 <td>{{ apiData.apiId }}</td>
-                <td>{{ apiData.apiNm }}</td>
+                <td @click="$router.push({ path: '/api-detail', Param: apiData.apiId })">{{ apiData.apiNm }}</td>
                 <td>
                   <span
                     v-for="(method, idx) in apiData.methods"
@@ -65,7 +61,7 @@
                   ><span>{{ new Date(apiData.updateTime).toISOString().slice(11, 19) }}</span>
                 </td>
                 <td>
-                  <button class="mod-btn">
+                  <button class="mod-btn" @click="$router.push({ path: '/api-edit', Param: apiData.apiId })">
                     <i>{{ $t('api.edit') }}</i>
                   </button>
                   <button class="del-btn">

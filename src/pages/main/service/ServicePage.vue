@@ -34,29 +34,29 @@
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
               <td>{{ index + 1 }}</td>
-              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
                 <span class="bold">{{ list.serviceNm }}</span>
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
                 {{ list.serviceId }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
                 {{ list.authMethod[0] }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
                 {{ list.start_validity_date }} ~ {{ list.end_validity_date }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { id: list.serviceId } })">
-                {{ list.update_data }}
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
+                {{ list.update_date }}
               </td>
               <td>
                 <button
                   class="mod-btn"
-                  @click="$router.push({ path: '/service-edit', params: { id: list.serviceId } })"
+                  @click="$router.push({ path: '/service-edit', params: { serviceId: list.serviceId } })"
                 >
                   <i>{{ $t('common.modify') }}</i>
                 </button>
-                <button class="del-btn">
+                <button class="del-btn" @click="deleteService(list.serviceId)">
                   <i>{{ $t('common.delete') }}</i>
                 </button>
               </td>
@@ -108,6 +108,14 @@ export default class ServiceManagementPage extends Vue {
 
   get listOption(): ServiceResponse[] {
     return this.serviceModule.services;
+  }
+
+  deleteService(ServiceId: string) {
+    if (confirm('서비스를 삭제하시겠습니까?') == true) {
+      this.serviceModule.deleteServiceAction(ServiceId);
+    } else {
+      return;
+    }
   }
 
   created() {

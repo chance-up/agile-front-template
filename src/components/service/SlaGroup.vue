@@ -1,6 +1,6 @@
 <template>
   <li>
-    <label>{{ inputNm }}</label>
+    <label class="label">{{ inputNm }}</label>
     <div class="form-cont">
       <!-- 총량 -->
       <div class="form-group sla-form">
@@ -12,26 +12,12 @@
   </li>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
-
-const SlaGroupProps = Vue.extend({
-  props: {
-    inputNm: {
-      type: String,
-      default: '',
-    },
-    term: {
-      type: String,
-      default: '',
-    },
-    count: {
-      type: String,
-      default: '',
-    },
-  },
-});
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class SlaGroup extends SlaGroupProps {}
+export default class InfoGroup extends Vue {
+  @Prop() public inputNm!: string | null;
+  @Prop() public term!: string | null;
+  @Prop() public count!: string | null;
+}
 </script>
