@@ -3,7 +3,7 @@
     <label class="label point">{{ inputNm }}</label>
     <div class="form-cont">
       <div class="form-group">
-        <select class="select-box">
+        <select class="select-box" v-model="inputValue">
           <option>Basic Auth</option>
           <option>JWT</option>
         </select>
@@ -50,9 +50,18 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
 @Component
 export default class AuthReqGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
+
+  @PropSync('childValue', { type: String })
+  syncedChildValue!: string;
+
+  inputValue = null;
+  @Watch('inputValue')
+  onChildChanged(val: string) {
+    this.syncedChildValue = val;
+  }
 }
 </script>
