@@ -1,16 +1,16 @@
 <template>
   <li>
-    <label>{{ inputNm }}</label>
+    <label class="label">{{ inputNm }}</label>
     <div class="form-cont">
       <div class="form-group">
         <p>{{ AuthNm }}</p>
       </div>
       <div class="form-group">
-        <span class="label">ID :</span>
+        <label class="label">ID :</label>
         <span>{{ AuthId }}</span>
       </div>
       <div class="form-group">
-        <span class="label">PW :</span>
+        <label class="label">PW :</label>
         <span>{{ AuthPw }}</span>
       </div>
     </div>

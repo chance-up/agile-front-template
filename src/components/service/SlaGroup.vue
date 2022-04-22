@@ -1,6 +1,6 @@
 <template>
   <li>
-    <label>{{ inputNm }}</label>
+    <label class="label">{{ inputNm }}</label>
     <div class="form-cont">
       <!-- 총량 -->
       <div class="form-group sla-form">
