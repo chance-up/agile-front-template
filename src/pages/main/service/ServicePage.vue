@@ -34,29 +34,29 @@
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
               <td>{{ index + 1 }}</td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
                 <span class="bold">{{ list.nm }}</span>
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
                 {{ list.id }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
                 {{ list.athn }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
                 {{ list.svc_st_dt }} ~ {{ list.svc_end_dt }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.serviceId } })">
+              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
                 {{ list.upd_dt }}
               </td>
               <td>
                 <button
                   class="mod-btn"
-                  @click="$router.push({ path: '/service-edit', params: { serviceId: list.serviceId } })"
+                  @click="$router.push({ path: '/service-edit', params: { serviceId: list.id } })"
                 >
                   <i>{{ $t('common.modify') }}</i>
                 </button>
-                <button class="del-btn" @click="deleteService(list.serviceId)">
+                <button class="del-btn" @click="deleteService(list.id)">
                   <i>{{ $t('common.delete') }}</i>
                 </button>
               </td>
