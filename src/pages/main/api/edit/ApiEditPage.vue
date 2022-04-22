@@ -13,7 +13,7 @@
           cssClass="select-box disable"
           :options="['선택해주세요', '시스템2', '시스템3']"
           :point="true"
-          :disabled="false"
+          :disabled="true"
         />
         <EditInputSelectGroup
           :point="true"
@@ -23,6 +23,7 @@
           cssClass="input-box lg"
           place="placeholder"
           :disabled="true"
+          :value="mockData.id"
         />
         <EditInputSelectGroup
           :point="true"
@@ -32,6 +33,7 @@
           cssClass="input-box lg"
           place="placeholder"
           :disabled="true"
+          :value="mockData.nm"
         />
         <EditInputSelectGroup
           :point="true"
@@ -41,6 +43,7 @@
           cssClass="input-box lg"
           place="시스템명_버전_API ID"
           :disabled="true"
+          :value="mockData.if_no"
         />
         <EditMethodGroup />
         <EditURIGroup />
@@ -64,6 +67,7 @@
           cssClass="input-box lg check-ok"
           place="number"
           :disabled="false"
+          :value="mockData.time_out"
         />
         <EditTextAreaGroup :inputNm="`${$t('api.system')}` + ' ' + `${$t('api.description')}`" :point="false" />
       </ul>
@@ -84,7 +88,8 @@ import EditURIGroup from '@/components/api/edit/EditURIGroup.vue';
 import EditRequestHandler from '@/components/api/edit/EditRequestHandler.vue';
 import EditResponseHandler from '@/components/api/edit/EditResponseHandler.vue';
 import EditButtonGroup from '@/components/api/edit/EditButtonGroup.vue';
-
+import { ApiDetailResponse } from '@/types/ApiType';
+import { getApiDetail } from '@/api/api';
 @Component({
   components: {
     ContentLayout,
@@ -101,6 +106,13 @@ export default class ApiEditPage extends Vue {
   // get dumyData(): SystemResponse {
   //   return dummyData;
   // }
+  mockData: ApiDetailResponse | null = null;
+  created() {
+    getApiDetail(2).then((res) => {
+      console.log(res);
+      this.mockData = res;
+    });
+  }
 }
 </script>
 <style lang=""></style>

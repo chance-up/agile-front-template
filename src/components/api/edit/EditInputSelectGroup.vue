@@ -2,7 +2,15 @@
   <li>
     <label for="" :class="{ label: true, point: point }">{{ inputNm }}</label>
     <div class="form-cont">
-      <input v-if="inputCondition" type="text" id="" :class="cssClass" :placeholder="place" :disabled="disabled" />
+      <input
+        v-if="inputCondition"
+        type="text"
+        id=""
+        :class="cssClass"
+        :placeholder="place"
+        :disabled="disabled"
+        :value="value"
+      />
       <select v-if="selectCondition" :class="cssClass" :disabled="disabled">
         <option v-for="(option, index) in options" :key="index">{{ option }}</option>
       </select>
@@ -22,5 +30,6 @@ export default class EditInputSelectGroup extends Vue {
   @Prop({ default: false }) selectCondition!: boolean;
   @Prop({ default: '' }) cssClass!: string;
   @Prop({ default: '' }) place!: string;
+  @Prop({ default: '' }) value!: string;
 }
 </script>
