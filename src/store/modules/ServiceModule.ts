@@ -148,9 +148,14 @@ export default class ServiceModule extends VuexModule {
   @Action
   async deleteServiceAction(id: string) {
     try {
-      await ApiResponse.getInstance().delete<GateWayResponse<ServiceResponse>>('/service/delete', id);
-
-      this.context.commit('deleteServiceMutation', id);
+      addMock('/api/service/deleteServiceInfo', '{ "common": { "code": 200, "message": "Success"}, "data": null}');
+      const response = await ApiResponse.getInstance().delete<GateWayResponse<null>>('/api/service/deleteServiceInfo', {
+        serviceId: id,
+      });
+      console.log(response);
+      if (200 === response.common.code) {
+        this.getServiceList();
+      }
     } catch (error) {
       if (error as ParameterError) {
         this.context.commit('showAlert');
