@@ -1,9 +1,13 @@
 <template>
-  <ContentLayout title="API 정보 수정" subTitle="기본정보 수정" depth="API 관리">
+  <ContentLayout
+    :title="`${$t('api.api')}` + ' ' + `${$t('api.information')}` + ' ' + `${$t('api.edit')}`"
+    :subTitle="`${$t('api.basic')}` + `${$t('api.information')}` + ' ' + `${$t('api.edit')}`"
+    :depth="`${$t('api.api')}` + `${$t('api.management')}`"
+  >
     <template v-slot:contents>
       <ul>
         <EditInputSelectGroup
-          inputNm="시스템명"
+          :inputNm="`${$t('api.system')}` + `${$t('api.name')}`"
           :inputCondition="false"
           :selectCondition="true"
           cssClass="select-box disable"
@@ -13,7 +17,7 @@
         />
         <EditInputSelectGroup
           :point="true"
-          inputNm="API ID"
+          :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.id')}`"
           :inputCondition="true"
           :selectCondition="false"
           cssClass="input-box lg"
@@ -22,7 +26,7 @@
         />
         <EditInputSelectGroup
           :point="true"
-          inputNm="API 명"
+          :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.name')}`"
           :inputCondition="true"
           :selectCondition="false"
           cssClass="input-box lg"
@@ -31,7 +35,7 @@
         />
         <EditInputSelectGroup
           :point="true"
-          inputNm="인터페이스 번호"
+          :inputNm="`${$t('api.interface')}` + ' ' + `${$t('api.number')}`"
           :inputCondition="true"
           :selectCondition="false"
           cssClass="input-box lg"
@@ -42,7 +46,7 @@
         <EditURIGroup />
         <EditInputSelectGroup
           :point="true"
-          inputNm="시스템 연동 정보"
+          :inputNm="`${$t('api.system')}` + ' ' + `${$t('api.interlock')}` + ' ' + `${$t('api.information')}`"
           :inputCondition="false"
           :selectCondition="true"
           cssClass="select-box"
@@ -53,14 +57,15 @@
         <EditResponseHandler />
         <EditInputSelectGroup
           :point="true"
-          inputNm="타임아웃(ms)"
+          :inputNm="`${$t('api.timeOutMS')}`"
+          timeOutMS
           :inputCondition="true"
           :selectCondition="false"
           cssClass="input-box lg check-ok"
           place="number"
           :disabled="false"
         />
-        <EditTextAreaGroup inputNm="시스템 설명" :point="false" />
+        <EditTextAreaGroup :inputNm="`${$t('api.system')}` + ' ' + `${$t('api.description')}`" :point="false" />
       </ul>
     </template>
     <template v-slot:buttons>
@@ -71,10 +76,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-
 import EditInputSelectGroup from '@/components/api/edit/EditInputSelectGroup.vue';
-import InputGroup from '@/components/system/InputGroup.vue';
-import InterfaceGroup from '@/components/system/InterfaceGroup.vue';
 import EditTextAreaGroup from '@/components/api/edit/EditTextAreaGroup.vue';
 // import { DummySystemResponse, dummyData } from '@/types/SystemType';
 import EditMethodGroup from '@/components/api/edit/EditMethodGroup.vue';
@@ -82,13 +84,10 @@ import EditURIGroup from '@/components/api/edit/EditURIGroup.vue';
 import EditRequestHandler from '@/components/api/edit/EditRequestHandler.vue';
 import EditResponseHandler from '@/components/api/edit/EditResponseHandler.vue';
 import EditButtonGroup from '@/components/api/edit/EditButtonGroup.vue';
-import { SystemResponse } from '@/types/SystemType';
 
 @Component({
   components: {
     ContentLayout,
-    InputGroup,
-    InterfaceGroup,
     EditTextAreaGroup,
     EditInputSelectGroup,
     EditMethodGroup,
