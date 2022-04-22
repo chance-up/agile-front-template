@@ -42,10 +42,10 @@
                 <span class="bold">{{ list.nm }}</span>
               </td>
               <td @click="getRoutePage('system_view')">{{ list.id }}</td>
-              <td @click="getRoutePage('system_view')">{{ list.tkcgrNm }}</td>
+              <td @click="getRoutePage('system_view')">{{ list.tkcgr_nm }}</td>
               <td @click="getRoutePage('system_view')">
                 <p>
-                  {{ list.updatedAt === null ? list.createdAt : list.updatedAt }}
+                  {{ list.updatedAt === null ? list.createdAt : list.updated_at }}
                 </p>
               </td>
               <td>

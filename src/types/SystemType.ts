@@ -5,7 +5,7 @@ export interface SystemInterfaceGroup {
   port: string;
 }
 
-//시스템 관리 상세 정보
+//시스템 관리
 export interface SystemResponse {
   id: string; // system id(PK)
   nm: string; // system name
@@ -18,4 +18,9 @@ export interface SystemResponse {
   createdBy: string;
   updatedAt: string;
   updatedBy: string;
+}
+
+export interface SystemRes {
+  value: SystemResponse[];
+  pagination: object;
 }
