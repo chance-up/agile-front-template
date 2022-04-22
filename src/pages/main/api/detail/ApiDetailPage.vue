@@ -69,7 +69,7 @@ export default class ApiDetailPage extends Vue {
   created() {
     getApiDetail(1).then((res) => {
       console.log(res);
-      //this.mockData = res.data;
+      this.mockData = res.data.value;
     });
   }
 }

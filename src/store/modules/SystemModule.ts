@@ -1,5 +1,5 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
-import { SystemResponse } from '@/types/SystemType';
+import { SystemResponse, SystemRes } from '@/types/SystemType';
 import { SearchCondition } from '@/types/SearchType';
 import { ApiResponse } from '@/api/ApiResponse';
 import { addMock } from '@/api/AxiosClient';
@@ -41,7 +41,7 @@ export default class SystemModule extends VuexModule {
     // );
     const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse[]>>('/system/list');
     console.log('listOption', typeof response);
-    this.context.commit('setSystemList', response.data.values);
+    this.context.commit('setSystemList', response.data.value);
 
     // this.context.commit('setSystemList', response.data);
   }
@@ -50,7 +50,7 @@ export default class SystemModule extends VuexModule {
   async getSystemDetail(id: number) {
     // addMock(`/system/detail/${id}`, JSON.stringify(dummyData));
     const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
-    console.log('response', response);
-    this.context.commit('setSystemItem', response);
+    console.log('response', response.data);
+    return response.data;
   }
 }
