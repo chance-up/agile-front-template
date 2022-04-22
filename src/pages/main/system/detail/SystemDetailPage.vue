@@ -18,9 +18,9 @@
 
     <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="onClickEvent('modify')">{{ $t('common.modify') }}</button>
-        <button class="lg-btn white-btn" @click="onClickEvent('delete')">{{ $t('common.delete') }}</button>
-        <button class="lg-btn gray-btn" @click="onClickEvent('previous')">{{ $t('common.list') }}</button>
+        <button class="lg-btn purple-btn" @click="onClickEdit">{{ $t('common.modify') }}</button>
+        <button class="lg-btn white-btn" @click="onClickDelete">{{ $t('common.delete') }}</button>
+        <button class="lg-btn gray-btn" @click="onClickPrevious">{{ $t('common.list') }}</button>
       </div>
     </template>
   </ContentLayout>
@@ -51,12 +51,17 @@ export default class SystemDetailPage extends Vue {
     });
   }
 
-  onClickEvent(event: string) {
-    if (event === 'previous') {
-      this.$router.go(-1);
-    } else {
-      console.log(event, ' 로직');
-    }
+  onClickPrevious() {
+    this.$router.go(-1);
+  }
+
+  onClickEdit() {
+    // this.$router.push({ name: 'system_edit', query: { id: this.$route.query.id } });
+    this.$router.push({ name: 'system_edit' });
+  }
+
+  onClickDelete() {
+    alert('삭제하시겠습니까?');
   }
 }
 </script>

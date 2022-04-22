@@ -108,7 +108,7 @@ export default class SystemManagement extends Vue {
   }
 
   deleteSystem() {
-    console.log('Not yet implemented');
+    alert('삭제하시겠습니까?');
   }
 
   searchOption: SearchOption[] = [
