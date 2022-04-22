@@ -37,12 +37,12 @@
           inputNm="서비스 기간"
           placeholderStart="YYYY-MM-DD"
           placeholderENd="YYYY-MM-DD"
-          :startDate="formData.svc_st_dt"
-          :endDate="formData.svc_end_dt"
+          :childValueStart="formData.svc_st_dt"
+          :childValueEnd="formData.svc_end_dt"
         />
-        <AuthReqGroup imputNm="인증수단" :selectedAuth="formData.athn" />
-        <SlaReqGroup inputNm="SLA 정책관리" :type="formData.sla_type" :count="formData.sla_cnt" />
-        <SysExGroup inputNm="시스템 설명" :text="formData.desc" />
+        <AuthReqGroup imputNm="인증수단" :childValue="formData.athn" />
+        <SlaReqGroup inputNm="SLA 정책관리" :childTypeValue="formData.sla_type" :childCountValue="formData.sla_cnt" />
+        <SysExGroup inputNm="시스템 설명" :childValue="formData.desc" />
       </ul>
     </template>
     <template v-slot:buttons>
@@ -103,7 +103,7 @@ export default class SystemRegisterPage extends Vue {
   submitForm(): void {
     if (confirm('서비스를 등록하시겠습니까?') == true) {
       console.log(this.formData);
-      // this.serviceModule.createserviceAction(this.formData);
+      this.serviceModule.createserviceAction(this.formData);
     } else {
       return;
     }
