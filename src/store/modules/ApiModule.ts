@@ -20,6 +20,9 @@ export default class ApiModule extends VuexModule {
     addMock('/api/list', JSON.stringify(apiMockList));
     const response = await ApiResponse.getInstance().get<ApiDetailResponse[]>('/api/list', searchQuery);
     console.log(response);
+    response.map((item: ApiDetailResponse) => {
+      if (typeof item.meth == 'string') item.meth = JSON.parse(item.meth);
+    });
     this.context.commit('setApiList', response);
   }
 
