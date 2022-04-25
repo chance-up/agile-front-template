@@ -1,5 +1,5 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
-import { ApiSearchQuery, apiMockList, ApiDetailResponse } from '@/types/ApiType';
+import { ApiSearchQuery, apiMockList, ApiDetailResponse, apiMockData } from '@/types/ApiType';
 import { addMock } from '@/api/AxiosClient';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import { ApiResponse } from '@/api/ApiResponse';
@@ -33,3 +33,11 @@ export default class ApiModule extends VuexModule {
   //   this.context.commit('setApiDetail', response);
   // }
 }
+
+export const getApiDetail = async (apiId: number) => {
+  addMock('/api/detail', JSON.stringify(apiMockData));
+  const response = await ApiResponse.getInstance().get<ApiDetailResponse>('/api/detail', { apiId });
+  console.log(response);
+  if (typeof response.meth == 'string') response.meth = JSON.parse(response.meth);
+  return response;
+};

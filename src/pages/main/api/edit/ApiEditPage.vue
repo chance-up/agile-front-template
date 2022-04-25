@@ -89,7 +89,7 @@ import EditRequestHandler from '@/components/api/edit/EditRequestHandler.vue';
 import EditResponseHandler from '@/components/api/edit/EditResponseHandler.vue';
 import EditButtonGroup from '@/components/api/edit/EditButtonGroup.vue';
 import { ApiDetailResponse } from '@/types/ApiType';
-import { getApiDetail } from '@/api/api';
+import { getApiDetail } from '@/store/modules/ApiModule';
 @Component({
   components: {
     ContentLayout,

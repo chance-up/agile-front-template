@@ -50,7 +50,7 @@ import URIGroup from '@/components/api/detail/URIGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue } from 'vue-property-decorator';
 import { ApiDetailResponse } from '@/types/ApiType';
-import { getApiDetail } from '@/api/api';
+import { getApiDetail } from '@/store/modules/ApiModule';
 @Component({
   components: {
     InfoGroup,
