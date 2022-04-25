@@ -8,34 +8,34 @@
       <ul>
         <InputGroup
           :inputNm="$t('system.name')"
-          :inputValue="systemItem.nm"
+          v-model="systemItem.nm"
           :place="$t('system.name')"
           inputClass="input-box lg"
           :disabled="true"
         />
         <InputGroup
           :inputNm="$t('system.id')"
-          :inputValue="systemItem.id"
+          v-model="systemItem.id"
           :place="$t('system.id')"
           inputClass="input-box lg"
           :disabled="true"
         />
         <InputGroup
           :inputNm="$t('system.tkcgrNm')"
-          :inputValue="systemItem.tkcgr_nm"
+          v-model="systemItem.tkcgr_nm"
           :place="$t('system.tkcgrNm')"
           inputClass="input-box lg check-false"
         />
         <!-- validCheck="중복된 API ID 입니다." -->
         <InputGroup
           :inputNm="$t('system.tkcgrPos')"
-          :inputValue="systemItem.tkcgr_nm"
+          v-model="systemItem.tkcgr_nm"
           :place="$t('system.tkcgrPos')"
           inputClass="input-box lg check-ok"
         />
         <InputGroup
           :inputNm="$t('system.tkcgrEml')"
-          :inputValue="systemItem.tkcgr_eml"
+          v-model="systemItem.tkcgr_eml"
           :place="$t('system.tkcgrEml')"
           inputClass="input-box lg check-ok"
         />
@@ -76,8 +76,8 @@ export default class SystemEditPage extends Vue {
   systemItem: SystemResponse = {} as SystemResponse;
 
   created() {
-    this.systemModule.getSystemDetail(this.$route.query.id as string).then((res) => {
-      console.log(res);
+    this.systemModule.getSystemDetail(this.$route.params.id as string).then((res) => {
+      console.log('edit page : ' + res.data.value);
       // this.systemItem = res;
     });
   }
