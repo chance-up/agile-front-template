@@ -59,7 +59,7 @@
                 <button class="mod-btn" @click="getRoutePage('system-edit', list.id)">
                   <i>{{ $t('common.modify') }}</i>
                 </button>
-                <button class="del-btn" @click="deleteSystem()">
+                <button class="del-btn" @click="deleteSystem(list.id)">
                   <i>{{ $t('common.delete') }}</i>
                 </button>
               </td>
@@ -121,8 +121,9 @@ export default class SystemManagement extends Vue {
     }
   }
 
-  deleteSystem() {
+  deleteSystem(id: string) {
     alert('삭제하시겠습니까?');
+    this.systemModule.deleteSystem(id);
   }
 
   searchOption: SearchOption[] = [
