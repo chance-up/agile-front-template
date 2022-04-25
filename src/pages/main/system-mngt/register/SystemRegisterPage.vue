@@ -7,30 +7,35 @@
     <template v-slot:contents>
       <ul>
         <InputGroup
+          type="text"
           v-model="systemItem.nm"
           :inputNm="$t('system.name')"
           :place="$t('system.name')"
           inputClass="input-box lg check-ok"
         />
         <InputGroup
+          type="text"
           v-model="systemItem.id"
           :inputNm="$t('system.id')"
           :place="$t('system.id')"
           inputClass="input-box lg"
         />
         <InputGroup
+          type="text"
           v-model="systemItem.tkcgr_nm"
           :inputNm="$t('system.tkcgrNm')"
           :place="$t('system.tkcgrNm')"
           inputClass="input-box lg check-false"
         />
         <InputGroup
+          type="text"
           v-model="systemItem.tkcgr_pos"
           :inputNm="$t('system.tkcgrPos')"
           :place="$t('system.tkcgrPos')"
           inputClass="input-box lg check-ok"
         />
         <InputGroup
+          type="email"
           v-model="systemItem.tkcgr_eml"
           :inputNm="$t('system.tkcgrEml')"
           :place="$t('system.tkcgrEml')"
