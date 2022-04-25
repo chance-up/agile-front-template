@@ -7,48 +7,44 @@
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
           :disabled="true"
-          :childValue="serviceOption.nm"
+          v-model="serviceOption.nm"
         />
         <InputGroup
           inputNm="서비스 ID"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
           :disabled="true"
-          :childValue="serviceOption.id"
+          v-model="serviceOption.id"
         />
         <InputGroup
           inputNm="담당자 이름"
           placeholder="placeholder"
           validCheck="중복된 API ID 입니다."
           inputClass="input-box lg check-false"
-          :childValue="serviceOption.tkcgr_nm"
+          v-model="serviceOption.tkcgr_nm"
         />
         <InputGroup
           inputNm="소속"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
-          :childValue="serviceOption.tkcgr_pos"
+          v-model="serviceOption.tkcgr_pos"
         />
         <InputGroup
           inputNm="E-mail"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
-          :childValue="serviceOption.tkcgr_eml"
+          v-model="serviceOption.tkcgr_eml"
         />
         <DateGroup
           inputNm="서비스 기간"
           placeholderStart="YYYY-MM-DD"
           placeholderENd="YYYY-MM-DD"
-          :childValueStart="serviceOption.svc_st_dt"
-          :childValueEnd="serviceOption.svc_end_dt"
+          :startDt="serviceOption.svc_st_dt"
+          :endDt="serviceOption.svc_end_dt"
         />
-        <AuthREqGroup imputNm="인증수단" :childValue="serviceOption.athn" />
-        <SlaReqGroup
-          inputNm="SLA 정책관리"
-          :childTypeValue="serviceOption.sla_type"
-          :childCountValue="serviceOption.sla_cnt"
-        />
-        <SysExGroup inputNm="시스템 설명" :childValue="serviceOption.desc" />
+        <AuthReqGroup imputNm="인증수단" v-model="serviceOption.athn" />
+        <SlaReqGroup inputNm="SLA 정책관리" :type="serviceOption.sla_type" :count="serviceOption.sla_cnt" />
+        <SysExGroup inputNm="시스템 설명" v-model="serviceOption.desc" />
       </ul>
     </template>
     <template v-slot:buttons>
@@ -69,7 +65,7 @@ import SlaReqGroup from '@/components/service/SlqReqGroup.vue';
 import SysExGroup from '@/components/service/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
-import { ServiceRegisterRequest } from '@/types/ServiceType';
+import { ServiceRegisterRequest, ServiceResponse } from '@/types/ServiceType';
 
 @Component({
   components: {
@@ -90,16 +86,26 @@ export default class SystemRegisterPage extends Vue {
     return this.serviceModule.service;
   }
 
+  created() {
+    this.serviceModule.getService(this.serviceId);
+  }
+
   editService() {
     if (confirm('서비스를 등록하시겠습니까?') == true) {
-      this.serviceModule.editServiceAction;
+      this.serviceModule.editServiceAction(this.serviceOption);
+      this.$router.push({ path: '/Service-detail', params: { serviceId: this.serviceId } });
     } else {
       return;
     }
   }
-
-  created() {
-    this.serviceModule.getService(this.serviceId);
-  }
 }
 </script>
+
+// formData: ServiceRegisterRequest = { // id: '', // nm: '', // tkcgr_nm: '', // tkcgr_pos: '', // tkcgr_eml: '', //
+sla_type: '', // sla_cnt: 0, // svc_st_dt: '', // svc_end_dt: '', // athn: '', // api_aut: '', // desc: '', // }; //
+initData() { // this.formData.id = this.serviceOption.id; // this.formData.nm = this.serviceOption.nm; //
+this.formData.tkcgr_nm = this.serviceOption.tkcgr_nm; // this.formData.tkcgr_pos = this.serviceOption.tkcgr_pos; //
+this.formData.tkcgr_eml = this.serviceOption.tkcgr_eml; // this.formData.sla_type = this.serviceOption.sla_type; //
+this.formData.sla_cnt = this.serviceOption.sla_cnt; // this.formData.svc_st_dt = this.serviceOption.svc_st_dt; //
+this.formData.svc_end_dt = this.serviceOption.svc_end_dt; // this.formData.athn = this.serviceOption.athn; //
+this.formData.api_aut = this.serviceOption.api_aut; // this.formData.desc = this.serviceOption.desc; // }

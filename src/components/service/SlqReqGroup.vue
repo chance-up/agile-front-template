@@ -12,13 +12,20 @@
 
       <div v-if="show != 'none'" class="form-group sla-form">
         <!--  총량  -->
-        <select class="select-box mr15" v-model="type">
+        <select class="select-box mr15" :value="type" @input="$emit('select', $event.target.value)">
           <option>분</option>
           <option>시</option>
           <option>일</option>
           <option>월</option>
         </select>
-        <input type="text" id="" class="input-box" placeholder="number" v-model="count" />
+        <input
+          type="text"
+          id=""
+          class="input-box"
+          placeholder="number"
+          :value="count"
+          @input="$emit('input', $event.target.value)"
+        />
         <span>건</span>
       </div>
 
@@ -36,24 +43,8 @@ import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
 @Component
 export default class SlaReqGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
-
-  @PropSync('childTypeValue', { type: String })
-  syncedChildValue1!: string;
-
-  type = null;
-  @Watch('inputValue')
-  onChildChanged1(val: string) {
-    this.syncedChildValue1 = val;
-  }
-
-  @PropSync('childCountValue', { type: Number })
-  syncedChildValue2!: number;
-
-  count = null;
-  @Watch('inputValue')
-  onChildChanged2(val: number) {
-    this.syncedChildValue2 = val;
-  }
+  @Prop({ default: '' }) type!: string;
+  @Prop({ default: 0 }) count!: number;
 
   show = 'none';
 }

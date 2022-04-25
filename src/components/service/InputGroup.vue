@@ -8,7 +8,8 @@
         :placeholder="placeholder"
         :disabled="disabled"
         :class="inputClass"
-        v-model="inputValue"
+        :value="value"
+        @input="$emit('input', $event.target.value)"
       />
       <p v-if="validCheck !== ''" class="red-txt noti">{{ validCheck }}</p>
     </div>
@@ -24,14 +25,6 @@ export default class InputGroup extends Vue {
   @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) inputClass!: string;
   @Prop({ default: '' }) validCheck!: string;
-
-  @PropSync('childValue', { type: String })
-  syncedChildValue!: string;
-
-  inputValue = null;
-  @Watch('inputValue')
-  onChildChanged(val: string) {
-    this.syncedChildValue = val;
-  }
+  @Prop({ default: '' }) value!: string;
 }
 </script>

@@ -104,6 +104,7 @@ export default class SystemRegisterPage extends Vue {
     if (confirm('서비스를 등록하시겠습니까?') == true) {
       console.log(this.formData);
       this.serviceModule.createserviceAction(this.formData);
+      this.$router.push({ path: '/Service-detail', params: { serviceId: this.formData.id } });
     } else {
       return;
     }

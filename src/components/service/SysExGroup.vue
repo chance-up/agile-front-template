@@ -2,7 +2,7 @@
   <li>
     <label for="" class="label">{{ inputNm }}</label>
     <div class="form-cont">
-      <textarea class="textarea" v-model="inputValue"></textarea>
+      <textarea class="textarea" :value="value" @input="$emit('input', $event.target.value)"></textarea>
     </div>
   </li>
 </template>
@@ -11,14 +11,6 @@ import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
 @Component
 export default class SysExGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
-
-  @PropSync('childValue', { type: String })
-  syncedChildValue!: string;
-
-  inputValue = null;
-  @Watch('inputValue')
-  onChildChanged(val: string) {
-    this.syncedChildValue = val;
-  }
+  @Prop({ default: '' }) value!: string;
 }
 </script>
