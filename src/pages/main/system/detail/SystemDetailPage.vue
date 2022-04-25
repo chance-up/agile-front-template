@@ -26,7 +26,7 @@
   </ContentLayout>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 
 import { SystemResponse } from '@/types/SystemType';
@@ -42,6 +42,9 @@ import InfoGroup from '@/components/api/detail/InfoGroup.vue';
   },
 })
 export default class SystemDetailPage extends Vue {
+  // router push 로 전달받은 id 는 this.$route.params.id 로 사용하시면 됩니다.
+  @Prop({ default: '' }) id!: string;
+
   systemModule = getModule(SystemModule, this.$store);
   systemItem: SystemResponse = {
     id: '',
@@ -68,8 +71,7 @@ export default class SystemDetailPage extends Vue {
   }
 
   onClickEdit() {
-    this.$router.push({ name: 'system_edit', params: { id: this.$route.params.id } });
-    // this.$router.push({ name: 'system_edit' });
+    this.$router.push({ name: 'system_edit', query: { id: this.$route.query.id } });
   }
 
   onClickDelete() {
