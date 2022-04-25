@@ -71,7 +71,7 @@ export default class SystemDetailPage extends Vue {
   }
 
   onClickEdit() {
-    this.$router.push({ name: 'system_edit', query: { id: this.$route.query.id } });
+    this.$router.push({ name: 'system_edit', params: { id: this.$route.params.id } });
   }
 
   onClickDelete() {
