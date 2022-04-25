@@ -92,6 +92,7 @@ export default class SystemRegisterPage extends Vue {
 
   editService() {
     if (confirm('서비스를 등록하시겠습니까?') == true) {
+      console.log(this.serviceOption);
       this.serviceModule.editServiceAction(this.serviceOption);
       this.$router.push({ path: '/Service-detail', params: { serviceId: this.serviceId } });
     } else {
@@ -100,12 +101,3 @@ export default class SystemRegisterPage extends Vue {
   }
 }
 </script>
-
-// formData: ServiceRegisterRequest = { // id: '', // nm: '', // tkcgr_nm: '', // tkcgr_pos: '', // tkcgr_eml: '', //
-sla_type: '', // sla_cnt: 0, // svc_st_dt: '', // svc_end_dt: '', // athn: '', // api_aut: '', // desc: '', // }; //
-initData() { // this.formData.id = this.serviceOption.id; // this.formData.nm = this.serviceOption.nm; //
-this.formData.tkcgr_nm = this.serviceOption.tkcgr_nm; // this.formData.tkcgr_pos = this.serviceOption.tkcgr_pos; //
-this.formData.tkcgr_eml = this.serviceOption.tkcgr_eml; // this.formData.sla_type = this.serviceOption.sla_type; //
-this.formData.sla_cnt = this.serviceOption.sla_cnt; // this.formData.svc_st_dt = this.serviceOption.svc_st_dt; //
-this.formData.svc_end_dt = this.serviceOption.svc_end_dt; // this.formData.athn = this.serviceOption.athn; //
-this.formData.api_aut = this.serviceOption.api_aut; // this.formData.desc = this.serviceOption.desc; // }
