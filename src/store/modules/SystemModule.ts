@@ -60,6 +60,7 @@ export default class SystemModule extends VuexModule {
   // 시스템 관리 등록
   @Action
   async registerSystem(data: SystemResponse) {
+    console.log(JSON.stringify(data));
     addMock(`/system/registerSystem/`, JSON.stringify(dummyRegisterData));
     const response = await ApiResponse.getInstance().post<GateWayResponse<SystemResponse>>(
       `/system/registerSystem/`,

@@ -7,31 +7,31 @@
     <template v-slot:contents>
       <ul>
         <InputGroup
-          :childValue.sync="systemItem.nm"
+          v-model="systemItem.nm"
           :inputNm="$t('system.name')"
           :place="$t('system.name')"
           inputClass="input-box lg check-ok"
         />
         <InputGroup
-          :childValue.sync="systemItem.id"
+          v-model="systemItem.id"
           :inputNm="$t('system.id')"
           :place="$t('system.id')"
           inputClass="input-box lg"
         />
         <InputGroup
-          :childValue.sync="systemItem.tkcgr_nm"
+          v-model="systemItem.tkcgr_nm"
           :inputNm="$t('system.tkcgrNm')"
           :place="$t('system.tkcgrNm')"
           inputClass="input-box lg check-false"
         />
         <InputGroup
-          :childValue.sync="systemItem.tkcgr_pos"
+          v-model="systemItem.tkcgr_pos"
           :inputNm="$t('system.tkcgrPos')"
           :place="$t('system.tkcgrPos')"
           inputClass="input-box lg check-ok"
         />
         <InputGroup
-          :childValue.sync="systemItem.tkcgr_eml"
+          v-model="systemItem.tkcgr_eml"
           :inputNm="$t('system.tkcgrEml')"
           :place="$t('system.tkcgrEml')"
           inputClass="input-box lg check-ok"
@@ -54,14 +54,17 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
 
-import { SystemResponse } from '@/types/SystemType';
+import SystemModule from '@/store/modules/SystemModule';
 
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/system/InputGroup.vue';
 import InterfaceGroup from '@/components/system/InterfaceGroup.vue';
 import Interface from '@/components/system/Interface.vue';
 import TextAreaGroup from '@/components/system/TextAreaGroup.vue';
+
+import { SystemResponse } from '@/types/SystemType';
 
 @Component({
   components: {
@@ -73,6 +76,8 @@ import TextAreaGroup from '@/components/system/TextAreaGroup.vue';
   },
 })
 export default class SystemRegisterPage extends Vue {
+  systemModule = getModule(SystemModule, this.$store);
+
   systemItem: SystemResponse = {
     id: '',
     nm: '',
@@ -90,6 +95,7 @@ export default class SystemRegisterPage extends Vue {
   onSubmit(): void {
     if (confirm('서비스를 등록하시겠습니까?') == true) {
       console.log(this.systemItem);
+      this.systemModule.registerSystem(this.systemItem);
     } else {
       return;
     }

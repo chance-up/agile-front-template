@@ -28,7 +28,7 @@ export const dummyListData = {
   data: {
     value: [
       {
-        id: 'KT_COM',
+        id: 'KT_COM1',
         nm: 'KT닷컴',
         tkcgr_nm: '박재원',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
@@ -41,7 +41,7 @@ export const dummyListData = {
         updated_by: '604ed253-e79e-4aa0-8e18-ef9326df1b95',
       },
       {
-        id: 'KT_COM',
+        id: 'KT_COM2',
         nm: 'KT닷컴',
         tkcgr_nm: '최찬섭',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
@@ -54,7 +54,7 @@ export const dummyListData = {
         updated_by: '604ed253-e79e-4aa0-8e18-ef9326df1b95',
       },
       {
-        id: 'KT_COM',
+        id: 'KT_COM3',
         nm: 'KT닷컴',
         tkcgr_nm: '김형창',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
@@ -67,7 +67,7 @@ export const dummyListData = {
         updated_by: '604ed253-e79e-4aa0-8e18-ef9326df1b95',
       },
       {
-        id: 'KT_COM',
+        id: 'KT_COM4',
         nm: 'KT닷컴',
         tkcgr_nm: '정혜림',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
@@ -80,7 +80,7 @@ export const dummyListData = {
         updated_by: '604ed253-e79e-4aa0-8e18-ef9326df1b95',
       },
       {
-        id: 'KT_COM',
+        id: 'KT_COM5',
         nm: 'KT닷컴',
         tkcgr_nm: '이정필',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Digico 사업수행팀',
@@ -93,7 +93,7 @@ export const dummyListData = {
         updated_by: '604ed253-e79e-4aa0-8e18-ef9326df1b95',
       },
       {
-        id: 'KT_COM',
+        id: 'KT_COM6',
         nm: 'KT닷컴',
         tkcgr_nm: '이진솔',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Digico 사업수행팀',
@@ -118,7 +118,7 @@ export const dummySearchData = {
   data: {
     value: [
       {
-        id: 'KT_COM',
+        id: 'KT_COM1',
         nm: 'KT닷컴',
         tkcgr_nm: '박재원',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
@@ -131,7 +131,7 @@ export const dummySearchData = {
         updated_by: '604ed253-e79e-4aa0-8e18-ef9326df1b95',
       },
       {
-        id: 'KT_COM',
+        id: 'KT_COM2',
         nm: 'KT닷컴',
         tkcgr_nm: '최찬섭',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
@@ -144,7 +144,7 @@ export const dummySearchData = {
         updated_by: '604ed253-e79e-4aa0-8e18-ef9326df1b95',
       },
       {
-        id: 'KT_COM',
+        id: 'KT_COM3',
         nm: 'KT닷컴',
         tkcgr_nm: '김형창',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
@@ -157,7 +157,7 @@ export const dummySearchData = {
         updated_by: '604ed253-e79e-4aa0-8e18-ef9326df1b95',
       },
       {
-        id: 'KT_COM',
+        id: 'KT_COM4',
         nm: 'KT닷컴',
         tkcgr_nm: '정혜림',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
@@ -181,7 +181,7 @@ export const dummyDetailData = {
   },
   data: {
     value: {
-      id: 'KT_COM',
+      id: 'KT_COM2',
       nm: 'KT닷컴',
       tkcgr_nm: '최찬섭',
       tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
@@ -204,7 +204,7 @@ export const dummyRegisterData = {
   },
   data: {
     value: {
-      id: 'KT_COM',
+      id: 'KT_COM7',
       nm: 'KT닷컴',
       tkcgr_nm: '이승재',
       tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
