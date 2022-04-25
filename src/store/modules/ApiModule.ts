@@ -34,9 +34,9 @@ export default class ApiModule extends VuexModule {
   // }
 }
 
-export const getApiDetail = async (apiId: number) => {
+export const getApiDetail = async (id: string) => {
   addMock('/api/detail', JSON.stringify(apiMockData));
-  const response = await ApiResponse.getInstance().get<ApiDetailResponse>('/api/detail', { apiId });
+  const response = await ApiResponse.getInstance().get<ApiDetailResponse>('/api/detail', { id });
   console.log(response);
   if (typeof response.meth == 'string') response.meth = JSON.parse(response.meth);
   return response;
