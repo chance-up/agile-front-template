@@ -5,7 +5,7 @@
     :depth="`${$t('api.api')}` + `${$t('api.management')}`"
   >
     <template v-slot:contents>
-      <ul>
+      <ul v-if="mockData">
         <EditInputSelectGroup
           :inputNm="`${$t('api.system')}` + `${$t('api.name')}`"
           :inputCondition="false"
@@ -108,7 +108,7 @@ export default class ApiEditPage extends Vue {
   // }
   mockData: ApiDetailResponse | null = null;
   created() {
-    getApiDetail(2).then((res) => {
+    getApiDetail(this.$route.params.id).then((res) => {
       console.log('api edit: ' + this.$route.params.id);
       console.log(res);
       this.mockData = res;
