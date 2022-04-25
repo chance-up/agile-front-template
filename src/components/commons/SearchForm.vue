@@ -1,5 +1,4 @@
 <template>
-  <!------- 검색 -------->
   <div class="search-wrap">
     <h2 class="h2-tit">검색</h2>
     <template v-for="(option, index) in searchPanelOption">
@@ -15,11 +14,8 @@
       </div>
     </template>
 
-    <button class="mid-btn">
-      <i><img src="@/assets/search_ico.svg" alt="검색" /></i>Search
-    </button>
+    <slot name="search-btn-area" />
   </div>
-  <!------- // 검색 -------->
 </template>
 
 <script lang="ts">
