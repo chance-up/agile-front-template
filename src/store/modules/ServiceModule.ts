@@ -27,6 +27,21 @@ export default class ServiceModule extends VuexModule {
     upd_id: '',
   };
 
+  public requestService: ServiceRegisterRequest = {
+    id: '',
+    nm: '',
+    tkcgr_nm: '',
+    tkcgr_pos: '',
+    tkcgr_eml: '',
+    sla_type: '',
+    sla_cnt: 0,
+    svc_st_dt: '',
+    svc_end_dt: '',
+    athn: '',
+    api_aut: '',
+    desc: '',
+  };
+
   //서비스 리스트 요청
   @Mutation
   setServiceList(list: ServiceResponse[]): void {
@@ -61,16 +76,14 @@ export default class ServiceModule extends VuexModule {
       }
     );
 
-    console.log('detail' + response.data.value);
-
     this.context.commit('setService', response.data.value);
   }
 
   //서비스 등록 요청
-  @Mutation
-  public createServiceMutation(data: ServiceResponse): void {
-    this.service = data;
-  }
+  // @Mutation
+  // public createServiceMutation(data: ServiceResponse): void {
+  //   this.service = data;
+  // }
 
   @Action
   async createserviceAction(data: ServiceRegisterRequest) {
@@ -83,9 +96,9 @@ export default class ServiceModule extends VuexModule {
           data,
         }
       );
-
+      console.log(response.data.value);
       // TODO:: 성공 or 실패 팝업으로 변경
-      this.context.commit('createserviceMutation', response.data.value);
+      // this.context.commit('createserviceMutation', response.data.value);
     } catch (error) {
       if (error as ParameterError) {
         this.context.commit('showAlert');
@@ -115,9 +128,10 @@ export default class ServiceModule extends VuexModule {
   //   }
 
   @Action
-  async editServiceAction(data: ServiceResponse) {
+  async editServiceAction(data: ServiceRegisterRequest) {
+    addMock('/api/service/updateServiceInfo', JSON.stringify(getServiceId));
     try {
-      const response = await ApiResponse.getInstance().put<GateWayResponse<ServiceResponse>>(
+      const response = await ApiResponse.getInstance().put<GateWayResponse<ServiceRegisterRequest>>(
         '/api/service/updateServiceInfo',
         {
           data,
@@ -125,7 +139,7 @@ export default class ServiceModule extends VuexModule {
       );
 
       // TODO:: 성공 or 실패 팝업으로 변경
-      this.context.commit('editServiceMutation', response.data);
+      // this.context.commit('editServiceMutation', response.data);
     } catch (error) {
       if (error as ParameterError) {
         this.context.commit('showAlert');
