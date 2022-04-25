@@ -71,7 +71,7 @@ import Hello from '../components/HelloWorld.vue';
 import Hello from '@/components/HelloWorld.vue';
 ```
 
-## Component 선언 시
+### 6. Component 아래와 같이 선언
 
 ```
 @Component({
@@ -82,16 +82,14 @@ import Hello from '@/components/HelloWorld.vue';
 })
 ```
 
-## store 모듈 내 메서드를 component에서 참조 시 메서드 명 통일하는 방식으로 사용
+### 7. store 모듈 내 메서드를 component에서 참조 시 메서드 명 통일하는 방식으로 사용
 
 ```
-
   @UserModule.Action
   private getUserListAction!: (page: number) => void;
-
 ```
 
-## 함수 선언 방법은 ES6문법 사용
+### 8. 함수 선언 방법은 ES6문법 사용
 
 ```
 [ES6] const getUserList = async(page: string)=>{}
@@ -100,9 +98,14 @@ import Hello from '@/components/HelloWorld.vue';
 
 ```
 
-## Component는 재사용을 위해 Store 접근,api 통신 등의 코드가 없어야 한다.
+### 9. Component는 재사용을 위해 Store 접근,api 통신 등의 코드가 없어야 한다.
 
-## @MutationAction 사용 지양
+### @MutationAction 사용 지양
+
+#### 사유 :
+
+- VScode의 Go to Definetion등이 정상 동작하지 않음
+- 기존 state값을 가져와 값을 추가시키는(array의 .add메서드 등)동작이 정상 동작하지 않음
 
 ## Git Rule
 
