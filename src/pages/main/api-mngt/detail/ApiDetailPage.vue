@@ -51,7 +51,7 @@ import URIGroup from '@/components/api-mngt/detail/URIGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue } from 'vue-property-decorator';
 import { ApiDetailResponse } from '@/types/ApiType';
-import ApiModule, { getApiDetail } from '@/store/modules/ApiModule';
+import ApiModule from '@/store/modules/ApiModule';
 import { getModule } from 'vuex-module-decorators';
 @Component({
   components: {
@@ -69,6 +69,9 @@ export default class ApiDetailPage extends Vue {
   }
   created() {
     this.apiModule.getApiDetail(this.$route.params.id);
+  }
+  destroyed() {
+    this.apiModule.reset();
   }
 }
 </script>

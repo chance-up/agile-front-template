@@ -28,7 +28,7 @@ export default class ApiModule extends VuexModule {
   }
 
   @Mutation
-  setApiDetail(api: ApiDetailResponse) {
+  setApiDetail(api: ApiDetailResponse | null) {
     console.log('set API detail', api);
     this.apiDetail = api;
   }
@@ -41,6 +41,12 @@ export default class ApiModule extends VuexModule {
     console.log(response);
     if (typeof response.meth == 'string') response.meth = JSON.parse(response.meth);
     return response;
+  }
+
+  @Action
+  reset() {
+    this.context.commit('setApiList', []);
+    this.context.commit('setApiDetail', null);
   }
 }
 
