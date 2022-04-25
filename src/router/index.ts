@@ -3,11 +3,11 @@ import VueRouter, { RouteConfig } from 'vue-router';
 
 Vue.use(VueRouter);
 
-const SYSTEM = '/system';
-const SERVICE = '/service';
-const API = '/api';
-const MONITORING = '/monitoring';
-const MANAGEMENT = '/management';
+export const SYSTEM = '/system';
+export const SERVICE = '/service';
+export const API = '/api';
+export const MONITORING = '/monitoring';
+export const MANAGEMENT = '/management';
 const MY = '/my';
 
 const routes: Array<RouteConfig> = [

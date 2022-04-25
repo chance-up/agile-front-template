@@ -52,6 +52,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import { SYSTEM, SERVICE, API, MONITORING, MANAGEMENT } from '@/router';
 
 interface NavState {
   [key: string]: boolean;
