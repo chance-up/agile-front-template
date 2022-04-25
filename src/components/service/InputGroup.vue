@@ -24,7 +24,6 @@ export default class InputGroup extends Vue {
   @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) inputClass!: string;
   @Prop({ default: '' }) validCheck!: string;
-  @Prop({ default: '' }) text!: string;
 
   @PropSync('childValue', { type: String })
   syncedChildValue!: string;

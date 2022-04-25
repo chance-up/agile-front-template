@@ -32,12 +32,28 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
 @Component
 export default class SlaReqGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
-  @Prop({ default: '' }) type!: string;
-  @Prop({ default: 0 }) count!: number;
+
+  @PropSync('childTypeValue', { type: String })
+  syncedChildValue1!: string;
+
+  type = null;
+  @Watch('inputValue')
+  onChildChanged1(val: string) {
+    this.syncedChildValue1 = val;
+  }
+
+  @PropSync('childCountValue', { type: Number })
+  syncedChildValue2!: number;
+
+  count = null;
+  @Watch('inputValue')
+  onChildChanged2(val: number) {
+    this.syncedChildValue2 = val;
+  }
 
   show = 'none';
 }

@@ -49,7 +49,7 @@
                 </p>
               </td>
               <td>
-                <button class="mod-btn" @click="getRoutePage('system_edit')">
+                <button class="mod-btn" @click="getRoutePage('system_edit', list.id)">
                   <i>{{ $t('common.modify') }}</i>
                 </button>
                 <button class="del-btn" @click="deleteSystem()">
