@@ -47,7 +47,6 @@
         <p><a class="link" href="javascript:void(0)">로그아웃</a></p>
         <i><img src="@/assets/member_ico.svg" alt="멤버 아이콘" /></i>
       </div>
-      <h1>hahah{{ $router.fullPath }}</h1>
     </header>
   </div>
 </template>
