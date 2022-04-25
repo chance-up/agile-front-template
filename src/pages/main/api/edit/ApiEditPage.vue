@@ -5,7 +5,7 @@
     :depth="`${$t('api.api')}` + `${$t('api.management')}`"
   >
     <template v-slot:contents>
-      <ul>
+      <ul v-if="mockData">
         <EditInputSelectGroup
           :inputNm="`${$t('api.system')}` + `${$t('api.name')}`"
           :inputCondition="false"
