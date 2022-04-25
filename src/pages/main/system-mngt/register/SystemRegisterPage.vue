@@ -59,10 +59,10 @@ import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
 
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-import InputGroup from '@/components/system/InputGroup.vue';
-import InterfaceGroup from '@/components/system/InterfaceGroup.vue';
-import Interface from '@/components/system/Interface.vue';
-import TextAreaGroup from '@/components/system/TextAreaGroup.vue';
+import InputGroup from '@/components/system-mngt/InputGroup.vue';
+import InterfaceGroup from '@/components/system-mngt/InterfaceGroup.vue';
+import Interface from '@/components/system-mngt/Interface.vue';
+import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 
 import { SystemResponse } from '@/types/SystemType';
 

@@ -44,9 +44,9 @@
 import { Component, Vue } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import ListLayout from '@/components/layout/ListLayout.vue';
-import SearchForm from '@/components/api/list/SearchForm.vue';
-import ListForm from '@/components/api/list/ListForm.vue';
-import ListRow from '@/components/api/list/ListRow.vue';
+import SearchForm from '@/components/api-mngt/list/SearchForm.vue';
+import ListForm from '@/components/api-mngt/list/ListForm.vue';
+import ListRow from '@/components/api-mngt/list/ListRow.vue';
 import { ApiDetailResponse } from '@/types/ApiType';
 import ApiModule from '@/store/modules/ApiModule';
 import { getModule } from 'vuex-module-decorators';

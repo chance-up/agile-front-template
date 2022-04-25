@@ -33,7 +33,7 @@ import { SystemResponse } from '@/types/SystemType';
 import SystemModule from '@/store/modules/SystemModule';
 
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-import InfoGroup from '@/components/api/detail/InfoGroup.vue';
+import InfoGroup from '@/components/api-mngt/detail/InfoGroup.vue';
 
 @Component({
   components: {

@@ -56,11 +56,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-import InputGroup from '@/components/service/InputGroup.vue';
-import DateGroup from '@/components/service/DateGroup.vue';
-import AuthReqGroup from '@/components/service/AuthReqGroup.vue';
-import SlaReqGroup from '@/components/service/SlqReqGroup.vue';
-import SysExGroup from '@/components/service/SysExGroup.vue';
+import InputGroup from '@/components/service-mngt/InputGroup.vue';
+import DateGroup from '@/components/service-mngt/DateGroup.vue';
+import AuthReqGroup from '@/components/service-mngt/AuthReqGroup.vue';
+import SlaReqGroup from '@/components/service-mngt/SlqReqGroup.vue';
+import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { ServiceRegisterRequest } from '@/types/ServiceType';

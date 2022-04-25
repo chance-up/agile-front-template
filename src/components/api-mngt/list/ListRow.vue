@@ -39,8 +39,8 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import InputBox from '@/components/api/search-option/InputBox.vue';
-import SelectBox from '@/components/api/search-option/SelectBox.vue';
+import InputBox from '@/components/api-mngt/search-option/InputBox.vue';
+import SelectBox from '@/components/api-mngt/search-option/SelectBox.vue';
 import { ApiDetailResponse } from '@/types/ApiType';
 
 @Component({

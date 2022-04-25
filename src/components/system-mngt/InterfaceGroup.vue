@@ -12,7 +12,7 @@
   </li>
 </template>
 <script lang="ts">
-import Interface from '@/components/system/Interface.vue';
+import Interface from '@/components/system-mngt/Interface.vue';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component({
   components: {

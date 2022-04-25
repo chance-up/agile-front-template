@@ -34,11 +34,11 @@
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue } from 'vue-property-decorator';
 import { dummySystemList, dummySystemInfList } from '@/types/ApiType';
-import HandlerGroupForm from '@/components/api/register/HandlerGroupForm.vue';
-import SelectForm from '@/components/api/register/SelectForm.vue';
-import TextForm from '@/components/api/register/TextForm.vue';
-import MethodForm from '@/components/api/register/MethodForm.vue';
-import UriForm from '@/components/api/register/UriForm.vue';
+import HandlerGroupForm from '@/components/api-mngt/register/HandlerGroupForm.vue';
+import SelectForm from '@/components/api-mngt/register/SelectForm.vue';
+import TextForm from '@/components/api-mngt/register/TextForm.vue';
+import MethodForm from '@/components/api-mngt/register/MethodForm.vue';
+import UriForm from '@/components/api-mngt/register/UriForm.vue';
 @Component({
   components: {
     ContentLayout,

@@ -80,14 +80,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-import EditInputSelectGroup from '@/components/api/edit/EditInputSelectGroup.vue';
-import EditTextAreaGroup from '@/components/api/edit/EditTextAreaGroup.vue';
+import EditInputSelectGroup from '@/components/api-mngt/edit/EditInputSelectGroup.vue';
+import EditTextAreaGroup from '@/components/api-mngt/edit/EditTextAreaGroup.vue';
 // import { DummySystemResponse, dummyData } from '@/types/SystemType';
-import EditMethodGroup from '@/components/api/edit/EditMethodGroup.vue';
-import EditURIGroup from '@/components/api/edit/EditURIGroup.vue';
-import EditRequestHandler from '@/components/api/edit/EditRequestHandler.vue';
-import EditResponseHandler from '@/components/api/edit/EditResponseHandler.vue';
-import EditButtonGroup from '@/components/api/edit/EditButtonGroup.vue';
+import EditMethodGroup from '@/components/api-mngt/edit/EditMethodGroup.vue';
+import EditURIGroup from '@/components/api-mngt/edit/EditURIGroup.vue';
+import EditRequestHandler from '@/components/api-mngt/edit/EditRequestHandler.vue';
+import EditResponseHandler from '@/components/api-mngt/edit/EditResponseHandler.vue';
+import EditButtonGroup from '@/components/api-mngt/edit/EditButtonGroup.vue';
 import { ApiDetailResponse } from '@/types/ApiType';
 import { getApiDetail } from '@/store/modules/ApiModule';
 @Component({

@@ -29,9 +29,9 @@
   </ContentLayout>
 </template>
 <script lang="ts">
-import InfoGroup from '@/components/service/InfoGroup.vue';
-import AuthGroup from '@/components/service/AuthGroup.vue';
-import SlaGroup from '@/components/service/SlaGroup.vue';
+import InfoGroup from '@/components/service-mngt/InfoGroup.vue';
+import AuthGroup from '@/components/service-mngt/AuthGroup.vue';
+import SlaGroup from '@/components/service-mngt/SlaGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import Vue from 'vue';
 import Component from 'vue-class-component';

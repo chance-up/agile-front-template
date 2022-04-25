@@ -59,9 +59,9 @@ import SystemModule from '@/store/modules/SystemModule';
 import { SystemResponse } from '@/types/SystemType';
 
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-import InputGroup from '@/components/system/InputGroup.vue';
-import InterfaceGroup from '@/components/system/InterfaceGroup.vue';
-import TextAreaGroup from '@/components/system/TextAreaGroup.vue';
+import InputGroup from '@/components/system-mngt/InputGroup.vue';
+import InterfaceGroup from '@/components/system-mngt/InterfaceGroup.vue';
+import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 
 @Component({
   components: {

@@ -30,64 +30,64 @@ const routes: Array<RouteConfig> = [
       {
         path: SYSTEM,
         name: 'system',
-        component: () => import('@/pages/main/system/SystemPage.vue'),
+        component: () => import('@/pages/main/system-mngt/SystemPage.vue'),
       },
       {
         path: SYSTEM + '/register',
         name: 'system-register',
-        component: () => import('@/pages/main/system/register/SystemRegisterPage.vue'),
+        component: () => import('@/pages/main/system-mngt/register/SystemRegisterPage.vue'),
       },
       {
         path: SYSTEM + '/detail/:id',
         name: 'system-detail',
-        component: () => import('@/pages/main/system/detail/SystemDetailPage.vue'),
+        component: () => import('@/pages/main/system-mngt/detail/SystemDetailPage.vue'),
       },
       {
         path: SYSTEM + '/edit/:id',
         name: 'system-edit',
-        component: () => import('@/pages/main/system/edit/SystemEditPage.vue'),
+        component: () => import('@/pages/main/system-mngt/edit/SystemEditPage.vue'),
       },
       // Api
       {
         path: API,
         name: 'api',
-        component: () => import('@/pages/main/api/ApiPage.vue'),
+        component: () => import('@/pages/main/api-mngt/ApiPage.vue'),
       },
       {
         path: API + '/register',
         name: 'api-register',
-        component: () => import('@/pages/main/api/register/ApiRegisterPage.vue'),
+        component: () => import('@/pages/main/api-mngt/register/ApiRegisterPage.vue'),
       },
       {
         path: API + '/detail/:id',
         name: 'api-detail',
-        component: () => import('@/pages/main/api/detail/ApiDetailPage.vue'),
+        component: () => import('@/pages/main/api-mngt/detail/ApiDetailPage.vue'),
       },
       {
         path: API + '/edit/:id',
         name: 'api-edit',
-        component: () => import('@/pages/main/api/edit/ApiEditPage.vue'),
+        component: () => import('@/pages/main/api-mngt/edit/ApiEditPage.vue'),
       },
       // Service
       {
         path: SERVICE,
         name: 'service',
-        component: () => import('@/pages/main/service/ServicePage.vue'),
+        component: () => import('@/pages/main/service-mngt/ServicePage.vue'),
       },
       {
         path: SERVICE + '/register',
         name: 'service-register',
-        component: () => import('@/pages/main/service/register/ServiceRegisterPage.vue'),
+        component: () => import('@/pages/main/service-mngt/register/ServiceRegisterPage.vue'),
       },
       {
         path: SERVICE + '/detail/:id',
         name: 'service-detail',
-        component: () => import('@/pages/main/service/detail/ServiceDetailPage.vue'),
+        component: () => import('@/pages/main/service-mngt/detail/ServiceDetailPage.vue'),
       },
       {
         path: SERVICE + '/edit/:id',
         name: 'service-edit',
-        component: () => import('@/pages/main/service/edit/ServiceEditPage.vue'),
+        component: () => import('@/pages/main/service-mngt/edit/ServiceEditPage.vue'),
       },
       {
         path: MONITORING,
