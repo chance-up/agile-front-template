@@ -33,8 +33,8 @@ export default class SystemModule extends VuexModule {
         // '[{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null}]'
       );
       const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse[]>>('/system/list');
-      console.log('response', response);
-      this.context.commit('setSystemList', response);
+      console.log('response', response.data.value);
+      this.context.commit('setSystemList', response.data.value);
     } else {
       addMock(
         '/system/getSystemSearch',
