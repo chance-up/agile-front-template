@@ -6,7 +6,7 @@
     <template slot="list-form">
       <ListForm :title="listTitle">
         <template slot="list-btn-area">
-          <button class="mid-btn" @click="$router.push('/service-register')">
+          <button class="mid-btn" @click="$router.push({ name: 'service-register' })">
             <i><img src="@/assets/check_ico.svg" alt="등록" /></i>등록
           </button>
         </template>
@@ -34,26 +34,23 @@
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
               <td>{{ index + 1 }}</td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 <span class="bold">{{ list.nm }}</span>
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 {{ list.id }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 {{ list.athn }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 {{ list.svc_st_dt }} ~ {{ list.svc_end_dt }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 {{ list.upd_dt }}
               </td>
               <td>
-                <button
-                  class="mod-btn"
-                  @click="$router.push({ path: '/service-edit', params: { serviceId: list.id } })"
-                >
+                <button class="mod-btn" @click="$router.push({ name: 'service-edit', params: { id: list.id } })">
                   <i>{{ $t('common.modify') }}</i>
                 </button>
                 <button class="del-btn" @click="deleteService(list.id)">

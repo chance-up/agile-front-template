@@ -12,7 +12,7 @@
             <router-link to="/home">Home</router-link>
           </li>
           <li :class="{ on: navState.systemState }" @click="changeNavState('systemState')">
-            <router-link to="/system_list">시스템 관리</router-link>
+            <router-link to="/system">시스템 관리</router-link>
           </li>
           <li :class="{ on: navState.apiState }" @click="changeNavState('apiState')">
             <router-link to="/api">API관리</router-link>

@@ -49,7 +49,7 @@ import { Prop } from 'vue-property-decorator';
   },
 })
 export default class ServiceDetailPage extends Vue {
-  @Prop({ default: '' }) serviceId!: string;
+  //@Prop({ default: '' }) serviceId!: string;
 
   serviceModule = getModule(ServiceModule, this.$store);
 
@@ -58,7 +58,8 @@ export default class ServiceDetailPage extends Vue {
   }
 
   created() {
-    this.serviceModule.getService(this.serviceId);
+    console.log('!!!IDIDID', this.$route.params.id);
+    this.serviceModule.getService(this.$route.params.serviceId);
   }
 }
 </script>
