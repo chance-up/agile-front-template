@@ -49,7 +49,7 @@
                 </p>
               </td>
               <td>
-                <button class="mod-btn" @click="getRoutePage('system_edit', list.id)">
+                <button class="mod-btn" @click="getRoutePage('system-edit', list.id)">
                   <i>{{ $t('common.modify') }}</i>
                 </button>
                 <button class="del-btn" @click="deleteSystem()">
@@ -96,7 +96,7 @@ export default class SystemManagement extends Vue {
   }
 
   onClickEvent() {
-    this.$router.push({ name: 'system_register' });
+    this.$router.push({ name: 'system-register' });
   }
 
   getRoutePage(page: string, id?: string): void {
