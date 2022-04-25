@@ -1,11 +1,12 @@
 export interface SearchOption {
   type: string;
   label: string;
+  target: string;
   placeholder: string;
   selectOptions?: string[];
 }
 
 export interface SearchCondition {
-  inputBoxCondition: string[];
-  selectBoxCondition: string[];
+  inputBoxCondition: object[];
+  selectBoxCondition: object[];
 }

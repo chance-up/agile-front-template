@@ -1,7 +1,7 @@
 <template>
   <div>
     <label class="label" for="sysName">{{ label }}</label>
-    <input type="text" id="sysName" v-model="searchText" class="input-box" :placeholder="placeholder" />
+    <input type="text" id="sysName" class="input-box" :placeholder="placeholder" :value="value" @input="inputTxt" />
   </div>
 </template>
 
@@ -12,8 +12,10 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class InputBox extends Vue {
   @Prop() public label!: string;
   @Prop() public placeholder!: string;
-  @Prop() public searchText!: string;
+  @Prop() public value!: string;
 
-  v1: Array<any> = [];
+  inputTxt($event: any) {
+    this.$emit('input', $event.target.value);
+  }
 }
 </script>

@@ -3,7 +3,7 @@
   <ListLayout :title="$t('system.list_top_title')">
     <template slot="search-form">
       <!-- 검색 컴포넌트의 옵션이 조금씩 다르니 페이지에 맞는 옵션으로 넘겨주세요. -->
-      <SearchForm :searchPanelOption="searchOption">
+      <SearchForm :searchPanelOption="searchOption" :searchData="searchData">
         <!-- 검색 컴포넌트에 들어갈 버튼은 template로 묶어서 넣어주시면 됩니다. -->
         <template slot="search-btn-area">
           <button class="mid-btn" @click="searchOnClieckEvent">
@@ -81,7 +81,7 @@ import ListLayout from '@/components/layout/ListLayout.vue';
 import SearchForm from '@/components/commons/SearchForm.vue';
 import ListForm from '@/components/commons/ListForm.vue';
 
-import { SearchOption } from '@/types/SearchType';
+import { SearchCondition, SearchOption } from '@/types/SearchType';
 import { SystemResponse } from '@/types/SystemType';
 
 @Component({
@@ -93,6 +93,7 @@ import { SystemResponse } from '@/types/SystemType';
 })
 export default class SystemManagement extends Vue {
   systemModule = getModule(SystemModule, this.$store);
+  searchData!: SearchCondition;
 
   created() {
     this.systemModule.getSystemList();
@@ -102,8 +103,13 @@ export default class SystemManagement extends Vue {
     return this.systemModule.listOption;
   }
 
-  searchOnClieckEvent() {
+  searchOnClieckEvent(data?: SearchCondition) {
     alert('검색 버튼');
+
+    if (data) {
+      console.log('검색 데이터 : ', data);
+      this.searchData = data;
+    }
     // this.systemModule.getSystemList();
   }
 
@@ -130,16 +136,19 @@ export default class SystemManagement extends Vue {
     {
       type: 'inputBox',
       label: '시스템명',
+      target: 'nm',
       placeholder: '입력해주세요.',
     },
     {
       type: 'inputBox',
       label: '시스템ID',
+      target: 'id',
       placeholder: '입력해주세요.',
     },
     {
       type: 'inputBox',
       label: '담당자명',
+      target: 'tkcgr_nm',
       placeholder: '입력해주세요.',
     },
     // selectBox 옵션

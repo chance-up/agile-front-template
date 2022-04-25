@@ -3,7 +3,12 @@
     <h2 class="h2-tit">검색</h2>
     <template v-for="(option, index) in searchPanelOption">
       <div class="search-cont" :key="index">
-        <InputBox v-if="option.type === 'inputBox'" :label="option.label" :placeholder="option.placeholder" />
+        <InputBox
+          v-if="option.type === 'inputBox'"
+          v-model="data.inputBoxCondition[option.target].value"
+          :label="option.label"
+          :placeholder="option.placeholder"
+        />
 
         <SelectBox
           v-if="option.type === 'selectBox'"
@@ -34,5 +39,7 @@ import { SearchCondition } from '@/types/SearchType';
 })
 export default class SystemManagement extends Vue {
   @Prop() public searchPanelOption!: object[] | null;
+
+  data!: SearchCondition;
 }
 </script>
