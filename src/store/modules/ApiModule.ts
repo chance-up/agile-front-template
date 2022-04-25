@@ -1,5 +1,5 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
-import { ApiSearchQuery, apiMockList, ApiDetailResponse, apiMockData } from '@/types/ApiType';
+import { ApiSearchQuery, apiMockList, ApiDetailResponse, apiMockData, apiMockData2 } from '@/types/ApiType';
 import { addMock } from '@/api/AxiosClient';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import { ApiResponse } from '@/api/ApiResponse';
@@ -7,6 +7,7 @@ import { ApiResponse } from '@/api/ApiResponse';
 @Module({ name: 'ApiModule' })
 export default class ApiModule extends VuexModule {
   public apiList: ApiDetailResponse[] = [];
+  public apiDetail: ApiDetailResponse | null = null;
 
   //api 리스트 요청
   @Mutation
@@ -26,12 +27,21 @@ export default class ApiModule extends VuexModule {
     this.context.commit('setApiList', response);
   }
 
-  // @Action
-  // async getSystemDetail(id: number) {
-  //   addMock(`/api/detail/${id}`, JSON.stringify(dummyData));
-  //   const response = await ApiResponse.getInstance().get<GateWayResponse<DummyApiResponse>>(`/api/detail/${id}`);
-  //   this.context.commit('setApiDetail', response);
-  // }
+  @Mutation
+  setApiDetail(api: ApiDetailResponse) {
+    console.log('set API detail', api);
+    this.apiDetail = api;
+  }
+
+  @Action({ commit: 'setApiDetail' })
+  async getApiDetail(id: string) {
+    // param 체크
+    addMock('/api/detail', JSON.stringify(id == apiMockData.id ? apiMockData : apiMockData2));
+    const response = await ApiResponse.getInstance().get<ApiDetailResponse>('/api/detail', { id });
+    console.log(response);
+    if (typeof response.meth == 'string') response.meth = JSON.parse(response.meth);
+    return response;
+  }
 }
 
 export const getApiDetail = async (id: string) => {
