@@ -14,15 +14,8 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'index',
-    //component: () => import('@/pages/LoginPage.vue'),
     component: () => import('@/pages/main/MainPage.vue'),
   },
-  // {
-  //   path: '/login',
-  //   name: 'login',
-  //   component: () => import('@/pages/LoginPage.vue'),
-  // },
-
   {
     path: '/main',
     name: 'main',
@@ -33,7 +26,6 @@ const routes: Array<RouteConfig> = [
         name: 'home',
         component: () => import('@/pages/main/home/HomePage.vue'),
       },
-
       // System
       {
         path: SYSTEM,

@@ -1,5 +1,13 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
-import { dummyData, SystemResponse } from '@/types/SystemType';
+import {
+  dummyListData,
+  dummySearchData,
+  dummyDetailData,
+  dummyRegisterData,
+  dummyUpdateData,
+  dummyDeleteData,
+  SystemResponse,
+} from '@/types/SystemType';
 import { SearchCondition } from '@/types/SearchType';
 import { ApiResponse } from '@/api/ApiResponse';
 import { addMock } from '@/api/AxiosClient';
@@ -15,25 +23,67 @@ export default class SystemModule extends VuexModule {
     this.listOption = list;
   }
 
+  // 시스템 관리 리스트 조회
   @Action
   async getSystemList(searchOption?: SearchCondition) {
-    addMock(
-      '/system/list/',
-      '[{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null}]'
-    );
-    const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse[]>>('/system/list/');
-    console.log('response', response);
-    this.context.commit('setSystemList', response);
+    if (!searchOption) {
+      addMock(
+        '/system/list',
+        JSON.stringify(dummyListData)
+        // '[{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null}]'
+      );
+      const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse[]>>('/system/list');
+      console.log('response', response);
+      this.context.commit('setSystemList', response);
+    } else {
+      addMock(
+        '/system/getSystemSearch',
+        JSON.stringify(dummySearchData)
+        // '[{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null},{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null}]'
+      );
+      const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse[]>>(
+        '/system/getSystemSearch'
+      );
+      console.log('system get list response', response);
+      this.context.commit('setSystemList', response);
+    }
   }
 
+  // 시스템 관리 상세 정보
   @Action
   async getSystemDetail(id: string) {
-    addMock(
-      `/system/detail/${id}`,
-      JSON.stringify(dummyData)
-      // '{"id": 1,"nm": "systemName1", "tkcgr_nm": "managerName1","tkcgr_pos": "managerPosition1","tkcgr_eml": "managerEmail1","if_grp": "interfaceGroup1","desc": "systemDescription1","created_at": "2020-01-01","created_by": "systemUser1","updated_at": null,"updated_by": null}'
-    );
+    addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
     const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
     return response;
+  }
+
+  // 시스템 관리 등록
+  @Action
+  async registerSystem(data: SystemResponse) {
+    addMock(`/system/registerSystem/`, JSON.stringify(dummyRegisterData));
+    const response = await ApiResponse.getInstance().post<GateWayResponse<SystemResponse>>(
+      `/system/registerSystem/`,
+      data
+    );
+    console.log('system register response', response);
+  }
+
+  // 시스템 관리 수정
+  @Action
+  async updateSystemDetail(data: SystemResponse) {
+    addMock(`/system/updateSystem/`, JSON.stringify(dummyUpdateData));
+    const response = await ApiResponse.getInstance().post<GateWayResponse<SystemResponse>>(
+      `/system/updateSystem/`,
+      data
+    );
+    console.log('system put response', response);
+  }
+
+  // 시스템 관리 삭제
+  @Action
+  async deleteSystem(id: string) {
+    addMock(`/system/deleteSystem/${id}`, JSON.stringify(dummyDeleteData));
+    const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse>>(`/system/deleteSystem/${id}`);
+    console.log('system delete response', response);
   }
 }

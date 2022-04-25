@@ -3,14 +3,21 @@
   <ListLayout :title="$t('system.list_top_title')">
     <template slot="search-form">
       <!-- 검색 컴포넌트의 옵션이 조금씩 다르니 페이지에 맞는 옵션으로 넘겨주세요. -->
-      <SearchForm :searchPanelOption="searchOption" />
+      <SearchForm :searchPanelOption="searchOption">
+        <!-- 검색 컴포넌트에 들어갈 버튼은 template로 묶어서 넣어주시면 됩니다. -->
+        <template slot="search-btn-area">
+          <button class="mid-btn" @click="searchOnClieckEvent">
+            <i><img src="@/assets/search_ico.svg" alt="검색" /></i>Search
+          </button>
+        </template>
+      </SearchForm>
     </template>
     <template slot="list-form">
       <!-- 리스트 컴포넌트에서 사용할 타이틀(ex. 시스템 리스트)을 넘겨주세요. -->
       <ListForm :title="$t('system.list_cont_title')">
         <!-- 리스트 우측 상단에 들어갈 버튼은 template로 묶어서 넣어주시면 됩니다. -->
         <template slot="list-btn-area">
-          <button class="mid-btn" @click="onClickEvent">
+          <button class="mid-btn" @click="registerOnClickEvent">
             <i><img src="@/assets/check_ico.svg" alt="등록" /></i>{{ $t('common.register') }}
           </button>
         </template>
@@ -37,15 +44,15 @@
           <!-- 각 리스트 페이지에 맞는 데이터로 v-for 돌려주시면 됩니다. <td> 태그 안이 조금씩 다를 수 있으니 퍼블리싱 파일 참조하면서 수정해주세요. -->
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
-              <td @click="getRoutePage('system_view', list.id)">{{ index + 1 }}</td>
-              <td @click="getRoutePage('system_view', list.id)">
+              <td @click="getRoutePage('system-detail', 1)">{{ index + 1 }}</td>
+              <td @click="getRoutePage('system-detail', 2)">
                 <span class="bold">{{ list.nm }}</span>
               </td>
-              <td @click="getRoutePage('system_view', list.id)">{{ list.id }}</td>
-              <td @click="getRoutePage('system_view', list.id)">{{ list.tkcgr_nm }}</td>
-              <td @click="getRoutePage('system_view', list.id)">
+              <td @click="getRoutePage('system-detail', list.id)">{{ list.id }}</td>
+              <td @click="getRoutePage('system-detail', list.id)">{{ list.tkcgr_nm }}</td>
+              <td @click="getRoutePage('system-detail', list.id)">
                 <p>
-                  {{ list.updatedAt === null ? list.createdAt : list.updated_at }}
+                  {{ list.updated_at === null ? list.created_at : list.updated_at }}
                 </p>
               </td>
               <td>
@@ -95,13 +102,20 @@ export default class SystemManagement extends Vue {
     return this.systemModule.listOption;
   }
 
-  onClickEvent() {
+  searchOnClieckEvent() {
+    alert('검색 버튼');
+    // this.systemModule.getSystemList();
+  }
+
+  registerOnClickEvent() {
     this.$router.push({ name: 'system-register' });
   }
 
   getRoutePage(page: string, id?: string): void {
+    console.log('!!!!!!!');
+    console.log(id);
     if (id) {
-      this.$router.push({ name: page, query: { id: id } });
+      this.$router.push({ name: page, params: { id: id } });
     } else {
       this.$router.push({ name: page });
     }

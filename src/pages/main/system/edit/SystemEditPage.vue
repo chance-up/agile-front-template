@@ -6,35 +6,62 @@
   >
     <template v-slot:contents>
       <ul>
-        <InputGroup :inputNm="$t('system.name')" :place="dumyData.sysNm" inputClass="input-box lg" :disabled="true" />
-        <InputGroup :inputNm="$t('system.id')" :place="dumyData.sysId" inputClass="input-box lg" :disabled="true" />
+        <InputGroup
+          :inputNm="$t('system.name')"
+          :inputValue="systemItem.nm"
+          :place="$t('system.name')"
+          inputClass="input-box lg"
+          :disabled="true"
+        />
+        <InputGroup
+          :inputNm="$t('system.id')"
+          :inputValue="systemItem.id"
+          :place="$t('system.id')"
+          inputClass="input-box lg"
+          :disabled="true"
+        />
         <InputGroup
           :inputNm="$t('system.tkcgrNm')"
-          :place="dumyData.mgrNm"
+          :inputValue="systemItem.tkcgr_nm"
+          :place="$t('system.tkcgrNm')"
           inputClass="input-box lg check-false"
-          validCheck="중복된 API ID 입니다."
         />
-        <InputGroup :inputNm="$t('system.tkcgrPos')" :place="dumyData.belong" inputClass="input-box lg check-ok" />
-        <InputGroup :inputNm="$t('system.tkcgrEml')" :place="dumyData.eMail" inputClass="input-box lg check-ok" />
-        <InterfaceGroup :inputNm="$t('system.ifGrp')" :linkType="dumyData.linkType" />
+        <!-- validCheck="중복된 API ID 입니다." -->
+        <InputGroup
+          :inputNm="$t('system.tkcgrPos')"
+          :inputValue="systemItem.tkcgr_nm"
+          :place="$t('system.tkcgrPos')"
+          inputClass="input-box lg check-ok"
+        />
+        <InputGroup
+          :inputNm="$t('system.tkcgrEml')"
+          :inputValue="systemItem.tkcgr_eml"
+          :place="$t('system.tkcgrEml')"
+          inputClass="input-box lg check-ok"
+        />
+        <InterfaceGroup :inputNm="$t('system.ifGrp')" :linkType="systemItem.if_grp" />
         <TextAreaGroup :inputNm="$t('system.desc')" />
       </ul>
     </template>
     <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn">{{ $t('common.modify') }}</button>
-        <button class="lg-btn white-btn">{{ $t('common.cancel') }}</button>
+        <button class="lg-btn purple-btn" @click="onSubmit">{{ $t('common.modify') }}</button>
+        <button class="lg-btn white-btn" @click="cancelOnClickEvent">{{ $t('common.cancel') }}</button>
       </div>
     </template>
   </ContentLayout>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
+
+import SystemModule from '@/store/modules/SystemModule';
+import { SystemResponse } from '@/types/SystemType';
+
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/system/InputGroup.vue';
 import InterfaceGroup from '@/components/system/InterfaceGroup.vue';
 import TextAreaGroup from '@/components/system/TextAreaGroup.vue';
-import { SystemResponse } from '@/types/SystemType';
 
 @Component({
   components: {
@@ -45,9 +72,27 @@ import { SystemResponse } from '@/types/SystemType';
   },
 })
 export default class SystemEditPage extends Vue {
-  // get dumyData(): DummySystemResponse {
-  //   return dummyData;
-  // }
+  systemModule = getModule(SystemModule, this.$store);
+  systemItem: SystemResponse = {} as SystemResponse;
+
+  created() {
+    this.systemModule.getSystemDetail(this.$route.query.id as string).then((res) => {
+      console.log(res);
+      // this.systemItem = res;
+    });
+  }
+
+  onSubmit(): void {
+    if (confirm('서비스를 수정하시겠습니까?') == true) {
+      console.log(this.systemItem);
+    } else {
+      return;
+    }
+  }
+
+  cancelOnClickEvent() {
+    this.$router.go(-1);
+  }
 }
 </script>
 <style lang=""></style>

@@ -26,7 +26,7 @@
   </ContentLayout>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 
 import { SystemResponse } from '@/types/SystemType';
@@ -42,6 +42,8 @@ import InfoGroup from '@/components/api/detail/InfoGroup.vue';
   },
 })
 export default class SystemDetailPage extends Vue {
+  @Prop({ default: '' }) id!: string;
+
   systemModule = getModule(SystemModule, this.$store);
   systemItem: SystemResponse = {
     id: '',

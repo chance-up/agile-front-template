@@ -58,6 +58,7 @@ export default class ServiceDetailPage extends Vue {
   }
 
   created() {
+    console.log('serviceId', this.serviceId);
     this.serviceModule.getService(this.serviceId);
   }
 }

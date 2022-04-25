@@ -6,7 +6,7 @@
     <template slot="list-form">
       <ListForm :title="listTitle">
         <template slot="list-btn-area">
-          <button class="mid-btn" @click="$router.push('/service-register')">
+          <button class="mid-btn" @click="$router.push({ name: 'service-register' })">
             <i><img src="@/assets/check_ico.svg" alt="등록" /></i>등록
           </button>
         </template>
@@ -34,19 +34,19 @@
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
               <td>{{ index + 1 }}</td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { serviceId: list.id } })">
                 <span class="bold">{{ list.nm }}</span>
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { serviceId: list.id } })">
                 {{ list.id }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { serviceId: list.id } })">
                 {{ list.athn }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { serviceId: list.id } })">
                 {{ list.svc_st_dt }} ~ {{ list.svc_end_dt }}
               </td>
-              <td @click="$router.push({ path: '/service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { serviceId: list.id } })">
                 {{ list.upd_dt }}
               </td>
               <td>
