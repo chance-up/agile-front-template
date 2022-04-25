@@ -4,26 +4,24 @@
     <div class="form-cont">
       <div class="date-wrap">
         <div class="date-cont">
-          <input
-            type="text"
-            id=""
-            class="input-box"
-            :placeholder="placeholderStart"
+          <date-picker
+            valueType="format"
+            v-model="time1"
             :value="startDt"
-            @input="$emit('input', $event.target.value)"
-          />
+            @input="$emit('date-picker', $event.target.value)"
+          ></date-picker>
+
           <i class="icon"><img src="@/assets/picker.svg" alt="달력아이콘" /></i>
         </div>
         <span class="text">~</span>
         <div class="date-cont">
-          <input
-            type="text"
-            id=""
-            class="input-box"
-            :placeholder="placeholderENd"
+          <date-picker
+            v-model="time2"
+            valueType="format"
             :value="endDt"
-            @input="$emit('input', $event.target.value)"
-          />
+            @input="$emit('date-picker', $event.target.value)"
+          ></date-picker>
+
           <i class="icon"><img src="@/assets/picker.svg" alt="달력아이콘" /></i>
         </div>
       </div>
@@ -32,31 +30,23 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
 
-@Component
+@Component({
+  components: {
+    DatePicker,
+  },
+})
 export default class DateGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
   @Prop({ default: '' }) placeholderStart!: string;
   @Prop({ default: '' }) placeholderENd!: string;
-  @Prop({ default: '' }) startDt!: string;
-  @Prop({ default: '' }) endDt!: string;
+  @Prop({ default: null }) startDt!: Date | string;
+  @Prop({ default: null }) endDt!: Date | string;
 
-  @PropSync('childValueStart', { type: String })
-  syncedStartValue!: string;
-
-  startDate = null;
-  @Watch('startDate')
-  startDateChanged(val: string) {
-    this.syncedStartValue = val;
-  }
-
-  @PropSync('childValueEnd', { type: String })
-  syncedEndValue!: string;
-
-  endDate = null;
-  @Watch('endDate')
-  endDateChanged(val: string) {
-    this.syncedEndValue = val;
-  }
+  time1 = null;
+  time2 = null;
+  time3 = null;
 }
 </script>
