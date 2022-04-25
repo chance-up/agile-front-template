@@ -44,8 +44,8 @@ export default class SystemModule extends VuexModule {
       const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse[]>>(
         '/system/getSystemSearch'
       );
-      console.log('system get list response', response);
-      this.context.commit('setSystemList', response);
+      console.log('system get list response', response.data.value);
+      this.context.commit('setSystemList', response.data.value);
     }
   }
 

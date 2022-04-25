@@ -91,9 +91,12 @@ import { SystemResponse } from '@/types/SystemType';
     ListForm,
   },
 })
-export default class SystemManagement extends Vue {
+export default class SystemPage extends Vue {
   systemModule = getModule(SystemModule, this.$store);
-  searchData!: SearchCondition;
+  searchData: SearchCondition = {
+    inputBoxCondition: {},
+    selectBoxCondition: {},
+  };
 
   created() {
     this.systemModule.getSystemList();
@@ -103,14 +106,17 @@ export default class SystemManagement extends Vue {
     return this.systemModule.listOption;
   }
 
-  searchOnClieckEvent(data?: SearchCondition) {
-    alert('검색 버튼');
-
-    if (data) {
-      console.log('검색 데이터 : ', data);
-      this.searchData = data;
+  searchOnClieckEvent() {
+    if (
+      //썼다 지웠을 때도 통과 안되도록 로직 추가해야 함
+      Object.keys(this.searchData.inputBoxCondition).length > 0 ||
+      Object.keys(this.searchData.selectBoxCondition).length > 0
+    ) {
+      console.log('system page : ', this.searchData);
+      this.systemModule.getSystemList(this.searchData);
+    } else {
+      alert('검색 데이터를 입력해주세요.');
     }
-    // this.systemModule.getSystemList();
   }
 
   registerOnClickEvent() {
