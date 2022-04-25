@@ -81,6 +81,7 @@ export default class ApiDetailPage extends Vue {
 
   mockData: ApiDetailResponse | null = null;
   created() {
+    console.log(this.$route.params.id);
     getApiDetail(1).then((res) => {
       console.log(res);
       this.mockData = res;

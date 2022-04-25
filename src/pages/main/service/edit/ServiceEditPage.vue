@@ -78,7 +78,7 @@ import { ServiceRegisterRequest, ServiceResponse } from '@/types/ServiceType';
   },
 })
 export default class SystemRegisterPage extends Vue {
-  @Prop({ default: '' }) serviceId!: string;
+  // router push 로 전달받은 id 는 this.$route.params.id 로 사용하시면 됩니다.
 
   serviceModule = getModule(ServiceModule, this.$store);
 
@@ -87,13 +87,13 @@ export default class SystemRegisterPage extends Vue {
   }
 
   created() {
-    this.serviceModule.getService(this.serviceId);
+    this.serviceModule.getService(this.$route.params.id);
   }
 
   editService() {
     if (confirm('서비스를 등록하시겠습니까?') == true) {
       this.serviceModule.editServiceAction(this.serviceOption);
-      this.$router.push({ path: '/Service-detail', params: { serviceId: this.serviceId } });
+      this.$router.push({ name: 'service-detail', params: { serviceId: this.$route.params.id } });
     } else {
       return;
     }

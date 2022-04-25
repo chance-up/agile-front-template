@@ -112,7 +112,6 @@ export default class SystemManagement extends Vue {
   }
 
   getRoutePage(page: string, id?: string): void {
-    console.log('!!!!!!!');
     console.log(id);
     if (id) {
       this.$router.push({ name: page, params: { id: id } });

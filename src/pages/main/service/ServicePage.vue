@@ -34,19 +34,19 @@
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
               <td>{{ index + 1 }}</td>
-              <td @click="$router.push({ name: 'service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 <span class="bold">{{ list.nm }}</span>
               </td>
-              <td @click="$router.push({ name: 'service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 {{ list.id }}
               </td>
-              <td @click="$router.push({ name: 'service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 {{ list.athn }}
               </td>
-              <td @click="$router.push({ name: 'service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 {{ list.svc_st_dt }} ~ {{ list.svc_end_dt }}
               </td>
-              <td @click="$router.push({ name: 'service-detail', params: { serviceId: list.id } })">
+              <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 {{ list.upd_dt }}
               </td>
               <td>

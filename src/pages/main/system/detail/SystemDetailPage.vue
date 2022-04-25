@@ -42,6 +42,7 @@ import InfoGroup from '@/components/api/detail/InfoGroup.vue';
   },
 })
 export default class SystemDetailPage extends Vue {
+  // router push 로 전달받은 id 는 this.$route.params.id 로 사용하시면 됩니다.
   @Prop({ default: '' }) id!: string;
 
   systemModule = getModule(SystemModule, this.$store);
@@ -71,7 +72,6 @@ export default class SystemDetailPage extends Vue {
 
   onClickEdit() {
     this.$router.push({ name: 'system_edit', query: { id: this.$route.query.id } });
-    // this.$router.push({ name: 'system_edit' });
   }
 
   onClickDelete() {
