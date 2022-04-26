@@ -1,4 +1,4 @@
-import { Common, Data, GateWayResponse, Pagination } from './GateWayResponse';
+import { Data, GateWayResponse, Pagination } from './GateWayResponse';
 
 export interface ServiceResponse {
   id: string;
@@ -44,11 +44,6 @@ export const pagination: Pagination = {
   order_by: '',
   sort_by: '',
   limit: 1,
-};
-
-export const common: Common = {
-  code: 200,
-  message: '',
 };
 
 export const serviceListResponse: ServiceResponse[] = [
@@ -120,11 +115,11 @@ export const serviceData: Data<ServiceResponse> = {
 };
 
 export const getServiceInfo: GateWayResponse<ServiceResponse[]> = {
-  common: common,
   data: serviceListData,
+  status: 0,
 };
 
 export const getServiceId: GateWayResponse<ServiceResponse> = {
-  common: common,
   data: serviceData,
+  status: 0,
 };

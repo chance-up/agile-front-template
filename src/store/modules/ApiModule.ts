@@ -1,8 +1,8 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
 import { ApiSearchQuery, apiMockList, ApiDetailResponse, apiMockData, apiMockData2 } from '@/types/ApiType';
-import { addMock } from '@/api/AxiosClient';
+import { addMock } from '@/axios/AxiosIntercept';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
-import { ApiResponse } from '@/api/ApiResponse';
+import { AxiosClient } from '@/axios/AxiosClient';
 
 @Module({ name: 'ApiModule' })
 export default class ApiModule extends VuexModule {
@@ -18,8 +18,8 @@ export default class ApiModule extends VuexModule {
   @Action
   async getApiList(searchQuery?: ApiSearchQuery) {
     addMock('/api/list', JSON.stringify(apiMockList));
-    const response = await ApiResponse.getInstance().get<ApiDetailResponse[]>('/api/list', searchQuery);
-    console.log('getApiList => ' + response);
+    const response = await AxiosClient.getInstance().get<ApiDetailResponse[]>('/api/list', searchQuery);
+    console.log(response);
     response.map((item: ApiDetailResponse) => {
       if (typeof item.meth == 'string') item.meth = JSON.parse(item.meth);
     });
@@ -39,8 +39,8 @@ export default class ApiModule extends VuexModule {
   async getApiDetail(id: string) {
     // param 체크
     addMock('/api/detail', JSON.stringify(id == apiMockData.id ? apiMockData : apiMockData2));
-    const response = await ApiResponse.getInstance().get<ApiDetailResponse>('/api/detail', { id });
-    console.log('getApiDetail => ' + response);
+    const response = await AxiosClient.getInstance().get<ApiDetailResponse>('/api/detail', { id });
+    console.log(response);
     if (typeof response.meth == 'string') response.meth = JSON.parse(response.meth);
     return response;
   }
@@ -59,7 +59,8 @@ export const apiValidationCheck = async (id: string) => {
     '/api/validation',
     JSON.stringify(apiMockList.map((item: ApiDetailResponse) => item.id).includes(id) ? false : true)
   );
-  const response = await ApiResponse.getInstance().get<boolean>('/api/validation', { id });
+  const response = await AxiosClient.getInstance().get<boolean>('/api/validation', { id });
   console.log('apiValidationCheck => ' + response);
+
   return response;
 };

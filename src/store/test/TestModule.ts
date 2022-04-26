@@ -1,9 +1,10 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
 import { UserList, Data } from '@/types/test/TestType';
-import { ApiResponse } from '@/api/ApiResponse';
+import { AxiosClient } from '@/axios/AxiosClient';
 
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
-import { ParameterError } from '@/error/Errors';
+import { GateWayError } from '@/error/GateWayError';
+import ErrorCode from '@/error/ErrorCodes';
 
 @Module({ name: 'TestModule' })
 export default class TestModule extends VuexModule {
@@ -39,7 +40,7 @@ export default class TestModule extends VuexModule {
       // );
       // console.log(response);
 
-      const response1 = await ApiResponse.getInstance().get<GateWayResponse<UserList>>(
+      const response1 = await AxiosClient.getInstance().get<GateWayResponse<UserList>>(
         '/air/inscntrAdm/inquiryRgnInspectionCenterList',
         {
           limit: '10',
@@ -49,12 +50,11 @@ export default class TestModule extends VuexModule {
       console.log(response1);
 
       this.context.commit('setItem', response1);
-    } catch (error) {
-      if (error as ParameterError) {
-        this.context.commit('showAlert');
-        console.log('ParameterError');
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
       } else {
-        console.log('ParameterError');
+        console.log('서버통신에 실패하였습니다.');
       }
     }
   }
@@ -92,17 +92,16 @@ export default class TestModule extends VuexModule {
   async getUserListAction(page: string) {
     try {
       if (!this.fetchedList) {
-        const response = await ApiResponse.getInstance().get<GateWayResponse<UserList>>('/users/', {
+        const response = await AxiosClient.getInstance().get<GateWayResponse<UserList>>('/users/', {
           page: page,
         });
         this.context.commit('getUserListMutation', response.data);
       }
-    } catch (error) {
-      if (error as ParameterError) {
-        this.context.commit('showAlert');
-        console.log('ParameterError');
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
       } else {
-        console.log('ParameterError');
+        console.log('서버통신에 실패하였습니다.');
       }
     }
   }
@@ -117,14 +116,13 @@ export default class TestModule extends VuexModule {
   @Action
   async getUserAction(id: number) {
     try {
-      const response = await ApiResponse.getInstance().get<GateWayResponse<Data>>('/users/' + id);
+      const response = await AxiosClient.getInstance().get<GateWayResponse<Data>>('/users/' + id);
       this.context.commit('getUserMutation', response.data);
-    } catch (error) {
-      if (error as ParameterError) {
-        this.context.commit('showAlert');
-        console.log('ParameterError');
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
       } else {
-        console.log('ParameterError');
+        console.log('서버통신에 실패하였습니다.');
       }
     }
   }
@@ -139,17 +137,16 @@ export default class TestModule extends VuexModule {
   @Action
   async createUserAction(data: Data) {
     try {
-      const response = await ApiResponse.getInstance().post<GateWayResponse<Data>>('/users', {
+      const response = await AxiosClient.getInstance().post<GateWayResponse<Data>>('/users', {
         data,
       });
 
       this.context.commit('createUserMutation', response.data);
-    } catch (error) {
-      if (error as ParameterError) {
-        this.context.commit('showAlert');
-        console.log('ParameterError');
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
       } else {
-        console.log('ParameterError');
+        console.log('서버통신에 실패하였습니다.');
       }
     }
   }
@@ -172,16 +169,15 @@ export default class TestModule extends VuexModule {
   @Action
   async editUserAction(data: Data) {
     try {
-      const response = await ApiResponse.getInstance().put<GateWayResponse<Data>>('/users/' + data.id, {
+      const response = await AxiosClient.getInstance().put<GateWayResponse<Data>>('/users/' + data.id, {
         data,
       });
       this.context.commit('editUserMutation', response.data);
-    } catch (error) {
-      if (error as ParameterError) {
-        this.context.commit('showAlert');
-        console.log('ParameterError');
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
       } else {
-        console.log('ParameterError');
+        console.log('서버통신에 실패하였습니다.');
       }
     }
   }
@@ -198,15 +194,14 @@ export default class TestModule extends VuexModule {
   @Action
   async deleteUserAction(id: number) {
     try {
-      await ApiResponse.getInstance().delete<GateWayResponse<Data>>('/users/', id);
+      await AxiosClient.getInstance().delete<GateWayResponse<Data>>('/users/', id);
 
       this.context.commit('deleteUserMutation', id);
-    } catch (error) {
-      if (error as ParameterError) {
-        this.context.commit('showAlert');
-        console.log('ParameterError');
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
       } else {
-        console.log('ParameterError');
+        console.log('서버통신에 실패하였습니다.');
       }
     }
   }
