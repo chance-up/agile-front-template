@@ -32,29 +32,43 @@ export default class DateGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
   @Prop({ default: '' }) placeholderStart!: string;
   @Prop({ default: '' }) placeholderENd!: string;
-  // @Prop({ default: null }) startDt!: Date | string;
-  // @Prop({ default: null }) endDt!: Date | string;
+  @Prop({ default: null }) startDt!: string;
+  @Prop({ default: null }) endDt!: string;
 
   // time1 = null;
   // time2 = null;
   // time3 = null;
 
-  @PropSync('startDt', { type: String })
-  syncedChildValue1!: string;
-
-  start = null;
-  @Watch('start')
-  onChildChanged1(val: string) {
-    this.syncedChildValue1 = val;
+  get start() {
+    return this.startDt;
+  }
+  set start(val: string) {
+    this.$emit('update:startDt', val);
   }
 
-  @PropSync('endDt', { type: String })
-  syncedChildValue2!: string;
-
-  end = null;
-  @Watch('end')
-  onChildChanged2(val: string) {
-    this.syncedChildValue2 = val;
+  get end() {
+    return this.endDt;
   }
+  set end(val: string) {
+    this.$emit('update:endDt', val);
+  }
+
+  // @PropSync('startDt', { type: String })
+  // syncedChildValue1!: string;
+
+  // start = null;
+  // @Watch('start')
+  // onChildChanged1(val: string) {
+  //   this.syncedChildValue1 = val;
+  // }
+
+  // @PropSync('endDt', { type: String })
+  // syncedChildValue2!: string;
+
+  // end = null;
+  // @Watch('end')
+  // onChildChanged2(val: string) {
+  //   this.syncedChildValue2 = val;
+  // }
 }
 </script>
