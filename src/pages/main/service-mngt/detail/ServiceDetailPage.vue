@@ -21,8 +21,13 @@
 
     <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="$router.push('/service-edit')">수정</button>
-        <button class="lg-btn white-btn">삭제</button>
+        <button
+          class="lg-btn purple-btn"
+          @click="$router.push({ name: 'service-edit', params: { id: $route.params.id } })"
+        >
+          수정
+        </button>
+        <button class="lg-btn white-btn" @click="deleteService(serviceOption.id)">삭제</button>
         <button class="lg-btn gray-btn" @click="$router.go(-1)">목록</button>
       </div>
     </template>
@@ -60,6 +65,15 @@ export default class ServiceDetailPage extends Vue {
   created() {
     console.log('!!!IDIDID', this.$route.params.id);
     this.serviceModule.getService(this.$route.params.serviceId);
+  }
+
+  deleteService(ServiceId: string) {
+    if (confirm('서비스를 삭제하시겠습니까?') == true) {
+      this.serviceModule.deleteServiceAction(ServiceId);
+      this.$router.back();
+    } else {
+      return;
+    }
   }
 }
 </script>
