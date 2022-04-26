@@ -13,10 +13,10 @@
       <div v-if="show != 'none'" class="form-group sla-form">
         <!--  총량  -->
         <select class="select-box mr15" :value="type" @input="$emit('select', $event.target.value)">
-          <option>분</option>
-          <option>시</option>
-          <option>일</option>
-          <option>월</option>
+          <option value="MINITE">분</option>
+          <option value="HOUR">시</option>
+          <option value="DAY">일</option>
+          <option value="MONTH">월</option>
         </select>
         <input
           type="text"
