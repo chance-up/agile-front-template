@@ -40,7 +40,7 @@
           :startDt="formData.svc_st_dt"
           :endDt="formData.svc_end_dt"
         />
-        <AuthReqGroup imputNm="인증수단" v-model="formData.athn" />
+        <AuthReqGroup inputNm="인증수단" v-model="formData.athn" />
         <SlaReqGroup inputNm="SLA 정책관리" :type="formData.sla_type" :count="formData.sla_cnt" />
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
       </ul>

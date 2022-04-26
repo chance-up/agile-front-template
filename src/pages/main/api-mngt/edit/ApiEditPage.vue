@@ -73,7 +73,7 @@
       </ul>
     </template>
     <template v-slot:buttons>
-      <EditButtonGroup />
+      <EditButtonGroup v-if="mockData" :id="mockData.id" />
     </template>
   </ContentLayout>
 </template>
@@ -89,7 +89,8 @@ import EditRequestHandler from '@/components/api-mngt/edit/EditRequestHandler.vu
 import EditResponseHandler from '@/components/api-mngt/edit/EditResponseHandler.vue';
 import EditButtonGroup from '@/components/api-mngt/edit/EditButtonGroup.vue';
 import { ApiDetailResponse } from '@/types/ApiType';
-import { getApiDetail } from '@/store/modules/ApiModule';
+import ApiModule, { getApiDetail } from '@/store/modules/ApiModule';
+import { getModule } from 'vuex-module-decorators';
 @Component({
   components: {
     ContentLayout,
@@ -103,16 +104,16 @@ import { getApiDetail } from '@/store/modules/ApiModule';
   },
 })
 export default class ApiEditPage extends Vue {
-  // get dumyData(): SystemResponse {
-  //   return dummyData;
-  // }
-  mockData: ApiDetailResponse | null = null;
+  apiModule = getModule(ApiModule, this.$store);
+
+  get mockData(): ApiDetailResponse | null {
+    return this.apiModule.apiDetail;
+  }
   created() {
-    getApiDetail(this.$route.params.id).then((res) => {
-      console.log('api edit: ' + this.$route.params.id);
-      console.log(res);
-      this.mockData = res;
-    });
+    this.apiModule.getApiDetail(this.$route.params.id);
+  }
+  destroyed() {
+    this.apiModule.reset();
   }
 }
 </script>

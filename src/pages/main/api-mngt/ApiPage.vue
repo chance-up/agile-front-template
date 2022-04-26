@@ -79,6 +79,9 @@ export default class ApiPage extends Vue {
   created() {
     this.apiModule.getApiList();
   }
+  destroyed() {
+    this.apiModule.reset();
+  }
 
   get apiList(): ApiDetailResponse[] {
     console.log(this.apiModule.apiList);

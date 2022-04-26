@@ -9,19 +9,19 @@
       <nav id="navi">
         <ul>
           <li :class="{ on: navState.homeState }" @click="changeNavState('homeState')">
-            <router-link to="/home">Home</router-link>
+            <router-link :to="`${homePath}`">Home</router-link>
           </li>
           <li :class="{ on: navState.systemState }" @click="changeNavState('systemState')">
-            <router-link to="/system">시스템 관리</router-link>
+            <router-link :to="`${systemPath}`">시스템 관리</router-link>
           </li>
           <li :class="{ on: navState.apiState }" @click="changeNavState('apiState')">
-            <router-link to="/api">API관리</router-link>
+            <router-link :to="`${apiPath}`">API관리</router-link>
           </li>
           <li :class="{ on: navState.serviceState }" @click="changeNavState('serviceState')">
-            <router-link to="/service">서비스 관리</router-link>
+            <router-link :to="`${servicePath}`">서비스 관리</router-link>
           </li>
           <li :class="{ on: navState.monitoringState }" @click="changeNavState('monitoringState')">
-            <router-link to="/monitoring">모니터링</router-link>
+            <router-link :to="`${mornitoringPath}`">모니터링</router-link>
           </li>
           <li :class="{ on: navState.showManagement }" @click="navState.showManagement = !navState.showManagement">
             <a href="javascript:void(0)">Menagement</a>
@@ -52,6 +52,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import { SYSTEM, SERVICE, API, MONITORING, MANAGEMENT } from '@/router/Names';
 
 interface NavState {
   [key: string]: boolean;
@@ -64,6 +65,13 @@ interface NavState {
 }
 @Component
 export default class MainHeader extends Vue {
+  homePath = '/home';
+  systemPath = SYSTEM;
+  apiPath = API;
+  servicePath = SERVICE;
+  mornitoringPath = MONITORING;
+  managementPath = MANAGEMENT;
+
   navState: NavState = {
     homeState: true,
     systemState: false,

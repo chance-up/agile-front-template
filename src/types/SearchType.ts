@@ -7,6 +7,10 @@ export interface SearchOption {
 }
 
 export interface SearchCondition {
-  inputBoxCondition: object[];
-  selectBoxCondition: object[];
+  inputBoxCondition: ConditionType;
+  selectBoxCondition: ConditionType;
+}
+
+interface ConditionType {
+  [key: string]: string;
 }

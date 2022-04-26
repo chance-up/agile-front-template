@@ -1,12 +1,13 @@
 <template lang="html">
   <ContentLayout
+    v-if="mockData"
     :title="`${$t('api.api')}` + ' ' + `${$t('api.information')}` + ' ' + `${$t('api.confirm')}`"
     :subTitle="`${$t('api.basic')}` + `${$t('api.information')}` + ' ' + `${$t('api.confirm')}`"
     :depth="`${$t('api.api')}` + ' ' + `${$t('api.management')}`"
   >
     <template v-slot:contents>
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
-      <ul v-if="mockData !== null">
+      <ul>
         <InfoGroup :inputNm="`${$t('api.system')}` + `${$t('api.name')}`" :value="mockData.sys_id" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.id')}`" :value="mockData.id" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.name')}`" :value="mockData.nm" />
@@ -50,7 +51,8 @@ import URIGroup from '@/components/api-mngt/detail/URIGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue } from 'vue-property-decorator';
 import { ApiDetailResponse } from '@/types/ApiType';
-import { getApiDetail } from '@/store/modules/ApiModule';
+import ApiModule from '@/store/modules/ApiModule';
+import { getModule } from 'vuex-module-decorators';
 @Component({
   components: {
     InfoGroup,
@@ -60,31 +62,16 @@ import { getApiDetail } from '@/store/modules/ApiModule';
   },
 })
 export default class ApiDetailPage extends Vue {
-  // mockData: ApiDetailResponse = {
-  //   sys_id: '',
-  //   id: '',
-  //   nm: '',
-  //   if_no: '',
-  //   meth: [],
-  //   uri_in: '',
-  //   uri_out: '',
-  //   if_grp: '',
-  //   req_handlr_grp_id: '',
-  //   res_handlr_grp_id: '',
-  //   time_out: 0,
-  //   desc: '',
-  //   cret_dt: '',
-  //   cret_id: '',
-  //   upd_dt: '',
-  //   upd_id: '',
-  // };
+  apiModule = getModule(ApiModule, this.$store);
 
-  mockData: ApiDetailResponse | null = null;
+  get mockData(): ApiDetailResponse | null {
+    return this.apiModule.apiDetail;
+  }
   created() {
-    console.log(this.$route.params.id);
-    getApiDetail(this.$route.params.id).then((res) => {
-      this.mockData = res;
-    });
+    this.apiModule.getApiDetail(this.$route.params.id);
+  }
+  destroyed() {
+    this.apiModule.reset();
   }
 }
 </script>
