@@ -4,23 +4,13 @@
     <div class="form-cont">
       <div class="date-wrap">
         <div class="date-cont">
-          <date-picker
-            valueType="format"
-            v-model="time1"
-            :value="startDt"
-            @input="$emit('date-picker', $event.target.value)"
-          ></date-picker>
+          <date-picker valueType="format" v-model="start"></date-picker>
 
           <i class="icon"><img src="@/assets/picker.svg" alt="달력아이콘" /></i>
         </div>
         <span class="text">~</span>
         <div class="date-cont">
-          <date-picker
-            v-model="time2"
-            valueType="format"
-            :value="endDt"
-            @input="$emit('date-picker', $event.target.value)"
-          ></date-picker>
+          <date-picker valueType="format" v-model="end"></date-picker>
 
           <i class="icon"><img src="@/assets/picker.svg" alt="달력아이콘" /></i>
         </div>
@@ -42,11 +32,29 @@ export default class DateGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
   @Prop({ default: '' }) placeholderStart!: string;
   @Prop({ default: '' }) placeholderENd!: string;
-  @Prop({ default: null }) startDt!: Date | string;
-  @Prop({ default: null }) endDt!: Date | string;
+  // @Prop({ default: null }) startDt!: Date | string;
+  // @Prop({ default: null }) endDt!: Date | string;
 
-  time1 = null;
-  time2 = null;
-  time3 = null;
+  // time1 = null;
+  // time2 = null;
+  // time3 = null;
+
+  @PropSync('startDt', { type: String })
+  syncedChildValue1!: string;
+
+  start = null;
+  @Watch('start')
+  onChildChanged1(val: string) {
+    this.syncedChildValue1 = val;
+  }
+
+  @PropSync('endDt', { type: String })
+  syncedChildValue2!: string;
+
+  end = null;
+  @Watch('end')
+  onChildChanged2(val: string) {
+    this.syncedChildValue2 = val;
+  }
 }
 </script>

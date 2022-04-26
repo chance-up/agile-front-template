@@ -39,8 +39,8 @@
           inputNm="서비스 기간"
           placeholderStart="YYYY-MM-DD"
           placeholderENd="YYYY-MM-DD"
-          :startDt="serviceOption.svc_st_dt"
-          :endDt="serviceOption.svc_end_dt"
+          :startDt.sync="serviceOption.svc_st_dt"
+          :endDt.sync="serviceOption.svc_end_dt"
         />
         <AuthReqGroup imputNm="인증수단" v-model="serviceOption.athn" />
         <SlaReqGroup inputNm="SLA 정책관리" :type="serviceOption.sla_type" :count="serviceOption.sla_cnt" />
@@ -50,7 +50,7 @@
     <template v-slot:buttons>
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="editService()">등록</button>
-        <button class="lg-btn white-btn" @click="$router.go(-1)">취소</button>
+        <button class="lg-btn white-btn" @click="$router.back()">취소</button>
       </div>
     </template>
   </ContentLayout>
@@ -94,7 +94,7 @@ export default class SystemRegisterPage extends Vue {
     if (confirm('서비스를 등록하시겠습니까?') == true) {
       console.log(this.serviceOption);
       this.serviceModule.editServiceAction(this.serviceOption);
-      this.$router.push({ name: 'service-detail', params: { id: this.$route.params.id } });
+      this.$router.back();
     } else {
       return;
     }
