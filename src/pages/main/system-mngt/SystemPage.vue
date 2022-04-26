@@ -7,7 +7,7 @@
         <!-- 검색 컴포넌트에 들어갈 버튼은 template로 묶어서 넣어주시면 됩니다. -->
         <template slot="search-btn-area">
           <button class="mid-btn" @click="searchOnClieckEvent">
-            <i><img src="@/assets/search_ico.svg" alt="검색" /></i>Search
+            <i><img src="@/assets/search_ico.svg" alt="검색" /></i>{{ $t('common.search') }}
           </button>
         </template>
       </SearchForm>

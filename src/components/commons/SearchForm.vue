@@ -1,6 +1,6 @@
 <template>
   <div class="search-wrap">
-    <h2 class="h2-tit">검색</h2>
+    <h2 class="h2-tit">{{ $t('common.search') }}</h2>
     <template v-for="(option, index) in searchPanelOption">
       <div class="search-cont" :key="index">
         <InputBox
