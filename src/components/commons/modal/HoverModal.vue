@@ -1,30 +1,22 @@
 <template>
   <div>
-    <transition name="modal">
-      <!------- handler pop -------->
-      <div class="pop-wrap">
-        <div class="pop-header">
+    <transition name="HoverModal">
+      <!------- handler pop2 -------->
+      <div class="pop2-wrap">
+        <div class="pop2-header">
           <h1 class="h1-tit">Handler Group Name</h1>
           <button @click="$emit('close')">
             <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
           </button>
         </div>
 
-        <div class="pop-container">
-          <p class="text">Handler Group 설명설명설명설명설명설명</p>
+        <div class="pop2-container">
+          <p class="text">Handler Group 설명설명설명설명설명설명 ㅡ아아아아아아앙아아아아아아으아아아아아</p>
 
-          <ul class="handler-list">
+          <!-- <ul class="handler-list">
             <li>
+              <a v-on:mouseover="doMouseOver">xxsdf</a>
               <span>REQ.API & Login Authentication1</span>
-              <a v-on:mouseout="showHoverModal = false" v-on:mouseover="showHoverModal = true" href="" class="tip-btn">
-                <i><img src="@/assets/tip.svg" alt="팁" /></i>
-              </a>
-            </li>
-            <HoverModal v-if="showHoverModal" @close="showHoverModal = false">
-              <h3 slot="header">custom header</h3>
-            </HoverModal>
-            <li>
-              <span>REQ.API & Login Authentication</span>
               <a href="" class="tip-btn">
                 <i><img src="@/assets/tip.svg" alt="팁" /></i>
               </a>
@@ -47,15 +39,21 @@
                 <i><img src="@/assets/tip.svg" alt="팁" /></i>
               </a>
             </li>
-          </ul>
+            <li>
+              <span>REQ.API & Login Authentication</span>
+              <a href="" class="tip-btn">
+                <i><img src="@/assets/tip.svg" alt="팁" /></i>
+              </a>
+            </li>
+          </ul> -->
         </div>
 
-        <div class="pop-footer">
+        <!-- <div class="pop2-footer">
           <button class="lg-btn purple-btn" @click="$emit('close')">ok</button>
-        </div>
+        </div> -->
       </div>
 
-      <!------- handler pop -------->
+      <!------- handler pop2 -------->
       <!-- <div class="modal-mask">
         <div class="modal-wrapper">
           <div class="modal-container">
@@ -81,81 +79,16 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HoverModal from '@/components/commons/modal/HoverModal.vue';
-
-@Component({
-  components: {
-    HoverModal,
-  },
-})
-export default class Modal extends Vue {
-  showHoverModal = false;
-  doMouseOver() {
-    console.log('mouse over');
-  }
-}
+@Component({})
+export default class HoverModal extends Vue {}
 </script>
 <style>
-/* .modal-mask {
+/***   pop2up   ***/
+.pop2-wrap {
   position: fixed;
   z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: table;
-  transition: opacity 0.3s ease;
-}
-
-.modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.modal-container {
-  width: 300px;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  transition: all 0.3s ease;
-  font-family: Helvetica, Arial, sans-serif;
-}
-
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
-}
-
-.modal-body {
-  margin: 20px 0;
-}
-
-.modal-default-button {
-  float: right;
-}
-
-.modal-enter {
-  opacity: 0;
-}
-
-.modal-leave-active {
-  opacity: 0;
-}
-
-.modal-enter .modal-container,
-.modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-} */
-/***   popup   ***/
-.pop-wrap {
-  position: fixed;
-  z-index: 9998;
-  top: 20rem;
-  left: 45rem;
+  top: 25rem;
+  left: 85rem;
 
   /* width: 100%;
   height: 100%; */
@@ -166,25 +99,25 @@ export default class Modal extends Vue {
   border: 1px #ddd solid;
   border-radius: 30px;
   /* position: relative; */
-  background: #fff;
-  width: 600px;
+  background: rgb(183, 217, 34);
+  width: 300px;
   padding: 30px 30px;
   margin: 0 auto;
   box-shadow: 1px 1px 5px #ccc;
 }
 
-.pop-header {
+.pop2-header {
   display: flex;
   justify-content: space-between;
   position: relative;
 }
-.pop-footer {
+.pop2-footer {
   position: relative;
   text-align: center;
   text-align: center;
   padding: 0px 20px;
 }
-.pop-container {
+.pop2-container {
   width: auto;
   padding: 30px 0px;
   overflow-y: auto;
@@ -192,7 +125,7 @@ export default class Modal extends Vue {
   max-height: 320px;
 }
 
-.handler-list {
+/* .handler-list {
   position: relative;
   margin-top: 20px;
 }
@@ -235,7 +168,7 @@ export default class Modal extends Vue {
 .handler-list li:hover .tip-btn,
 .handler-list li:hover .tip-btn:focus {
   display: block;
-}
+} */
 
 .tip-box {
   padding: 15px 15px;
