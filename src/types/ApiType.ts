@@ -49,17 +49,18 @@ export interface ApiEditRequestBody {
 }
 
 export interface ApiCreateRequestBody {
+  sysNm: string;
   id: string;
-  sys_id: string;
+  sysId: string;
   nm: string;
-  if_no: string;
-  meth: string[];
-  uri_in: string;
-  uri_out: string;
-  if_grp: string;
-  req_handlr_grp_id: string;
-  res_handlr_grp_id: string;
-  time_out: number;
+  ifNo: string;
+  meth: string[] | string;
+  uriIn: string;
+  uriOut: string;
+  ifGrp: string;
+  reqHandlrGrpId: string;
+  resHandlrGrpId: string;
+  timeOut: number;
   desc: string | null;
 }
 
