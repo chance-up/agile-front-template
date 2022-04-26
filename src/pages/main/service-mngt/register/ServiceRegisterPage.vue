@@ -37,8 +37,8 @@
           inputNm="서비스 기간"
           placeholderStart="YYYY-MM-DD"
           placeholderENd="YYYY-MM-DD"
-          :startDt="formData.svc_st_dt"
-          :endDt="formData.svc_end_dt"
+          :startDt.sync="formData.svc_st_dt"
+          :endDt.sync="formData.svc_end_dt"
         />
         <AuthReqGroup inputNm="인증수단" v-model="formData.athn" />
         <SlaReqGroup inputNm="SLA 정책관리" :type="formData.sla_type" :count="formData.sla_cnt" />
@@ -104,7 +104,7 @@ export default class SystemRegisterPage extends Vue {
     if (confirm('서비스를 등록하시겠습니까?') == true) {
       console.log(this.formData);
       this.serviceModule.createserviceAction(this.formData);
-      this.$router.push({ path: '/Service-detail', params: { serviceId: this.formData.id } });
+      this.$router.back();
     } else {
       return;
     }

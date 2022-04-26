@@ -89,7 +89,7 @@ import EditRequestHandler from '@/components/api-mngt/edit/EditRequestHandler.vu
 import EditResponseHandler from '@/components/api-mngt/edit/EditResponseHandler.vue';
 import EditButtonGroup from '@/components/api-mngt/edit/EditButtonGroup.vue';
 import { ApiDetailResponse } from '@/types/ApiType';
-import ApiModule, { getApiDetail } from '@/store/modules/ApiModule';
+import ApiModule from '@/store/modules/ApiModule';
 import { getModule } from 'vuex-module-decorators';
 @Component({
   components: {

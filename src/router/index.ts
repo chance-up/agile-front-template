@@ -1,14 +1,8 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
+import { SYSTEM, SERVICE, API, MANAGEMENT, MONITORING, MY } from '@/router/Names';
 
 Vue.use(VueRouter);
-
-export const SYSTEM = '/system';
-export const SERVICE = '/service';
-export const API = '/api';
-export const MONITORING = '/monitoring';
-export const MANAGEMENT = '/management';
-const MY = '/my';
 
 const routes: Array<RouteConfig> = [
   {
