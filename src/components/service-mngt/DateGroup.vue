@@ -52,23 +52,5 @@ export default class DateGroup extends Vue {
   set end(val: string) {
     this.$emit('update:endDt', val);
   }
-
-  // @PropSync('startDt', { type: String })
-  // syncedChildValue1!: string;
-
-  // start = null;
-  // @Watch('start')
-  // onChildChanged1(val: string) {
-  //   this.syncedChildValue1 = val;
-  // }
-
-  // @PropSync('endDt', { type: String })
-  // syncedChildValue2!: string;
-
-  // end = null;
-  // @Watch('end')
-  // onChildChanged2(val: string) {
-  //   this.syncedChildValue2 = val;
-  // }
 }
 </script>
