@@ -180,41 +180,5 @@ export default class SystemPage extends Vue {
     alert('삭제하시겠습니까?');
     this.systemModule.deleteSystem(id);
   }
-
-  // searchOption: SearchOption[] = [
-  //   //inputBox 옵션
-  //   {
-  //     type: 'inputBox',
-  //     label: '시스템명',
-  //     target: 'nm',
-  //     placeholder: '입력해주세요.',
-  //   },
-  //   {
-  //     type: 'inputBox',
-  //     label: '시스템ID',
-  //     target: 'id',
-  //     placeholder: '입력해주세요.',
-  //   },
-  //   {
-  //     type: 'inputBox',
-  //     label: '담당자명',
-  //     target: 'tkcgr_nm',
-  //     placeholder: '입력해주세요.',
-  //   },
-  //   // selectBox 옵션
-
-  //   {
-  //     type: 'selectBox',
-  //     label: '기본정보',
-  //     target: '',
-  //     placeholder: '입력해주세요.',
-  //     selectOptions: [
-  //       { label: 'api id', value: 'id' },
-  //       { label: 'api 명', value: 'nm' },
-  //       { label: '시스템명', value: 'sys_id' },
-  //       { label: 'uri', value: 'uri' },
-  //     ],
-  //   },
-  // ];
 }
 </script>
