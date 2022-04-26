@@ -19,7 +19,7 @@ export class ApiResponse {
     // if (200 === response.data.common.code) {
     //   throw Error();
     // }
-    console.log(response.data);
+    // console.log(response.data);
 
     if (isMockData(url)) {
       return JSON.parse(response.data);

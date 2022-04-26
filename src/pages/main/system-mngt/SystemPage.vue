@@ -2,15 +2,34 @@
   <!-- 페이지 최상단에 들어갈 타이들을 넘겨주세요 (ex. 시스템 관리) -->
   <ListLayout :title="$t('system.list_top_title')">
     <template slot="search-form">
-      <!-- 검색 컴포넌트의 옵션이 조금씩 다르니 페이지에 맞는 옵션으로 넘겨주세요. -->
-      <SearchForm :searchPanelOption="searchOption" :searchData="searchData">
-        <!-- 검색 컴포넌트에 들어갈 버튼은 template로 묶어서 넣어주시면 됩니다. -->
-        <template slot="search-btn-area">
-          <button class="mid-btn" @click="searchOnClieckEvent">
-            <i><img src="@/assets/search_ico.svg" alt="검색" /></i>{{ $t('common.search') }}
-          </button>
-        </template>
-      </SearchForm>
+      <div class="search-wrap">
+        <h2 class="h2-tit">{{ $t('common.search') }}</h2>
+
+        <!-- Input Box 옵션 -->
+        <div class="search-cont">
+          <InputBox v-model="searchData['nm']" :label="$t('system.name')" placeholder="입력해주세요." />
+        </div>
+        <div class="search-cont">
+          <InputBox v-model="searchData['id']" :label="$t('system.id')" placeholder="입력해주세요." />
+        </div>
+        <div class="search-cont">
+          <InputBox v-model="searchData['tkcgr_nm']" :label="$t('system.tkcgrNm')" placeholder="입력해주세요." />
+        </div>
+        <button class="mid-btn" @click="searchOnClieckEvent">
+          <i><img src="@/assets/search_ico.svg" alt="검색" /></i>{{ $t('common.search') }}
+        </button>
+      </div>
+
+      <!-- Select Box 옵션 -->
+      <!-- <div class="search-cont">
+          <SelectBox
+            v-model="searchData[target]"
+            label="기본정보"
+            placeholder="입력해주세요."
+            :selectOptions="selectOptions"
+            v-bind:value.sync="target"
+          />
+        </div> -->
     </template>
     <template slot="list-form">
       <!-- 리스트 컴포넌트에서 사용할 타이틀(ex. 시스템 리스트)을 넘겨주세요. -->
@@ -78,28 +97,50 @@ import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
 
 import ListLayout from '@/components/layout/ListLayout.vue';
-import SearchForm from '@/components/commons/SearchForm.vue';
+import InputBox from '@/components/commons/search-option/InputBox.vue';
+import SelectBox from '@/components/commons/search-option/SelectBox.vue';
 import ListForm from '@/components/commons/ListForm.vue';
 
-import { SearchCondition, SearchOption } from '@/types/SearchType';
+import { SearchCondition, SearchOption, SelectOptionType } from '@/types/SearchType';
 import { SystemResponse } from '@/types/SystemType';
 
 @Component({
   components: {
     ListLayout,
-    SearchForm,
+    InputBox,
+    SelectBox,
     ListForm,
   },
 })
 export default class SystemPage extends Vue {
   systemModule = getModule(SystemModule, this.$store);
+
+  // target = '';
+  // selectOptions: SelectOptionType[] = [
+  //   { label: 'api id', value: 'id' },
+  //   { label: 'api 명', value: 'nm' },
+  //   { label: '시스템명', value: 'sys_id' },
+  //   { label: 'uri', value: 'uri' },
+  // ];
+  // searchData: object = {};
+
   searchData: SearchCondition = {
-    inputBoxCondition: {},
-    selectBoxCondition: {},
+    nm: '',
+    id: '',
+    tkcgr_nm: '',
   };
 
   created() {
-    this.systemModule.getSystemList();
+    if (Object.keys(this.$route.query).length > 0) {
+      this.searchData.nm = this.$route.query.nm as string;
+      this.searchData.id = this.$route.query.id as string;
+      this.searchData.tkcgr_nm = this.$route.query.tkcgr_nm as string;
+
+      this.systemModule.getSystemList(this.searchData);
+    } else {
+      // this.target = this.selectOptions[0].value;
+      this.systemModule.getSystemList();
+    }
   }
 
   get listOption(): SystemResponse[] {
@@ -107,13 +148,16 @@ export default class SystemPage extends Vue {
   }
 
   searchOnClieckEvent() {
-    if (
-      //썼다 지웠을 때도 통과 안되도록 로직 변경해야 함
-      Object.keys(this.searchData.inputBoxCondition).length > 0 ||
-      Object.keys(this.searchData.selectBoxCondition).length > 0
-    ) {
-      console.log('system page : ', this.searchData);
-      this.systemModule.getSystemList(this.searchData);
+    console.log('searchData : ', this.searchData);
+    if (Object.values(this.searchData).some((item) => item != '')) {
+      this.$router.push({
+        name: 'system',
+        query: {
+          nm: this.searchData.nm,
+          id: this.searchData.id,
+          tkcgr_nm: this.searchData.tkcgr_nm,
+        },
+      });
     } else {
       alert('검색 데이터를 입력해주세요.');
     }
@@ -137,40 +181,40 @@ export default class SystemPage extends Vue {
     this.systemModule.deleteSystem(id);
   }
 
-  searchOption: SearchOption[] = [
-    //inputBox 옵션
-    {
-      type: 'inputBox',
-      label: '시스템명',
-      target: 'nm',
-      placeholder: '입력해주세요.',
-    },
-    {
-      type: 'inputBox',
-      label: '시스템ID',
-      target: 'id',
-      placeholder: '입력해주세요.',
-    },
-    {
-      type: 'inputBox',
-      label: '담당자명',
-      target: 'tkcgr_nm',
-      placeholder: '입력해주세요.',
-    },
-    // selectBox 옵션
+  // searchOption: SearchOption[] = [
+  //   //inputBox 옵션
+  //   {
+  //     type: 'inputBox',
+  //     label: '시스템명',
+  //     target: 'nm',
+  //     placeholder: '입력해주세요.',
+  //   },
+  //   {
+  //     type: 'inputBox',
+  //     label: '시스템ID',
+  //     target: 'id',
+  //     placeholder: '입력해주세요.',
+  //   },
+  //   {
+  //     type: 'inputBox',
+  //     label: '담당자명',
+  //     target: 'tkcgr_nm',
+  //     placeholder: '입력해주세요.',
+  //   },
+  //   // selectBox 옵션
 
-    {
-      type: 'selectBox',
-      label: '기본정보',
-      target: '',
-      placeholder: '입력해주세요.',
-      selectOptions: [
-        { label: 'api id', value: 'id' },
-        { label: 'api 명', value: 'nm' },
-        { label: '시스템명', value: 'sys_id' },
-        { label: 'uri', value: 'uri' },
-      ],
-    },
-  ];
+  //   {
+  //     type: 'selectBox',
+  //     label: '기본정보',
+  //     target: '',
+  //     placeholder: '입력해주세요.',
+  //     selectOptions: [
+  //       { label: 'api id', value: 'id' },
+  //       { label: 'api 명', value: 'nm' },
+  //       { label: '시스템명', value: 'sys_id' },
+  //       { label: 'uri', value: 'uri' },
+  //     ],
+  //   },
+  // ];
 }
 </script>

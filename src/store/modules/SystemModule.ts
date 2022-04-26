@@ -25,14 +25,14 @@ export default class SystemModule extends VuexModule {
 
   // 시스템 관리 리스트 조회
   @Action
-  async getSystemList(searchOption?: SearchCondition) {
+  async getSystemList(searchOption?: object) {
     if (!searchOption) {
       addMock('/system/list', JSON.stringify(dummyListData));
       const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse[]>>('/system/list');
-      console.log('response', response.data.value);
       this.context.commit('setSystemList', response.data.value);
     } else {
       addMock('/system/getSystemSearch', JSON.stringify(dummySearchData));
+      console.log('searchOption', searchOption);
       const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse[]>>(
         '/system/getSystemSearch'
       );

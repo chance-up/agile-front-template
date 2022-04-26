@@ -91,10 +91,6 @@ export default class ServiceManagementPage extends Vue {
   title = this.$t('service.title');
   listTitle = '서비스 리스트';
   serviceModule = getModule(ServiceModule, this.$store);
-  searchData: SearchCondition = {
-    inputBoxCondition: {},
-    selectBoxCondition: {},
-  };
 
   searchOption = [
     {
@@ -130,15 +126,7 @@ export default class ServiceManagementPage extends Vue {
   }
 
   searchOnClieckEvent() {
-    if (
-      //썼다 지웠을 때도 통과 안되도록 로직 변경해야 함
-      Object.keys(this.searchData.inputBoxCondition).length > 0 ||
-      Object.keys(this.searchData.selectBoxCondition).length > 0
-    ) {
-      console.log('service page : ', this.searchData);
-    } else {
-      alert('검색 데이터를 입력해주세요.');
-    }
+    console.log('test');
   }
 
   created() {
