@@ -1,9 +1,14 @@
 export interface SearchOption {
   type: string;
   label: string;
-  target: string;
+  target?: string;
   placeholder: string;
-  selectOptions?: string[];
+  selectOptions?: SelectOptionType[];
+}
+
+interface SelectOptionType {
+  label: string;
+  value: string;
 }
 
 export interface SearchCondition {

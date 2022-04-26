@@ -108,7 +108,7 @@ export default class SystemPage extends Vue {
 
   searchOnClieckEvent() {
     if (
-      //썼다 지웠을 때도 통과 안되도록 로직 추가해야 함
+      //썼다 지웠을 때도 통과 안되도록 로직 변경해야 함
       Object.keys(this.searchData.inputBoxCondition).length > 0 ||
       Object.keys(this.searchData.selectBoxCondition).length > 0
     ) {
@@ -159,12 +159,18 @@ export default class SystemPage extends Vue {
     },
     // selectBox 옵션
 
-    // {
-    //   type: 'selectBox',
-    //   label: '기본정보',
-    //   placeholder: '입력해주세요.',
-    //   selectOptions: ['api id', 'api 명', '플랫폼명', 'uri'],
-    // },
+    {
+      type: 'selectBox',
+      label: '기본정보',
+      target: '',
+      placeholder: '입력해주세요.',
+      selectOptions: [
+        { label: 'api id', value: 'id' },
+        { label: 'api 명', value: 'nm' },
+        { label: '시스템명', value: 'sys_id' },
+        { label: 'uri', value: 'uri' },
+      ],
+    },
   ];
 }
 </script>
