@@ -1,7 +1,13 @@
 <template>
   <ListLayout :title="title">
     <template slot="search-form">
-      <SearchForm :searchPanelOption="searchOption" />
+      <SearchForm :searchPanelOption="searchOption" :searchData="searchData">
+        <template slot="search-btn-area">
+          <button class="mid-btn" @click="searchOnClieckEvent">
+            <i><img src="@/assets/search_ico.svg" alt="검색" /></i>{{ $t('common.search') }}
+          </button>
+        </template>
+      </SearchForm>
     </template>
     <template slot="list-form">
       <ListForm :title="listTitle">
@@ -72,6 +78,7 @@ import SearchForm from '@/components/commons/SearchForm.vue';
 import ListForm from '@/components/commons/ListForm.vue';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { ServiceResponse } from '@/types/ServiceType';
+import { SearchCondition } from '@/types/SearchType';
 
 @Component({
   components: {
@@ -84,21 +91,28 @@ export default class ServiceManagementPage extends Vue {
   title = this.$t('service.title');
   listTitle = '서비스 리스트';
   serviceModule = getModule(ServiceModule, this.$store);
+  searchData: SearchCondition = {
+    inputBoxCondition: {},
+    selectBoxCondition: {},
+  };
 
   searchOption = [
     {
       type: 'inputBox',
-      label: '시스템명',
+      label: '서비스명',
+      target: 'nm',
       placeholder: '입력해주세요.',
     },
     {
       type: 'inputBox',
-      label: '시스템ID',
+      label: '서비스ID',
+      target: 'id',
       placeholder: '입력해주세요.',
     },
     {
       type: 'inputBox',
       label: '담당자명',
+      target: 'tkcgr_nm',
       placeholder: '입력해주세요.',
     },
   ];
@@ -112,6 +126,18 @@ export default class ServiceManagementPage extends Vue {
       this.serviceModule.deleteServiceAction(ServiceId);
     } else {
       return;
+    }
+  }
+
+  searchOnClieckEvent() {
+    if (
+      //썼다 지웠을 때도 통과 안되도록 로직 변경해야 함
+      Object.keys(this.searchData.inputBoxCondition).length > 0 ||
+      Object.keys(this.searchData.selectBoxCondition).length > 0
+    ) {
+      console.log('service page : ', this.searchData);
+    } else {
+      alert('검색 데이터를 입력해주세요.');
     }
   }
 
