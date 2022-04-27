@@ -11,7 +11,7 @@
         </div>
 
         <div class="pop2-container">
-          <p class="text">Handler Group 설명설명설명설명설명설명 ㅡ아아아아아아앙아아아아아아으아아아아아</p>
+          <p class="text">H234123412341234123rtq3tq23t아</p>
 
           <!-- <ul class="handler-list">
             <li>
@@ -82,24 +82,24 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component({})
 export default class HoverModal extends Vue {}
 </script>
-<style>
+<style scoped>
 /***   pop2up   ***/
 .pop2-wrap {
   position: fixed;
   z-index: 9998;
   top: 25rem;
-  left: 85rem;
+  left: 400px;
 
   /* width: 100%;
   height: 100%; */
-  /* background-color: rgba(0, 0, 0, 0.5); */
+  background-color: rgba(183, 217, 34, 0.1);
   display: table;
   transition: opacity 0.3s ease;
   /* z-index: 5; */
   border: 1px #ddd solid;
   border-radius: 30px;
   /* position: relative; */
-  background: rgb(183, 217, 34);
+  /* background: rgb(183, 217, 34, 0.1); */
   width: 300px;
   padding: 30px 30px;
   margin: 0 auto;
