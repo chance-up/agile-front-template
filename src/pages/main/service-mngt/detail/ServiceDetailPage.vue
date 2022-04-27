@@ -8,12 +8,16 @@
         <InfoGroup inputNm="소속" :value="serviceOption.tkcgr_pos" />
         <InfoGroup inputNm="E-mail" :value="serviceOption.tkcgr_eml" />
         <InfoGroup inputNm="서비스 기간" :value="serviceOption.svc_st_dt" />
-        <!-- <AuthGroup
+        <AuthGroup
           inputNm="인중 수단"
-          :AuthNm="serviceOption.authMethod[0]"
-          :AuthId="serviceOption.authMethod[1]"
-          :AuthPw="serviceOption.authMethod[2]"
-        /> -->
+          :athn="auth"
+          :id="serviceOption.athn.BASIC_AUTH.id"
+          :pw="serviceOption.athn.BASIC_AUTH.pw"
+          :alg="serviceOption.athn.JWT.alg"
+          :issuer="serviceOption.athn.JWT.issuer"
+          :subject="serviceOption.athn.JWT.subject"
+          :publickey="serviceOption.athn.JWT.publickey"
+        />
         <SlaGroup inputNm="SLA 정책 관리" :term="serviceOption.sla_type" :count="serviceOption.sla_cnt" />
         <InfoGroup inputNm="서비스 설명" :value="serviceOption.desc" />
       </ul>
@@ -43,6 +47,7 @@ import Component from 'vue-class-component';
 import { ServiceResponse } from '@/types/ServiceType';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
+import { Watch } from 'vue-property-decorator';
 
 @Component({
   components: {
@@ -53,7 +58,15 @@ import ServiceModule from '@/store/modules/ServiceModule';
   },
 })
 export default class ServiceDetailPage extends Vue {
-  //@Prop({ default: '' }) serviceId!: string;
+  auth = '';
+  @Watch('serviceOption')
+  onServiceOptionChange(val: ServiceResponse) {
+    if (val.athn.BASIC_AUTH.id === '') {
+      this.auth = 'JWT';
+    } else if (val.athn.JWT.alg === []) {
+      this.auth = 'Basic Auth';
+    }
+  }
 
   serviceModule = getModule(ServiceModule, this.$store);
 
@@ -68,7 +81,7 @@ export default class ServiceDetailPage extends Vue {
 
   deleteService(ServiceId: string) {
     if (confirm('서비스를 삭제하시겠습니까?') == true) {
-      this.serviceModule.deleteServiceAction(ServiceId);
+      this.serviceModule.deleteServiceAction(this.$route.params.serviceId);
       this.$router.back();
     } else {
       return;
