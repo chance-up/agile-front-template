@@ -56,7 +56,8 @@
     "authentication_method": "인증수단",
     "validity": "유효기간",
     "update": "Update",
-    "action": "Action"
+    "action": "Action",
+    "auth": "인증수단"
   },
   "system": {
     "list_top_title": "시스템 관리",

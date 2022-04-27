@@ -1,13 +1,34 @@
 <template>
   <ListLayout :title="title">
     <template slot="search-form">
-      <SearchForm :searchPanelOption="searchOption" :searchData="searchData">
-        <template slot="search-btn-area">
-          <button class="mid-btn" @click="searchOnClieckEvent">
-            <i><img src="@/assets/search_ico.svg" alt="검색" /></i>{{ $t('common.search') }}
-          </button>
-        </template>
-      </SearchForm>
+      <div class="search-wrap">
+        <h2 class="h2-tit">{{ $t('common.search') }}</h2>
+
+        <!-- Input Box 옵션 -->
+        <div class="search-cont">
+          <InputBox v-model="searchData['nm']" :label="$t('service.name')" placeholder="입력해주세요." />
+        </div>
+        <div class="search-cont">
+          <InputBox v-model="searchData['id']" :label="$t('service.id')" placeholder="입력해주세요." />
+        </div>
+        <div class="search-cont">
+          <InputBox v-model="searchData['tkcgr_nm']" :label="$t('service.auth')" placeholder="입력해주세요." />
+        </div>
+        <button class="mid-btn" @click="searchOnClieckEvent">
+          <i><img src="@/assets/search_ico.svg" :alt="$t('common.search')" /></i>{{ $t('common.search') }}
+        </button>
+      </div>
+
+      <!-- Select Box 옵션 -->
+      <!-- <div class="search-cont">
+          <SelectBox
+            v-model="searchData[target]"
+            label="기본정보"
+            placeholder="입력해주세요."
+            :selectOptions="selectOptions"
+            v-bind:value.sync="target"
+          />
+        </div> -->
     </template>
     <template slot="list-form">
       <ListForm :title="listTitle">
@@ -47,7 +68,7 @@
                 {{ list.id }}
               </td>
               <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                {{ list.athn }}
+                {{ list.athn.BASIC_AUTH.id == '' ? 'JWT' : 'Basic Auth' }}
               </td>
               <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 {{ list.svc_st_dt }} ~ {{ list.svc_end_dt }}
@@ -74,45 +95,34 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 import ListLayout from '@/components/layout/ListLayout.vue';
-import SearchForm from '@/components/commons/SearchForm.vue';
+import InputBox from '@/components/commons/search-option/InputBox.vue';
 import ListForm from '@/components/commons/ListForm.vue';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { ServiceResponse } from '@/types/ServiceType';
 import { SearchCondition } from '@/types/SearchType';
 @Component({
   components: {
-    SearchForm,
     ListLayout,
     ListForm,
+    InputBox,
   },
 })
 export default class ServiceManagementPage extends Vue {
   title = this.$t('service.title');
   listTitle = '서비스 리스트';
+
+  searchData: SearchCondition = {
+    nm: '',
+    id: '',
+    tkcgr_nm: '',
+  };
+
   serviceModule = getModule(ServiceModule, this.$store);
-  searchOption = [
-    {
-      type: 'inputBox',
-      label: '서비스명',
-      target: 'nm',
-      placeholder: '입력해주세요.',
-    },
-    {
-      type: 'inputBox',
-      label: '서비스ID',
-      target: 'id',
-      placeholder: '입력해주세요.',
-    },
-    {
-      type: 'inputBox',
-      label: '담당자명',
-      target: 'tkcgr_nm',
-      placeholder: '입력해주세요.',
-    },
-  ];
+
   get listOption(): ServiceResponse[] {
     return this.serviceModule.services;
   }
+
   deleteService(ServiceId: string) {
     if (confirm('서비스를 삭제하시겠습니까?') == true) {
       this.serviceModule.deleteServiceAction(ServiceId);
@@ -120,48 +130,35 @@ export default class ServiceManagementPage extends Vue {
       return;
     }
   }
+
   searchOnClieckEvent() {
-    console.log('test');
+    console.log('searchData : ', this.searchData);
+    if (Object.values(this.searchData).some((item) => item != '')) {
+      this.$router.push({
+        name: 'system',
+        query: {
+          nm: this.searchData.nm,
+          id: this.searchData.id,
+          tkcgr_nm: this.searchData.tkcgr_nm,
+        },
+      });
+    } else {
+      alert('검색 데이터를 입력해주세요.');
+    }
   }
+
   created() {
-    this.serviceModule.getServiceList();
+    if (Object.keys(this.$route.query).length > 0) {
+      this.searchData.nm = this.$route.query.nm as string;
+      this.searchData.id = this.$route.query.id as string;
+      this.searchData.tkcgr_nm = this.$route.query.tkcgr_nm as string;
+
+      this.serviceModule.getServiceList();
+      // this.systemModule.getSystemList(this.searchData);
+    } else {
+      // this.target = this.selectOptions[0].value;
+      this.serviceModule.getServiceList();
+    }
   }
-  text1 = '';
-  text2 = '';
-  text3 = '';
-  // saveMySession(id: string) {
-  //   this.text1 = this.searchOption[0].text;
-  //   sessionStorage.setItem('text1', JSON.stringify(this.text1));
-  //   this.text2 = this.searchOption[1].text;
-  //   sessionStorage.setItem('text2', JSON.stringify(this.text2));
-  //   this.text3 = this.searchOption[2].text;
-  //   sessionStorage.setItem('text3', JSON.stringify(this.text3));
-  //   console.log(this.text1);
-  //   this.$router.push({ path: '/service-detail', params: { id: id } });
-  // }
-  // load() {
-  //   if (sessionStorage.getItem('infiniteScrollEnabled') !== null) {
-  //     let storedV1 = JSON.parse(sessionStorage.getItem('text1')!);
-  //     if (storedV1) {
-  //       this.searchOption[0].text = storedV1;
-  //       this.text1 = storedV1;
-  //     }
-  //   }
-  //   if (sessionStorage.getItem('infiniteScrollEnabled') !== null) {
-  //     let storedV2 = JSON.parse(sessionStorage.getItem('text2')!);
-  //     if (storedV2) {
-  //       this.searchOption[1].text = storedV2;
-  //       this.text2 = storedV2;
-  //     }
-  //   }
-  //   if (sessionStorage.getItem('infiniteScrollEnabled') !== null) {
-  //     let storedV3 = JSON.parse(sessionStorage.getItem('text2')!);
-  //     if (storedV3) {
-  //       this.searchOption[2].text = storedV3;
-  //       this.text3 = storedV3;
-  //     }
-  //   }
-  //   console.log(this.text1);
-  // }
 }
 </script>
