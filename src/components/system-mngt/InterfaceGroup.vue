@@ -1,7 +1,9 @@
 <template>
   <li>
     <label for="" class="label point">{{ inputNm }}</label>
+
     <div class="form-cont">
+      <input type="text" class="input-box lg" placeholder="place" />
       <div class="domain-wrap">
         <Interface :clickEvent="addInterface" :shape="true" />
         <div v-for="(item, idx) in items" :key="idx">
@@ -13,10 +15,12 @@
 </template>
 <script lang="ts">
 import Interface from '@/components/system-mngt/Interface.vue';
+import InputGroup from '@/components/system-mngt/InputGroup.vue';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component({
   components: {
     Interface,
+    InputGroup,
   },
 })
 export default class InterfaceGroup extends Vue {

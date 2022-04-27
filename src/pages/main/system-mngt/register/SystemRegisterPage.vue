@@ -24,18 +24,21 @@
         />
         <InputGroup
           type="text"
+          :check="isValid"
           :v-model="systemItem.tkcgr_nm"
           :inputNm="$t('system.tkcgrNm')"
           :place="$t('system.tkcgrNm')"
         />
         <InputGroup
           type="text"
+          :check="isValid"
           :v-model="systemItem.tkcgr_pos"
           :inputNm="$t('system.tkcgrPos')"
           :place="$t('system.tkcgrPos')"
         />
         <InputGroup
           type="email"
+          :check="isValid"
           :v-model="systemItem.tkcgr_eml"
           :inputNm="$t('system.tkcgrEml')"
           :place="$t('system.tkcgrEml')"
@@ -53,6 +56,7 @@
         <button class="lg-btn purple-btn" @click="onSubmit">{{ $t('common.register') }}</button>
         <button class="lg-btn white-btn" @click="cancelOnClickEvent">{{ $t('common.cancel') }}</button>
       </div>
+      <button @click="test">TESTTEST</button>
     </template>
   </ContentLayout>
 </template>
@@ -70,7 +74,7 @@ import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import TextDebounceForm from '@/components/system-mngt/TextDebounceForm.vue';
 
 import { SystemResponse } from '@/types/SystemType';
-
+import { dummyTestData1, dummyTestData2 } from '@/types/SystemType';
 @Component({
   components: {
     ContentLayout,
@@ -124,6 +128,23 @@ export default class SystemRegisterPage extends Vue {
     // 정규식
     this.isValid = false;
   }
+
+  test = () => {
+    // Stringify 는 JSON 형태로 변환하는 것이다.
+    // let testStringify = JSON.stringify(dummyTestData1);
+    // console.log(typeof dummyTestData1);
+    // console.log(dummyTestData1);
+    // console.log(typeof testStringify);
+    // console.log(testStringify);
+    // // JSON.parse 는 Object형태로 변환하는 것이다.
+    // let testParse = JSON.parse(testStringify);
+    // console.log(typeof testParse);
+    // console.log(testParse);
+    // //JSON.parse(dummyTestData2);
+    // console.log('start!!!!');
+
+    dummyTestData1;
+  };
 }
 </script>
 <style lang=""></style>

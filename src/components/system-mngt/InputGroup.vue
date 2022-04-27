@@ -16,6 +16,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+
 @Component
 export default class InputGroup extends Vue {
   @Prop({ default: null }) check!: boolean | null;
@@ -24,13 +25,21 @@ export default class InputGroup extends Vue {
   @Prop({ default: '' }) place!: string;
   @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) validCheck!: string;
+  //  re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+  re2 = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
   formValue = '';
   @Watch('formValue')
   onChanged(newVal: string) {
     console.log(newVal);
+    console.log(this.re2.test(this.formValue));
     this.$emit('input', newVal);
   }
+
+  checkValid = () => {
+    //let re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    //re2.test(this.formValue);
+  };
 }
 </script>
 <style lang=""></style>

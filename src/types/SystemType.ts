@@ -33,7 +33,11 @@ export const dummyListData = {
         tkcgr_nm: '박재원',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
         tkcgr_eml: 'jwpark@kt.com',
-        if_grp: '{ifGrp1:{234},ifGrp2:{4116}}',
+        if_grp: {
+          authentication: ['https://capri.com:443'],
+          service: ['http://127.0.0.1:8080', 'http://127.0.0.2:8080'],
+        },
+
         desc: 'desc',
         created_at: '2022-04-20 17:44:23',
         created_by: 'updatedByAdmin',
@@ -249,4 +253,23 @@ export const dummyDeleteData = {
     message: 'Success',
   },
   data: null,
+};
+
+export const dummyTestData1 = {
+  if_grp: {
+    authentication: ['https://capri.com:443'],
+    service: ['http://127.0.0.1:8080', 'http://127.0.0.2:8080'],
+  },
+};
+export const dummyTestData2 = {
+  if_grp: [
+    {
+      if_nm: 'authentication',
+      if_url: ['https://capri.com:443', 'https://capri.com:443'],
+    },
+    {
+      if_nm: 'service',
+      if_url: ['https://capri.com:443', 'https://capri.com:8080', 'https://capri.com:8081'],
+    },
+  ],
 };
