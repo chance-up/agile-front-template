@@ -81,7 +81,7 @@ export default class ServiceDetailPage extends Vue {
 
   deleteService(ServiceId: string) {
     if (confirm('서비스를 삭제하시겠습니까?') == true) {
-      this.serviceModule.deleteServiceAction(this.$route.params.serviceId);
+      this.serviceModule.deleteServiceAction(ServiceId);
       this.$router.back();
     } else {
       return;
