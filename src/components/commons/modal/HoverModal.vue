@@ -5,9 +5,9 @@
       <div class="pop2-wrap">
         <div class="pop2-header">
           <h1 class="h1-tit">Handler Group Name</h1>
-          <button @click="$emit('close')">
+          <!-- <button @click="$emit('close')">
             <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
-          </button>
+          </button> -->
         </div>
 
         <div class="pop2-container">

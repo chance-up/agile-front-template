@@ -181,3 +181,10 @@ export interface ApiInfoEdit {
   time_out: number;
   desc: string;
 }
+
+export const dummyHandlerGroupIdList: string[] = [
+  'handlerGroupId1',
+  'handlerGroupId2',
+  'handlerGroupId3',
+  'handlerGroupId4',
+];

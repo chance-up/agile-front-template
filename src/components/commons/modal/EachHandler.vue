@@ -2,36 +2,35 @@
   <li>
     <!-- <span @click="handleOnClickGroup">API & Login Authentication Group</span>
     <p class="multi-btn" @click="handleOnClickGroupDetail"></p> -->
-    <span>{{ apiGroup.api_group_nm }} {{ testId }}</span>
+    <span>{{ handlerGroupId }}</span>
     <!-- <span>API & Login Authentication Group</span> -->
     <p class="multi-btn" @click="showModal = true"></p>
     <!-- <div> -->
     <!-- <button id="show-modal" @click="showModal = true">Show Modal</button> -->
-    <Modal v-if="showModal" @close="showModal = false">
-      <h3 slot="header">custom header</h3>
-    </Modal>
+    <HandlerModal v-if="showModal" @close="showModal = false" />
+    <!-- <h3 slot="header">custom header</h3> -->
     <!-- </div> -->
   </li>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Modal from '@/components/commons/modal/Modal.vue';
+import HandlerModal from '@/components/api-mngt/register/HandlerModal.vue';
 interface API_DETAIL {
-  api_id: number;
-  api_nm: string;
-  api_desc: string;
+  apiId: number | string;
+  apiNm: string;
+  apiDesc: string;
 }
 interface API_GROUP_DETAIL {
-  api_group_id: number;
-  api_group_nm: string;
-  api_group_desc: string;
-  api_list: API_DETAIL[];
+  apiGroupId: number | string;
+  apiGroupNm: string;
+  apiGroupDesc: string;
+  apiIdList: API_DETAIL[];
 }
-@Component({ components: { Modal } })
+@Component({ components: { HandlerModal } })
 export default class EachHandler extends Vue {
   showModal = false;
   apiGroup!: API_GROUP_DETAIL;
-  @Prop() testId!: number;
+  @Prop() handlerGroupId!: string | number;
   //   groupId!: number;
   //   groupNm!: string | null;
   //   groupDesc!: string | null;
@@ -43,29 +42,29 @@ export default class EachHandler extends Vue {
   //   @Prop({ default: '' }) value!: string;
   created() {
     this.apiGroup = {
-      api_group_id: 1,
-      api_group_nm: 'API & Login Authentication Group',
-      api_group_desc: 'API & Login Authentication Group',
-      api_list: [
+      apiGroupId: 1,
+      apiGroupNm: 'API & Login Authentication Group Name',
+      apiGroupDesc: 'API & Login Authentication Group Desc',
+      apiIdList: [
         {
-          api_id: 1,
-          api_nm: 'API & Login Authentication 1',
-          api_desc: 'API & Login Authentication 1',
+          apiId: 1,
+          apiNm: 'API & Login Authentication 1 Name',
+          apiDesc: 'API & Login Authentication 1 Desc',
         },
         {
-          api_id: 2,
-          api_nm: 'API & Login Authentication 2',
-          api_desc: 'API & Login Authentication 2',
+          apiId: 2,
+          apiNm: 'API & Login Authentication 2 Name',
+          apiDesc: 'API & Login Authentication 2 Desc',
         },
         {
-          api_id: 3,
-          api_nm: 'API & Login Authentication 3',
-          api_desc: 'API & Login Authentication 3',
+          apiId: 3,
+          apiNm: 'API & Login Authentication 3 Name',
+          apiDesc: 'API & Login Authentication 3 Desc',
         },
         {
-          api_id: 4,
-          api_nm: 'API & Login Authentication 4',
-          api_desc: 'API & Login Authentication 4',
+          apiId: 4,
+          apiNm: 'API & Login Authentication 4 Name',
+          apiDesc: 'API & Login Authentication 4 Desc',
         },
       ],
     };

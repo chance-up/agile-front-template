@@ -29,10 +29,11 @@
               <span>이거 이후로 eachhandler component</span>
               <p class="multi-btn"></p>
             </li>
-            <!-- <li v-for="item in 3" :key="item.id"> -->
-            <EachHandler :testId="item" v-for="(item, index) in [11, 22, 33]" :key="index" />
-
-            <!-- </li> -->
+            <EachHandler
+              :handlerGroupId="dummyHandlerGroupId"
+              v-for="(dummyHandlerGroupId, index) in dummyHandlerGroupIdList"
+              :key="index"
+            />
           </ul>
         </div>
       </div>
@@ -44,7 +45,10 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { dummySystemList, dummySystemInfList } from '@/types/ApiType';
 
+//
 import EachHandler from '@/components/commons/modal/EachHandler.vue';
+
+import { dummyHandlerGroupIdList } from '@/types/ApiType';
 
 @Component({
   components: {
@@ -53,6 +57,11 @@ import EachHandler from '@/components/commons/modal/EachHandler.vue';
 })
 export default class HandlerGroupForm extends Vue {
   @Prop() groupNm!: string | null;
+  @Prop({ default: [] }) handlerGroupIdList!: [];
+  get dummyHandlerGroupIdList(): string[] {
+    return dummyHandlerGroupIdList;
+  }
+
   get dummySystemList(): string[] {
     return dummySystemList;
   }
