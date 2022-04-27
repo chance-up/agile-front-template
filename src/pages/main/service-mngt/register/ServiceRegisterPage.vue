@@ -40,7 +40,12 @@
           :startDt.sync="formData.svc_st_dt"
           :endDt.sync="formData.svc_end_dt"
         />
-        <AuthReqGroup inputNm="인증수단" v-model="formData.athn" />
+        <AuthReqGroup
+          inputNm="인증수단"
+          v-model="Object.keys(formData.athn)[0]"
+          :athid="formData.athn.BASIC_AUTH === null ? '' : formData.athn.BASIC_AUTH.id"
+          :athpw="formData.athn.BASIC_AUTH === null ? '' : formData.athn.BASIC_AUTH.pw"
+        />
         <SlaReqGroup inputNm="SLA 정책관리" :type="formData.sla_type" :count="formData.sla_cnt" />
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
       </ul>
@@ -95,7 +100,7 @@ export default class SystemRegisterPage extends Vue {
     sla_cnt: 0,
     svc_st_dt: '',
     svc_end_dt: '',
-    athn: '',
+    athn: {},
     api_aut: '',
     desc: '',
   };
