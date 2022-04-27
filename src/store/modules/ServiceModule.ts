@@ -1,9 +1,10 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
-import { ApiResponse } from '@/api/ApiResponse';
+import { AxiosClient } from '@/axios/AxiosClient';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import { ServiceResponse, ServiceRegisterRequest, getServiceInfo, getServiceId } from '@/types/ServiceType';
-import { addMock } from '@/api/AxiosClient';
-import { ParameterError } from '@/error/Errors';
+import { addMock } from '@/axios/AxiosIntercept';
+import { GateWayError } from '@/error/GateWayError';
+import ErrorCode from '@/error/ErrorCodes';
 @Module({ name: 'ServiceModule' })
 export default class ServiceModule extends VuexModule {
   public services: ServiceResponse[] = [];
@@ -18,7 +19,7 @@ export default class ServiceModule extends VuexModule {
     sla_cnt: 0,
     svc_st_dt: '',
     svc_end_dt: '',
-    athn: '',
+    athn: {},
     api_aut: '',
     desc: '',
     cret_dt: '',
@@ -37,7 +38,7 @@ export default class ServiceModule extends VuexModule {
     sla_cnt: 0,
     svc_st_dt: '',
     svc_end_dt: '',
-    athn: '',
+    athn: {},
     api_aut: '',
     desc: '',
   };
@@ -50,13 +51,19 @@ export default class ServiceModule extends VuexModule {
 
   @Action
   async getServiceList() {
-    addMock('/api/service/getServiceInfo', JSON.stringify(getServiceInfo));
-
-    const response = await ApiResponse.getInstance().get<GateWayResponse<ServiceResponse[]>>(
-      '/api/service/getServiceInfo'
-    );
-
-    this.context.commit('setServiceList', response.data.value);
+    try {
+      addMock('/api/service/getServiceInfo', JSON.stringify(getServiceInfo));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
+        '/api/service/getServiceInfo'
+      );
+      this.context.commit('setServiceList', response.data.value);
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
+      } else {
+        console.log('서버통신에 실패하였습니다.');
+      }
+    }
   }
 
   //서비스 상세 요청
@@ -69,7 +76,7 @@ export default class ServiceModule extends VuexModule {
   async getService(id: string) {
     addMock('/api/service/getServiceId', JSON.stringify(getServiceId));
 
-    const response = await ApiResponse.getInstance().get<GateWayResponse<ServiceResponse>>(
+    const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>(
       '/api/service/getServiceId',
       {
         serviceId: id,
@@ -90,7 +97,7 @@ export default class ServiceModule extends VuexModule {
     addMock('/api/service/registerService', JSON.stringify(getServiceId));
 
     try {
-      const response = await ApiResponse.getInstance().post<GateWayResponse<ServiceResponse>>(
+      const response = await AxiosClient.getInstance().post<GateWayResponse<ServiceResponse>>(
         '/api/service/registerService',
         {
           data,
@@ -99,12 +106,11 @@ export default class ServiceModule extends VuexModule {
       console.log(response.data.value);
       // TODO:: 성공 or 실패 팝업으로 변경
       // this.context.commit('createserviceMutation', response.data.value);
-    } catch (error) {
-      if (error as ParameterError) {
-        this.context.commit('showAlert');
-        console.log('ParameterError');
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
       } else {
-        console.log('ParameterError');
+        console.log('서버통신에 실패하였습니다.');
       }
     }
   }
@@ -131,7 +137,7 @@ export default class ServiceModule extends VuexModule {
   async editServiceAction(data: ServiceRegisterRequest) {
     addMock('/api/service/updateServiceInfo', JSON.stringify(getServiceId));
     try {
-      const response = await ApiResponse.getInstance().put<GateWayResponse<ServiceRegisterRequest>>(
+      const response = await AxiosClient.getInstance().put<GateWayResponse<ServiceRegisterRequest>>(
         '/api/service/updateServiceInfo',
         {
           data,
@@ -140,12 +146,11 @@ export default class ServiceModule extends VuexModule {
 
       // TODO:: 성공 or 실패 팝업으로 변경
       // this.context.commit('editServiceMutation', response.data);
-    } catch (error) {
-      if (error as ParameterError) {
-        this.context.commit('showAlert');
-        console.log('ParameterError');
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
       } else {
-        console.log('ParameterError');
+        console.log('서버통신에 실패하였습니다.');
       }
     }
   }
@@ -163,19 +168,18 @@ export default class ServiceModule extends VuexModule {
   async deleteServiceAction(id: string) {
     try {
       addMock('/api/service/deleteServiceInfo', '{ "common": { "code": 200, "message": "Success"}, "data": null}');
-      const response = await ApiResponse.getInstance().delete<GateWayResponse<null>>('/api/service/deleteServiceInfo', {
+      const response = await AxiosClient.getInstance().delete<GateWayResponse<null>>('/api/service/deleteServiceInfo', {
         serviceId: id,
       });
       console.log(response);
-      if (200 === response.common.code) {
-        this.getServiceList();
-      }
-    } catch (error) {
-      if (error as ParameterError) {
-        this.context.commit('showAlert');
-        console.log('ParameterError');
+      // if (200 === response.data.common.code) {
+      this.getServiceList();
+      // }
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
       } else {
-        console.log('ParameterError');
+        console.log('서버통신에 실패하였습니다.');
       }
     }
   }

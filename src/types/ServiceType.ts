@@ -1,5 +1,20 @@
-import { Common, Data, GateWayResponse, Pagination } from './GateWayResponse';
+import { Data, GateWayResponse, Pagination } from './GateWayResponse';
 
+interface AuthResponse {
+  BASIC_AUTH?: BasicAuthDetail;
+  JWT?: JWTDetail;
+}
+interface BasicAuthDetail {
+  id: string;
+  pw: string;
+}
+
+interface JWTDetail {
+  alg: string[];
+  publisher: string;
+  eotkdwk: string;
+  publicket: string;
+}
 export interface ServiceResponse {
   id: string;
   nm: string;
@@ -10,7 +25,7 @@ export interface ServiceResponse {
   sla_cnt: number;
   svc_st_dt: string;
   svc_end_dt: string;
-  athn: string;
+  athn: AuthResponse;
   api_aut: string;
   desc: string;
   cret_dt: string;
@@ -29,7 +44,7 @@ export interface ServiceRegisterRequest {
   sla_cnt: number;
   svc_st_dt: string;
   svc_end_dt: string;
-  athn: string;
+  athn: AuthResponse;
   api_aut: string;
   desc: string;
 }
@@ -46,11 +61,6 @@ export const pagination: Pagination = {
   limit: 1,
 };
 
-export const common: Common = {
-  code: 200,
-  message: '',
-};
-
 export const serviceListResponse: ServiceResponse[] = [
   {
     id: 'KT_COM',
@@ -62,7 +72,7 @@ export const serviceListResponse: ServiceResponse[] = [
     sla_cnt: 10,
     svc_st_dt: '2022-04-13 00:00:00',
     svc_end_dt: '9999-12-31 00:00:00',
-    athn: 'aasdasdasd',
+    athn: { BASIC_AUTH: { id: 'admin', pw: '123123' } },
     api_aut: 'admin',
     desc: 'test',
     cret_dt: '2022-04-20 17:44:23',
@@ -80,7 +90,7 @@ export const serviceListResponse: ServiceResponse[] = [
     sla_cnt: 10,
     svc_st_dt: '2022-04-13 00:00:00',
     svc_end_dt: '9999-12-31 00:00:00',
-    athn: 'zxczxczxc',
+    athn: { BASIC_AUTH: { id: 'admin', pw: '123123' } },
     api_aut: 'admin',
     desc: 'test',
     cret_dt: '2022-04-20 17:44:23',
@@ -100,7 +110,7 @@ export const serviceResponse: ServiceResponse = {
   sla_cnt: 10,
   svc_st_dt: '2022-04-13 00:00:00',
   svc_end_dt: '9999-12-31 00:00:00',
-  athn: 'aasdasdasd',
+  athn: { BASIC_AUTH: { id: 'admin', pw: '123123' } },
   api_aut: 'admin',
   desc: 'test',
   cret_dt: '2022-04-20 17:44:23',
@@ -120,11 +130,11 @@ export const serviceData: Data<ServiceResponse> = {
 };
 
 export const getServiceInfo: GateWayResponse<ServiceResponse[]> = {
-  common: common,
   data: serviceListData,
+  status: 0,
 };
 
 export const getServiceId: GateWayResponse<ServiceResponse> = {
-  common: common,
   data: serviceData,
+  status: 0,
 };

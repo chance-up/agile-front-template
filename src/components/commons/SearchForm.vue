@@ -5,16 +5,17 @@
       <div class="search-cont" :key="index">
         <InputBox
           v-if="option.type === 'inputBox'"
-          v-model="searchData.inputBoxCondition[option.target]"
+          v-model="searchData[option.target]"
           :label="option.label"
           :placeholder="option.placeholder"
         />
         <SelectBox
           v-if="option.type === 'selectBox'"
-          v-model="searchData.selectBoxCondition[option.target]"
+          v-model="searchData[option.target]"
           :label="option.label"
           :placeholder="option.placeholder"
           :selectOptions="option.selectOptions"
+          v-bind:value.sync="test"
         />
       </div>
     </template>
@@ -24,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 import InputBox from '@/components/commons/search-option/InputBox.vue';
 import SelectBox from '@/components/commons/search-option/SelectBox.vue';
@@ -58,5 +59,15 @@ export default class SearchForm extends Vue {
 
   //   console.log('initData : ', this.searchData);
   // }
+
+  @Watch('searchData')
+  onSearchDataChange(newVal: SearchCondition, oldVal: SearchCondition) {
+    console.log('onSearchDataChange : ', newVal, oldVal);
+  }
+
+  test(value: string) {
+    console.log('change value: ', value);
+    return value;
+  }
 }
 </script>

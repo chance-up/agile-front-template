@@ -79,7 +79,6 @@ import ListForm from '@/components/commons/ListForm.vue';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { ServiceResponse } from '@/types/ServiceType';
 import { SearchCondition } from '@/types/SearchType';
-
 @Component({
   components: {
     SearchForm,
@@ -91,11 +90,6 @@ export default class ServiceManagementPage extends Vue {
   title = this.$t('service.title');
   listTitle = '서비스 리스트';
   serviceModule = getModule(ServiceModule, this.$store);
-  searchData: SearchCondition = {
-    inputBoxCondition: {},
-    selectBoxCondition: {},
-  };
-
   searchOption = [
     {
       type: 'inputBox',
@@ -116,11 +110,9 @@ export default class ServiceManagementPage extends Vue {
       placeholder: '입력해주세요.',
     },
   ];
-
   get listOption(): ServiceResponse[] {
     return this.serviceModule.services;
   }
-
   deleteService(ServiceId: string) {
     if (confirm('서비스를 삭제하시겠습니까?') == true) {
       this.serviceModule.deleteServiceAction(ServiceId);
@@ -128,41 +120,25 @@ export default class ServiceManagementPage extends Vue {
       return;
     }
   }
-
   searchOnClieckEvent() {
-    if (
-      //썼다 지웠을 때도 통과 안되도록 로직 변경해야 함
-      Object.keys(this.searchData.inputBoxCondition).length > 0 ||
-      Object.keys(this.searchData.selectBoxCondition).length > 0
-    ) {
-      console.log('service page : ', this.searchData);
-    } else {
-      alert('검색 데이터를 입력해주세요.');
-    }
+    console.log('test');
   }
-
   created() {
     this.serviceModule.getServiceList();
   }
-
   text1 = '';
   text2 = '';
   text3 = '';
-
   // saveMySession(id: string) {
   //   this.text1 = this.searchOption[0].text;
   //   sessionStorage.setItem('text1', JSON.stringify(this.text1));
-
   //   this.text2 = this.searchOption[1].text;
   //   sessionStorage.setItem('text2', JSON.stringify(this.text2));
-
   //   this.text3 = this.searchOption[2].text;
   //   sessionStorage.setItem('text3', JSON.stringify(this.text3));
-
   //   console.log(this.text1);
   //   this.$router.push({ path: '/service-detail', params: { id: id } });
   // }
-
   // load() {
   //   if (sessionStorage.getItem('infiniteScrollEnabled') !== null) {
   //     let storedV1 = JSON.parse(sessionStorage.getItem('text1')!);
@@ -171,7 +147,6 @@ export default class ServiceManagementPage extends Vue {
   //       this.text1 = storedV1;
   //     }
   //   }
-
   //   if (sessionStorage.getItem('infiniteScrollEnabled') !== null) {
   //     let storedV2 = JSON.parse(sessionStorage.getItem('text2')!);
   //     if (storedV2) {
@@ -179,7 +154,6 @@ export default class ServiceManagementPage extends Vue {
   //       this.text2 = storedV2;
   //     }
   //   }
-
   //   if (sessionStorage.getItem('infiniteScrollEnabled') !== null) {
   //     let storedV3 = JSON.parse(sessionStorage.getItem('text2')!);
   //     if (storedV3) {

@@ -9,10 +9,9 @@ import {
   SystemResponse,
 } from '@/types/SystemType';
 import { SearchCondition } from '@/types/SearchType';
-import { ApiResponse } from '@/api/ApiResponse';
-import { addMock } from '@/api/AxiosClient';
+import { AxiosClient } from '@/axios/AxiosClient';
+import { addMock } from '@/axios/AxiosIntercept';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
-import { ParameterError } from '@/error/Errors';
 
 @Module({ name: 'SystemModule' })
 export default class SystemModule extends VuexModule {
@@ -25,15 +24,15 @@ export default class SystemModule extends VuexModule {
 
   // 시스템 관리 리스트 조회
   @Action
-  async getSystemList(searchOption?: SearchCondition) {
+  async getSystemList(searchOption?: object) {
     if (!searchOption) {
       addMock('/system/list', JSON.stringify(dummyListData));
-      const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse[]>>('/system/list');
+      const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>('/system/list');
       console.log('response', response.data.value);
       this.context.commit('setSystemList', response.data.value);
     } else {
       addMock('/system/getSystemSearch', JSON.stringify(dummySearchData));
-      const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse[]>>(
+      const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>(
         '/system/getSystemSearch'
       );
       console.log('system get list response', response.data.value);
@@ -45,7 +44,7 @@ export default class SystemModule extends VuexModule {
   @Action
   async getSystemDetail(id: string) {
     addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
-    const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
+    const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
     return response;
   }
 
@@ -54,7 +53,7 @@ export default class SystemModule extends VuexModule {
   async registerSystem(data: SystemResponse) {
     console.log(JSON.stringify(data));
     addMock(`/system/registerSystem/`, JSON.stringify(dummyRegisterData));
-    const response = await ApiResponse.getInstance().post<GateWayResponse<SystemResponse>>(
+    const response = await AxiosClient.getInstance().post<GateWayResponse<SystemResponse>>(
       `/system/registerSystem/`,
       data
     );
@@ -65,7 +64,7 @@ export default class SystemModule extends VuexModule {
   @Action
   async updateSystemDetail(data: SystemResponse) {
     addMock(`/system/updateSystem/`, JSON.stringify(dummyUpdateData));
-    const response = await ApiResponse.getInstance().post<GateWayResponse<SystemResponse>>(
+    const response = await AxiosClient.getInstance().post<GateWayResponse<SystemResponse>>(
       `/system/updateSystem/`,
       data
     );
@@ -76,7 +75,7 @@ export default class SystemModule extends VuexModule {
   @Action
   async deleteSystem(id: string) {
     addMock(`/system/deleteSystem/${id}`, JSON.stringify(dummyDeleteData));
-    const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse>>(`/system/deleteSystem/${id}`);
+    const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/deleteSystem/${id}`);
     console.log('system delete response', response);
   }
 

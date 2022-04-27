@@ -13,7 +13,7 @@
               <span @click="handleOnClickGroup">API & Login Authentication Group</span>
               <p class="multi-btn" @click="handleOnClickGroupDetail"></p>
             </li>
-            <li>
+            <!-- <li>
               <span>API & Login Authentication 2</span>
               <p class="multi-btn"></p>
             </li>
@@ -24,7 +24,15 @@
             <li>
               <span>API & Login Authentication 4</span>
               <p class="multi-btn"></p>
+            </li> -->
+            <li>
+              <span>이거 이후로 eachhandler component</span>
+              <p class="multi-btn"></p>
             </li>
+            <!-- <li v-for="item in 3" :key="item.id"> -->
+            <EachHandler :testId="item" v-for="(item, index) in [11, 22, 33]" :key="index" />
+
+            <!-- </li> -->
           </ul>
         </div>
       </div>
@@ -36,7 +44,13 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { dummySystemList, dummySystemInfList } from '@/types/ApiType';
 
-@Component
+import EachHandler from '@/components/commons/modal/EachHandler.vue';
+
+@Component({
+  components: {
+    EachHandler,
+  },
+})
 export default class HandlerGroupForm extends Vue {
   @Prop() groupNm!: string | null;
   get dummySystemList(): string[] {

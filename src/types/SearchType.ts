@@ -6,16 +6,13 @@ export interface SearchOption {
   selectOptions?: SelectOptionType[];
 }
 
-interface SelectOptionType {
+export interface SelectOptionType {
   label: string;
   value: string;
 }
 
 export interface SearchCondition {
-  inputBoxCondition: ConditionType;
-  selectBoxCondition: ConditionType;
-}
-
-interface ConditionType {
-  [key: string]: string;
+  nm?: string;
+  id?: string;
+  tkcgr_nm?: string;
 }

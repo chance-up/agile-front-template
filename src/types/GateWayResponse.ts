@@ -1,12 +1,7 @@
 export interface GateWayResponse<T> {
-  common: Common;
+  status: number;
   data: Data<T>;
 }
-export interface Common {
-  code: number;
-  message: string;
-}
-
 export interface Data<T> {
   pagination?: Pagination;
   value: T;
