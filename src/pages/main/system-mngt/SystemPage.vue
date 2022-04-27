@@ -63,15 +63,15 @@
           <!-- 각 리스트 페이지에 맞는 데이터로 v-for 돌려주시면 됩니다. <td> 태그 안이 조금씩 다를 수 있으니 퍼블리싱 파일 참조하면서 수정해주세요. -->
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
-              <td @click="getRoutePage('system-detail', 1)">{{ index + 1 }}</td>
-              <td @click="getRoutePage('system-detail', 2)" class="tl">
+              <td @click="getRoutePage('system-detail', list.id)">{{ index + 1 }}</td>
+              <td @click="getRoutePage('system-detail', list.id)" class="tl">
                 <span class="bold">{{ list.nm }}</span>
               </td>
               <td @click="getRoutePage('system-detail', list.id)">{{ list.id }}</td>
               <td @click="getRoutePage('system-detail', list.id)">{{ list.tkcgr_nm }}</td>
               <td @click="getRoutePage('system-detail', list.id)">
                 <p>
-                  {{ list.updated_at === null ? list.created_at : list.updated_at }}
+                  {{ list.updated_at === '' ? list.created_at : list.updated_at }}
                 </p>
               </td>
               <td>
