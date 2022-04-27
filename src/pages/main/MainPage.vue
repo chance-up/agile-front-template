@@ -6,6 +6,9 @@
           <MainHeader></MainHeader>
           <router-view />
           <MainFooter></MainFooter>
+          <ModalLayout v-if="showAlert" :alert="true" errorDesc="에러내용입니다!" @close="showAlert = false">
+            <template v-slot:modalContainer> {{ message }} </template>
+          </ModalLayout>
         </div>
       </div>
     </body>
@@ -15,12 +18,24 @@
 import { Component, Vue } from 'vue-property-decorator';
 import MainHeader from '@/components/layout/header/MainHeader.vue';
 import MainFooter from '@/components/layout/footer/MainFooter.vue';
+import { EventBus } from '@/plugins/modal/ModalEvent';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 
 @Component({
   components: {
     MainHeader: MainHeader,
     MainFooter: MainFooter,
+    ModalLayout,
   },
 })
-export default class MainPage extends Vue {}
+export default class MainPage extends Vue {
+  showAlert = false;
+  message = '';
+  created() {
+    EventBus.$on('message', (text: string) => {
+      this.showAlert = true;
+      this.message = text;
+    });
+  }
+}
 </script>

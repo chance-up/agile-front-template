@@ -57,7 +57,8 @@ import { dummyHandlerGroupIdList } from '@/types/ApiType';
 })
 export default class HandlerGroupForm extends Vue {
   @Prop() groupNm!: string | null;
-  @Prop({ default: [] }) handlerGroupIdList!: [];
+  @Prop({ default: () => [] }) handlerGroupIdList!: string[] | null;
+
   get dummyHandlerGroupIdList(): string[] {
     return dummyHandlerGroupIdList;
   }

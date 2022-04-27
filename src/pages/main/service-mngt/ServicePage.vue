@@ -110,19 +110,15 @@ import { SearchCondition } from '@/types/SearchType';
 export default class ServiceManagementPage extends Vue {
   title = this.$t('service.title');
   listTitle = '서비스 리스트';
-
   searchData: SearchCondition = {
     nm: '',
     id: '',
     tkcgr_nm: '',
   };
-
   serviceModule = getModule(ServiceModule, this.$store);
-
   get listOption(): ServiceResponse[] {
     return this.serviceModule.services;
   }
-
   deleteService(ServiceId: string) {
     if (confirm('서비스를 삭제하시겠습니까?') == true) {
       this.serviceModule.deleteServiceAction(ServiceId);
@@ -130,7 +126,6 @@ export default class ServiceManagementPage extends Vue {
       return;
     }
   }
-
   searchOnClieckEvent() {
     console.log('searchData : ', this.searchData);
     if (Object.values(this.searchData).some((item) => item != '')) {
@@ -143,16 +138,14 @@ export default class ServiceManagementPage extends Vue {
         },
       });
     } else {
-      alert('검색 데이터를 입력해주세요.');
+      this.$modal.show('검색 데이터를 입력해주세요.');
     }
   }
-
   created() {
     if (Object.keys(this.$route.query).length > 0) {
       this.searchData.nm = this.$route.query.nm as string;
       this.searchData.id = this.$route.query.id as string;
       this.searchData.tkcgr_nm = this.$route.query.tkcgr_nm as string;
-
       this.serviceModule.getServiceList();
       // this.systemModule.getSystemList(this.searchData);
     } else {

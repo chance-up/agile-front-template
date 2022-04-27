@@ -1,4 +1,4 @@
-import { GateWayResponse } from '@/types/GateWayResponse';
+import { GateWayResponse, Pagination } from '@/types/GateWayResponse';
 import {
   dummyListData,
   dummySearchData,
@@ -15,6 +15,7 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 
 @Module({ name: 'SystemModule' })
 export default class SystemModule extends VuexModule {
+  public pagination: Pagination = {} as Pagination;
   public systemList: SystemResponse[] = [];
   public system: SystemResponse = {
     id: '',
@@ -40,6 +41,11 @@ export default class SystemModule extends VuexModule {
     this.system = system;
   }
 
+  @Mutation
+  setPagination(pagination: Pagination) {
+    this.pagination = pagination;
+  }
+
   // 시스템 관리 리스트 조회
   @Action
   async getSystemList(searchOption?: object) {
@@ -48,6 +54,7 @@ export default class SystemModule extends VuexModule {
       const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>('/system/list');
       console.log('response', response.data.value);
       this.context.commit('setSystemList', response.data.value);
+      this.context.commit('setPagination', response.data.pagination);
     } else {
       addMock('/system/getSystemSearch', JSON.stringify(dummySearchData));
       const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>(
@@ -55,6 +62,7 @@ export default class SystemModule extends VuexModule {
       );
       console.log('system get list response', response.data.value);
       this.context.commit('setSystemList', response.data.value);
+      this.context.commit('setPagination', response.data.pagination);
     }
   }
 

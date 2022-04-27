@@ -2,10 +2,10 @@
   <li>
     <label class="label">{{ inputNm }}</label>
     <div class="form-cont">
-      <div v-for="(group, title, index) in ifGrps" :key="index" class="domain-wrap">
-        <p class="bold">{{ title }}</p>
+      <div v-for="(group, index) in ifGrps" :key="index" class="domain-wrap">
+        <p class="bold">{{ group.if_nm }}</p>
         <dl class="dot-list">
-          <dt v-for="(item, index2) in group" :key="index2">
+          <dt v-for="(item, index2) in group.if_url" :key="index2">
             {{ item }}
           </dt>
         </dl>

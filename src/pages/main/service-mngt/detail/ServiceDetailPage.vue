@@ -18,7 +18,12 @@
           :subject="serviceOption.athn.JWT.subject"
           :publickey="serviceOption.athn.JWT.publickey"
         />
-        <SlaGroup inputNm="SLA 정책 관리" :term="serviceOption.sla_type" :count="serviceOption.sla_cnt" />
+        <SlaGroup
+          inputNm="SLA 정책 관리"
+          :SLAn="serviceOption.sla_yn"
+          :term="serviceOption.sla_type"
+          :count="serviceOption.sla_cnt"
+        />
         <InfoGroup inputNm="서비스 설명" :value="serviceOption.desc" />
       </ul>
     </template>
@@ -74,11 +79,6 @@ export default class ServiceDetailPage extends Vue {
     return this.serviceModule.service;
   }
 
-  created() {
-    console.log('!!!IDIDID', this.$route.params.id);
-    this.serviceModule.getService(this.$route.params.serviceId);
-  }
-
   deleteService(ServiceId: string) {
     if (confirm('서비스를 삭제하시겠습니까?') == true) {
       this.serviceModule.deleteServiceAction(ServiceId);
@@ -86,6 +86,11 @@ export default class ServiceDetailPage extends Vue {
     } else {
       return;
     }
+  }
+
+  created() {
+    console.log('!!!IDIDID', this.$route.params.id);
+    this.serviceModule.getService(this.$route.params.serviceId);
   }
 }
 </script>

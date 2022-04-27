@@ -4,10 +4,10 @@
       <!------- handler pop2 -------->
       <div class="po2p-wrap">
         <div class="pop2-header">
-          <slot name="hoverContents" />
+          <slot name="hoverHeader" />
         </div>
         <div class="pop2-container">
-          <slot name="hoverContents" />
+          <slot name="hoverContainer" />
         </div>
         <div class="pop2-footer">
           <slot name="hoverFooter" />
@@ -26,8 +26,11 @@ export default class HoverLayout extends Vue {}
 .pop2-wrap {
   position: fixed;
   z-index: 9998;
-  top: 25rem;
-  left: 85rem;
+  /* top: 25rem;
+  left: 85rem; */
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
 
   /* width: 100%;
   height: 100%; */

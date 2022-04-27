@@ -51,14 +51,14 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class AuthReqGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
   @Prop({ default: '' }) athn!: string;
   @Prop({ default: '' }) id!: string;
   @Prop({ default: '' }) pw!: string;
-  @Prop({ default: [] }) alg!: string[];
+  @Prop({ default: () => [] }) alg!: string[];
   @Prop({ default: '' }) issuer!: string;
   @Prop({ default: '' }) subject!: string;
   @Prop({ default: '' }) publicKey!: string;

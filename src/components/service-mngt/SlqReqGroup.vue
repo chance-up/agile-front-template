@@ -3,17 +3,17 @@
     <label class="label point">{{ inputNm }}</label>
     <div class="form-cont">
       <div class="form-group">
-        <select v-model="show" class="select-box">
-          <option>none</option>
-          <option>TPS</option>
-          <option>총량</option>
+        <select v-model="SLA" class="select-box">
+          <option value="none">none</option>
+          <option value="TPS">TPS</option>
+          <option value="total">총량</option>
         </select>
       </div>
 
-      <div v-if="show != 'none'" class="form-group sla-form">
+      <div v-if="SLA != 'none'" class="form-group sla-form">
         <!--  총량  -->
         <select class="select-box mr15" :value="type" @input="$emit('select', $event.target.value)">
-          <option value="MINITE">분</option>
+          <option value="MINITUE">분</option>
           <option value="HOUR">시</option>
           <option value="DAY">일</option>
           <option value="MONTH">월</option>
@@ -39,13 +39,19 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 @Component
 export default class SlaReqGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
+  @Prop({ default: '' }) SLAn!: string;
   @Prop({ default: '' }) type!: string;
   @Prop({ default: 0 }) count!: number;
 
-  show = 'none';
+  get SLA() {
+    return this.SLAn;
+  }
+  set SLA(val: string) {
+    this.$emit('update:SLAn', val);
+  }
 }
 </script>
