@@ -1,6 +1,6 @@
 <template>
-  <div class="domain-wrap">
-    <select>
+  <li>
+    <select class="select-box">
       <option v-for="(option, idx) in options" :key="idx" :value="option">
         {{ option }}
       </option>
@@ -9,17 +9,11 @@
     <input type="text" id="" class="input-box mid" placeholder="domain" />
     <span>:</span>
     <input type="text" id="" class="input-box sm" placeholder="port" />
-    <button @click="clickEvent" v-if="shape">
-      <i>
-        <img src="@/assets/plus.svg" alt="추가" />
-      </i>
+    <button class="xs-btn" @click="clickEvent" v-if="shape">
+      <i class="plus"></i>
     </button>
-    <button @click="clickEvent" v-else>
-      <i>
-        <img src="@/assets/minus.svg" alt="삭제" />
-      </i>
-    </button>
-  </div>
+    <button class="xs-btn" @click="clickEvent" v-else><i class="minus"></i></button>
+  </li>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';

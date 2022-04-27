@@ -22,7 +22,7 @@ export default class SystemModule extends VuexModule {
     tkcgr_nm: '',
     tkcgr_pos: '',
     tkcgr_eml: '',
-    if_grp: {},
+    if_grp: [],
     desc: '',
     created_at: '',
     created_by: '',

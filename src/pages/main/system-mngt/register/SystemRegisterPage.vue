@@ -73,7 +73,7 @@ import Interface from '@/components/system-mngt/Interface.vue';
 import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import TextDebounceForm from '@/components/system-mngt/TextDebounceForm.vue';
 
-import { SystemResponse } from '@/types/SystemType';
+import { SystemResponse, IfGrpType } from '@/types/SystemType';
 import { dummyTestData1, dummyTestData2 } from '@/types/SystemType';
 @Component({
   components: {
@@ -92,6 +92,7 @@ export default class SystemRegisterPage extends Vue {
   // 4. 중복 검사에 필요한 메서드는 InputGroup에 prop으로 넘겨준다.
 
   systemModule = getModule(SystemModule, this.$store);
+  systemIfgrpList: IfGrpType[] = [];
 
   systemItem: SystemResponse = {
     id: '',
@@ -99,7 +100,7 @@ export default class SystemRegisterPage extends Vue {
     tkcgr_nm: '',
     tkcgr_pos: '',
     tkcgr_eml: '',
-    if_grp: {},
+    if_grp: [],
     desc: '',
     created_at: '',
     created_by: '',
