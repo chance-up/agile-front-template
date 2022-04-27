@@ -12,7 +12,6 @@
           :check="isValid"
           :inputNm="$t('system.name')"
           :place="$t('system.name')"
-          inputClass="input-box lg check-ok"
           @input="validationCheck"
         />
         <TextDebounceForm
@@ -28,21 +27,18 @@
           :v-model="systemItem.tkcgr_nm"
           :inputNm="$t('system.tkcgrNm')"
           :place="$t('system.tkcgrNm')"
-          inputClass="input-box lg check-false"
         />
         <InputGroup
           type="text"
           :v-model="systemItem.tkcgr_pos"
           :inputNm="$t('system.tkcgrPos')"
           :place="$t('system.tkcgrPos')"
-          inputClass="input-box lg check-ok"
         />
         <InputGroup
           type="email"
           :v-model="systemItem.tkcgr_eml"
           :inputNm="$t('system.tkcgrEml')"
           :place="$t('system.tkcgrEml')"
-          inputClass="input-box lg check-ok"
         />
         <InterfaceGroup :inputNm="$t('system.ifGrp')">
           <template v-slot:interface>

@@ -6,7 +6,7 @@
         :type="type"
         :class="{ 'check-ok': check == true, 'check-false': check == false }"
         class="input-box lg"
-        :placeholder="placeholder"
+        :placeholder="place"
         :disabled="disabled"
         v-model="formValue"
       />
@@ -21,7 +21,7 @@ export default class InputGroup extends Vue {
   @Prop({ default: null }) check!: boolean | null;
   @Prop({ default: '' }) type!: string;
   @Prop({ default: '' }) inputNm!: string;
-  @Prop({ default: '' }) placeholder!: string;
+  @Prop({ default: '' }) place!: string;
   @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) validCheck!: string;
 

@@ -83,7 +83,7 @@ export default class SystemModule extends VuexModule {
   @Action
   async duplicateCheck(id: string): Promise<boolean> {
     addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
-    const response = await ApiResponse.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
+    const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
     //return response;
     return true;
   }

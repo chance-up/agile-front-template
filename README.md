@@ -107,8 +107,52 @@ import Hello from '@/components/HelloWorld.vue';
 - VScode의 Go to Definetion등이 정상 동작하지 않음
 - 기존 state값을 가져와 값을 추가시키는(array의 .add메서드 등)동작이 정상 동작하지 않음
 
-## Git Rule
+## 입력 값 유효성 검사 규칙
 
--
+### System
 
-##
+- 시스템명
+
+  - DB Type : Varchar(50)
+  - 규칙 :
+    - 최대 글자 수 50글자
+    - 특수문자 사용 불가
+
+- 시스템 ID
+
+  - DB Type : Varchar(50)
+  - 규칙 :
+    - 최대 글자 수 50글자
+    - 특수문자 사용 불가
+
+- 담당자 이름
+
+  - DB Type : Varchar(20)
+  - 규칙 :
+    - 최대 글자 수 20글자
+    - 특수문자 사용 불가
+
+- 담당자 소속
+
+  - DB Type : Varchar(100)
+  - 규칙 :
+    - 최대 글자 수 100글자
+
+- 담당자 이메일
+
+  - DB Type : Varchar(100)
+  - 규칙 :
+    - 최대 글자 수 100글자
+    - 이메일 형식에 맞게 입력
+
+- 연동 방식
+
+  - DB Type : Textv
+  - 규칙 :
+    - 도메인 : 100글자
+    - port : 5글자
+
+- 설명
+  - DB Type : Varchar(1000)
+  - 규칙 :
+    - 최대 글자 수 1000글자
