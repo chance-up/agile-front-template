@@ -3,7 +3,16 @@ import { ApiSearchQuery, apiMockList, ApiDetailResponse, apiMockData, apiMockDat
 import { addMock } from '@/axios/AxiosIntercept';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import { AxiosClient } from '@/axios/AxiosClient';
+import { GateWayError } from '@/error/GateWayError';
+import ErrorCode from '@/error/ErrorCodes';
 
+function handleCommonError(error: GateWayError | any) {
+  if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+    console.log('NETWORK_ERROR');
+  } else {
+    console.log('서버통신에 실패하였습니다.');
+  }
+}
 @Module({ name: 'ApiModule' })
 export default class ApiModule extends VuexModule {
   //api 리스트 요청
@@ -17,13 +26,18 @@ export default class ApiModule extends VuexModule {
   }
   @Action
   async getApiList(searchQuery?: ApiSearchQuery) {
-    addMock('/api/list', JSON.stringify(apiMockList));
-    const response = await AxiosClient.getInstance().get<ApiDetailResponse[]>('/api/list', searchQuery);
-    console.log(response);
-    response.map((item: ApiDetailResponse) => {
-      if (typeof item.meth == 'string') item.meth = JSON.parse(item.meth);
-    });
-    this.context.commit('setApiList', response);
+    try {
+      addMock('/api/list', JSON.stringify(apiMockList));
+      const response = await AxiosClient.getInstance().get<ApiDetailResponse[]>('/api/list', searchQuery);
+      console.log(response);
+      response.map((item: ApiDetailResponse) => {
+        if (typeof item.meth == 'string') item.meth = JSON.parse(item.meth);
+      });
+      this.context.commit('setApiList', response);
+    } catch (error: GateWayError | any) {
+      handleCommonError(error);
+      // 디테일 에러 처리
+    }
   }
 
   //api 상세 요청
@@ -53,6 +67,7 @@ export default class ApiModule extends VuexModule {
   }
 }
 
+// 중복 체크
 export const apiValidationCheck = async (id: string) => {
   console.log(id, apiMockList[0].id);
   addMock(

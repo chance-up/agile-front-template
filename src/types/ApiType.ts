@@ -47,8 +47,9 @@ export interface ApiEditRequestBody {
   time_out: number;
   desc: string | null;
 }
-
+// [x:string ] => confirm 출력용으로 사용
 export interface ApiCreateRequestBody {
+  [x: string]: any;
   sysNm: string;
   id: string;
   sysId: string;
@@ -96,7 +97,7 @@ export const apiMockData2: ApiDetailResponse = {
   sys_id: 'id2',
   nm: '고객 정보 삭제',
   if_no: 'IF_CAPRI_000122',
-  meth: ['PUT', 'DELETE'],
+  meth: '["DELETE", "PUT"]',
   uri_in: '/CAPRI/v1/getCustInfo22',
   uri_out: '/CAPRI/v1/getCustInfo22',
   if_grp: 'authentication',
@@ -181,7 +182,6 @@ export interface ApiInfoEdit {
   time_out: number;
   desc: string;
 }
-
 export const dummyHandlerGroupIdList: string[] = [
   'handlerGroupId1',
   'handlerGroupId2',
