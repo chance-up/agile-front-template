@@ -4,7 +4,7 @@
     <div class="form-cont">
       <div class="form-group">
         <select v-model="show" class="select-box">
-          <option selected>none</option>
+          <option>none</option>
           <option>TPS</option>
           <option>총량</option>
         </select>
@@ -39,7 +39,7 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class SlaReqGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;

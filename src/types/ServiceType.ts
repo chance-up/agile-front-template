@@ -1,8 +1,8 @@
 import { Data, GateWayResponse, Pagination } from './GateWayResponse';
 
 interface AuthResponse {
-  BASIC_AUTH?: BasicAuthDetail;
-  JWT?: JWTDetail;
+  BASIC_AUTH: BasicAuthDetail;
+  JWT: JWTDetail;
 }
 interface BasicAuthDetail {
   id: string;
@@ -11,9 +11,9 @@ interface BasicAuthDetail {
 
 interface JWTDetail {
   alg: string[];
-  publisher: string;
-  eotkdwk: string;
-  publicket: string;
+  issuer: string;
+  subject: string;
+  publickey: string;
 }
 export interface ServiceResponse {
   id: string;
@@ -68,11 +68,14 @@ export const serviceListResponse: ServiceResponse[] = [
     tkcgr_nm: '이경민',
     tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
     tkcgr_eml: 'km0403.lee@kt.com',
-    sla_type: 'SECOND',
+    sla_type: 'MINITE',
     sla_cnt: 10,
     svc_st_dt: '2022-04-13 00:00:00',
     svc_end_dt: '9999-12-31 00:00:00',
-    athn: { BASIC_AUTH: { id: 'admin', pw: '123123' } },
+    athn: {
+      BASIC_AUTH: { id: '', pw: '' },
+      JWT: { alg: ['A', 'B', 'C'], issuer: '임꺽정', subject: '홍길등', publickey: 'testKey' },
+    },
     api_aut: 'admin',
     desc: 'test',
     cret_dt: '2022-04-20 17:44:23',
@@ -86,11 +89,14 @@ export const serviceListResponse: ServiceResponse[] = [
     tkcgr_nm: '박재원',
     tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
     tkcgr_eml: 'parkjaewon@kt.com',
-    sla_type: 'SECOND',
+    sla_type: 'HOUR',
     sla_cnt: 10,
     svc_st_dt: '2022-04-13 00:00:00',
     svc_end_dt: '9999-12-31 00:00:00',
-    athn: { BASIC_AUTH: { id: 'admin', pw: '123123' } },
+    athn: {
+      BASIC_AUTH: { id: 'admin', pw: '123123' },
+      JWT: { alg: [], issuer: '', subject: '', publickey: '' },
+    },
     api_aut: 'admin',
     desc: 'test',
     cret_dt: '2022-04-20 17:44:23',
@@ -106,11 +112,14 @@ export const serviceResponse: ServiceResponse = {
   tkcgr_nm: '이경민',
   tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
   tkcgr_eml: 'km0403.lee@kt.com',
-  sla_type: 'SECOND',
+  sla_type: 'MINITE',
   sla_cnt: 10,
   svc_st_dt: '2022-04-13 00:00:00',
   svc_end_dt: '9999-12-31 00:00:00',
-  athn: { BASIC_AUTH: { id: 'admin', pw: '123123' } },
+  athn: {
+    BASIC_AUTH: { id: '', pw: '' },
+    JWT: { alg: ['A', 'B', 'C'], issuer: '임꺽정', subject: '홍길등', publickey: 'testKey' },
+  },
   api_aut: 'admin',
   desc: 'test',
   cret_dt: '2022-04-20 17:44:23',

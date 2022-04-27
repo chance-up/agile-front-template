@@ -19,7 +19,18 @@ export default class ServiceModule extends VuexModule {
     sla_cnt: 0,
     svc_st_dt: '',
     svc_end_dt: '',
-    athn: {},
+    athn: {
+      BASIC_AUTH: {
+        id: '',
+        pw: '',
+      },
+      JWT: {
+        alg: [],
+        issuer: '',
+        subject: '',
+        publickey: '',
+      },
+    },
     api_aut: '',
     desc: '',
     cret_dt: '',
@@ -38,7 +49,18 @@ export default class ServiceModule extends VuexModule {
     sla_cnt: 0,
     svc_st_dt: '',
     svc_end_dt: '',
-    athn: {},
+    athn: {
+      BASIC_AUTH: {
+        id: '',
+        pw: '',
+      },
+      JWT: {
+        alg: [],
+        issuer: '',
+        subject: '',
+        publickey: '',
+      },
+    },
     api_aut: '',
     desc: '',
   };

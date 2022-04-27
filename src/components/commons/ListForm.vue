@@ -11,6 +11,9 @@
         <slot name="list-table" />
       </table>
     </div>
+    <div class="page-wrap">
+      <slot name="pagination" />
+    </div>
   </div>
 </template>
 

@@ -19,7 +19,7 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 
