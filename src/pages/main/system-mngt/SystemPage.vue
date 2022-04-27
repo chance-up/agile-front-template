@@ -144,7 +144,7 @@ export default class SystemPage extends Vue {
   }
 
   get listOption(): SystemResponse[] {
-    return this.systemModule.listOption;
+    return this.systemModule.systemList;
   }
 
   searchOnClieckEvent() {

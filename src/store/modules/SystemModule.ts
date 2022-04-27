@@ -15,11 +15,29 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 
 @Module({ name: 'SystemModule' })
 export default class SystemModule extends VuexModule {
-  public listOption: SystemResponse[] = [];
+  public systemList: SystemResponse[] = [];
+  public system: SystemResponse = {
+    id: '',
+    nm: '',
+    tkcgr_nm: '',
+    tkcgr_pos: '',
+    tkcgr_eml: '',
+    if_grp: {},
+    desc: '',
+    created_at: '',
+    created_by: '',
+    updated_at: '',
+    updated_by: '',
+  };
 
   @Mutation
   setSystemList(list: SystemResponse[]): void {
-    this.listOption = list;
+    this.systemList = list;
+  }
+
+  @Mutation
+  setSystem(system: SystemResponse) {
+    this.system = system;
   }
 
   // 시스템 관리 리스트 조회
@@ -45,7 +63,9 @@ export default class SystemModule extends VuexModule {
   async getSystemDetail(id: string) {
     addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
     const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
-    return response;
+
+    this.context.commit('setSystem', response.data.value);
+    // return response;
   }
 
   // 시스템 관리 등록
@@ -63,7 +83,8 @@ export default class SystemModule extends VuexModule {
   // 시스템 관리 수정
   @Action
   async updateSystemDetail(data: SystemResponse) {
-    addMock(`/system/updateSystem/`, JSON.stringify(dummyUpdateData));
+    console.log('data : ', data);
+    addMock(`/system/updateSystem/`, JSON.stringify(data));
     const response = await AxiosClient.getInstance().post<GateWayResponse<SystemResponse>>(
       `/system/updateSystem/`,
       data

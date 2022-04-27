@@ -27,7 +27,7 @@
   </ContentLayout>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 
 import { SystemResponse } from '@/types/SystemType';
@@ -49,24 +49,19 @@ export default class SystemDetailPage extends Vue {
   @Prop({ default: '' }) id!: string;
 
   systemModule = getModule(SystemModule, this.$store);
-  systemItem: SystemResponse = {
-    id: '',
-    nm: '',
-    tkcgr_nm: '',
-    tkcgr_pos: '',
-    tkcgr_eml: '',
-    if_grp: {},
-    desc: '',
-    created_at: '',
-    created_by: '',
-    updated_at: '',
-    updated_by: '',
-  };
+  systemItem: SystemResponse = {} as SystemResponse;
+
+  get system() {
+    return this.systemModule.system;
+  }
 
   created() {
-    this.systemModule.getSystemDetail(this.$route.params.id as string).then((res) => {
-      this.systemItem = res.data.value;
-    });
+    this.systemModule.getSystemDetail(this.$route.params.id as string);
+  }
+
+  @Watch('system')
+  onSystemChange() {
+    this.systemItem = this.system;
   }
 
   onClickPrevious() {

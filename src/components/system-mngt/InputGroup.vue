@@ -8,7 +8,8 @@
         class="input-box lg"
         :placeholder="place"
         :disabled="disabled"
-        v-model="formValue"
+        :value="value"
+        @input="$emit('input', $event.target.value)"
       />
       <p v-if="validCheck !== ''" class="red-txt noti">{{ validCheck }}</p>
     </div>
@@ -24,13 +25,7 @@ export default class InputGroup extends Vue {
   @Prop({ default: '' }) place!: string;
   @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) validCheck!: string;
-
-  formValue = '';
-  @Watch('formValue')
-  onChanged(newVal: string) {
-    console.log(newVal);
-    this.$emit('input', newVal);
-  }
+  @Prop({ default: '' }) value!: string;
 }
 </script>
 <style lang=""></style>
