@@ -43,7 +43,6 @@ import Component from 'vue-class-component';
 import { ServiceResponse } from '@/types/ServiceType';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
-import { Prop } from 'vue-property-decorator';
 
 @Component({
   components: {

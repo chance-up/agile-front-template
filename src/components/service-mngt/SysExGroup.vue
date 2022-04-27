@@ -7,7 +7,7 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class SysExGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
