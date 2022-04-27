@@ -11,7 +11,8 @@
         <InfoGroup :inputNm="$t('system.tkcgrNm')" :value="systemItem.tkcgr_nm" />
         <InfoGroup :inputNm="$t('system.tkcgrPos')" :value="systemItem.tkcgr_pos" />
         <InfoGroup :inputNm="$t('system.tkcgrEml')" :value="systemItem.tkcgr_eml" />
-        <InfoGroup :inputNm="$t('system.ifGrp')" :value="systemItem.if_grp" />
+        <!-- <InfoGroup :inputNm="$t('system.ifGrp')" :value="systemItem.if_grp" /> -->
+        <IfFormlGroup :inputNm="$t('system.ifGrp')" :ifGrps="systemItem.if_grp" />
         <InfoGroup :inputNm="$t('system.desc')" :value="systemItem.desc" />
       </ul>
     </template>
@@ -26,19 +27,21 @@
   </ContentLayout>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 
 import { SystemResponse } from '@/types/SystemType';
 import SystemModule from '@/store/modules/SystemModule';
 
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-import InfoGroup from '@/components/api-mngt/detail/InfoGroup.vue';
+import InfoGroup from '@/components/system-mngt/detail/InfoGroup.vue';
+import IfFormlGroup from '@/components/system-mngt/detail/IfFormlGroup.vue';
 
 @Component({
   components: {
     ContentLayout,
     InfoGroup,
+    IfFormlGroup,
   },
 })
 export default class SystemDetailPage extends Vue {
@@ -46,24 +49,19 @@ export default class SystemDetailPage extends Vue {
   @Prop({ default: '' }) id!: string;
 
   systemModule = getModule(SystemModule, this.$store);
-  systemItem: SystemResponse = {
-    id: '',
-    nm: '',
-    tkcgr_nm: '',
-    tkcgr_pos: '',
-    tkcgr_eml: '',
-    if_grp: '',
-    desc: '',
-    created_at: '',
-    created_by: '',
-    updated_at: '',
-    updated_by: '',
-  };
+  systemItem: SystemResponse = {} as SystemResponse;
+
+  get system() {
+    return this.systemModule.system;
+  }
 
   created() {
-    this.systemModule.getSystemDetail(this.$route.params.id as string).then((res) => {
-      this.systemItem = res.data.value;
-    });
+    this.systemModule.getSystemDetail(this.$route.params.id as string);
+  }
+
+  @Watch('system')
+  onSystemChange() {
+    this.systemItem = this.system;
   }
 
   onClickPrevious() {

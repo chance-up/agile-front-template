@@ -4,50 +4,15 @@
       <!------- handler pop -------->
       <div class="pop-wrap">
         <div class="pop-header">
-          <h1 class="h1-tit">Handler Group Name</h1>
+          <h1 class="h1-tit">Header Area</h1>
           <button @click="$emit('close')">
             <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
           </button>
         </div>
 
         <div class="pop-container">
-          <p class="text">Handler Group 설명설명설명설명설명설명</p>
-
-          <ul class="handler-list">
-            <li>
-              <span>REQ.API & Login Authentication1</span>
-              <a v-on:mouseout="showHoverModal = false" v-on:mouseover="showHoverModal = true" href="" class="tip-btn">
-                <i><img src="@/assets/tip.svg" alt="팁" /></i>
-              </a>
-            </li>
-            <HoverModal v-if="showHoverModal" @close="showHoverModal = false">
-              <h3 slot="header">custom header</h3>
-            </HoverModal>
-            <li>
-              <span>REQ.API & Login Authentication</span>
-              <a href="" class="tip-btn">
-                <i><img src="@/assets/tip.svg" alt="팁" /></i>
-              </a>
-            </li>
-            <li>
-              <span>REQ.API & Login Authentication</span>
-              <a href="" class="tip-btn">
-                <i><img src="@/assets/tip.svg" alt="팁" /></i>
-              </a>
-            </li>
-            <li>
-              <span>REQ.API & Login Authentication</span>
-              <a href="" class="tip-btn">
-                <i><img src="@/assets/tip.svg" alt="팁" /></i>
-              </a>
-            </li>
-            <li>
-              <span>REQ.API & Login Authentication</span>
-              <a href="" class="tip-btn">
-                <i><img src="@/assets/tip.svg" alt="팁" /></i>
-              </a>
-            </li>
-          </ul>
+          <p class="text">Contents Area</p>
+          <slot name="modalContents" />
         </div>
 
         <div class="pop-footer">
@@ -56,49 +21,23 @@
       </div>
 
       <!------- handler pop -------->
-      <!-- <div class="modal-mask">
-        <div class="modal-wrapper">
-          <div class="modal-container">
-            <div class="modal-header">
-              <slot name="header"> default header </slot>
-            </div>
-
-            <div class="modal-body">
-              <slot name="body"> default body </slot>
-            </div>
-
-            <div class="modal-footer">
-              <slot name="footer">
-                default footer
-                <button class="modal-default-button" @click="$emit('close')">OK</button>
-              </slot>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </transition>
   </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import HoverModal from '@/components/commons/modal/HoverModal.vue';
 
 @Component({
-  components: {
-    HoverModal,
-  },
+  components: {},
 })
-export default class Modal extends Vue {
+export default class ModalTest extends Vue {
   // @Prop() eachApiGroup
 
   showHoverModal = false;
-  doMouseOver() {
-    console.log('mouse over');
-  }
 }
 </script>
 <style>
-/* .modal-mask {
+.modal-mask {
   position: fixed;
   z-index: 9998;
   top: 0;
@@ -151,7 +90,7 @@ export default class Modal extends Vue {
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
-} */
+}
 /***   popup   ***/
 .pop-wrap {
   position: fixed;

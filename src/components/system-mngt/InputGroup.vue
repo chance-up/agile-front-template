@@ -8,7 +8,8 @@
         class="input-box lg"
         :placeholder="place"
         :disabled="disabled"
-        v-model="formValue"
+        :value="value"
+        @input="$emit('input', $event.target.value)"
       />
       <p v-if="validCheck !== ''" class="red-txt noti">{{ validCheck }}</p>
     </div>
@@ -25,6 +26,7 @@ export default class InputGroup extends Vue {
   @Prop({ default: '' }) place!: string;
   @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) validCheck!: string;
+  @Prop({ default: '' }) value!: string;
   //  re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
   re2 = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
