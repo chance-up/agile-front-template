@@ -11,7 +11,8 @@
         <InfoGroup :inputNm="$t('system.tkcgrNm')" :value="systemItem.tkcgr_nm" />
         <InfoGroup :inputNm="$t('system.tkcgrPos')" :value="systemItem.tkcgr_pos" />
         <InfoGroup :inputNm="$t('system.tkcgrEml')" :value="systemItem.tkcgr_eml" />
-        <InfoGroup :inputNm="$t('system.ifGrp')" :value="systemItem.if_grp" />
+        <!-- <InfoGroup :inputNm="$t('system.ifGrp')" :value="systemItem.if_grp" /> -->
+        <IfFormlGroup :inputNm="$t('system.ifGrp')" :ifGrps="systemItem.if_grp" />
         <InfoGroup :inputNm="$t('system.desc')" :value="systemItem.desc" />
       </ul>
     </template>
@@ -33,12 +34,14 @@ import { SystemResponse } from '@/types/SystemType';
 import SystemModule from '@/store/modules/SystemModule';
 
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-import InfoGroup from '@/components/api-mngt/detail/InfoGroup.vue';
+import InfoGroup from '@/components/system-mngt/detail/InfoGroup.vue';
+import IfFormlGroup from '@/components/system-mngt/detail/IfFormlGroup.vue';
 
 @Component({
   components: {
     ContentLayout,
     InfoGroup,
+    IfFormlGroup,
   },
 })
 export default class SystemDetailPage extends Vue {
@@ -52,7 +55,7 @@ export default class SystemDetailPage extends Vue {
     tkcgr_nm: '',
     tkcgr_pos: '',
     tkcgr_eml: '',
-    if_grp: '',
+    if_grp: {},
     desc: '',
     created_at: '',
     created_by: '',

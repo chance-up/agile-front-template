@@ -16,7 +16,7 @@
           <InputBox v-model="searchData['tkcgr_nm']" :label="$t('system.tkcgrNm')" placeholder="입력해주세요." />
         </div>
         <button class="mid-btn" @click="searchOnClieckEvent">
-          <i><img src="@/assets/search_ico.svg" alt="검색" /></i>{{ $t('common.search') }}
+          <i><img src="@/assets/search_ico.svg" :alt="$t('common.search')" /></i>{{ $t('common.search') }}
         </button>
       </div>
 
@@ -37,7 +37,7 @@
         <!-- 리스트 우측 상단에 들어갈 버튼은 template로 묶어서 넣어주시면 됩니다. -->
         <template slot="list-btn-area">
           <button class="mid-btn" @click="registerOnClickEvent">
-            <i><img src="@/assets/check_ico.svg" alt="등록" /></i>{{ $t('common.register') }}
+            <i><img src="@/assets/check_ico.svg" :alt="$t('common.register')" /></i>{{ $t('common.register') }}
           </button>
         </template>
         <!-- 각 페이지마다 테이블 규격이 조금씩 달라서 template으로 묶어서 colgroup ~ tbody까지 넣어주시면 됩니다. -->
