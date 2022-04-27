@@ -12,6 +12,8 @@ import { SearchCondition } from '@/types/SearchType';
 import { AxiosClient } from '@/axios/AxiosClient';
 import { addMock } from '@/axios/AxiosIntercept';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
+import { GateWayError } from '@/error/GateWayError';
+import ErrorCode from '@/error/ErrorCodes';
 
 @Module({ name: 'SystemModule' })
 export default class SystemModule extends VuexModule {
@@ -50,62 +52,111 @@ export default class SystemModule extends VuexModule {
   @Action
   async getSystemList(searchOption?: object) {
     if (!searchOption) {
-      addMock('/system/list', JSON.stringify(dummyListData));
-      const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>('/system/list');
-      console.log('response', response.data.value);
-      this.context.commit('setSystemList', response.data.value);
-      this.context.commit('setPagination', response.data.pagination);
+      try {
+        addMock('/system/list', JSON.stringify(dummyListData));
+        const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>('/system/list');
+        // console.log('response', response.data.value);
+        this.context.commit('setSystemList', response.data.value);
+        this.context.commit('setPagination', response.data.pagination);
+      } catch (error: GateWayError | any) {
+        if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+          console.log('NetWork not connection');
+        } else {
+          console.log('서버통신에 실패하였습니다.');
+        }
+      }
     } else {
-      addMock('/system/getSystemSearch', JSON.stringify(dummySearchData));
-      const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>(
-        '/system/getSystemSearch'
-      );
-      console.log('system get list response', response.data.value);
-      this.context.commit('setSystemList', response.data.value);
-      this.context.commit('setPagination', response.data.pagination);
+      try {
+        addMock('/system/getSystemSearch', JSON.stringify(dummySearchData));
+        const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>(
+          '/system/getSystemSearch'
+        );
+        // console.log('system get list response', response.data.value);
+        this.context.commit('setSystemList', response.data.value);
+        this.context.commit('setPagination', response.data.pagination);
+      } catch (error: GateWayError | any) {
+        if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+          console.log('NetWork not connection');
+        } else {
+          console.log('서버통신에 실패하였습니다.');
+        }
+      }
     }
   }
 
   // 시스템 관리 상세 정보
   @Action
   async getSystemDetail(id: string) {
-    addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
-    const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
+    try {
+      addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
 
-    this.context.commit('setSystem', response.data.value);
-    // return response;
+      this.context.commit('setSystem', response.data.value);
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
+      } else {
+        console.log('서버통신에 실패하였습니다.');
+      }
+    }
   }
 
   // 시스템 관리 등록
   @Action
   async registerSystem(data: SystemResponse) {
-    console.log(JSON.stringify(data));
-    addMock(`/system/registerSystem/`, JSON.stringify(dummyRegisterData));
-    const response = await AxiosClient.getInstance().post<GateWayResponse<SystemResponse>>(
-      `/system/registerSystem/`,
-      data
-    );
-    console.log('system register response', response);
+    // console.log(JSON.stringify(data));
+    try {
+      addMock(`/system/registerSystem/`, JSON.stringify(dummyRegisterData));
+      const response = await AxiosClient.getInstance().post<GateWayResponse<SystemResponse>>(
+        `/system/registerSystem/`,
+        data
+      );
+      // console.log('system register response', response);
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
+      } else {
+        console.log('서버통신에 실패하였습니다.');
+      }
+    }
   }
 
   // 시스템 관리 수정
   @Action
   async updateSystemDetail(data: SystemResponse) {
-    console.log('data : ', data);
-    addMock(`/system/updateSystem/`, JSON.stringify(data));
-    const response = await AxiosClient.getInstance().post<GateWayResponse<SystemResponse>>(
-      `/system/updateSystem/`,
-      data
-    );
-    console.log('system put response', response);
+    // console.log('data : ', data);
+    try {
+      addMock(`/system/updateSystem/`, JSON.stringify(data));
+      const response = await AxiosClient.getInstance().post<GateWayResponse<SystemResponse>>(
+        `/system/updateSystem/`,
+        data
+      );
+      // console.log('system put response', response);
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
+      } else {
+        console.log('서버통신에 실패하였습니다.');
+      }
+    }
   }
 
   // 시스템 관리 삭제
   @Action
   async deleteSystem(id: string) {
-    addMock(`/system/deleteSystem/${id}`, JSON.stringify(dummyDeleteData));
-    const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/deleteSystem/${id}`);
-    console.log('system delete response', response);
+    try {
+      addMock(`/system/deleteSystem/${id}`, JSON.stringify(dummyDeleteData));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(
+        `/system/deleteSystem/${id}`
+      );
+      // console.log('system delete response', response);
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
+      } else {
+        console.log('서버통신에 실패하였습니다.');
+      }
+    }
   }
 
   // System ID 중복 체크

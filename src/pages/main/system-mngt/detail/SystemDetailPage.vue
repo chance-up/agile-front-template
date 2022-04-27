@@ -11,7 +11,6 @@
         <InfoGroup :inputNm="$t('system.tkcgrNm')" :value="systemItem.tkcgr_nm" />
         <InfoGroup :inputNm="$t('system.tkcgrPos')" :value="systemItem.tkcgr_pos" />
         <InfoGroup :inputNm="$t('system.tkcgrEml')" :value="systemItem.tkcgr_eml" />
-        <!-- <InfoGroup :inputNm="$t('system.ifGrp')" :value="systemItem.if_grp" /> -->
         <IfFormlGroup :inputNm="$t('system.ifGrp')" :ifGrps="systemItem.if_grp" />
         <InfoGroup :inputNm="$t('system.desc')" :value="systemItem.desc" />
       </ul>
@@ -73,7 +72,7 @@ export default class SystemDetailPage extends Vue {
   }
 
   onClickDelete() {
-    alert('삭제하시겠습니까?');
+    this.$modal.show('삭제하시겠습니까?');
   }
 }
 </script>

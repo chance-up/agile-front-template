@@ -163,9 +163,9 @@ export default class SystemPage extends Vue {
       this.searchData.id = this.$route.query.id as string;
       this.searchData.tkcgr_nm = this.$route.query.tkcgr_nm as string;
 
+      //store 말고 페이지에서 action 부를 때도 예외처리를 해줘야하는지 물어보기
       this.systemModule.getSystemList(this.searchData);
     } else {
-      // this.target = this.selectOptions[0].value;
       this.systemModule.getSystemList();
     }
   }
@@ -179,7 +179,6 @@ export default class SystemPage extends Vue {
   }
 
   searchOnClieckEvent() {
-    console.log('searchData : ', this.searchData);
     if (Object.values(this.searchData).some((item) => item != '')) {
       this.$router.push({
         name: 'system',
@@ -190,7 +189,7 @@ export default class SystemPage extends Vue {
         },
       });
     } else {
-      alert('검색 데이터를 입력해주세요.');
+      this.$modal.show('검색 데이터를 입력해주세요.');
     }
   }
 
@@ -208,7 +207,7 @@ export default class SystemPage extends Vue {
   }
 
   deleteSystem(id: string) {
-    alert('삭제하시겠습니까?');
+    this.$modal.show('삭제하시겠습니까?');
     this.systemModule.deleteSystem(id);
   }
 }
