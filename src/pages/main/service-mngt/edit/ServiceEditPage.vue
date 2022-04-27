@@ -7,44 +7,53 @@
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
           :disabled="true"
-          v-model="serviceOption.nm"
+          v-model="formData.nm"
         />
         <InputGroup
           inputNm="서비스 ID"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
           :disabled="true"
-          v-model="serviceOption.id"
+          v-model="formData.id"
         />
         <InputGroup
           inputNm="담당자 이름"
           placeholder="placeholder"
           validCheck="중복된 API ID 입니다."
           inputClass="input-box lg check-false"
-          v-model="serviceOption.tkcgr_nm"
+          v-model="formData.tkcgr_nm"
         />
         <InputGroup
           inputNm="소속"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
-          v-model="serviceOption.tkcgr_pos"
+          v-model="formData.tkcgr_pos"
         />
         <InputGroup
           inputNm="E-mail"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
-          v-model="serviceOption.tkcgr_eml"
+          v-model="formData.tkcgr_eml"
         />
         <DateGroup
           inputNm="서비스 기간"
           placeholderStart="YYYY-MM-DD"
           placeholderENd="YYYY-MM-DD"
-          :startDt.sync="serviceOption.svc_st_dt"
-          :endDt.sync="serviceOption.svc_end_dt"
+          :startDt.sync="formData.svc_st_dt"
+          :endDt.sync="formData.svc_end_dt"
         />
-        <AuthReqGroup imputNm="인증수단" v-model="serviceOption.athn" />
-        <SlaReqGroup inputNm="SLA 정책관리" :type="serviceOption.sla_type" :count="serviceOption.sla_cnt" />
-        <SysExGroup inputNm="시스템 설명" v-model="serviceOption.desc" />
+        <AuthReqGroup
+          inputNm="인증수단"
+          :athn.sync="show"
+          :id.sync="formData.athn.BASIC_AUTH.id"
+          :pw.sync="formData.athn.BASIC_AUTH.pw"
+          :alg.sync="formData.athn.JWT.alg"
+          :issuer.sync="formData.athn.JWT.issuer"
+          :subject.sync="formData.athn.JWT.subject"
+          :publicKey.sync="formData.athn.JWT.publickey"
+        ></AuthReqGroup>
+        <SlaReqGroup inputNm="SLA 정책관리" :type="formData.sla_type" :count="formData.sla_cnt" />
+        <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
       </ul>
     </template>
     <template v-slot:buttons>
@@ -56,7 +65,7 @@
   </ContentLayout>
 </template>
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/service-mngt/InputGroup.vue';
 import DateGroup from '@/components/service-mngt/DateGroup.vue';
@@ -65,7 +74,7 @@ import SlaReqGroup from '@/components/service-mngt/SlqReqGroup.vue';
 import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
-import { ServiceRegisterRequest, ServiceResponse } from '@/types/ServiceType';
+import { ServiceRegisterRequest } from '@/types/ServiceType';
 
 @Component({
   components: {
@@ -79,11 +88,65 @@ import { ServiceRegisterRequest, ServiceResponse } from '@/types/ServiceType';
 })
 export default class SystemRegisterPage extends Vue {
   // router push 로 전달받은 id 는 this.$route.params.id 로 사용하시면 됩니다.
-
   serviceModule = getModule(ServiceModule, this.$store);
 
   get serviceOption(): ServiceRegisterRequest {
     return this.serviceModule.service;
+  }
+
+  formData: ServiceRegisterRequest = {
+    id: '',
+    nm: '',
+    tkcgr_nm: '',
+    tkcgr_pos: '',
+    tkcgr_eml: '',
+    sla_type: '',
+    sla_cnt: 0,
+    svc_st_dt: '',
+    svc_end_dt: '',
+    athn: {
+      BASIC_AUTH: {
+        id: '',
+        pw: '',
+      },
+      JWT: {
+        alg: [],
+        issuer: '',
+        subject: '',
+        publickey: '',
+      },
+    },
+    api_aut: '',
+    desc: '',
+  };
+
+  show = '';
+  @Watch('serviceOption')
+  onServiceOptionChanged() {
+    if (this.serviceOption.athn.BASIC_AUTH?.id != '') {
+      this.show = 'BASIC_AUTH';
+    } else {
+      this.show = 'JWT';
+    }
+    this.formData = this.serviceOption;
+  }
+
+  @Watch('show')
+  onShowChange(val: string) {
+    console.log(this.show);
+    if (val == 'BASIC_AUTH') {
+      this.formData.athn.JWT = {
+        alg: [],
+        issuer: '',
+        subject: '',
+        publickey: '',
+      };
+    } else {
+      this.formData.athn.BASIC_AUTH = {
+        id: '',
+        pw: '',
+      };
+    }
   }
 
   created() {
@@ -98,6 +161,10 @@ export default class SystemRegisterPage extends Vue {
     } else {
       return;
     }
+  }
+
+  createAuthId() {
+    Math.random().toString(36).substr(2, 11);
   }
 }
 </script>

@@ -42,10 +42,14 @@
         />
         <AuthReqGroup
           inputNm="인증수단"
-          v-model="Object.keys(formData.athn)[0]"
-          :athid="formData.athn.BASIC_AUTH === null ? '' : formData.athn.BASIC_AUTH.id"
-          :athpw="formData.athn.BASIC_AUTH === null ? '' : formData.athn.BASIC_AUTH.pw"
-        />
+          :athn.sync="show"
+          :id.sync="formData.athn.BASIC_AUTH.id"
+          :pw.sync="formData.athn.BASIC_AUTH.pw"
+          :alg.sync="formData.athn.JWT.alg"
+          :issuer.sync="formData.athn.JWT.issuer"
+          :subject.sync="formData.athn.JWT.subject"
+          :publicKey.sync="formData.athn.JWT.publickey"
+        ></AuthReqGroup>
         <SlaReqGroup inputNm="SLA 정책관리" :type="formData.sla_type" :count="formData.sla_cnt" />
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
       </ul>
@@ -59,7 +63,7 @@
   </ContentLayout>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/service-mngt/InputGroup.vue';
 import DateGroup from '@/components/service-mngt/DateGroup.vue';
@@ -81,12 +85,24 @@ import { ServiceRegisterRequest } from '@/types/ServiceType';
   },
 })
 export default class SystemRegisterPage extends Vue {
-  serviceName = '';
-  serviceId = '';
-  position = '';
-  email = '';
-  startDateg = '';
-  endDate = '';
+  show = 'BASIC_AUTH';
+
+  @Watch('show')
+  onShowChange(val: string) {
+    if (val == 'BASIC_AUTH') {
+      this.formData.athn.JWT = {
+        alg: [],
+        issuer: '',
+        subject: '',
+        publickey: '',
+      };
+    } else {
+      this.formData.athn.BASIC_AUTH = {
+        id: '',
+        pw: '',
+      };
+    }
+  }
 
   serviceModule = getModule(ServiceModule, this.$store);
 
@@ -100,7 +116,18 @@ export default class SystemRegisterPage extends Vue {
     sla_cnt: 0,
     svc_st_dt: '',
     svc_end_dt: '',
-    athn: {},
+    athn: {
+      BASIC_AUTH: {
+        id: '',
+        pw: '',
+      },
+      JWT: {
+        alg: [],
+        issuer: '',
+        subject: '',
+        publickey: '',
+      },
+    },
     api_aut: '',
     desc: '',
   };
