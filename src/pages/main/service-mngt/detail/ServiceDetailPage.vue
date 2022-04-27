@@ -79,11 +79,6 @@ export default class ServiceDetailPage extends Vue {
     return this.serviceModule.service;
   }
 
-  created() {
-    console.log('!!!IDIDID', this.$route.params.id);
-    this.serviceModule.getService(this.$route.params.serviceId);
-  }
-
   deleteService(ServiceId: string) {
     if (confirm('서비스를 삭제하시겠습니까?') == true) {
       this.serviceModule.deleteServiceAction(ServiceId);
@@ -91,6 +86,11 @@ export default class ServiceDetailPage extends Vue {
     } else {
       return;
     }
+  }
+
+  created() {
+    console.log('!!!IDIDID', this.$route.params.id);
+    this.serviceModule.getService(this.$route.params.serviceId);
   }
 }
 </script>

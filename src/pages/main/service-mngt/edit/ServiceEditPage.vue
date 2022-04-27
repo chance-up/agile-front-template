@@ -155,10 +155,6 @@ export default class SystemRegisterPage extends Vue {
     }
   }
 
-  created() {
-    this.serviceModule.getService(this.$route.params.id);
-  }
-
   editService() {
     if (confirm('서비스를 등록하시겠습니까?') == true) {
       console.log(this.serviceOption);
@@ -171,6 +167,10 @@ export default class SystemRegisterPage extends Vue {
 
   createAuthId() {
     Math.random().toString(36).substr(2, 11);
+  }
+
+  created() {
+    this.serviceModule.getService(this.$route.params.id);
   }
 }
 </script>
