@@ -1,8 +1,7 @@
 //연동방식
-export interface SystemInterfaceGroup {
-  type: number;
-  domain: string;
-  port: string;
+export interface IfGrpType {
+  if_nm: string;
+  if_url: string[];
 }
 
 //시스템 관리
@@ -12,16 +11,12 @@ export interface SystemResponse {
   tkcgr_nm: string; // 담당자 이름
   tkcgr_pos: string; //담당자 소속
   tkcgr_eml: string; //담당자 이메일
-  if_grp: IfGrpType; //연동 그룹
+  if_grp: IfGrpType[]; //연동 그룹
   desc: string; //설명
   created_at: string;
   created_by: string;
   updated_at: string;
   updated_by: string;
-}
-
-interface IfGrpType {
-  [group_name: string]: string[];
 }
 
 export const dummyListData = {
@@ -194,10 +189,7 @@ export const dummyDetailData = {
       tkcgr_nm: '최찬섭',
       tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
       tkcgr_eml: 'cschoi@kt.com',
-      if_grp: {
-        authentication: ['https://capri.com:443'],
-        service: ['http://127.0.0.1:8080', 'http://127.0.0.2:8080'],
-      },
+      if_grp: '{ifGrp1:{123},ifGrp2:{456}}',
       desc: 'desc',
       created_at: '2022-04-20 17:44:23',
       created_by: 'updatedByAdmin',
@@ -266,6 +258,7 @@ export const dummyTestData1 = {
   if_grp: {
     authentication: ['https://capri.com:443'],
     service: ['http://127.0.0.1:8080', 'http://127.0.0.2:8080'],
+    // ...
   },
 };
 export const dummyTestData2 = {
@@ -278,5 +271,6 @@ export const dummyTestData2 = {
       if_nm: 'service',
       if_url: ['https://capri.com:443', 'https://capri.com:8080', 'https://capri.com:8081'],
     },
+    // ...
   ],
 };
