@@ -135,11 +135,11 @@ export default class ServiceManagementPage extends Vue {
     console.log('searchData : ', this.searchData);
     if (Object.values(this.searchData).some((item) => item != '')) {
       this.$router.push({
-        name: 'system',
+        name: 'service',
         query: {
           nm: this.searchData.nm,
           id: this.searchData.id,
-          tkcgr_nm: this.searchData.tkcgr_nm,
+          athn: this.searchData.tkcgr_nm,
         },
       });
     } else {
