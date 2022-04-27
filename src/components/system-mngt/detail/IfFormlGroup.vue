@@ -1,14 +1,14 @@
 <template>
   <li>
     <label class="label">{{ inputNm }}</label>
-    <div v-for="(group, title, index) in ifGrps" :key="index">
-      <div class="form-cont">
-        <p>{{ title }}</p>
-      </div>
-      <div class="form-cont">
-        <li v-for="(item, index2) in group" :key="index2">
-          {{ item }}
-        </li>
+    <div class="form-cont">
+      <div v-for="(group, title, index) in ifGrps" :key="index" class="domain-wrap">
+        <p class="bold">{{ title }}</p>
+        <dl class="dot-list">
+          <dt v-for="(item, index2) in group" :key="index2">
+            {{ item }}
+          </dt>
+        </dl>
       </div>
     </div>
   </li>

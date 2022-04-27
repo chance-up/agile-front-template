@@ -64,7 +64,7 @@
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
               <td @click="getRoutePage('system-detail', 1)">{{ index + 1 }}</td>
-              <td @click="getRoutePage('system-detail', 2)">
+              <td @click="getRoutePage('system-detail', 2)" class="tl">
                 <span class="bold">{{ list.nm }}</span>
               </td>
               <td @click="getRoutePage('system-detail', list.id)">{{ list.id }}</td>
@@ -84,6 +84,32 @@
               </td>
             </tr>
           </tbody>
+        </template>
+        <template slot="pagination">
+          <ul>
+            <li class="page-btn">
+              <a><img src="@/assets/page_first.svg" alt="처음" /></a>
+            </li>
+            <li class="page-btn">
+              <a><img src="@/assets/page_before.svg" alt="이전" /></a>
+            </li>
+            <li class="active"><a>1</a></li>
+            <li><a>2</a></li>
+            <li><a>3</a></li>
+            <li><a>4</a></li>
+            <li><a>5</a></li>
+            <li><a>6</a></li>
+            <li><a>7</a></li>
+            <li><a>8</a></li>
+            <li><a>9</a></li>
+            <li><a>10</a></li>
+            <li class="page-btn">
+              <a><img src="@/assets/page_after.svg" alt="다음" /></a>
+            </li>
+            <li class="page-btn">
+              <a><img src="@/assets/page_last.svg" alt="마지막" /></a>
+            </li>
+          </ul>
         </template>
       </ListForm>
     </template>
