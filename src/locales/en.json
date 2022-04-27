@@ -47,7 +47,7 @@
     "interlock": "연동",
     "handler": "handler"
   },
-  "service" : {
+  "service": {
     "title": "서비스 리스트",
     "no": "No.",
     "name": "서비스명",
@@ -55,6 +55,7 @@
     "authentication_method": "인증수단",
     "validity": "유효기간",
     "update": "Update",
-    "action": "Action"
+    "action": "Action",
+    "auth": "인증수단"
   }
 }
