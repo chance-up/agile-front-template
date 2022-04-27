@@ -8,9 +8,13 @@ import { BootstrapVue } from 'bootstrap-vue';
 import '@/style/admin.css';
 import '@/style/common.css';
 import '@/style/reset.css';
+import Modal from '@/plugins/modal/Modal';
+import ModalPlugin from '@/plugins/modal/ModalPlugin';
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
+Vue.use(ModalPlugin);
+
 new Vue({
   router,
   store,
