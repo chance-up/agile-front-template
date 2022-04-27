@@ -43,12 +43,12 @@
         <!-- 각 페이지마다 테이블 규격이 조금씩 달라서 template으로 묶어서 colgroup ~ tbody까지 넣어주시면 됩니다. -->
         <template slot="list-table">
           <colgroup>
-            <col width="10%" />
-            <col width="15%" />
+            <col width="8%" />
+            <col width="20%" />
             <col width="*" />
-            <col width="10%" />
-            <col width="15%" />
-            <col width="10%" />
+            <col width="12%" />
+            <col width="22%" />
+            <col width="12%" />
           </colgroup>
           <thead>
             <tr>
@@ -129,6 +129,7 @@ import ListForm from '@/components/commons/ListForm.vue';
 
 import { SearchCondition, SearchOption, SelectOptionType } from '@/types/SearchType';
 import { SystemResponse } from '@/types/SystemType';
+import { Pagination } from '@/types/GateWayResponse';
 
 @Component({
   components: {
@@ -171,6 +172,10 @@ export default class SystemPage extends Vue {
 
   get listOption(): SystemResponse[] {
     return this.systemModule.systemList;
+  }
+
+  get pagination(): Pagination {
+    return this.systemModule.pagination;
   }
 
   searchOnClieckEvent() {
