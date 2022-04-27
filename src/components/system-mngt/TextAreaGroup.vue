@@ -1,8 +1,8 @@
 <template>
   <li>
-    <label for="" class="label point">{{ inputNm }}</label>
+    <label for="" class="label">{{ inputNm }}</label>
     <div class="form-cont">
-      <textarea class="textarea" :value="value" @input="$emit('input', $event.target.value)"></textarea>
+      <textarea class="textarea" v-model="v"></textarea>
     </div>
   </li>
 </template>
@@ -12,6 +12,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class TextAreaGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
   @Prop({ default: '' }) value!: string;
+
+  get v() {
+    return this.value;
+  }
+  set v(val: string) {
+    this.$emit('update:value', val);
+  }
 }
 </script>
 <style lang=""></style>
