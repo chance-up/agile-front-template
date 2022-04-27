@@ -188,3 +188,15 @@ export const dummyHandlerGroupIdList: string[] = [
   'handlerGroupId3',
   'handlerGroupId4',
 ];
+
+export interface ApiDetail {
+  apiId: number | string;
+  apiNm: string;
+  apiDesc: string;
+}
+export interface ApiGroupDetail {
+  apiGroupId: number | string;
+  apiGroupNm: string;
+  apiGroupDesc: string;
+  apiIdList: ApiDetail[];
+}

@@ -1,35 +1,19 @@
 <template>
   <li>
-    <!-- <span @click="handleOnClickGroup">API & Login Authentication Group</span>
-    <p class="multi-btn" @click="handleOnClickGroupDetail"></p> -->
-    <span>{{ handlerGroupId }}</span>
-    <!-- <span>API & Login Authentication Group</span> -->
+    <span>{{ apiGroup.apiGroupNm }}</span>
     <p class="multi-btn" @click="showModal = true"></p>
-    <!-- <div> -->
-    <!-- <button id="show-modal" @click="showModal = true">Show Modal</button> -->
     <HandlerModal v-if="showModal" @close="showModal = false" />
-    <!-- <h3 slot="header">custom header</h3> -->
-    <!-- </div> -->
   </li>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import HandlerModal from '@/components/api-mngt/register/HandlerModal.vue';
-interface API_DETAIL {
-  apiId: number | string;
-  apiNm: string;
-  apiDesc: string;
-}
-interface API_GROUP_DETAIL {
-  apiGroupId: number | string;
-  apiGroupNm: string;
-  apiGroupDesc: string;
-  apiIdList: API_DETAIL[];
-}
+import { ApiDetail, ApiGroupDetail } from '@/types/ApiType';
+
 @Component({ components: { HandlerModal } })
 export default class EachHandler extends Vue {
   showModal = false;
-  apiGroup!: API_GROUP_DETAIL;
+  apiGroup!: ApiGroupDetail;
   @Prop() handlerGroupId!: string | number;
   //   groupId!: number;
   //   groupNm!: string | null;
