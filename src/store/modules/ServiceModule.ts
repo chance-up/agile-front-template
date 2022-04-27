@@ -91,9 +91,9 @@ export default class ServiceModule extends VuexModule {
       }
     } else {
       try {
-        addMock('/api/service/getServiceInfo', JSON.stringify(getServiceInfo));
+        addMock('/api/service/getServiceInfoSearch', JSON.stringify(getServiceInfo));
         const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
-          '/api/service/getServiceInfo'
+          '/api/service/getServiceInfoSearch'
         );
         this.context.commit('setServiceList', response.data.value);
       } catch (error: GateWayError | any) {
@@ -115,15 +115,22 @@ export default class ServiceModule extends VuexModule {
   @Action
   async getService(id: string) {
     addMock('/api/service/getServiceId', JSON.stringify(getServiceId));
+    try {
+      const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>(
+        '/api/service/getServiceId',
+        {
+          serviceId: id,
+        }
+      );
 
-    const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>(
-      '/api/service/getServiceId',
-      {
-        serviceId: id,
+      this.context.commit('setService', response.data.value);
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
+      } else {
+        console.log('서버통신에 실패하였습니다.');
       }
-    );
-
-    this.context.commit('setService', response.data.value);
+    }
   }
 
   //서비스 등록 요청
