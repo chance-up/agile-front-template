@@ -9,9 +9,9 @@
         <TextForm groupNm="인터페이스 번호" type="text" :required="true" :disabled="true" v-model="requestBody.ifNo" />
 
         <MethodForm groupNm="Method" v-model="requestBody.meth" />
-        <UriForm groupNm="URI" />
+        <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" />
 
-        <SelectForm groupNm="시스템 연동 정보" :optionList="ifGrpList" v-model="requestBody.ifGrp" />
+        <SelectSysForm groupNm="시스템 연동 정보" :optionList="ifGrpList" v-model="requestBody.ifGrp" />
 
         <HandlerGroupForm groupNm="요청 handler 그룹" />
         <HandlerGroupForm groupNm="응답 handler 그룹" />
@@ -37,13 +37,14 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { dummySystemList, dummySystemInfList, ApiCreateRequestBody } from '@/types/ApiType';
 import HandlerGroupForm from '@/components/api-mngt/register/HandlerGroupForm.vue';
 import SelectForm from '@/components/api-mngt/register/SelectForm.vue';
+import SelectSysForm from '@/components/api-mngt/register/SelectSysForm.vue';
 import TextForm from '@/components/api-mngt/register/TextForm.vue';
 import MethodForm from '@/components/api-mngt/register/MethodForm.vue';
 import UriForm from '@/components/api-mngt/register/UriForm.vue';
 import TextDebounceForm from '@/components/api-mngt/register/TextDebounceForm.vue';
 import { apiValidationCheck } from '@/store/modules/ApiModule';
 import { Dictionary } from 'vue-router/types/router';
-import { SystemResponse } from '@/types/SystemType';
+import { IfGrpType, SystemResponse } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
 @Component({
@@ -55,6 +56,7 @@ import SystemModule from '@/store/modules/SystemModule';
     TextDebounceForm,
     MethodForm,
     UriForm,
+    SelectSysForm,
   },
 })
 export default class ApiRegisterPage extends Vue {
@@ -75,7 +77,8 @@ export default class ApiRegisterPage extends Vue {
   created() {
     this.systemModule.getSystemList();
   }
-  ifGrpList: any[] = [];
+
+  ifGrpList: IfGrpType[] = [];
   requestBody: ApiCreateRequestBody = {
     sysId: '',
     sysNm: '',
@@ -91,6 +94,7 @@ export default class ApiRegisterPage extends Vue {
     timeOut: 0,
     desc: '',
   };
+  //시스템관리 모듈에서 시스템리스트 조회
   @Watch('sysList')
   onSysListChange() {
     console.log('sysList changed', this.sysList);
@@ -101,14 +105,13 @@ export default class ApiRegisterPage extends Vue {
   handleChangeSysNm(val: string) {
     console.log('sysNm changed', val);
     const selectedSystem = this.sysList.filter((item) => item.nm === val)?.[0];
-    this.ifGrpList = [selectedSystem.if_grp];
-    this.requestBody.ifGrp = this.ifGrpList[0];
+    this.ifGrpList = selectedSystem.if_grp;
+    this.requestBody.ifGrp = this.ifGrpList[0].if_nm;
     this.requestBody.sysId = selectedSystem.id;
     this.requestBody.ifNo = selectedSystem.nm + '_v1_' + this.requestBody.id;
   }
-
+  // api id가 입력될때마다 api id 중복체크
   apiIdCheck: boolean | null = null;
-
   @Watch('requestBody.id')
   async handleChangeApiId() {
     console.log('apiId changed', this.requestBody.id);
@@ -116,16 +119,17 @@ export default class ApiRegisterPage extends Vue {
     this.apiIdCheck = await apiValidationCheck(id);
     if (this.apiIdCheck) {
       this.requestBody.ifNo = this.requestBody.sysNm + '_v1_' + this.requestBody.id;
+      this.requestBody.uriIn = 'someUriIn';
+      this.requestBody.uriOut = 'someUriOut';
     }
   }
-
-  // backend 연결 전 임시로직
+  // backend 연결 전 임시 등록
   handleClickSubmitButton() {
+    // this.$modal.show(this.convertToString(this.requestBody) + '\n 등록하시겠습니까?');
     confirm(this.convertToString(this.requestBody) + '\n 등록하시겠습니까?');
   }
   convertToString(body: ApiCreateRequestBody) {
     let res = '';
-
     Object.keys(body).forEach((key) => {
       res += `${key} : ${body[key]}\n`;
     });
