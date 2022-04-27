@@ -21,6 +21,7 @@ export interface ServiceResponse {
   tkcgr_nm: string;
   tkcgr_pos: string;
   tkcgr_eml: string;
+  sla_yn: string;
   sla_type: string;
   sla_cnt: number;
   svc_st_dt: string;
@@ -40,6 +41,7 @@ export interface ServiceRegisterRequest {
   tkcgr_nm: string;
   tkcgr_pos: string;
   tkcgr_eml: string;
+  sla_yn: string;
   sla_type: string;
   sla_cnt: number;
   svc_st_dt: string;
@@ -68,7 +70,8 @@ export const serviceListResponse: ServiceResponse[] = [
     tkcgr_nm: '이경민',
     tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
     tkcgr_eml: 'km0403.lee@kt.com',
-    sla_type: 'MINITE',
+    sla_type: 'MINITUE',
+    sla_yn: 'total',
     sla_cnt: 10,
     svc_st_dt: '2022-04-13 00:00:00',
     svc_end_dt: '9999-12-31 00:00:00',
@@ -89,6 +92,7 @@ export const serviceListResponse: ServiceResponse[] = [
     tkcgr_nm: '박재원',
     tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
     tkcgr_eml: 'parkjaewon@kt.com',
+    sla_yn: 'TPS',
     sla_type: 'HOUR',
     sla_cnt: 10,
     svc_st_dt: '2022-04-13 00:00:00',
@@ -112,7 +116,8 @@ export const serviceResponse: ServiceResponse = {
   tkcgr_nm: '이경민',
   tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
   tkcgr_eml: 'km0403.lee@kt.com',
-  sla_type: 'MINITE',
+  sla_yn: 'total',
+  sla_type: 'MINITUE',
   sla_cnt: 10,
   svc_st_dt: '2022-04-13 00:00:00',
   svc_end_dt: '9999-12-31 00:00:00',

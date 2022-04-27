@@ -50,7 +50,12 @@
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
         ></AuthReqGroup>
-        <SlaReqGroup inputNm="SLA 정책관리" :type="formData.sla_type" :count="formData.sla_cnt" />
+        <SlaReqGroup
+          inputNm="SLA 정책관리"
+          :SLAn.sync="formData.sla_yn"
+          :type="formData.sla_type"
+          :count="formData.sla_cnt"
+        />
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
       </ul>
     </template>
@@ -112,6 +117,7 @@ export default class SystemRegisterPage extends Vue {
     tkcgr_nm: '',
     tkcgr_pos: '',
     tkcgr_eml: '',
+    sla_yn: 'none',
     sla_type: '',
     sla_cnt: 0,
     svc_st_dt: '',

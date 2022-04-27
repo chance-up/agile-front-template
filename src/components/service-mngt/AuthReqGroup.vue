@@ -58,7 +58,7 @@ export default class AuthReqGroup extends Vue {
   @Prop({ default: '' }) athn!: string;
   @Prop({ default: '' }) id!: string;
   @Prop({ default: '' }) pw!: string;
-  @Prop({ default: [] }) alg!: string[];
+  @Prop({ default: () => [] }) alg!: string[];
   @Prop({ default: '' }) issuer!: string;
   @Prop({ default: '' }) subject!: string;
   @Prop({ default: '' }) publicKey!: string;

@@ -15,6 +15,7 @@ export default class ServiceModule extends VuexModule {
     tkcgr_nm: '',
     tkcgr_pos: '',
     tkcgr_eml: '',
+    sla_yn: '',
     sla_type: '',
     sla_cnt: 0,
     svc_st_dt: '',
@@ -45,6 +46,7 @@ export default class ServiceModule extends VuexModule {
     tkcgr_nm: '',
     tkcgr_pos: '',
     tkcgr_eml: '',
+    sla_yn: '',
     sla_type: '',
     sla_cnt: 0,
     svc_st_dt: '',
@@ -72,18 +74,34 @@ export default class ServiceModule extends VuexModule {
   }
 
   @Action
-  async getServiceList() {
-    try {
-      addMock('/api/service/getServiceInfo', JSON.stringify(getServiceInfo));
-      const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
-        '/api/service/getServiceInfo'
-      );
-      this.context.commit('setServiceList', response.data.value);
-    } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        console.log('NetWork not connection');
-      } else {
-        console.log('서버통신에 실패하였습니다.');
+  async getServiceList(searchOption?: object) {
+    if (!searchOption) {
+      try {
+        addMock('/api/service/getServiceInfo', JSON.stringify(getServiceInfo));
+        const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
+          '/api/service/getServiceInfo'
+        );
+        this.context.commit('setServiceList', response.data.value);
+      } catch (error: GateWayError | any) {
+        if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+          console.log('NetWork not connection');
+        } else {
+          console.log('서버통신에 실패하였습니다.');
+        }
+      }
+    } else {
+      try {
+        addMock('/api/service/getServiceInfo', JSON.stringify(getServiceInfo));
+        const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
+          '/api/service/getServiceInfo'
+        );
+        this.context.commit('setServiceList', response.data.value);
+      } catch (error: GateWayError | any) {
+        if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+          console.log('NetWork not connection');
+        } else {
+          console.log('서버통신에 실패하였습니다.');
+        }
       }
     }
   }
