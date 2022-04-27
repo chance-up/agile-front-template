@@ -1,13 +1,13 @@
 <template>
   <ModalLayout>
     <template v-slot:modalHeader>
-      <h1 class="h1-tit">Handler Group Name</h1>
+      <h1 class="h1-tit">{{ eachApiGroup.apiGroupNm }}</h1>
       <button @click="$emit('close')">
         <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
       </button>
     </template>
     <template v-slot:modalContainer>
-      <p class="text">Handler Group 설명설명설명설명설명설명</p>
+      <p class="text">{{ eachApiGroup.apiGroupDesc }}</p>
 
       <ul class="handler-list">
         <li>
@@ -54,6 +54,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import HoverModal from '@/components/commons/modal/HoverModal.vue';
+import { ApiDetail, ApiGroupDetail } from '@/types/ApiType';
 
 @Component({
   components: {
@@ -63,7 +64,7 @@ import HoverModal from '@/components/commons/modal/HoverModal.vue';
 })
 export default class HandlerModal extends Vue {
   showHoverModal = false;
-  // @Prop() eachApiGroup
+  @Prop() public eachApiGroup!: ApiGroupDetail;
 }
 </script>
 <style>

@@ -2,7 +2,7 @@
   <li>
     <span>{{ apiGroup.apiGroupNm }}</span>
     <p class="multi-btn" @click="showModal = true"></p>
-    <HandlerModal v-if="showModal" @close="showModal = false" />
+    <HandlerModal :eachApiGroup="apiGroup" v-if="showModal" @close="showModal = false" />
   </li>
 </template>
 <script lang="ts">

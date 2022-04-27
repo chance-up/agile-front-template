@@ -15,6 +15,28 @@
       </div>
       <!------- handler pop -------->
     </transition>
+
+    <transition v-if="alert" name="alertLayout">
+      <!------- handler pop -------->
+      <div class="pop-wrap">
+        <div class="pop-header">
+          <slot name="modalHeader" />
+          <h1 class="h1-tit">{{ errorTitle }}</h1>
+          <button @click="$emit('close')">
+            <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
+          </button>
+        </div>
+        <div class="pop-container">
+          <slot name="modalContainer" />
+          <p class="text">{{ errorDesc }}</p>
+        </div>
+        <div class="pop-footer">
+          <slot name="modalFooter" />
+          <button class="lg-btn purple-btn" @click="$emit('close')">ok</button>
+        </div>
+      </div>
+      <!------- handler pop -------->
+    </transition>
   </div>
 </template>
 <script lang="ts">
@@ -24,7 +46,9 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
   components: {},
 })
 export default class ModalLayout extends Vue {
-  // @Prop() eachApiGroup
+  @Prop({ default: false }) alert!: boolean;
+  @Prop() errorTitle!: string;
+  @Prop() errorDesc!: string;
 }
 </script>
 <style>
@@ -32,9 +56,9 @@ export default class ModalLayout extends Vue {
 .pop-wrap {
   position: fixed;
   z-index: 9998;
-  top: 20rem;
-  left: 45rem;
-
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   /* width: 100%;
   height: 100%; */
   /* background-color: rgba(0, 0, 0, 0.5); */
