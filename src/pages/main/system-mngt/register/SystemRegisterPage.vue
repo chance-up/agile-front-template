@@ -6,14 +6,7 @@
   >
     <template v-slot:contents>
       <ul>
-        <InputGroup
-          type="text"
-          :check="isValid"
-          :value.sync="systemItem.nm"
-          :inputNm="$t('system.name')"
-          :place="$t('system.name')"
-          @input="validationCheck"
-        />
+        <InputGroup type="text" :value.sync="systemItem.nm" :inputNm="$t('system.name')" :place="$t('system.name')" />
         <TextDebounceForm
           type="text"
           :check="isDuplicated"
@@ -24,30 +17,23 @@
         />
         <InputGroup
           type="text"
-          :check="isValid"
           :value.sync="systemItem.tkcgr_nm"
           :inputNm="$t('system.tkcgrNm')"
           :place="$t('system.tkcgrNm')"
         />
         <InputGroup
           type="text"
-          :check="isValid"
           :value.sync="systemItem.tkcgr_pos"
           :inputNm="$t('system.tkcgrPos')"
           :place="$t('system.tkcgrPos')"
         />
         <InputGroup
           type="email"
-          :check="isValid"
           :value.sync="systemItem.tkcgr_eml"
           :inputNm="$t('system.tkcgrEml')"
           :place="$t('system.tkcgrEml')"
         />
-        <InterfaceGroup :inputNm="$t('system.ifGrp')" :ifgrps.sync="systemItem.if_grp">
-          <template v-slot:interface>
-            <Interface />
-          </template>
-        </InterfaceGroup>
+        <InterfaceGroup :inputNm="$t('system.ifGrp')" :ifgrps.sync="systemItem.if_grp" />
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
     </template>
@@ -132,28 +118,6 @@ export default class SystemRegisterPage extends Vue {
   async duplicateCheck() {
     this.isDuplicated = await this.systemModule.duplicateCheck(this.systemItem.id);
   }
-  isValid: boolean | null = null;
-  validationCheck() {
-    // 정규식
-    this.isValid = false;
-  }
-
-  // test = () => {
-  //   // Stringify 는 JSON 형태로 변환하는 것이다.
-  //   // let testStringify = JSON.stringify(dummyTestData1);
-  //   // console.log(typeof dummyTestData1);
-  //   // console.log(dummyTestData1);
-  //   // console.log(typeof testStringify);
-  //   // console.log(testStringify);
-  //   // // JSON.parse 는 Object형태로 변환하는 것이다.
-  //   // let testParse = JSON.parse(testStringify);
-  //   // console.log(typeof testParse);
-  //   // console.log(testParse);
-  //   // //JSON.parse(dummyTestData2);
-  //   // console.log('start!!!!');
-
-  //   dummyTestData1;
-  // };
 }
 </script>
 <style lang=""></style>
