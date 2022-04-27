@@ -1,7 +1,12 @@
 //연동방식
+export interface IfUrlType {
+  protocol: string;
+  port: string;
+  domain: string;
+}
 export interface IfGrpType {
   if_nm: string;
-  if_url: string[];
+  if_url: IfUrlType[];
 }
 
 //시스템 관리
@@ -262,15 +267,14 @@ export const dummyTestData1 = {
   },
 };
 export const dummyTestData2 = {
-  if_grp: [
+  ifGrp: [
     {
-      if_nm: 'authentication',
-      if_url: ['https://capri.com:443', 'https://capri.com:443'],
+      ifNm: 'authentication',
+      ifUrl: ['https://capri.com:443', 'https://capri.com:443'],
     },
     {
-      if_nm: 'service',
-      if_url: ['https://capri.com:443', 'https://capri.com:8080', 'https://capri.com:8081'],
+      ifNm: 'service',
+      ifUrl: ['https://capri.com:443', 'https://capri.com:8080', 'https://capri.com:8081'],
     },
-    // ...
   ],
 };
