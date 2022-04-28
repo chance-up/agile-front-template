@@ -73,10 +73,11 @@
                 {{ list.athn.BASIC_AUTH.id == '' ? 'JWT' : 'Basic Auth' }}
               </td>
               <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                {{ list.svc_st_dt }} ~ {{ list.svc_end_dt }}
+                {{ list.svc_st_dt.slice(0, 10) }} ~ {{ list.svc_end_dt.slice(0, 10) }}
               </td>
               <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                {{ list.upd_dt }}
+                <span>{{ list.upd_dt.slice(0, 10) }}</span
+                ><span>{{ list.upd_dt.slice(11, 19) }}</span>
               </td>
               <td>
                 <button class="mod-btn" @click="$router.push({ name: 'service-edit', params: { id: list.id } })">
@@ -180,6 +181,10 @@ export default class ServiceManagementPage extends Vue {
       this.isShowProgress = false;
       // this.$modal.hide();
     }
+  }
+
+  destroyed() {
+    this.serviceModule.setServiceList([]);
   }
 }
 </script>
