@@ -86,30 +86,7 @@
           </tbody>
         </template>
         <template slot="pagination">
-          <ul>
-            <li class="page-btn">
-              <a><img src="@/assets/page_first.svg" alt="처음" /></a>
-            </li>
-            <li class="page-btn">
-              <a><img src="@/assets/page_before.svg" alt="이전" /></a>
-            </li>
-            <li class="active"><a>1</a></li>
-            <li><a>2</a></li>
-            <li><a>3</a></li>
-            <li><a>4</a></li>
-            <li><a>5</a></li>
-            <li><a>6</a></li>
-            <li><a>7</a></li>
-            <li><a>8</a></li>
-            <li><a>9</a></li>
-            <li><a>10</a></li>
-            <li class="page-btn">
-              <a><img src="@/assets/page_after.svg" alt="다음" /></a>
-            </li>
-            <li class="page-btn">
-              <a><img src="@/assets/page_last.svg" alt="마지막" /></a>
-            </li>
-          </ul>
+          <Pagination :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
         </template>
       </ListForm>
     </template>
@@ -126,10 +103,10 @@ import ListLayout from '@/components/layout/ListLayout.vue';
 import InputBox from '@/components/commons/search-option/InputBox.vue';
 import SelectBox from '@/components/commons/search-option/SelectBox.vue';
 import ListForm from '@/components/commons/ListForm.vue';
+import Pagination from '@/components/commons/Pagination.vue';
 
-import { SearchCondition, SearchOption, SelectOptionType } from '@/types/SearchType';
-import { SystemResponse } from '@/types/SystemType';
-import { Pagination } from '@/types/GateWayResponse';
+import { SearchCondition } from '@/types/SearchType';
+import { SystemResponse, PaginationType } from '@/types/SystemType';
 
 @Component({
   components: {
@@ -137,6 +114,7 @@ import { Pagination } from '@/types/GateWayResponse';
     InputBox,
     SelectBox,
     ListForm,
+    Pagination,
   },
 })
 export default class SystemPage extends Vue {
@@ -151,21 +129,27 @@ export default class SystemPage extends Vue {
   // ];
   // searchData: object = {};
 
-  searchData: SearchCondition = {
-    nm: '',
-    id: '',
-    tkcgr_nm: '',
-  };
+  searchData: SearchCondition = {};
+  pagingData: SearchCondition = {};
 
   created() {
-    console.log('listOption', this.listOption);
     if (Object.keys(this.$route.query).length > 0) {
-      this.searchData.nm = this.$route.query.nm as string;
-      this.searchData.id = this.$route.query.id as string;
-      this.searchData.tkcgr_nm = this.$route.query.tkcgr_nm as string;
+      if (Object.keys(this.$route.query).includes('nm')) this.searchData.nm = this.$route.query.nm as string;
+      if (Object.keys(this.$route.query).includes('id')) this.searchData.id = this.$route.query.id as string;
+      if (Object.keys(this.$route.query).includes('tkcgr_nm'))
+        this.searchData.tkcgr_nm = this.$route.query.tkcgr_nm as string;
+      if (Object.keys(this.$route.query).includes('page')) this.pagingData.page = this.$route.query.page as string;
+      // if (Object.keys(this.$route.query).includes('size')) this.searchData.size = Number(this.$route.query.size);
+      // if (Object.keys(this.$route.query).includes('sort_by'))
+      //   this.searchData.sort_by = this.$route.query.sort_by as string;
+      // if (Object.keys(this.$route.query).includes('ordeer_by'))
+      //   this.searchData.order_by = this.$route.query.order_by as string;
 
       //store 말고 페이지에서 action 부를 때도 예외처리를 해줘야하는지 물어보기
-      this.systemModule.getSystemList(this.searchData);
+
+      const param = { ...this.searchData, ...this.pagingData };
+
+      this.systemModule.getSystemList(param);
     } else {
       this.systemModule.getSystemList();
     }
@@ -175,23 +159,39 @@ export default class SystemPage extends Vue {
     return this.systemModule.systemList;
   }
 
-  get pagination(): Pagination {
+  get pagination(): PaginationType {
     return this.systemModule.pagination;
   }
 
   searchOnClieckEvent() {
     if (Object.values(this.searchData).some((item) => item != '')) {
-      this.$router.push({
-        name: 'system',
-        query: {
-          nm: this.searchData.nm,
-          id: this.searchData.id,
-          tkcgr_nm: this.searchData.tkcgr_nm,
-        },
-      });
+      this.getList();
     } else {
       this.$modal.show('검색 데이터를 입력해주세요.');
     }
+  }
+
+  getList() {
+    const query = {} as SearchCondition;
+    if (Object.keys(this.searchData).includes('nm')) query.nm = this.searchData.nm as string;
+    if (Object.keys(this.searchData).includes('id')) query.id = this.searchData.id as string;
+    if (Object.keys(this.searchData).includes('tkcgr_nm')) query.tkcgr_nm = this.searchData.tkcgr_nm as string;
+    if (Object.keys(this.pagingData).includes('page')) query.page = this.pagingData.page;
+    if (Object.keys(this.pagingData).includes('size')) query.size = this.pagingData.size;
+    if (Object.keys(this.pagingData).includes('sort_by')) query.sort_by = this.pagingData.sort_by as string;
+    if (Object.keys(this.pagingData).includes('ordeer_by')) query.order_by = this.pagingData.order_by as string;
+
+    this.$router.push({
+      name: 'system',
+      query: {
+        ...query,
+      },
+    });
+  }
+
+  onChangedPage(page: number) {
+    this.pagingData.page = String(page);
+    this.getList();
   }
 
   registerOnClickEvent() {
@@ -199,7 +199,6 @@ export default class SystemPage extends Vue {
   }
 
   getRoutePage(page: string, id?: string): void {
-    console.log(id);
     if (id) {
       this.$router.push({ name: page, params: { id: id } });
     } else {
@@ -214,6 +213,7 @@ export default class SystemPage extends Vue {
 
   destroyed() {
     this.systemModule.setSystemList([]);
+    this.systemModule.setPagination({} as PaginationType);
   }
 }
 </script>

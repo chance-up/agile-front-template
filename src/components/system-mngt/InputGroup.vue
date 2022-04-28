@@ -18,8 +18,8 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { checkEmail, checkLength, checkEnglishNumber } from '@/utils/validation';
+import { Component, Prop, PropSync, Vue, Watch } from 'vue-property-decorator';
+import { checkEmail, checkLength, checkEnglishNumber, checkEnglishKorean } from '@/utils/validation';
 
 @Component
 export default class InputGroup extends Vue {
@@ -28,8 +28,14 @@ export default class InputGroup extends Vue {
   @Prop({ default: '' }) place!: string;
   @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) value!: string;
+  @Prop({ default: false }) isvalid!: boolean | null;
 
   notiMessage: [boolean | null, string] = [null, ''];
+
+  @Watch('notiMessage')
+  messageChanged(val: [boolean | null, string]) {
+    this.$emit('update:isvalid', this.notiMessage[0]);
+  }
 
   get v() {
     return this.value;
@@ -44,26 +50,28 @@ export default class InputGroup extends Vue {
         }
         break;
       case this.$t('system.tkcgrNm'):
-        if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
+        if (checkLength(val, 1, 20) && checkEnglishKorean(val)) {
           this.notiMessage = [true, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrNm') as string];
         }
         break;
       case this.$t('system.tkcgrPos'):
-        if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
+        if (checkLength(val, 1, 20)) {
           this.notiMessage = [true, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrPos') as string];
         }
         break;
       case this.$t('system.tkcgrEml'):
-        if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
+        if (checkLength(val, 1, 20) && checkEmail(val)) {
           this.notiMessage = [true, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrEml') as string];
         }
         break;
+      default:
+        this.notiMessage = [null, ''];
     }
 
     this.$emit('update:value', val);

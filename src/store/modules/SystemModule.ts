@@ -6,21 +6,21 @@ import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
 
-import { SearchCondition } from '@/types/SearchType';
-import { GateWayResponse, Pagination } from '@/types/GateWayResponse';
+import { GateWayResponse } from '@/types/GateWayResponse';
 import {
+  PaginationType,
   dummyListData,
   dummySearchData,
   dummyDetailData,
   dummyRegisterData,
-  dummyUpdateData,
+  // dummyUpdateData,
   dummyDeleteData,
   SystemResponse,
 } from '@/types/SystemType';
 
 @Module({ name: 'SystemModule' })
 export default class SystemModule extends VuexModule {
-  public pagination: Pagination = {} as Pagination;
+  public pagination: PaginationType = {} as PaginationType;
   public systemList: SystemResponse[] = [];
   public system: SystemResponse = {
     id: '',
@@ -47,18 +47,20 @@ export default class SystemModule extends VuexModule {
   }
 
   @Mutation
-  setPagination(pagination: Pagination) {
+  setPagination(pagination: PaginationType) {
     this.pagination = pagination;
   }
 
   // 시스템 관리 리스트 조회
   @Action
   async getSystemList(searchOption?: object) {
-    if (!searchOption) {
+    console.log('searchOption : ', searchOption);
+    if (searchOption == undefined) {
       try {
         addMock('/system/list', JSON.stringify(dummyListData));
         const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>('/system/list');
         // console.log('response', response.data.value);
+        console.log('response.data.pagination : ', response.data.pagination);
         this.context.commit('setSystemList', response.data.value);
         this.context.commit('setPagination', response.data.pagination);
       } catch (error: GateWayError | any) {
@@ -114,7 +116,7 @@ export default class SystemModule extends VuexModule {
         `/system/registerSystem/`,
         data
       );
-      // console.log('system register response', response);
+      console.log('system register response', response);
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
         console.log('NetWork not connection');
@@ -134,7 +136,7 @@ export default class SystemModule extends VuexModule {
         `/system/updateSystem/`,
         data
       );
-      // console.log('system put response', response);
+      console.log('system put response', response);
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
         console.log('NetWork not connection');
@@ -152,7 +154,7 @@ export default class SystemModule extends VuexModule {
       const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(
         `/system/deleteSystem/${id}`
       );
-      // console.log('system delete response', response);
+      console.log('system delete response', response);
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
         console.log('NetWork not connection');
@@ -167,6 +169,7 @@ export default class SystemModule extends VuexModule {
   async duplicateCheck(id: string): Promise<boolean> {
     addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
     const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
+    console.log('response : ', response);
     //return response;
     return true;
   }

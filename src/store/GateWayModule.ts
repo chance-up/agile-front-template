@@ -6,6 +6,7 @@ export default abstract class GateWayModule extends VuexModule {
 
   @Mutation
   fetchCurrAsyncState(state: USER_STATE) {
+    console.log('fetchCurrAsyncState', state);
     this.currAsyncState = state;
   }
   @Action
@@ -19,10 +20,5 @@ export default abstract class GateWayModule extends VuexModule {
   @Action
   showError() {
     this.context.commit('fetchCurrAsyncState', USER_STATE.ERROR);
-  }
-
-  @Action
-  reset() {
-    this.context.commit('fetchCurrAsyncState', USER_STATE.IDLE);
   }
 }
