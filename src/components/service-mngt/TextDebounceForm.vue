@@ -50,7 +50,6 @@ export default class TextDebounceForm extends Vue {
           this.notiMessage = [false, this.$t('service.valid_check_id') as string];
         }
     }
-    console.log('input changed => ' + val);
     this.$emit('input', val);
   }
 
