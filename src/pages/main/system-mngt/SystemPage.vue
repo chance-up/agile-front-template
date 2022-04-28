@@ -158,6 +158,7 @@ export default class SystemPage extends Vue {
   };
 
   created() {
+    console.log('listOption', this.listOption);
     if (Object.keys(this.$route.query).length > 0) {
       this.searchData.nm = this.$route.query.nm as string;
       this.searchData.id = this.$route.query.id as string;
@@ -209,6 +210,10 @@ export default class SystemPage extends Vue {
   deleteSystem(id: string) {
     this.$modal.show('삭제하시겠습니까?');
     this.systemModule.deleteSystem(id);
+  }
+
+  destroyed() {
+    this.systemModule.setSystemList([]);
   }
 }
 </script>
