@@ -31,12 +31,13 @@
         </div> -->
     </template>
     <template slot="list-form">
-      <ListForm :title="listTitle">
+      <ListForm :title="listTitle" :isShowProgress="isShowProgress">
         <template slot="list-btn-area">
           <button class="mid-btn" @click="$router.push({ name: 'service-register' })">
             <i><img src="@/assets/check_ico.svg" alt="등록" /></i>등록
           </button>
         </template>
+
         <template slot="list-table">
           <colgroup>
             <col width="7%" />
@@ -58,6 +59,7 @@
               <th>{{ $t('service.action') }}</th>
             </tr>
           </thead>
+
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
               <td>{{ index + 1 }}</td>
@@ -92,7 +94,7 @@
   </ListLayout>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 import ListLayout from '@/components/layout/ListLayout.vue';
 import InputBox from '@/components/commons/search-option/InputBox.vue';
@@ -100,11 +102,15 @@ import ListForm from '@/components/commons/ListForm.vue';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { ServiceResponse } from '@/types/ServiceType';
 import { SearchCondition } from '@/types/SearchType';
+import { USER_STATE } from '@/store/UserState';
+import { BSpinner } from 'bootstrap-vue';
+
 @Component({
   components: {
     ListLayout,
     ListForm,
     InputBox,
+    BSpinner,
   },
 })
 export default class ServiceManagementPage extends Vue {
@@ -116,9 +122,11 @@ export default class ServiceManagementPage extends Vue {
     tkcgr_nm: '',
   };
   serviceModule = getModule(ServiceModule, this.$store);
+
   get listOption(): ServiceResponse[] {
     return this.serviceModule.services;
   }
+
   deleteService(ServiceId: string) {
     if (confirm('서비스를 삭제하시겠습니까?') == true) {
       this.serviceModule.deleteServiceAction(ServiceId);
@@ -151,6 +159,26 @@ export default class ServiceManagementPage extends Vue {
     } else {
       // this.target = this.selectOptions[0].value;
       this.serviceModule.getServiceList();
+    }
+  }
+
+  get userState() {
+    return this.serviceModule.currAsyncState;
+  }
+
+  isShowProgress = false;
+
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      // this.$modal.show('서버 통신 중');
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
+      // this.$modal.hide();
     }
   }
 }
