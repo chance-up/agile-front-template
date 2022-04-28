@@ -1,5 +1,10 @@
 <template>
-  <ContentLayout title="서비스 인증 정보 수정" subTitle="기본정보 수정" depth="서비스 관리">
+  <ContentLayout
+    :isShowProgress="isShowProgress"
+    title="서비스 인증 정보 수정"
+    subTitle="기본정보 수정"
+    depth="서비스 관리"
+  >
     <template v-slot:contents v-if="formData.id != ''">
       <ul>
         <InputGroup
@@ -66,7 +71,7 @@
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
       </ul>
     </template>
-    <template v-slot:buttons>
+    <template v-if="!isShowProgress" v-slot:buttons>
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="editService()">등록</button>
         <button class="lg-btn white-btn" @click="$router.back()">취소</button>
@@ -85,6 +90,7 @@ import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { ServiceRegisterRequest } from '@/types/ServiceType';
+import { USER_STATE } from '@/store/UserState';
 
 @Component({
   components: {
@@ -99,6 +105,7 @@ import { ServiceRegisterRequest } from '@/types/ServiceType';
 export default class SystemRegisterPage extends Vue {
   // router push 로 전달받은 id 는 this.$route.params.id 로 사용하시면 됩니다.
   serviceModule = getModule(ServiceModule, this.$store);
+  isShowProgress = false;
 
   get serviceOption(): ServiceRegisterRequest {
     return this.serviceModule.service;
@@ -176,6 +183,22 @@ export default class SystemRegisterPage extends Vue {
 
   created() {
     this.serviceModule.getService(this.$route.params.id);
+  }
+
+  get userState() {
+    return this.serviceModule.currAsyncState;
+  }
+
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
+    }
   }
 }
 </script>

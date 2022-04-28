@@ -28,7 +28,7 @@
       </ul>
     </template>
 
-    <template v-slot:buttons>
+    <template v-if="!isShowProgress" v-slot:buttons>
       <div class="btn-wrap">
         <button
           class="lg-btn purple-btn"

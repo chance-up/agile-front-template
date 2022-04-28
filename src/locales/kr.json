@@ -57,7 +57,15 @@
     "validity": "유효기간",
     "update": "Update",
     "action": "Action",
-    "auth": "인증수단"
+    "auth": "인증수단",
+    "tkcgrNm": "담당자 이름",
+    "tkcgrPos": "소속",
+    "tkcgrEml": "E-mail",
+    "valid_check_nm": "형식에 맞게 입력하세요.(최대 20자, 영어 대/소문자, 숫자만 입력 가능)",
+    "valid_check_id": "형식에 맞게 입력하세요.(최대 20자, 영어 대/소문자, 숫자만 입력 가능)",
+    "valid_check_tkcgrNm": "형식에 맞게 입력하세요.(최대 20자, 영어 대/소문자, 숫자만 입력 가능)",
+    "valid_check_tkcgrPos": "형식에 맞게 입력하세요.(최대 20자, 영어 대/소문자, 숫자만 입력 가능)",
+    "valid_check_tkcgrEml": "형식에 맞게 입력하세요.(최대 20자, 이메일 형식에 맞게 입력)"
   },
   "system": {
     "list_top_title": "시스템 관리",

@@ -1,12 +1,11 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
 import { AxiosClient } from '@/axios/AxiosClient';
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
+import { Module, Mutation, Action } from 'vuex-module-decorators';
 import { ServiceResponse, ServiceRegisterRequest, getServiceInfo, getServiceId } from '@/types/ServiceType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
 import GateWayModule from '../GateWayModule';
-import { USER_STATE } from '../UserState';
 
 @Module({ name: 'ServiceModule' })
 export default class ServiceModule extends GateWayModule {
@@ -102,11 +101,14 @@ export default class ServiceModule extends GateWayModule {
       }
     } else {
       try {
+        this.showLoading();
+
         addMock('/api/service/getServiceInfoSearch', JSON.stringify(getServiceInfo));
         const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
           '/api/service/getServiceInfoSearch'
         );
         this.context.commit('setServiceList', response.data.value);
+        this.dissmissLoading();
       } catch (error: GateWayError | any) {
         if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
           this.showError();

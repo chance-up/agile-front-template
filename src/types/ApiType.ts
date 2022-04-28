@@ -192,16 +192,75 @@ export const dummyHandlerGroupIdList: string[] = [
   'handlerGroupId4',
 ];
 
-export interface ApiDetail {
+export const dummyHandlerGroupList: HandlerGroupDetail[] = [
+  {
+    apiGroupId: 1,
+    // apiGroupNm: 'API & Login Authentication Group Name',
+    apiGroupNm: 'API & Login Authentication',
+    apiGroupDesc: 'API & Login Authentication Group Desc',
+    apiIdList: [
+      {
+        apiId: 1,
+        apiNm: 'API & Login Authentication 1 Name',
+        apiDesc: 'API & Login Authentication 1 Desc',
+      },
+      {
+        apiId: 2,
+        apiNm: 'API & Login Authentication 2 Name',
+        apiDesc: 'API & Login Authentication 2 Desc',
+      },
+      {
+        apiId: 3,
+        apiNm: 'API & Login Authentication 3 Name',
+        apiDesc: 'API & Login Authentication 3 Desc',
+      },
+      {
+        apiId: 4,
+        apiNm: 'API & Login Authentication 4 Name',
+        apiDesc: 'API & Login Authentication 4 Desc',
+      },
+    ],
+  },
+  {
+    apiGroupId: 2,
+    // apiGroupNm: 'API & Login Authentication Group Name',
+    apiGroupNm: '22222222',
+    apiGroupDesc: 'API & Login Authentication Group Desc',
+    apiIdList: [
+      {
+        apiId: 1,
+        apiNm: 'aName',
+        apiDesc: 'API & Login Authentication 1 Desc',
+      },
+      {
+        apiId: 2,
+        apiNm: 'b 2 Name',
+        apiDesc: 'API & Login Authentication 2 Desc',
+      },
+      {
+        apiId: 3,
+        apiNm: 'c 3 Name',
+        apiDesc: 'API & Login Authentication 3 Desc',
+      },
+      {
+        apiId: 4,
+        apiNm: 'd 4 Name',
+        apiDesc: 'API & Login Authentication 4 Desc',
+      },
+    ],
+  },
+];
+
+export interface HandlerDetail {
   apiId: number | string;
   apiNm: string;
   apiDesc: string;
 }
-export interface ApiGroupDetail {
+export interface HandlerGroupDetail {
   apiGroupId: number | string;
   apiGroupNm: string;
   apiGroupDesc: string;
-  apiIdList: ApiDetail[];
+  apiIdList: HandlerDetail[];
 }
 
 // delete

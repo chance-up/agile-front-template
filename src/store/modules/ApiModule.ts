@@ -6,12 +6,14 @@ import {
   apiMockData,
   apiMockData2,
   dummyDeleteResData,
+  HandlerGroupDetail,
 } from '@/types/ApiType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import { AxiosClient } from '@/axios/AxiosClient';
 import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
+import GateWayModule from '../GateWayModule';
 
 function handleCommonError(error: GateWayError | any) {
   if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
@@ -21,7 +23,7 @@ function handleCommonError(error: GateWayError | any) {
   }
 }
 @Module({ name: 'ApiModule' })
-export default class ApiModule extends VuexModule {
+export default class ApiModule extends GateWayModule {
   //api 리스트 요청
 
   public apiList: ApiDetailResponse[] = [];
@@ -34,6 +36,8 @@ export default class ApiModule extends VuexModule {
   @Action
   async getApiList(searchQuery?: ApiSearchQuery) {
     try {
+      this.showLoading();
+
       addMock('/api/list', JSON.stringify(apiMockList));
       const response = await AxiosClient.getInstance().get<ApiDetailResponse[]>('/api/list', searchQuery);
       console.log(response);
@@ -41,6 +45,7 @@ export default class ApiModule extends VuexModule {
         if (typeof item.meth == 'string') item.meth = JSON.parse(item.meth);
       });
       this.context.commit('setApiList', response);
+      this.dissmissLoading();
     } catch (error: GateWayError | any) {
       handleCommonError(error);
       // 디테일 에러 처리
@@ -56,32 +61,27 @@ export default class ApiModule extends VuexModule {
     console.log('set API detail', api);
     this.apiDetail = api;
   }
-  @Action({ commit: 'setApiDetail' })
-  async getApiDetail(id: string) {
-    // param 체크
-    addMock('/api/detail', JSON.stringify(id == apiMockData.id ? apiMockData : apiMockData2));
-    const response = await AxiosClient.getInstance().get<ApiDetailResponse>('/api/detail', { id });
-    if (typeof response.meth == 'string') response.meth = JSON.parse(response.meth);
-    return response;
-  }
-
-  // 초기화
   @Action
-  reset() {
-    this.context.commit('setApiList', []);
-    this.context.commit('setApiDetail', null);
+  async getApiDetail(id: string) {
+    try {
+      this.showLoading();
+      // param 체크
+      addMock('/api/detail', JSON.stringify(id == apiMockData.id ? apiMockData : apiMockData2));
+      const response = await AxiosClient.getInstance().get<ApiDetailResponse>('/api/detail', { id });
+      if (typeof response.meth == 'string') response.meth = JSON.parse(response.meth);
+      this.context.commit('setApiDetail', response);
+      this.dissmissLoading();
+    } catch (error: GateWayError | any) {
+      handleCommonError(error);
+    }
   }
 
   // Api 삭제
-
-  // @Mutation
   @Action
   async deleteApi(id: string) {
     try {
       addMock(`/api/deleteApi/${id}`, JSON.stringify(dummyDeleteResData));
-      const response = await AxiosClient.getInstance().get<GateWayResponse<ApiDetailResponse[]>>(
-        `/api/deleteApi/${id}`
-      );
+      const response = await AxiosClient.getInstance().get<ApiDetailResponse[]>(`/api/deleteApi/${id}`);
       console.log('api delete response: ', response);
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
@@ -90,6 +90,31 @@ export default class ApiModule extends VuexModule {
         console.log('서버통신에 실패하였습니다.');
       }
     }
+  }
+
+  // 핸들러그룹리스트
+  public handlerGroupList: HandlerGroupDetail[] = [];
+  @Mutation
+  setHandlerGroupList(handlerGroupList: HandlerGroupDetail[]) {
+    console.log('set handlerGroupList', handlerGroupList);
+    this.handlerGroupList = handlerGroupList;
+  }
+  @Action
+  async getHandlerGroupList() {
+    try {
+      addMock('/api/handlerGroupList', JSON.stringify(apiMockList));
+      const response = await AxiosClient.getInstance().get<HandlerGroupDetail[]>('/api/handlerGroupList');
+      console.log(response);
+      this.context.commit('setHandlerGroupList', response);
+    } catch (error: GateWayError | any) {
+      handleCommonError(error);
+    }
+  }
+  // 초기화
+  @Action
+  reset() {
+    this.context.commit('setApiList', []);
+    this.context.commit('setApiDetail', null);
   }
 }
 

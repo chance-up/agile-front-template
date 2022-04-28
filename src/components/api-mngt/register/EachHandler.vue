@@ -8,12 +8,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import HandlerModal from '@/components/api-mngt/register/HandlerModal.vue';
-import { ApiGroupDetail } from '@/types/ApiType';
+import { HandlerGroupDetail } from '@/types/ApiType';
 
 @Component({ components: { HandlerModal } })
 export default class EachHandler extends Vue {
   showModal = false;
-  apiGroup!: ApiGroupDetail;
+  apiGroup!: HandlerGroupDetail;
   @Prop() handlerGroupId!: string | number;
   //   groupId!: number;
   //   groupNm!: string | null;
