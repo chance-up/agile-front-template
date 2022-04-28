@@ -1,6 +1,8 @@
 <template lang="html">
-  <ContentLayout title="API 정보 수정" subTitle="기본정보 수정" depth="API 관리">
-    <template v-slot:contents>
+  <!-- for progress -->
+  <ContentLayout title="API 정보 수정" subTitle="기본정보 수정" depth="API 관리" :isShowProgress="isShowProgress">
+    <!-- for progress -->
+    <template v-slot:contents v-if="!isShowProgress">
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
         <TextForm groupNm="시스템명" type="text" :required="true" v-model="requestBody.sysNm" :disabled="true" />
@@ -19,8 +21,8 @@
         <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
       </ul>
     </template>
-
-    <template v-slot:buttons>
+    <!-- for progress -->
+    <template v-slot:buttons v-if="!isShowProgress">
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="handleClickSubmitButton">수정테스트</button>
@@ -47,6 +49,9 @@ import { Dictionary } from 'vue-router/types/router';
 import { IfGrpType, SystemResponse } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
+// for progress
+import { USER_STATE } from '@/store/UserState';
+
 @Component({
   components: {
     ContentLayout,
@@ -130,6 +135,23 @@ export default class ApiEditPage extends Vue {
       res += `${key} : ${body[key]}\n`;
     });
     return res;
+  }
+
+  // for progress
+  isShowProgress = false;
+  get userState() {
+    return this.apiModule.currAsyncState;
+  }
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
+    }
   }
 }
 </script>
