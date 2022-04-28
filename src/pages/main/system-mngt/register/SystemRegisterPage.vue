@@ -4,6 +4,10 @@
     :subTitle="$t('system.add_cont_title')"
     depth="$t('system.add_depth')"
   >
+    <b-button variant="primary" disabled>
+      <b-spinner small></b-spinner>
+      <span class="sr-only">Loading...</span>
+    </b-button>
     <template v-slot:contents>
       <ul>
         <InputGroup type="text" :value.sync="systemItem.nm" :inputNm="$t('system.name')" :place="$t('system.name')" />

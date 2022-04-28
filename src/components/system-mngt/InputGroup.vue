@@ -16,7 +16,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { emailCheck, lengthCheck } from '@/utils/validation';
+import { emailCheck, lengthCheck, englishAndNumberCheck } from '@/utils/validation';
 
 @Component
 export default class InputGroup extends Vue {
@@ -39,7 +39,7 @@ export default class InputGroup extends Vue {
       case '담당자 이름':
       case '소속':
       case '시스템 설명':
-        this.notiMessage = lengthCheck(val, 1, 20) ? '' : '20자 이내로 입력해주세요.';
+        this.notiMessage = lengthCheck(val, 1, 20) && englishAndNumberCheck(val) ? '' : '형식에 맞게 입력해주세요.';
         break;
     }
     this.$emit('update:value', val);

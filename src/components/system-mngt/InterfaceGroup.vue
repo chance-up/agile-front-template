@@ -3,7 +3,6 @@
     <label for="" class="label point">{{ inputNm }}</label>
     <ul>
       <li v-for="(ifgrp, idx) in ifgrps" :key="idx">
-        <h1>{{ idx }}</h1>
         <div class="form-cont">
           <div class="domain-wrap">
             <div class="domain-group">
