@@ -83,7 +83,7 @@
               </td>
               <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 <span>{{ list.upd_dt.slice(0, 10) }}</span
-                ><span>{{ list.upd_dt.slice(11, 19) }}</span>
+                ><br /><span>{{ list.upd_dt.slice(11, 19) }}</span>
               </td>
               <td>
                 <button class="mod-btn" @click="$router.push({ name: 'service-edit', params: { id: list.id } })">
