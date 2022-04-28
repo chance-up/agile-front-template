@@ -1,6 +1,6 @@
 <template>
   <ContentLayout title="서비스 정보 확인" subTitle="기본정보 확인" depth="서비스 관리">
-    <template v-slot:contents>
+    <template v-slot:contents v-if="serviceOption.id != ''">
       <ul>
         <InfoGroup inputNm="서비스명" :value="serviceOption.nm" />
         <InfoGroup inputNm="서비스ID" :value="serviceOption.id" />
@@ -89,7 +89,6 @@ export default class ServiceDetailPage extends Vue {
   }
 
   created() {
-    console.log('!!!IDIDID', this.$route.params.id);
     this.serviceModule.getService(this.$route.params.serviceId);
   }
 }
