@@ -152,18 +152,6 @@ export default class SystemRegisterPage extends Vue {
       return;
     }
   }
-  timerId = 0;
-  isDuplicatedId: boolean | null = null;
-  duplicateCheckId() {
-    if (this.timerId) {
-      clearTimeout(this.timerId);
-    }
-    this.timerId = setTimeout(async () => {
-      console.log('id 입력 1초 경과');
-      console.log(this.formData.id);
-      this.isDuplicatedId = await this.serviceModule.duplicateCheck(this.formData.id);
-    }, 3000);
-  }
 
   timerNm = 0;
   isDuplicatedNm: boolean | null = null;
@@ -175,7 +163,20 @@ export default class SystemRegisterPage extends Vue {
       console.log('서비스명 입력 1초 경과');
       console.log(this.formData.nm);
       this.isDuplicatedNm = await this.serviceModule.duplicateCheck(this.formData.nm);
-    }, 3000);
+    }, 1000);
+  }
+
+  timerId = 0;
+  isDuplicatedId: boolean | null = null;
+  duplicateCheckId() {
+    if (this.timerId) {
+      clearTimeout(this.timerId);
+    }
+    this.timerId = setTimeout(async () => {
+      console.log('id 입력 1초 경과');
+      console.log(this.formData.id);
+      this.isDuplicatedId = await this.serviceModule.duplicateCheck(this.formData.id);
+    }, 1000);
   }
 }
 </script>
