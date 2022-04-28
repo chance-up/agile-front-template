@@ -12,6 +12,7 @@
             errorTitle="에러발생"
             :errorDesc="message"
             @close="showAlert = false"
+            size="l"
           >
             <!-- <template v-slot:modalContainer> {{ message }} </template> -->
           </ModalLayout>

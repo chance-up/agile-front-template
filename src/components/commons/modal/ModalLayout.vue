@@ -2,7 +2,7 @@
   <div>
     <transition name="modalLayout">
       <!------- handler pop -------->
-      <div :class="{ 'pop-wrap': true }">
+      <div :class="{ large: l, medium: m, small: s, 'pop-wrap': true }">
         <div class="pop-header">
           <slot name="modalHeader" />
         </div>
@@ -18,7 +18,7 @@
 
     <transition v-if="alert" name="alertLayout">
       <!------- handler pop -------->
-      <div :class="{ 'pop-wrap': true }">
+      <div :class="{ large: l, medium: m, small: s, 'pop-wrap': true }">
         <div class="pop-header">
           <slot name="modalHeader" />
           <h1 class="h1-tit">{{ errorTitle }}</h1>
@@ -50,10 +50,44 @@ export default class ModalLayout extends Vue {
   @Prop() errorTitle!: string;
   @Prop() errorDesc!: string;
   @Prop() size!: string;
+  l = false;
+  m = false;
+  s = false;
+  created() {
+    if (this.size == 'l') {
+      console.log('size=l');
+      this.l = true;
+      this.m = false;
+      this.s = false;
+    } else if (this.size == 'm') {
+      console.log('size=m');
+      this.l = false;
+      this.m = true;
+      this.s = false;
+    } else {
+      console.log('size=s');
+      this.l = false;
+      this.m = false;
+      this.s = true;
+    }
+    console.log(this.size);
+  }
 }
 </script>
 <style>
 /***   popup   ***/
+.large {
+  width: 600px;
+  /* background: rgb(193, 33, 33); */
+}
+.medium {
+  width: 400px;
+  /* background: rgb(193, 174, 33); */
+}
+.small {
+  width: 200px;
+  /* background: rgb(33, 193, 73); */
+}
 .pop-wrap {
   position: fixed;
   z-index: 9998;
@@ -69,8 +103,8 @@ export default class ModalLayout extends Vue {
   border: 1px #ddd solid;
   border-radius: 30px;
   /* position: relative; */
-  background: #fff;
-  width: 600px;
+  /* background: #fff;
+  width: 600px; */
   padding: 30px 30px;
   margin: 0 auto;
   box-shadow: 1px 1px 5px #ccc;
