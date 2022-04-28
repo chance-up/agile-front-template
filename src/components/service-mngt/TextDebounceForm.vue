@@ -55,13 +55,6 @@ export default class TextDebounceForm extends Vue {
   }
 
   notiMessage: [boolean | null, string] = [null, ''];
-  // get text() {
-  //   return this.value;
-  // }
-  // set text(val: string) {
-
-  //   this.$emit('update:value', val);
-  // }
 }
 </script>
 <style lang=""></style>
