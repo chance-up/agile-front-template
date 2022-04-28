@@ -35,6 +35,9 @@
               <ListRow v-for="(apiData, index) in apiList" :key="index" :apiData="apiData" :index="index" />
             </tbody>
           </template>
+          <template slot="pagination">
+            <Pagination />
+          </template>
         </ListForm>
       </template>
     </ListLayout>
@@ -50,6 +53,7 @@ import ListRow from '@/components/api-mngt/list/ListRow.vue';
 import { ApiDetailResponse } from '@/types/ApiType';
 import ApiModule from '@/store/modules/ApiModule';
 import { getModule } from 'vuex-module-decorators';
+import Pagination from '@/components/commons/Pagination.vue';
 
 @Component({
   components: {
@@ -58,6 +62,7 @@ import { getModule } from 'vuex-module-decorators';
     SearchForm,
     ListForm,
     ListRow,
+    Pagination,
   },
 })
 export default class ApiPage extends Vue {

@@ -4,9 +4,9 @@
     <div class="form-cont">
       <!--  multi select -->
       <div class="multi-wrap">
-        <div class="select-row" @click="handleOnClickGroup">{{ chooseHandlerGroup }}</div>
+        <div ref="selectRow" class="select-row" @click="handleOnClickGroup">{{ chooseHandlerGroup }}</div>
         <!--  dropdown시 active class 추가-->
-        <div class="select-form" :class="{ none: !isSelectOpen }">
+        <div ref="selectFrom" class="select-form" :class="{ none: !isSelectOpen }">
           <!--  dropdown시 block class 추가-->
           <ul>
             <!-- <EachHandler
@@ -55,6 +55,25 @@ export default class HandlerGroupForm extends Vue {
   //     this.isSelectOpen = false;
   //   }
   // }
+  onClick2(e: MouseEvent): void {
+    // console.log('click!!!!!');
+    // console.log(e.target);
+    // console.log(this.$refs.selectFrom);
+    console.log('click!!!!!');
+    if (e.target !== this.$refs.selectRow) {
+      if (e.target !== this.$refs.selectFrom) {
+        // if (e.target !== this.$refs.selectFrom && this.isSelectOpen == true) {
+        //결과 창 닫기
+        console.log('외부클릭함');
+        this.isSelectOpen = false;
+      } else {
+        console.log('내부클릭함');
+      }
+    }
+  }
+  mounted() {
+    window.addEventListener('click', this.onClick2);
+  }
   chooseHandlerGroup = 'handler 그룹을 선택해주세요';
   showModal = false;
   sendHandlerGroup: HandlerGroupDetail = {
