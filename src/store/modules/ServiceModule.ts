@@ -1,7 +1,13 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
 import { AxiosClient } from '@/axios/AxiosClient';
 import { Module, Mutation, Action } from 'vuex-module-decorators';
-import { ServiceResponse, ServiceRegisterRequest, getServiceInfo, getServiceId } from '@/types/ServiceType';
+import {
+  ServiceResponse,
+  ServiceRegisterRequest,
+  getServiceInfo,
+  getServiceId,
+  getSearchServiceInfo,
+} from '@/types/ServiceType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
@@ -103,7 +109,7 @@ export default class ServiceModule extends GateWayModule {
       try {
         this.showLoading();
 
-        addMock('/api/service/getServiceInfoSearch', JSON.stringify(getServiceInfo));
+        addMock('/api/service/getServiceInfoSearch', JSON.stringify(getSearchServiceInfo));
         const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
           '/api/service/getServiceInfoSearch'
         );
