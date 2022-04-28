@@ -8,4 +8,5 @@ declare module 'vue/types/vue' {
 
 export interface GwModal {
   show: (message: string) => void;
+  hide: () => void;
 }

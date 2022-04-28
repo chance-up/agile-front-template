@@ -5,8 +5,11 @@ import { ServiceResponse, ServiceRegisterRequest, getServiceInfo, getServiceId }
 import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
+import GateWayModule from '../GateWayModule';
+import { USER_STATE } from '../UserState';
+
 @Module({ name: 'ServiceModule' })
-export default class ServiceModule extends VuexModule {
+export default class ServiceModule extends GateWayModule {
   public services: ServiceResponse[] = [];
 
   public service: ServiceResponse = {
@@ -73,15 +76,23 @@ export default class ServiceModule extends VuexModule {
     this.services = list;
   }
 
+  @Mutation
+  getMethod() {
+    console.log('getMethod');
+  }
+
   @Action
   async getServiceList(searchOption?: object) {
     if (!searchOption) {
       try {
+        this.showLoading();
+
         addMock('/api/service/getServiceInfo', JSON.stringify(getServiceInfo));
         const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
           '/api/service/getServiceInfo'
         );
         this.context.commit('setServiceList', response.data.value);
+        this.dissmissLoading();
       } catch (error: GateWayError | any) {
         if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
           console.log('NetWork not connection');

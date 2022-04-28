@@ -7,6 +7,9 @@ export default {
       show: (message: string) => {
         EventBus.$emit('message', message);
       },
+      hide: () => {
+        EventBus.$emit('message', 'dissmiss');
+      },
     };
   },
 };
