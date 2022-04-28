@@ -57,6 +57,13 @@ export default class InputGroup extends Vue {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrPos') as string];
         }
         break;
+      case this.$t('system.tkcgrEml'):
+        if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
+          this.notiMessage = [true, ''];
+        } else {
+          this.notiMessage = [false, this.$t('system.valid_check_tkcgrEml') as string];
+        }
+        break;
     }
 
     this.$emit('update:value', val);
