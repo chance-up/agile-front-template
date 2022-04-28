@@ -56,12 +56,14 @@
           :issuer.sync="formData.athn.JWT.issuer"
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
+          :isShowProgress="isShowProgress"
         ></AuthReqGroup>
         <SlaReqGroup
           inputNm="SLA 정책관리"
           :SLAn.sync="formData.sla_yn"
-          :type="formData.sla_type"
-          :count="formData.sla_cnt"
+          :type.sync="formData.sla_type"
+          :totalCnt.sync="formData.sla_cnt"
+          :TPSCnt.sync="formData.sla_cnt"
         />
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
       </ul>
@@ -86,6 +88,8 @@ import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { BasicAuthResponse, ServiceRegisterRequest } from '@/types/ServiceType';
 import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
+import { USER_STATE } from '@/store/UserState';
+
 @Component({
   components: {
     ContentLayout,
@@ -188,6 +192,23 @@ export default class SystemRegisterPage extends Vue {
 
   get basicAuth(): BasicAuthResponse {
     return this.serviceModule.basicAuth;
+  }
+
+  isShowProgress = true;
+  get userState() {
+    return this.serviceModule.currAsyncState;
+  }
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.isShowProgress = false;
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
+    }
   }
 }
 </script>
