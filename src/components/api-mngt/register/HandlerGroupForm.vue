@@ -71,7 +71,10 @@ export default class HandlerGroupForm extends Vue {
       }
     }
   }
-  mounted() {
+  // mounted() {
+  //   window.addEventListener('click', this.onClick2);
+  // }
+  created() {
     window.addEventListener('click', this.onClick2);
   }
   chooseHandlerGroup = 'handler 그룹을 선택해주세요';
