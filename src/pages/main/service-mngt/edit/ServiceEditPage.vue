@@ -1,39 +1,44 @@
 <template>
   <ContentLayout title="서비스 인증 정보 수정" subTitle="기본정보 수정" depth="서비스 관리">
-    <template v-slot:contents>
+    <template v-slot:contents v-if="formData.id != ''">
       <ul>
         <InputGroup
+          type="text"
           inputNm="서비스명"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
           :disabled="true"
-          v-model="formData.nm"
+          :value.sync="formData.nm"
         />
         <InputGroup
+          type="text"
           inputNm="서비스 ID"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
           :disabled="true"
-          v-model="formData.id"
+          :value.sync="formData.id"
         />
         <InputGroup
+          type="text"
           inputNm="담당자 이름"
           placeholder="placeholder"
           validCheck="중복된 API ID 입니다."
           inputClass="input-box lg check-false"
-          v-model="formData.tkcgr_nm"
+          :value.sync="formData.tkcgr_nm"
         />
         <InputGroup
+          type="text"
           inputNm="소속"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
-          v-model="formData.tkcgr_pos"
+          :value.sync="formData.tkcgr_pos"
         />
         <InputGroup
+          type="text"
           inputNm="E-mail"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
-          v-model="formData.tkcgr_eml"
+          :value.sync="formData.tkcgr_eml"
         />
         <DateGroup
           inputNm="서비스 기간"

@@ -8,8 +8,15 @@
       </div>
       <div class="form-group">
         <img class="img" src="@/assets/out.svg" alt="uri" />
-        <input type="text" :value="value" class="input-box uri-input" placeholder="자동생성/변경불가" disabled />
-        <button class="sm-btn">
+        <input
+          type="text"
+          :value="value"
+          class="input-box uri-input"
+          placeholder="자동생성/변경불가"
+          :disabled="!this.isEdit"
+          @input="$emit('input', $event.target.value)"
+        />
+        <button class="sm-btn" @click="handleClickEdit">
           <i><img src="@/assets/edit.svg" alt="수정" /></i>
         </button>
       </div>
@@ -24,5 +31,11 @@ export default class UriForm extends Vue {
   @Prop() groupNm!: string | null;
   @Prop() uriIn!: string | null;
   @Prop() value!: string | null;
+
+  isEdit = false;
+  handleClickEdit() {
+    console.log(this.isEdit);
+    this.isEdit = !this.isEdit;
+  }
 }
 </script>

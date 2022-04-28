@@ -85,7 +85,7 @@ export default class ApiRegisterPage extends Vue {
     id: '',
     nm: '',
     ifNo: '',
-    meth: '',
+    meth: [],
     uriIn: '',
     uriOut: '',
     ifGrp: '',

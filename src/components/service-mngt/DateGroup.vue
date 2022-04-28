@@ -35,10 +35,6 @@ export default class DateGroup extends Vue {
   @Prop({ default: null }) startDt!: string;
   @Prop({ default: null }) endDt!: string;
 
-  // time1 = null;
-  // time2 = null;
-  // time3 = null;
-
   get start() {
     return this.startDt;
   }

@@ -13,6 +13,7 @@
               :handlerGroupId="dummyHandlerGroupId"
               v-for="(dummyHandlerGroupId, index) in dummyHandlerGroupIdList"
               :key="index"
+              @click="handleSelectHandlerGroup"
             />
           </ul>
         </div>
@@ -41,13 +42,6 @@ export default class HandlerGroupForm extends Vue {
     return dummyHandlerGroupIdList;
   }
 
-  get dummySystemList(): string[] {
-    return dummySystemList;
-  }
-  get dummySystemInfList(): string[] {
-    return dummySystemInfList;
-  }
-
   //  multi select
   isSelectOpen = false;
   handleOnClickGroup(): void {
@@ -55,6 +49,11 @@ export default class HandlerGroupForm extends Vue {
   }
   handleOnClickGroupDetail(): void {
     console.log('modal open');
+  }
+  handleSelectHandlerGroup(handlerGroupId: string): void {
+    console.log('handlerGroupId => ' + handlerGroupId);
+    this.$emit('input', handlerGroupId);
+    this.isSelectOpen = false;
   }
 }
 </script>

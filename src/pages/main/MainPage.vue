@@ -40,7 +40,6 @@ import { BSpinner } from 'bootstrap-vue';
 export default class MainPage extends Vue {
   showAlert = false;
   message = '';
-  isShowProgress = true;
 
   created() {
     EventBus.$on('message', (text: string) => {
@@ -54,20 +53,3 @@ export default class MainPage extends Vue {
   }
 }
 </script>
-
-<!-- 
-<style scoped>
-.text-center {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  z-index: 1;
-}
-
-.spinner-border {
-  display: block;
-  position: fixed;
-  top: calc(50% - (58px / 2));
-  right: calc(50% - (58px / 2));
-}
-</style>-->

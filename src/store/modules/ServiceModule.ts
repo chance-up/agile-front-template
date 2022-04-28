@@ -95,9 +95,9 @@ export default class ServiceModule extends GateWayModule {
         this.dissmissLoading();
       } catch (error: GateWayError | any) {
         if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-          console.log('NetWork not connection');
+          this.showError();
         } else {
-          console.log('서버통신에 실패하였습니다.');
+          this.showError();
         }
       }
     } else {
@@ -109,9 +109,9 @@ export default class ServiceModule extends GateWayModule {
         this.context.commit('setServiceList', response.data.value);
       } catch (error: GateWayError | any) {
         if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-          console.log('NetWork not connection');
+          this.showError();
         } else {
-          console.log('서버통신에 실패하였습니다.');
+          this.showError();
         }
       }
     }
@@ -127,6 +127,7 @@ export default class ServiceModule extends GateWayModule {
   async getService(id: string) {
     addMock('/api/service/getServiceId', JSON.stringify(getServiceId));
     try {
+      this.showLoading();
       const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>(
         '/api/service/getServiceId',
         {
@@ -135,11 +136,12 @@ export default class ServiceModule extends GateWayModule {
       );
 
       this.context.commit('setService', response.data.value);
+      this.dissmissLoading();
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        console.log('NetWork not connection');
+        this.showError();
       } else {
-        console.log('서버통신에 실패하였습니다.');
+        this.showError();
       }
     }
   }
@@ -166,9 +168,9 @@ export default class ServiceModule extends GateWayModule {
       // this.context.commit('createserviceMutation', response.data.value);
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        console.log('NetWork not connection');
+        this.showError();
       } else {
-        console.log('서버통신에 실패하였습니다.');
+        this.showError();
       }
     }
   }
@@ -206,9 +208,9 @@ export default class ServiceModule extends GateWayModule {
       // this.context.commit('editServiceMutation', response.data);
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        console.log('NetWork not connection');
+        this.showError();
       } else {
-        console.log('서버통신에 실패하였습니다.');
+        this.showError();
       }
     }
   }
@@ -235,10 +237,18 @@ export default class ServiceModule extends GateWayModule {
       // }
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        console.log('NetWork not connection');
+        this.showError();
       } else {
-        console.log('서버통신에 실패하였습니다.');
+        this.showError();
       }
     }
+  }
+
+  // Service ID 중복 체크
+  @Action
+  async duplicateCheck(id: string): Promise<boolean> {
+    addMock(`/system/detail/${id}`, JSON.stringify(getServiceId));
+    const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>(`/service/detail/${id}`);
+    return true;
   }
 }

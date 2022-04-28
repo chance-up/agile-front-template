@@ -122,6 +122,8 @@ export default class ServiceManagementPage extends Vue {
     id: '',
     tkcgr_nm: '',
   };
+  isShowProgress = false;
+
   serviceModule = getModule(ServiceModule, this.$store);
 
   get listOption(): ServiceResponse[] {
@@ -166,8 +168,6 @@ export default class ServiceManagementPage extends Vue {
   get userState() {
     return this.serviceModule.currAsyncState;
   }
-
-  isShowProgress = false;
 
   @Watch('userState')
   onCurrAsyncStateChange(userState: USER_STATE) {

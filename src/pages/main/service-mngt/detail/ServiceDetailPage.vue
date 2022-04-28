@@ -1,6 +1,6 @@
 <template>
-  <ContentLayout title="서비스 정보 확인" subTitle="기본정보 확인" depth="서비스 관리">
-    <template v-slot:contents v-if="serviceOption.id != ''">
+  <ContentLayout :isShowProgress="isShowProgress" title="서비스 정보 확인" subTitle="기본정보 확인" depth="서비스 관리">
+    <template v-if="!isShowProgress" v-slot:contents>
       <ul>
         <InfoGroup inputNm="서비스명" :value="serviceOption.nm" />
         <InfoGroup inputNm="서비스ID" :value="serviceOption.id" />
@@ -53,6 +53,7 @@ import { ServiceResponse } from '@/types/ServiceType';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { Watch } from 'vue-property-decorator';
+import { USER_STATE } from '@/store/UserState';
 
 @Component({
   components: {
@@ -64,6 +65,8 @@ import { Watch } from 'vue-property-decorator';
 })
 export default class ServiceDetailPage extends Vue {
   auth = '';
+  isShowProgress = false;
+
   @Watch('serviceOption')
   onServiceOptionChange(val: ServiceResponse) {
     if (val.athn.BASIC_AUTH.id === '') {
@@ -90,6 +93,22 @@ export default class ServiceDetailPage extends Vue {
 
   created() {
     this.serviceModule.getService(this.$route.params.serviceId);
+  }
+
+  get userState() {
+    return this.serviceModule.currAsyncState;
+  }
+
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
+    }
   }
 }
 </script>

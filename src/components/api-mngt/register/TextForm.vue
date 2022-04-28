@@ -1,7 +1,6 @@
 <template lang="">
   <li>
     <label for="" class="label" :class="{ point: required }">{{ groupNm }}</label>
-
     <div v-if="type == 'text'" class="form-cont">
       <input v-if="disabled" type="text" :value="value" class="input-box lg" :class="{ 'check-ok': check }" disabled />
       <input
@@ -19,8 +18,8 @@
       <input
         v-if="disabled"
         type="number"
-        :value="formValue"
-        class="input-box lg"
+        :value="value"
+        class="input-box lg disabled"
         :class="{ 'check-ok': check }"
         disabled
       />
@@ -36,12 +35,12 @@
     </div>
 
     <div v-if="type == 'textarea'" class="form-cont">
-      <textarea class="textarea" @input="$emit('input', $event.target.value)" />
+      <textarea class="textarea" @input="$emit('input', $event.target.value)" :value="value" />
     </div>
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component
 export default class TextForm extends Vue {
@@ -49,9 +48,14 @@ export default class TextForm extends Vue {
   @Prop() groupNm!: string | null;
   @Prop({ default: false }) check!: boolean | null;
   @Prop({ default: false }) required!: boolean | null;
-  @Prop() disabled!: boolean | null;
+  @Prop({ default: false }) disabled!: boolean;
   @Prop() value!: string | null;
 
   formValue = '';
+
+  @Watch('value')
+  onValueChange(val: string) {
+    this.formValue = val;
+  }
 }
 </script>
