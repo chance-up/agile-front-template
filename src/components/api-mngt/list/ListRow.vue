@@ -2,7 +2,7 @@
   <tr>
     <td>{{ index + 1 }}</td>
     <td>
-      <span class="bold">{{ apiData.sys_id }}</span>
+      <span class="bold">{{ apiData.sysId }}</span>
     </td>
     <td>{{ apiData.id }}</td>
     <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">{{ apiData.nm }}</td>
@@ -21,11 +21,11 @@
         {{ method }}
       </span>
     </td>
-    <td class="tl">{{ apiData.uri_in }}</td>
-    <td>{{ apiData.time_out }}</td>
+    <td class="tl">{{ apiData.uriIn }}</td>
+    <td>{{ apiData.timeOut }}</td>
     <td>
-      <span>{{ apiData.cret_dt.slice(0, 10) }}</span
-      ><span>{{ apiData.upd_dt.slice(11, 19) }}</span>
+      <span>{{ apiData.cretDt.slice(0, 10) }}</span
+      ><span>{{ apiData.updDt.slice(11, 19) }}</span>
     </td>
     <td>
       <button class="mod-btn" @click="$router.push({ name: 'api-edit', params: { id: apiData.id } })">

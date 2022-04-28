@@ -16,35 +16,36 @@ export interface DummyApiResponse {
 
 export interface ApiDetailResponse {
   id: string;
-  sys_id: string;
+  sysId: string;
+  sysNm: string;
   nm: string;
-  if_no: string;
+  ifNo: string;
   meth: string[] | string;
-  uri_in: string;
-  uri_out: string;
-  if_grp: string;
-  req_handlr_grp_id: string;
-  res_handlr_grp_id: string;
-  time_out: number;
+  uriIn: string;
+  uriOut: string;
+  ifGrp: string;
+  reqHandlrGrpId: string;
+  resHandlrGrpId: string;
+  timeOut: number;
   desc: string | null;
-  cret_dt: string | null;
-  cret_id: string | null;
-  upd_dt: string | null;
-  upd_id: string | null;
+  cretDt: string | null;
+  cretId: string | null;
+  updDt: string | null;
+  updId: string | null;
 }
 
 export interface ApiEditRequestBody {
   id: string;
-  sys_id: string;
+  sysId: string;
   nm: string;
-  if_no: string;
+  ifNo: string;
   meth: string[];
-  uri_in: string;
-  uri_out: string;
-  if_grp: string;
-  req_handlr_grp_id: string;
-  res_handlr_grp_id: string;
-  time_out: number;
+  uriIn: string;
+  uriOut: string;
+  ifGrp: string;
+  reqHandlrGrpId: string;
+  resHandlrGrpId: string;
+  timeOut: number;
   desc: string | null;
 }
 // [x:string ] => confirm 출력용으로 사용
@@ -75,40 +76,42 @@ export interface ApiSearchQuery {
 
 export const apiMockData: ApiDetailResponse = {
   id: 'getCustInfo11',
-  sys_id: 'id1',
+  sysId: 'id1',
+  sysNm: 'name1',
   nm: '고객 정보 조회',
-  if_no: 'IF_CAPRI_000122',
+  ifNo: 'IF_CAPRI_000122',
   meth: ['GET', 'POST'],
-  uri_in: '/CAPRI/v1/getCustInfo22',
-  uri_out: '/CAPRI/v1/getCustInfo22',
-  if_grp: 'authentication',
-  req_handlr_grp_id: 'REQ.DEFAULT',
-  res_handlr_grp_id: 'RES.DEFAULT',
-  time_out: 3000,
+  uriIn: '/CAPRI/v1/getCustInfo22',
+  uriOut: '/CAPRI/v1/getCustInfo22',
+  ifGrp: 'authentication',
+  reqHandlrGrpId: 'REQ.DEFAULT',
+  resHandlrGrpId: 'RES.DEFAULT',
+  timeOut: 3000,
   desc: 'kt 가입자 고객 정보 제공',
-  cret_dt: '2022-04-22 11:23:35',
-  cret_id: 'ktds',
-  upd_dt: '2022-04-22 11:23:35',
-  upd_id: null,
+  cretDt: '2022-04-22 11:23:35',
+  cretId: 'ktds',
+  updDt: '2022-04-22 11:23:35',
+  updId: null,
 };
 
 export const apiMockData2: ApiDetailResponse = {
   id: 'getCustInfo22',
-  sys_id: 'id2',
+  sysId: 'id2',
+  sysNm: 'name2',
   nm: '고객 정보 삭제',
-  if_no: 'IF_CAPRI_000122',
+  ifNo: 'IF_CAPRI_000122',
   meth: '["DELETE", "PUT"]',
-  uri_in: '/CAPRI/v1/getCustInfo22',
-  uri_out: '/CAPRI/v1/getCustInfo22',
-  if_grp: 'authentication',
-  req_handlr_grp_id: 'REQ.DEFAULT',
-  res_handlr_grp_id: 'RES.DEFAULT',
-  time_out: 5000,
+  uriIn: '/CAPRI/v1/getCustInfo22',
+  uriOut: '/CAPRI/v1/getCustInfo22',
+  ifGrp: 'authentication',
+  reqHandlrGrpId: 'REQ.DEFAULT',
+  resHandlrGrpId: 'RES.DEFAULT',
+  timeOut: 5000,
   desc: 'kt 가입자 고객 정보 삭제',
-  cret_dt: '2022-04-22 11:23:35',
-  cret_id: 'ktds',
-  upd_dt: '2022-04-22 11:23:35',
-  upd_id: null,
+  cretDt: '2022-04-22 11:23:35',
+  cretId: 'ktds',
+  updDt: '2022-04-22 11:23:35',
+  updId: null,
 };
 
 export const apiMockList: ApiDetailResponse[] = [apiMockData, apiMockData2];
@@ -170,16 +173,16 @@ export const dummySystemInfList: string[] = [
 
 export interface ApiInfoEdit {
   id: string;
-  sys_id: string;
+  sysId: string;
   nm: string;
-  if_no: string;
+  ifNo: string;
   meth: string;
-  uri_in: string;
-  uri_out: string;
-  if_grp: string;
-  req_handlr_grp_id: string;
-  res_handlr_grp_id: string;
-  time_out: number;
+  uriIn: string;
+  uriOut: string;
+  ifGrp: string;
+  reqHandlrGrpId: string;
+  resHandlrGrpId: string;
+  timeOut: number;
   desc: string;
 }
 export const dummyHandlerGroupIdList: string[] = [

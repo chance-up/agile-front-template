@@ -8,25 +8,25 @@
     <template v-slot:contents>
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
-        <InfoGroup :inputNm="`${$t('api.system')}` + `${$t('api.name')}`" :value="mockData.sys_id" />
+        <InfoGroup :inputNm="`${$t('api.system')}` + `${$t('api.name')}`" :value="mockData.syIid" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.id')}`" :value="mockData.id" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.name')}`" :value="mockData.nm" />
-        <InfoGroup :inputNm="`${$t('api.interface')}` + ' ' + `${$t('api.number')}`" :value="mockData.if_no" />
+        <InfoGroup :inputNm="`${$t('api.interface')}` + ' ' + `${$t('api.number')}`" :value="mockData.ifNo" />
         <MethodGroup :inputNm="`${$t('api.method')}`" :methods="mockData.meth" />
-        <URIGroup :inputNm="`${$t('api.uri')}`" :uriSer="mockData.uri_in" :uriSys="mockData.uri_out" />
+        <URIGroup :inputNm="`${$t('api.uri')}`" :uriSer="mockData.uriIn" :uriSys="mockData.uriOut" />
         <InfoGroup
           :inputNm="`${$t('api.system')}` + ' ' + `${$t('api.interlock')}` + ' ' + `${$t('api.information')}`"
-          :value="mockData.if_grp"
+          :value="mockData.ifGrp"
         />
         <InfoGroup
           :inputNm="`${$t('api.request')}` + ' ' + `${$t('api.handler')}` + ' ' + `${$t('api.group')}`"
-          :value="mockData.req_handlr_grp_id"
+          :value="mockData.reqHandlrGrpId"
         />
         <InfoGroup
           :inputNm="`${$t('api.response')}` + ' ' + `${$t('api.handler')}` + ' ' + `${$t('api.group')}`"
-          :value="mockData.res_handlr_grp_id"
+          :value="mockData.resHandlrGrpId"
         />
-        <InfoGroup :inputNm="`${$t('api.timeOutMS')}`" :value="mockData.time_out" />
+        <InfoGroup :inputNm="`${$t('api.timeOutMS')}`" :value="mockData.timeOut" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.description')}`" :value="mockData.desc" />
       </ul>
     </template>
