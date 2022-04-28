@@ -13,14 +13,14 @@
         <!-- Basic Auth -->
         <div class="auth-form">
           <label class="label">ID :</label>
-          <input type="text" id="" class="input-box" placeholder="자동생성/변경불가" disabled v-model="BAid" />
-          <button class="sm-btn">
+          <input type="text" id="" class="input-box" placeholder="자동생성/변경불가" disabled v-model="basicId" />
+          <button @click="clicked" class="sm-btn">
             <i><img src="@/assets/reserve.svg" alt="재발급" /></i>
           </button>
         </div>
         <div class="auth-form">
           <label class="label">PW :</label>
-          <input type="text" id="" class="input-box" placeholder="" v-model="BApw" />
+          <input type="text" id="" class="input-box" placeholder="자동생성/변경불가" disabled v-model="basicPW" />
         </div>
       </div>
       <!-- // Basic Auth -->
@@ -62,7 +62,8 @@ export default class AuthReqGroup extends Vue {
   @Prop({ default: '' }) issuer!: string;
   @Prop({ default: '' }) subject!: string;
   @Prop({ default: '' }) publicKey!: string;
-
+  @Prop() basicId!: string;
+  @Prop() basicPW!: string;
   show = 'init';
 
   get auth() {
@@ -112,6 +113,10 @@ export default class AuthReqGroup extends Vue {
   }
   set JWTpublicKey(val: string) {
     this.$emit('update:publickey', val);
+  }
+
+  clicked() {
+    this.$emit('basicAuthClicked');
   }
 }
 </script>
