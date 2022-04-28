@@ -60,6 +60,13 @@
               <th>{{ $t('system.action') }}</th>
             </tr>
           </thead>
+          <div class="text-center">
+            <b-spinner
+              v-show="isShowProgress"
+              style="width: 2rem; height: 2rem; position: absolute; left: 50%"
+              label="Large Spinner"
+            ></b-spinner>
+          </div>
           <!-- 각 리스트 페이지에 맞는 데이터로 v-for 돌려주시면 됩니다. <td> 태그 안이 조금씩 다를 수 있으니 퍼블리싱 파일 참조하면서 수정해주세요. -->
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
@@ -94,7 +101,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 
 import SystemModule from '@/store/modules/SystemModule';
@@ -107,6 +114,7 @@ import Pagination from '@/components/commons/Pagination.vue';
 
 import { SearchCondition } from '@/types/SearchType';
 import { SystemResponse, PaginationType } from '@/types/SystemType';
+import { USER_STATE } from '@/store/UserState';
 
 @Component({
   components: {
@@ -131,6 +139,7 @@ export default class SystemPage extends Vue {
 
   searchData: SearchCondition = {};
   pagingData: SearchCondition = {};
+  isShowProgress = true;
 
   created() {
     if (Object.keys(this.$route.query).length > 0) {
@@ -161,6 +170,23 @@ export default class SystemPage extends Vue {
 
   get pagination(): PaginationType {
     return this.systemModule.pagination;
+  }
+
+  get userState() {
+    return this.systemModule.currAsyncState;
+  }
+
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.isShowProgress = false;
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
+    }
   }
 
   searchOnClieckEvent() {

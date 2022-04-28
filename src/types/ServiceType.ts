@@ -63,6 +63,75 @@ export const pagination: Pagination = {
   limit: 1,
 };
 
+export const searchServiceListResponse: ServiceResponse[] = [
+  {
+    id: 'KT_COM',
+    nm: 'KT닷컴',
+    tkcgr_nm: '이경민',
+    tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
+    tkcgr_eml: 'km0403.lee@kt.com',
+    sla_type: 'MINITUE',
+    sla_yn: 'total',
+    sla_cnt: 10,
+    svc_st_dt: '2022-04-13 00:00:00',
+    svc_end_dt: '9999-12-31 00:00:00',
+    athn: {
+      BASIC_AUTH: { id: '', pw: '' },
+      JWT: { alg: ['A', 'B', 'C'], issuer: '임꺽정', subject: '홍길등', publickey: 'testKey' },
+    },
+    api_aut: 'admin',
+    desc: 'test',
+    cret_dt: '2022-04-20 17:44:23',
+    upd_dt: '2022-04-20 17:44:23',
+    cret_id: 'AUTH_ADMIN',
+    upd_id: 'AUTH_ADMIN',
+  },
+  {
+    id: 'Safe2go',
+    nm: 'safe2gogogo',
+    tkcgr_nm: '박재원',
+    tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
+    tkcgr_eml: 'parkjaewon@kt.com',
+    sla_yn: 'TPS',
+    sla_type: 'HOUR',
+    sla_cnt: 10,
+    svc_st_dt: '2022-04-13 00:00:00',
+    svc_end_dt: '9999-12-31 00:00:00',
+    athn: {
+      BASIC_AUTH: { id: 'admin', pw: '123123' },
+      JWT: { alg: [], issuer: '', subject: '', publickey: '' },
+    },
+    api_aut: 'admin',
+    desc: 'test',
+    cret_dt: '2022-04-20 17:44:23',
+    upd_dt: '2022-04-20 17:44:23',
+    cret_id: 'AUTH_ADMIN',
+    upd_id: 'AUTH_ADMIN',
+  },
+  {
+    id: 'chanceUp',
+    nm: 'chanceUpService',
+    tkcgr_nm: '최찬섭',
+    tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
+    tkcgr_eml: 'chanceUp@kt.com',
+    sla_yn: 'TPS',
+    sla_type: 'HOUR',
+    sla_cnt: 10,
+    svc_st_dt: '2022-04-13 00:00:00',
+    svc_end_dt: '9999-12-31 00:00:00',
+    athn: {
+      BASIC_AUTH: { id: 'admin', pw: '123123' },
+      JWT: { alg: [], issuer: '', subject: '', publickey: '' },
+    },
+    api_aut: 'admin',
+    desc: 'test',
+    cret_dt: '2022-04-20 17:44:23',
+    upd_dt: '2022-04-20 17:44:23',
+    cret_id: 'AUTH_ADMIN',
+    upd_id: 'AUTH_ADMIN',
+  },
+];
+
 export const serviceListResponse: ServiceResponse[] = [
   {
     id: 'KT_COM',
@@ -138,6 +207,11 @@ export const serviceListData: Data<ServiceResponse[]> = {
   value: serviceListResponse,
 };
 
+export const searchServiceListData: Data<ServiceResponse[]> = {
+  pagination: pagination,
+  value: searchServiceListResponse,
+};
+
 export const serviceData: Data<ServiceResponse> = {
   pagination: pagination,
   value: serviceResponse,
@@ -150,5 +224,10 @@ export const getServiceInfo: GateWayResponse<ServiceResponse[]> = {
 
 export const getServiceId: GateWayResponse<ServiceResponse> = {
   data: serviceData,
+  status: 0,
+};
+
+export const getSearchServiceInfo: GateWayResponse<ServiceResponse[]> = {
+  data: searchServiceListData,
   status: 0,
 };
