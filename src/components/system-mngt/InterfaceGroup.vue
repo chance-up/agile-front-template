@@ -35,9 +35,6 @@
                 </button>
                 <button class="xs-btn" @click="deleteUrl(idx, idx2)" v-else><i class="minus"></i></button>
               </li>
-
-              <!-- <Interface :clickEvent="test" :shape="true" v-model="ifgrp.if_url" />
-              <Interface :clickEvent="test" :shape="false" v-for="(item, idx) in items" :key="idx" /> -->
             </ul>
           </div>
         </div>
@@ -48,8 +45,8 @@
 <script lang="ts">
 import Interface from '@/components/system-mngt/Interface.vue';
 import InputGroup from '@/components/system-mngt/InputGroup.vue';
-import { Component, Prop, PropSync, Vue, Watch } from 'vue-property-decorator';
-import { SystemResponse, IfGrpType } from '@/types/SystemType';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { IfGrpType } from '@/types/SystemType';
 @Component({
   components: {
     Interface,

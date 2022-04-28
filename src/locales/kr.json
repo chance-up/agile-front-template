@@ -73,7 +73,7 @@
     "modify_depth": "시스템 관리",
     "no": "No.",
     "name": "시스템명",
-    "id": "시스템ID",
+    "id": "시스템 ID",
     "tkcgr": "담당자",
     "tkcgrNm": "담당자 이름",
     "tkcgrPos": "소속",
@@ -81,6 +81,11 @@
     "ifGrp": "연동방식",
     "desc": "시스템 설명",
     "update": "Update",
-    "action": "Action"
+    "action": "Action",
+    "valid_check_nm" : "형식에 맞게 입력하세요.(최대 20자, 영어 대/소문자, 숫자만 입력 가능)",
+    "valid_check_id" : "형식에 맞게 입력하세요.(최대 20자, 영어 대/소문자, 숫자만 입력 가능)",
+    "valid_check_tkcgrNm" : "형식에 맞게 입력하세요.(최대 20자, 영어 대/소문자, 숫자만 입력 가능)",
+    "valid_check_tkcgrPos" : "형식에 맞게 입력하세요.(최대 20자, 영어 대/소문자, 숫자만 입력 가능)",
+    "valid_check_tkcgrEml" : "형식에 맞게 입력하세요.(최대 20자, 이메일 형식에 맞게 입력)"
   }
 }
