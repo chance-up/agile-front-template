@@ -59,15 +59,15 @@ export default class HandlerGroupForm extends Vue {
     // console.log('click!!!!!');
     // console.log(e.target);
     // console.log(this.$refs.selectFrom);
-    console.log('click!!!!!');
+    // console.log('click!!!!!');
     if (e.target !== this.$refs.selectRow) {
       if (e.target !== this.$refs.selectFrom) {
         // if (e.target !== this.$refs.selectFrom && this.isSelectOpen == true) {
         //결과 창 닫기
-        console.log('외부클릭함');
+        // console.log('외부클릭함');
         this.isSelectOpen = false;
       } else {
-        console.log('내부클릭함');
+        // console.log('내부클릭함');
       }
     }
   }
