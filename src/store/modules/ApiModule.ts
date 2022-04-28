@@ -1,5 +1,12 @@
 import { GateWayResponse } from '@/types/GateWayResponse';
-import { ApiSearchQuery, apiMockList, ApiDetailResponse, apiMockData, apiMockData2 } from '@/types/ApiType';
+import {
+  ApiSearchQuery,
+  apiMockList,
+  ApiDetailResponse,
+  apiMockData,
+  apiMockData2,
+  dummyDeleteResData,
+} from '@/types/ApiType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import { AxiosClient } from '@/axios/AxiosClient';
@@ -63,6 +70,26 @@ export default class ApiModule extends VuexModule {
   reset() {
     this.context.commit('setApiList', []);
     this.context.commit('setApiDetail', null);
+  }
+
+  // Api 삭제
+
+  // @Mutation
+  @Action
+  async deleteApi(id: string) {
+    try {
+      addMock(`/api/deleteApi/${id}`, JSON.stringify(dummyDeleteResData));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<ApiDetailResponse[]>>(
+        `/api/deleteApi/${id}`
+      );
+      console.log('api delete response: ', response);
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
+      } else {
+        console.log('서버통신에 실패하였습니다.');
+      }
+    }
   }
 }
 

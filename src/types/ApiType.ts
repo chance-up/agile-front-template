@@ -203,3 +203,12 @@ export interface ApiGroupDetail {
   apiGroupDesc: string;
   apiIdList: ApiDetail[];
 }
+
+// delete
+export const dummyDeleteResData = {
+  common: {
+    code: '200',
+    message: 'Success',
+  },
+  data: null,
+};

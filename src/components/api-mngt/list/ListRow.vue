@@ -31,7 +31,7 @@
       <button class="mod-btn" @click="$router.push({ name: 'api-edit', params: { id: apiData.id } })">
         <i>{{ $t('api.edit') }}</i>
       </button>
-      <button class="del-btn">
+      <button class="del-btn" @click="deleteApi(apiData.id)">
         <i>{{ $t('api.delete') }}</i>
       </button>
     </td>
@@ -42,6 +42,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import InputBox from '@/components/api-mngt/search-option/InputBox.vue';
 import SelectBox from '@/components/api-mngt/search-option/SelectBox.vue';
 import { ApiDetailResponse } from '@/types/ApiType';
+import { getModule } from 'vuex-module-decorators';
+import ApiModule from '@/store/modules/ApiModule';
 
 @Component({
   components: {
@@ -52,5 +54,12 @@ import { ApiDetailResponse } from '@/types/ApiType';
 export default class ListRow extends Vue {
   @Prop() public apiData!: ApiDetailResponse | null;
   @Prop() public index!: number;
+
+  apiModule = getModule(ApiModule, this.$store);
+  deleteApi(id: string) {
+    console.log('delete Id: ' + id);
+    this.$modal.show('삭제하시겠습니까?');
+    this.apiModule.deleteApi(id);
+  }
 }
 </script>

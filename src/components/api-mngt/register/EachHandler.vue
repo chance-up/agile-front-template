@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import HandlerModal from '@/components/api-mngt/register/HandlerModal.vue';
-import { ApiDetail, ApiGroupDetail } from '@/types/ApiType';
+import { ApiGroupDetail } from '@/types/ApiType';
 
 @Component({ components: { HandlerModal } })
 export default class EachHandler extends Vue {
