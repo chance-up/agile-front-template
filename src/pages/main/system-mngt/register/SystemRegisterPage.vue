@@ -58,7 +58,6 @@ import Interface from '@/components/system-mngt/Interface.vue';
 import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import TextDebounceForm from '@/components/system-mngt/TextDebounceForm.vue';
 import { SystemResponse } from '@/types/SystemType';
-import VALIDATION_TYPE from '@/utils/validationType';
 
 @Component({
   components: {
@@ -77,7 +76,6 @@ export default class SystemRegisterPage extends Vue {
   // 4. 중복 검사에 필요한 메서드는 InputGroup에 prop으로 넘겨준다.
 
   //
-  VALIDATION_TYPE = VALIDATION_TYPE;
 
   systemModule = getModule(SystemModule, this.$store);
 
