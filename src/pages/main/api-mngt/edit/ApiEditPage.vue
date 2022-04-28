@@ -13,8 +13,8 @@
 
         <SelectSysForm groupNm="시스템 연동 정보" :optionList="system.if_grp" v-model="requestBody.ifGrp" />
 
-        <HandlerGroupForm groupNm="요청 handler 그룹" v-model="requestBody.reqHandlrGrpId" />
-        <HandlerGroupForm groupNm="응답 handler 그룹" v-model="requestBody.resHandlrGrpId" />
+        <HandlerGroupForm groupNm="요청 handler 그룹" v-model="requestBody.reqHandlrGrpId" :handlerGroupList="[]" />
+        <HandlerGroupForm groupNm="응답 handler 그룹" v-model="requestBody.resHandlrGrpId" :handlerGroupList="[]" />
         <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
         <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
       </ul>

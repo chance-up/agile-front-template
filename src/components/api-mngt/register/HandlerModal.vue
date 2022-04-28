@@ -1,5 +1,5 @@
 <template>
-  <ModalLayout>
+  <ModalLayout size="l">
     <template v-slot:modalHeader>
       <h1 class="h1-tit">{{ eachApiGroup.apiGroupNm }}</h1>
       <button @click="$emit('close')">
@@ -52,7 +52,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import HoverModal from '@/components/api-mngt/register/HoverModal.vue';
-import { ApiGroupDetail } from '@/types/ApiType';
+import { HandlerGroupDetail } from '@/types/ApiType';
 
 import HoverLayout from '@/components/commons/modal/HoverLayout.vue';
 
@@ -66,7 +66,7 @@ import HoverLayout from '@/components/commons/modal/HoverLayout.vue';
 export default class HandlerModal extends Vue {
   showHoverModal = false;
   check = false;
-  @Prop() public eachApiGroup!: ApiGroupDetail;
+  @Prop() public eachApiGroup!: HandlerGroupDetail;
   handleMouseOut() {
     if (this.showHoverModal) {
       this.showHoverModal = false;

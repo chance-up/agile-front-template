@@ -24,7 +24,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { dummySystemList, dummySystemInfList } from '@/types/ApiType';
+import { dummySystemList, dummySystemInfList, HandlerGroupDetail } from '@/types/ApiType';
 import EachHandler from '@/components/api-mngt/register/EachHandler.vue';
 
 import { dummyHandlerGroupIdList } from '@/types/ApiType';
@@ -36,7 +36,7 @@ import { dummyHandlerGroupIdList } from '@/types/ApiType';
 })
 export default class HandlerGroupForm extends Vue {
   @Prop() groupNm!: string | null;
-  @Prop({ default: () => [] }) handlerGroupIdList!: string[] | null;
+  @Prop({ default: () => [] }) handlerGroupList!: HandlerGroupDetail[];
 
   get dummyHandlerGroupIdList(): string[] {
     return dummyHandlerGroupIdList;
