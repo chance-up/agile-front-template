@@ -3,35 +3,42 @@
     <template v-slot:contents>
       <ul>
         <InputGroup
+          type="text"
           inputNm="서비스명"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
-          v-model="formData.nm"
+          :value.sync="formData.nm"
+          @input="duplicateCheckId"
         />
         <InputGroup
+          type="text"
           inputNm="서비스 ID"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
-          v-model="formData.id"
+          :value.sync="formData.id"
+          @input="duplicateCheckNm"
         />
         <InputGroup
+          type="text"
           inputNm="담당자 이름"
           placeholder="placeholder"
           validCheck="중복된 API ID 입니다."
           inputClass="input-box lg check-false"
-          v-model="formData.tkcgr_nm"
+          :value.sync="formData.tkcgr_nm"
         />
         <InputGroup
+          type="text"
           inputNm="소속"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
-          v-model="formData.tkcgr_pos"
+          :value.sync="formData.tkcgr_pos"
         />
         <InputGroup
+          type="text"
           inputNm="E-mail"
           placeholder="placeholder"
           inputClass="input-box lg check-ok"
-          v-model="formData.tkcgr_eml"
+          :value.sync="formData.tkcgr_eml"
         />
         <DateGroup
           inputNm="서비스 기간"
@@ -146,6 +153,15 @@ export default class SystemRegisterPage extends Vue {
     } else {
       return;
     }
+  }
+
+  isDuplicatedId: boolean | null = null;
+  async duplicateCheckId() {
+    this.isDuplicatedId = await this.serviceModule.duplicateCheck(this.formData.id);
+  }
+  isDuplicatedNm: boolean | null = null;
+  async duplicateCheckNm() {
+    this.isDuplicatedNm = await this.serviceModule.duplicateCheck(this.formData.nm);
   }
 }
 </script>
