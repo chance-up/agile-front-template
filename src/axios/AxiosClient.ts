@@ -21,7 +21,7 @@ export class AxiosClient {
       });
 
       if (isMockData(url)) {
-        await this.sleep(3000);
+        await this.sleep(1000);
         return JSON.parse(response.data);
       } else {
         return response.data;
@@ -40,7 +40,7 @@ export class AxiosClient {
     try {
       const response: AxiosResponse = await axios.post<T>(url, data);
       if (isMockData(url)) {
-        await this.sleep(3000);
+        await this.sleep(1000);
         return JSON.parse(response.data);
       } else {
         return response.data;
@@ -59,7 +59,7 @@ export class AxiosClient {
     try {
       const response: AxiosResponse = await axios.put<T>(url, data);
       if (isMockData(url)) {
-        await this.sleep(3000);
+        await this.sleep(1000);
         return JSON.parse(response.data);
       } else {
         return response.data;
@@ -80,7 +80,7 @@ export class AxiosClient {
         params: query,
       });
       if (isMockData(url)) {
-        await this.sleep(3000);
+        await this.sleep(1000);
         return JSON.parse(response.data);
       } else {
         return response.data;

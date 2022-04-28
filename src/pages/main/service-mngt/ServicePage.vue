@@ -59,7 +59,13 @@
               <th>{{ $t('service.action') }}</th>
             </tr>
           </thead>
-
+          <div class="text-center">
+            <b-spinner
+              v-show="isShowProgress"
+              style="width: 2rem; height: 2rem; position: absolute; left: 50%"
+              label="Large Spinner"
+            ></b-spinner>
+          </div>
           <tbody>
             <tr v-for="(list, index) in listOption" :key="index">
               <td>{{ index + 1 }}</td>
@@ -122,7 +128,7 @@ export default class ServiceManagementPage extends Vue {
     id: '',
     tkcgr_nm: '',
   };
-  isShowProgress = false;
+  isShowProgress = true;
 
   serviceModule = getModule(ServiceModule, this.$store);
 
@@ -157,8 +163,8 @@ export default class ServiceManagementPage extends Vue {
       this.searchData.nm = this.$route.query.nm as string;
       this.searchData.id = this.$route.query.id as string;
       this.searchData.tkcgr_nm = this.$route.query.tkcgr_nm as string;
-      this.serviceModule.getServiceList();
-      // this.systemModule.getSystemList(this.searchData);
+      // this.serviceModule.getServiceList();
+      this.serviceModule.getServiceList(this.searchData);
     } else {
       // this.target = this.selectOptions[0].value;
       this.serviceModule.getServiceList();
@@ -173,13 +179,12 @@ export default class ServiceManagementPage extends Vue {
   onCurrAsyncStateChange(userState: USER_STATE) {
     console.log('userState : ', userState);
     if (userState === USER_STATE.LOADING) {
-      // this.$modal.show('서버 통신 중');
       this.isShowProgress = true;
     } else if (userState === USER_STATE.ERROR) {
+      this.isShowProgress = false;
       this.$modal.show('서버 통신 에러');
     } else if (userState === USER_STATE.DONE) {
       this.isShowProgress = false;
-      // this.$modal.hide();
     }
   }
 
