@@ -45,7 +45,10 @@
           :endDt.sync="formData.svc_end_dt"
         />
         <AuthReqGroup
+          @basicAuthClicked="basicAuthClicked"
           inputNm="인증수단"
+          :basicId="basicAuth.id"
+          :basicPW="basicAuth.pw"
           :athn.sync="show"
           :id.sync="formData.athn.BASIC_AUTH.id"
           :pw.sync="formData.athn.BASIC_AUTH.pw"
@@ -81,7 +84,7 @@ import SlaReqGroup from '@/components/service-mngt/SlqReqGroup.vue';
 import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
-import { ServiceRegisterRequest } from '@/types/ServiceType';
+import { BasicAuthResponse, ServiceRegisterRequest } from '@/types/ServiceType';
 import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
 @Component({
   components: {
@@ -177,6 +180,14 @@ export default class SystemRegisterPage extends Vue {
       console.log(this.formData.id);
       this.isDuplicatedId = await this.serviceModule.duplicateCheck(this.formData.id);
     }, 1000);
+  }
+
+  basicAuthClicked() {
+    this.serviceModule.getBasicAuth();
+  }
+
+  get basicAuth(): BasicAuthResponse {
+    return this.serviceModule.basicAuth;
   }
 }
 </script>
