@@ -241,4 +241,12 @@ export default class ServiceModule extends GateWayModule {
       }
     }
   }
+
+  // Service ID 중복 체크
+  @Action
+  async duplicateCheck(id: string): Promise<boolean> {
+    addMock(`/system/detail/${id}`, JSON.stringify(getServiceId));
+    const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>(`/service/detail/${id}`);
+    return true;
+  }
 }
