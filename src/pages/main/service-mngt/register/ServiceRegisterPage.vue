@@ -156,12 +156,11 @@ export default class SystemRegisterPage extends Vue {
   isDuplicatedId: boolean | null = null;
   duplicateCheckId() {
     if (this.timerId) {
-      console.log('ㅎㅇㅎㅇ');
       clearTimeout(this.timerId);
     }
     this.timerId = setTimeout(async () => {
       console.log('id 입력 1초 경과');
-      console.log(this.formData);
+      console.log(this.formData.id);
       this.isDuplicatedId = await this.serviceModule.duplicateCheck(this.formData.id);
     }, 3000);
   }
@@ -170,11 +169,11 @@ export default class SystemRegisterPage extends Vue {
   isDuplicatedNm: boolean | null = null;
   duplicateCheckNm() {
     if (this.timerNm) {
-      clearTimeout(this.timerId);
+      clearTimeout(this.timerNm);
     }
     this.timerNm = setTimeout(async () => {
       console.log('서비스명 입력 1초 경과');
-      console.log(this.formData);
+      console.log(this.formData.nm);
       this.isDuplicatedNm = await this.serviceModule.duplicateCheck(this.formData.nm);
     }, 3000);
   }
