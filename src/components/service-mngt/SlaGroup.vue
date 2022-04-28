@@ -1,13 +1,23 @@
 <template>
   <li>
     <label class="label">{{ inputNm }}</label>
-    <div class="form-cont">
-      <!-- 총량 -->
+    <div v-if="SLAn == 'total'" class="form-cont">
       <div class="form-group sla-form">
-        <span class="bold">{{ SLAn }}</span
-        ><span>{{ term }}</span
-        >/<span>{{ count }}</span
+        <span class="bold">총량</span><span v-if="term == 'MINITUE'">분</span> <span v-if="term == 'HOUR'">시간</span
+        ><span v-if="term == 'DAY'">일</span><span v-if="term == 'MONTH'">월</span>/<span>{{ totalCount }}</span
         >건
+      </div>
+    </div>
+    <div v-if="SLAn == 'TPS'" class="form-cont">
+      <div class="form-group sla-form">
+        <span class="bold mr15">TPS</span><span>{{ TPSCount }}</span
+        >건
+      </div>
+    </div>
+
+    <div v-if="SLAn == 'none'" class="form-cont">
+      <div class="form-group sla-form">
+        <span>none</span>
       </div>
     </div>
   </li>
@@ -20,6 +30,7 @@ export default class InfoGroup extends Vue {
   @Prop() public inputNm!: string | null;
   @Prop() public SLAn!: string | null;
   @Prop() public term!: string | null;
-  @Prop() public count!: string | null;
+  @Prop() public totalCount!: string | null;
+  @Prop() public TPSCount!: string | null;
 }
 </script>

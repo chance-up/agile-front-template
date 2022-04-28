@@ -59,11 +59,20 @@
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
         ></AuthReqGroup>
+        <li>
+          <label class="label point">API 권한관리</label>
+          <div class="form-cont">
+            <div class="form-group"></div>
+
+            <div class="form-group"></div>
+          </div>
+        </li>
         <SlaReqGroup
           inputNm="SLA 정책관리"
           :SLAn.sync="formData.sla_yn"
-          :type="formData.sla_type"
-          :count="formData.sla_cnt"
+          :type.sync="formData.sla_type"
+          :totalCnt.sync="formData.sla_cnt"
+          :TPSCnt.sync="formData.sla_cnt"
         />
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
       </ul>

@@ -9,42 +9,59 @@
         </select>
       </div>
 
-      <div v-if="auth == 'BASIC_AUTH'" class="form-group auth-group">
+      <div v-if="auth == 'BASIC_AUTH'" class="domain-wrap">
         <!-- Basic Auth -->
-        <div class="auth-form">
-          <label class="label">ID :</label>
-          <input type="text" id="" class="input-box" placeholder="자동생성/변경불가" disabled v-model="basicId" />
-          <button @click="clicked" class="sm-btn">
-            <i><img src="@/assets/reserve.svg" alt="재발급" /></i>
-          </button>
-        </div>
-        <div class="auth-form">
-          <label class="label">PW :</label>
-          <input type="text" id="" class="input-box" placeholder="자동생성/변경불가" disabled v-model="basicPW" />
-        </div>
+        <ul class="domain-list lg">
+          <li>
+            <div class="auth-form">
+              <label class="label">ID :</label>
+              <input type="text" id="" class="input-box" placeholder="자동생성/변경불가" disabled v-model="basicId" />
+              <button @click="clicked" class="xs-btn">
+                <i class="serve"></i>
+                <!-- <BSpinner v-show="isShowProgress" style="width: 2rem; height: 2rem" label="Large Spinner"></BSpinner> -->
+              </button>
+            </div>
+          </li>
+          <li>
+            <div class="auth-form">
+              <label class="label">PW :</label>
+              <input type="text" id="" class="input-box" placeholder="자동생성/변경불가" disabled v-model="basicPW" />
+            </div>
+          </li>
+        </ul>
       </div>
       <!-- // Basic Auth -->
       <!-- JWT -->
-      <div v-if="auth == 'JWT'" class="form-group auth-group">
-        <div class="auth-form">
-          <label class="label">알고리즘 :</label>
-          <select class="select-box" v-model="show">
-            <option value="init">선택해주세요</option>
-            <option v-for="item in JWTalg" :key="item" :value="item">{{ item }}</option>
-          </select>
-        </div>
-        <div class="auth-form">
-          <label class="label">발급자 :</label>
-          <input type="text" id="" class="input-box" placeholder="" v-model="JWTissuer" />
-        </div>
-        <div class="auth-form">
-          <label class="label">대상자 :</label>
-          <input type="text" id="" class="input-box" placeholder="" v-model="JWTsubject" />
-        </div>
-        <div class="auth-form">
-          <label class="label">공개key :</label>
-          <textarea class="textarea" v-model="JWTpublicKey"></textarea>
-        </div>
+      <div v-if="auth == 'JWT'" class="domain-wrap">
+        <ul class="domain-list lg">
+          <li>
+            <div class="auth-form">
+              <label class="label">알고리즘 :</label>
+              <select class="select-box" v-model="show">
+                <option value="init">선택해주세요</option>
+                <option v-for="item in JWTalg" :key="item" :value="item">{{ item }}</option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <div class="auth-form">
+              <label class="label">발급자 :</label>
+              <input type="text" id="" class="input-box" placeholder="" v-model="JWTissuer" />
+            </div>
+          </li>
+          <li>
+            <div class="auth-form">
+              <label class="label">대상자 :</label>
+              <input type="text" id="" class="input-box" placeholder="" v-model="JWTsubject" />
+            </div>
+          </li>
+          <li>
+            <div class="auth-form">
+              <label class="label">공개key :</label>
+              <textarea class="textarea" v-model="JWTpublicKey"></textarea>
+            </div>
+          </li>
+        </ul>
       </div>
       <!-- /JWT -->
     </div>
@@ -52,18 +69,23 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-@Component
+import { BSpinner } from 'bootstrap-vue';
+@Component({
+  components: {
+    BSpinner,
+  },
+})
 export default class AuthReqGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
   @Prop({ default: '' }) athn!: string;
-  @Prop({ default: '' }) id!: string;
-  @Prop({ default: '' }) pw!: string;
   @Prop({ default: () => [] }) alg!: string[];
   @Prop({ default: '' }) issuer!: string;
   @Prop({ default: '' }) subject!: string;
   @Prop({ default: '' }) publicKey!: string;
   @Prop() basicId!: string;
   @Prop() basicPW!: string;
+  @Prop() isShowProgress!: boolean;
+
   show = 'init';
 
   get auth() {
@@ -71,20 +93,6 @@ export default class AuthReqGroup extends Vue {
   }
   set auth(val: string) {
     this.$emit('update:athn', val);
-  }
-
-  get BAid() {
-    return this.id;
-  }
-  set BAid(val: string) {
-    this.$emit('update:id', val);
-  }
-
-  get BApw() {
-    return this.pw;
-  }
-  set BApw(val: string) {
-    this.$emit('update:pw', val);
   }
 
   get JWTalg() {
