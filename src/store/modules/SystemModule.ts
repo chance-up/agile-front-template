@@ -1,4 +1,4 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
+import { Module, Mutation, Action } from 'vuex-module-decorators';
 
 import { AxiosClient } from '@/axios/AxiosClient';
 import { addMock } from '@/axios/AxiosIntercept';
