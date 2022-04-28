@@ -118,9 +118,14 @@ export default class ModalLayout extends Vue {
 .pop-footer {
   position: relative;
   text-align: center;
-  text-align: center;
-  padding: 0px 20px;
+  padding: 20px 20px 0px 20px;
+  border-top: 1px #ddd solid;
 }
+.pop-footer .lg-btn {
+  padding: 12px 20px;
+  margin-right: 10px;
+}
+
 .pop-container {
   width: auto;
   padding: 30px 0px;
