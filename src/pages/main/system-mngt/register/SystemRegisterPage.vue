@@ -16,7 +16,7 @@
         <TextDebounceForm
           type="text"
           :check="isDuplicated"
-          :value.sync="systemItem.id"
+          :v-model="systemItem.id"
           :inputNm="$t('system.id')"
           :place="$t('system.id')"
           @input="duplicateCheck"

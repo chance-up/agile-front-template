@@ -63,11 +63,21 @@ export default class InterfaceGroup extends Vue {
   @Prop({ default: () => [] }) ifgrps!: IfGrpType[];
 
   notiMessage: [boolean | null, string][] = [[null, '']];
+  duplCheck(val: string) {
+    const ifgrpList = this.ifgrps.filter((ifgrp) => ifgrp.if_nm === val);
+    if (ifgrpList.length > 1) {
+      this.notiMessage[this.ifgrps.length] = [false, '중복된 이름이 있습니다.'];
+    } else {
+      this.notiMessage[this.ifgrps.length] = [true, ''];
+    }
+  }
 
   validCheck(idx: number) {
-    console.log(idx);
+    console.log(this.ifgrps.length);
     console.log(this.ifgrps[idx].if_nm);
     let val = this.ifgrps[idx].if_nm;
+    this.duplCheck(val);
+
     if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
       this.notiMessage[idx] = [true, ''];
     } else if (val == '') {

@@ -170,7 +170,6 @@ export default class SystemModule extends VuexModule {
     addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
     const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
     console.log('response : ', response);
-    //return response;
-    return true;
+    return false;
   }
 }
