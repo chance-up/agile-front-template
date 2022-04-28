@@ -94,6 +94,7 @@
     "valid_check_id" : "형식에 맞게 입력하세요.(최대 20자, 영문, 숫자만 입력 가능)",
     "valid_check_tkcgrNm" : "형식에 맞게 입력하세요.(최대 20자, 영문/한글만 입력 가능)",
     "valid_check_tkcgrPos" : "형식에 맞게 입력하세요.(최대 20자)",
-    "valid_check_tkcgrEml" : "형식에 맞게 입력하세요.(최대 20자, 이메일 형식에 맞게 입력)"
+    "valid_check_tkcgrEml" : "형식에 맞게 입력하세요.(최대 20자, 이메일 형식에 맞게 입력)",
+    "valid_check_ifgrp_nm" : "형식에 맞게 입력하세요.(최대 20자, 영문, 숫자만 입력 가능)"
   }
 }

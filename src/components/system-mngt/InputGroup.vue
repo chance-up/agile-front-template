@@ -18,7 +18,7 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, PropSync, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { checkEmail, checkLength, checkEnglishNumber, checkEnglishKorean } from '@/utils/validation';
 
 @Component
@@ -45,6 +45,8 @@ export default class InputGroup extends Vue {
       case this.$t('system.name'):
         if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
           this.notiMessage = [true, ''];
+        } else if (val == '') {
+          this.notiMessage = [null, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_nm') as string];
         }
@@ -52,6 +54,8 @@ export default class InputGroup extends Vue {
       case this.$t('system.tkcgrNm'):
         if (checkLength(val, 1, 20) && checkEnglishKorean(val)) {
           this.notiMessage = [true, ''];
+        } else if (val == '') {
+          this.notiMessage = [null, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrNm') as string];
         }
@@ -59,6 +63,8 @@ export default class InputGroup extends Vue {
       case this.$t('system.tkcgrPos'):
         if (checkLength(val, 1, 20)) {
           this.notiMessage = [true, ''];
+        } else if (val == '') {
+          this.notiMessage = [null, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrPos') as string];
         }
@@ -66,6 +72,8 @@ export default class InputGroup extends Vue {
       case this.$t('system.tkcgrEml'):
         if (checkLength(val, 1, 20) && checkEmail(val)) {
           this.notiMessage = [true, ''];
+        } else if (val == '') {
+          this.notiMessage = [null, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrEml') as string];
         }
