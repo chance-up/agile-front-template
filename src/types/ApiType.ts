@@ -103,7 +103,7 @@ export const apiMockData2: ApiDetailResponse = {
   meth: '["DELETE", "PUT"]',
   uriIn: '/CAPRI/v1/getCustInfo22',
   uriOut: '/CAPRI/v1/getCustInfo22',
-  ifGrp: 'authentication',
+  ifGrp: 'service',
   reqHandlrGrpId: 'REQ.DEFAULT',
   resHandlrGrpId: 'RES.DEFAULT',
   timeOut: 5000,

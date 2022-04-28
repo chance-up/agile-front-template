@@ -54,7 +54,6 @@ export default class ApiModule extends VuexModule {
     // param 체크
     addMock('/api/detail', JSON.stringify(id == apiMockData.id ? apiMockData : apiMockData2));
     const response = await AxiosClient.getInstance().get<ApiDetailResponse>('/api/detail', { id });
-    console.log(response);
     if (typeof response.meth == 'string') response.meth = JSON.parse(response.meth);
     return response;
   }

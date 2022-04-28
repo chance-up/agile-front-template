@@ -1,110 +1,87 @@
-<template>
-  <ContentLayout
-    :title="`${$t('api.api')}` + ' ' + `${$t('api.information')}` + ' ' + `${$t('api.edit')}`"
-    :subTitle="`${$t('api.basic')}` + `${$t('api.information')}` + ' ' + `${$t('api.edit')}`"
-    :depth="`${$t('api.api')}` + `${$t('api.management')}`"
-  >
+<template lang="html">
+  <ContentLayout title="API 정보 수정" subTitle="기본정보 수정" depth="API 관리">
     <template v-slot:contents>
-      <ul v-if="mockData">
-        <EditInputSelectGroup
-          :inputNm="`${$t('api.system')}` + `${$t('api.name')}`"
-          :inputCondition="false"
-          :selectCondition="true"
-          cssClass="select-box disable"
-          :options="['선택해주세요', '시스템2', '시스템3']"
-          :point="true"
-          :disabled="true"
-        />
-        <EditInputSelectGroup
-          :point="true"
-          :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.id')}`"
-          :inputCondition="true"
-          :selectCondition="false"
-          cssClass="input-box lg"
-          place="placeholder"
-          :disabled="true"
-          :value="mockData.id"
-        />
-        <EditInputSelectGroup
-          :point="true"
-          :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.name')}`"
-          :inputCondition="true"
-          :selectCondition="false"
-          cssClass="input-box lg"
-          place="placeholder"
-          :disabled="true"
-          :value="mockData.nm"
-        />
-        <EditInputSelectGroup
-          :point="true"
-          :inputNm="`${$t('api.interface')}` + ' ' + `${$t('api.number')}`"
-          :inputCondition="true"
-          :selectCondition="false"
-          cssClass="input-box lg"
-          place="시스템명_버전_API ID"
-          :disabled="true"
-          :value="mockData.ifNo"
-        />
-        <EditMethodGroup />
-        <EditURIGroup />
-        <EditInputSelectGroup
-          :point="true"
-          :inputNm="`${$t('api.system')}` + ' ' + `${$t('api.interlock')}` + ' ' + `${$t('api.information')}`"
-          :inputCondition="false"
-          :selectCondition="true"
-          cssClass="select-box"
-          :options="['시스템 등록에서 설정한 값', '시스템2', '시스템3']"
-          :disabled="false"
-        />
-        <EditRequestHandler />
-        <EditResponseHandler />
-        <EditInputSelectGroup
-          :point="true"
-          :inputNm="`${$t('api.timeOutMS')}`"
-          timeOutMS
-          :inputCondition="true"
-          :selectCondition="false"
-          cssClass="input-box lg check-ok"
-          place="number"
-          :disabled="false"
-          :value="mockData.timeOut"
-        />
-        <EditTextAreaGroup :inputNm="`${$t('api.system')}` + ' ' + `${$t('api.description')}`" :point="false" />
+      <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
+      <ul>
+        <TextForm groupNm="시스템명" type="text" :required="true" v-model="requestBody.sysNm" :disabled="true" />
+        <TextForm groupNm="API ID" type="text" :required="true" v-model="requestBody.id" :disabled="true" />
+        <TextForm groupNm="API 명" type="text" :required="true" v-model="requestBody.nm" :disabled="true" />
+        <TextForm groupNm="인터페이스 번호" type="text" :required="true" :disabled="true" v-model="requestBody.ifNo" />
+
+        <MethodForm groupNm="Method" v-model="requestBody.meth" />
+        <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" />
+
+        <SelectSysForm groupNm="시스템 연동 정보" :optionList="system.if_grp" v-model="requestBody.ifGrp" />
+
+        <HandlerGroupForm groupNm="요청 handler 그룹" v-model="requestBody.reqHandlrGrpId" />
+        <HandlerGroupForm groupNm="응답 handler 그룹" v-model="requestBody.resHandlrGrpId" />
+        <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
+        <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
       </ul>
     </template>
+
     <template v-slot:buttons>
-      <EditButtonGroup v-if="mockData" :id="mockData.id" />
+      <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
+      <div class="btn-wrap">
+        <button class="lg-btn purple-btn" @click="handleClickSubmitButton">수정테스트</button>
+        <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">수정</button>
+        <button class="lg-btn white-btn" @click="$router.go(-1)">취소</button>
+      </div>
     </template>
   </ContentLayout>
 </template>
+
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-import EditInputSelectGroup from '@/components/api-mngt/edit/EditInputSelectGroup.vue';
-import EditTextAreaGroup from '@/components/api-mngt/edit/EditTextAreaGroup.vue';
-// import { DummySystemResponse, dummyData } from '@/types/SystemType';
-import EditMethodGroup from '@/components/api-mngt/edit/EditMethodGroup.vue';
-import EditURIGroup from '@/components/api-mngt/edit/EditURIGroup.vue';
-import EditRequestHandler from '@/components/api-mngt/edit/EditRequestHandler.vue';
-import EditResponseHandler from '@/components/api-mngt/edit/EditResponseHandler.vue';
-import EditButtonGroup from '@/components/api-mngt/edit/EditButtonGroup.vue';
-import { ApiCreateRequestBody, ApiDetailResponse } from '@/types/ApiType';
-import ApiModule from '@/store/modules/ApiModule';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { dummySystemList, dummySystemInfList, ApiCreateRequestBody } from '@/types/ApiType';
+import HandlerGroupForm from '@/components/api-mngt/register/HandlerGroupForm.vue';
+import SelectForm from '@/components/api-mngt/register/SelectForm.vue';
+import SelectSysForm from '@/components/api-mngt/register/SelectSysForm.vue';
+import TextForm from '@/components/api-mngt/register/TextForm.vue';
+import MethodForm from '@/components/api-mngt/register/MethodForm.vue';
+import UriForm from '@/components/api-mngt/register/UriForm.vue';
+import TextDebounceForm from '@/components/api-mngt/register/TextDebounceForm.vue';
+import ApiModule, { apiValidationCheck } from '@/store/modules/ApiModule';
+import { Dictionary } from 'vue-router/types/router';
+import { IfGrpType, SystemResponse } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
+import SystemModule from '@/store/modules/SystemModule';
 @Component({
   components: {
     ContentLayout,
-    EditTextAreaGroup,
-    EditInputSelectGroup,
-    EditMethodGroup,
-    EditURIGroup,
-    EditRequestHandler,
-    EditResponseHandler,
-    EditButtonGroup,
+    HandlerGroupForm,
+    SelectForm,
+    TextForm,
+    TextDebounceForm,
+    MethodForm,
+    UriForm,
+    SelectSysForm,
   },
 })
 export default class ApiEditPage extends Vue {
   apiModule = getModule(ApiModule, this.$store);
+  systemModule = getModule(SystemModule, this.$store);
+  get dummySystemList(): string[] {
+    return dummySystemList;
+  }
+  get dummySystemInfList(): string[] {
+    return dummySystemInfList;
+  }
+  get params(): Dictionary<string> | null {
+    console.log(this.$route.params);
+    return this.$route.params;
+  }
+  get apiDetail(): ApiCreateRequestBody | null {
+    return this.apiModule.apiDetail;
+  }
+  get system(): SystemResponse {
+    return this.systemModule.system;
+  }
+  created() {
+    this.apiModule.getApiDetail(this.$route.params.id);
+  }
+
   requestBody: ApiCreateRequestBody = {
     sysId: '',
     sysNm: '',
@@ -120,34 +97,39 @@ export default class ApiEditPage extends Vue {
     timeOut: 0,
     desc: '',
   };
-  created() {
-    this.apiModule.getApiDetail(this.$route.params.id);
-  }
-  get mockData(): ApiDetailResponse | null {
-    return this.apiModule.apiDetail;
-  }
-  @Watch('mockData')
-  onMockDataChange(val: ApiDetailResponse | null) {
-    if (val) {
-      this.requestBody.sysId = val.sysId;
-      this.requestBody.sysNm = val.sysNm;
-      this.requestBody.id = val.id;
-      this.requestBody.nm = val.nm;
-      this.requestBody.ifNo = val.ifNo;
-      this.requestBody.meth = val.meth;
-      this.requestBody.uriIn = val.uriIn;
-      this.requestBody.uriOut = val.uriOut;
-      this.requestBody.ifGrp = val.ifGrp;
-      this.requestBody.reqHandlrGrpId = val.reqHandlrGrpId;
-      this.requestBody.resHandlrGrpId = val.resHandlrGrpId;
-      this.requestBody.timeOut = val.timeOut;
-      this.requestBody.desc = val.desc;
+
+  @Watch('apiDetail')
+  onApiDetailChange() {
+    if (this.apiDetail) {
+      this.requestBody = {
+        sysId: this.apiDetail.sysId,
+        sysNm: this.apiDetail.sysNm,
+        id: this.apiDetail.id,
+        nm: this.apiDetail.nm,
+        ifNo: this.apiDetail.ifNo,
+        meth: this.apiDetail.meth,
+        uriIn: this.apiDetail.uriIn,
+        uriOut: this.apiDetail.uriOut,
+        ifGrp: this.apiDetail.ifGrp,
+        reqHandlrGrpId: this.apiDetail.reqHandlrGrpId,
+        resHandlrGrpId: this.apiDetail.resHandlrGrpId,
+        timeOut: this.apiDetail.timeOut,
+        desc: this.apiDetail.desc,
+      };
+      this.systemModule.getSystemDetail(this.apiDetail.sysId);
     }
   }
 
-  destroyed() {
-    this.apiModule.reset();
+  handleClickSubmitButton() {
+    // this.$modal.show(this.convertToString(this.requestBody) + '\n 등록하시겠습니까?');
+    confirm(this.convertToString(this.requestBody) + '\n 수정하시겠습니까?');
+  }
+  convertToString(body: ApiCreateRequestBody) {
+    let res = '';
+    Object.keys(body).forEach((key) => {
+      res += `${key} : ${body[key]}\n`;
+    });
+    return res;
   }
 }
 </script>
-<style lang=""></style>
