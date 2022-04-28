@@ -51,7 +51,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
-import HoverModal from '@/components/commons/modal/HoverModal.vue';
+import HoverModal from '@/components/api-mngt/register/HoverModal.vue';
 import { ApiDetail, ApiGroupDetail } from '@/types/ApiType';
 
 import HoverLayout from '@/components/commons/modal/HoverLayout.vue';

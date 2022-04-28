@@ -6,8 +6,14 @@
           <MainHeader></MainHeader>
           <router-view />
           <MainFooter></MainFooter>
-          <ModalLayout v-if="showAlert" :alert="true" errorDesc="에러내용입니다!" @close="showAlert = false">
-            <template v-slot:modalContainer> {{ message }} </template>
+          <ModalLayout
+            v-if="showAlert"
+            :alert="true"
+            errorTitle="에러발생"
+            :errorDesc="message"
+            @close="showAlert = false"
+          >
+            <!-- <template v-slot:modalContainer> {{ message }} </template> -->
           </ModalLayout>
         </div>
       </div>

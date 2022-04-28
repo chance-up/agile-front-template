@@ -2,7 +2,7 @@
   <div>
     <transition name="modalLayout">
       <!------- handler pop -------->
-      <div class="pop-wrap">
+      <div :class="{ 'pop-wrap': true }">
         <div class="pop-header">
           <slot name="modalHeader" />
         </div>
@@ -18,7 +18,7 @@
 
     <transition v-if="alert" name="alertLayout">
       <!------- handler pop -------->
-      <div class="pop-wrap">
+      <div :class="{ 'pop-wrap': true }">
         <div class="pop-header">
           <slot name="modalHeader" />
           <h1 class="h1-tit">{{ errorTitle }}</h1>
@@ -49,6 +49,7 @@ export default class ModalLayout extends Vue {
   @Prop({ default: false }) alert!: boolean;
   @Prop() errorTitle!: string;
   @Prop() errorDesc!: string;
+  @Prop() size!: string;
 }
 </script>
 <style>

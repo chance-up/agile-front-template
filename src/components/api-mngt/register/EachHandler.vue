@@ -27,7 +27,8 @@ export default class EachHandler extends Vue {
   created() {
     this.apiGroup = {
       apiGroupId: 1,
-      apiGroupNm: 'API & Login Authentication Group Name',
+      // apiGroupNm: 'API & Login Authentication Group Name',
+      apiGroupNm: this.handlerGroupId as string,
       apiGroupDesc: 'API & Login Authentication Group Desc',
       apiIdList: [
         {

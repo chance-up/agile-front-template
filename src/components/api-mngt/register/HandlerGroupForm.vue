@@ -9,26 +9,6 @@
         <div class="select-form" :class="{ none: !isSelectOpen }">
           <!--  dropdown시 block class 추가-->
           <ul>
-            <li>
-              <span @click="handleOnClickGroup">API & Login Authentication Group</span>
-              <p class="multi-btn" @click="handleOnClickGroupDetail"></p>
-            </li>
-            <!-- <li>
-              <span>API & Login Authentication 2</span>
-              <p class="multi-btn"></p>
-            </li>
-            <li>
-              <span>API & Login Authentication 3</span>
-              <p class="multi-btn"></p>
-            </li>
-            <li>
-              <span>API & Login Authentication 4</span>
-              <p class="multi-btn"></p>
-            </li> -->
-            <li>
-              <span>이거 이후로 eachhandler component</span>
-              <p class="multi-btn"></p>
-            </li>
             <EachHandler
               :handlerGroupId="dummyHandlerGroupId"
               v-for="(dummyHandlerGroupId, index) in dummyHandlerGroupIdList"
@@ -44,9 +24,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { dummySystemList, dummySystemInfList } from '@/types/ApiType';
-
-//
-import EachHandler from '@/components/commons/modal/EachHandler.vue';
+import EachHandler from '@/components/api-mngt/register/EachHandler.vue';
 
 import { dummyHandlerGroupIdList } from '@/types/ApiType';
 
