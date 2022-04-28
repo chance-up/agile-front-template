@@ -4,7 +4,7 @@
     :subTitle="$t('system.detail_cont_title')"
     :depth="$t('system.detail_depth')"
   >
-    <template v-slot:contents>
+    <template v-if="!isShowProgress" v-slot:contents>
       <ul>
         <InfoGroup :inputNm="$t('system.name')" :value="systemItem.nm" />
         <InfoGroup :inputNm="$t('system.id')" :value="systemItem.id" />
@@ -16,7 +16,17 @@
       </ul>
     </template>
 
-    <template v-slot:buttons>
+    <template v-else v-slot:contents>
+      <div class="text-center">
+        <b-spinner
+          v-show="isShowProgress"
+          style="width: 2rem; height: 2rem; position: absolute; left: 50%"
+          label="Large Spinner"
+        ></b-spinner>
+      </div>
+    </template>
+
+    <template v-if="!isShowProgress" v-slot:buttons>
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="onClickEdit">{{ $t('common.modify') }}</button>
         <button class="lg-btn white-btn" @click="onClickDelete">{{ $t('common.delete') }}</button>
@@ -35,6 +45,7 @@ import SystemModule from '@/store/modules/SystemModule';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InfoGroup from '@/components/system-mngt/detail/InfoGroup.vue';
 import IfFormlGroup from '@/components/system-mngt/detail/IfFormlGroup.vue';
+import { USER_STATE } from '@/store/UserState';
 
 @Component({
   components: {
@@ -49,9 +60,14 @@ export default class SystemDetailPage extends Vue {
 
   systemModule = getModule(SystemModule, this.$store);
   systemItem: SystemResponse = {} as SystemResponse;
+  isShowProgress = false;
 
   get system() {
     return this.systemModule.system;
+  }
+
+  get userState() {
+    return this.systemModule.currAsyncState;
   }
 
   created() {
@@ -61,6 +77,18 @@ export default class SystemDetailPage extends Vue {
   @Watch('system')
   onSystemChange() {
     this.systemItem = this.system;
+  }
+
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
+    }
   }
 
   onClickPrevious() {
