@@ -38,6 +38,8 @@ export default class InputGroup extends Vue {
       case this.$t('service.tkcgrNm'):
         if (checkLength(val, 1, 20) && checkEnglishKorean(val)) {
           this.notiMessage = [true, ''];
+        } else if (val == '') {
+          this.notiMessage = [null, ''];
         } else {
           this.notiMessage = [false, this.$t('service.valid_check_tkcgrNm') as string];
         }
@@ -45,6 +47,8 @@ export default class InputGroup extends Vue {
       case this.$t('service.tkcgrPos'):
         if (checkLength(val, 1, 20) && checkEnglishKorean(val)) {
           this.notiMessage = [true, ''];
+        } else if (val == '') {
+          this.notiMessage = [null, ''];
         } else {
           this.notiMessage = [false, this.$t('service.valid_check_tkcgrPos') as string];
         }
@@ -52,6 +56,8 @@ export default class InputGroup extends Vue {
       case this.$t('service.tkcgrEml'):
         if (checkEmail(val) && checkEnglishKorean(val)) {
           this.notiMessage = [true, ''];
+        } else if (val == '') {
+          this.notiMessage = [null, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrPos') as string];
         }

@@ -38,6 +38,8 @@ export default class TextDebounceForm extends Vue {
       case this.$t('service.name'):
         if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
           this.notiMessage = [true, ''];
+        } else if (val == '') {
+          this.notiMessage = [null, ''];
         } else {
           this.notiMessage = [false, this.$t('service.valid_check_nm') as string];
         }
@@ -45,10 +47,11 @@ export default class TextDebounceForm extends Vue {
       case this.$t('service.id'):
         if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
           this.notiMessage = [true, ''];
+        } else if (val == '') {
+          this.notiMessage = [null, ''];
         } else {
           this.notiMessage = [false, this.$t('service.valid_check_id') as string];
         }
-        break;
     }
     this.$emit('update:value', val);
   }
