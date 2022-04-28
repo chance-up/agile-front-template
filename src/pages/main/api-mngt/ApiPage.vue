@@ -5,7 +5,7 @@
         <SearchForm :searchPanelOption="searchOption" />
       </template>
       <template v-slot:list-form>
-        <ListForm title="API List">
+        <ListForm title="API List" :isShowProgress="isShowProgress">
           <template v-slot:list-table>
             <colgroup>
               <col width="5%" />
@@ -75,6 +75,7 @@ export default class ApiPage extends Vue {
     },
   ];
   apiModule = getModule(ApiModule, this.$store);
+  isShowProgress = false;
 
   created() {
     this.apiModule.getApiList();
