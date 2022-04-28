@@ -5,21 +5,15 @@ export const checkEmail = (email: string) => {
 };
 
 export const checkLength = (value: string, min: number, max: number) => {
-  console.log(value.length >= min && value.length <= max);
-  console.log(value.length);
   return value.length >= min && value.length <= max;
 };
 
 export const checkEnglishNumber = (value: string) => {
   const r = /^[a-zA-Z0-9]*$/;
-  console.log(r.test(value));
-  console.log(value.length);
   return r.test(String(value));
 };
 export const checkEnglishKorean = (value: string) => {
   const r = /^[A-Za-zㄱ-ㅎ가-힣]+$/;
-  console.log(r.test(value));
-  console.log(value.length);
   return r.test(String(value));
 };
 export const checkEnglishNumberKorean = (value: string) => {

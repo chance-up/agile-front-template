@@ -9,9 +9,14 @@
               <input
                 type="text"
                 id=""
-                class="input-box lg check-ok"
+                class="input-box lg"
+                :class="{
+                  'check-ok': notiMessage[0] === true,
+                  'check-false': notiMessage[0] === false,
+                }"
                 placeholder="연동방식 그룹명 입력"
                 v-model="ifgrp.if_nm"
+                @input="validCheck(idx)"
               />
               <button class="sm-btn" @click="addIfGrp" v-if="idx === 0">
                 <i><img src="@/assets/plus.svg" alt="추가" /></i>
@@ -19,6 +24,7 @@
               <button class="sm-btn" @click="deleteIfGrp(idx)" v-else>
                 <i><img src="@/assets/minus.svg" alt="삭제" /></i>
               </button>
+              <p v-if="!notiMessage[idx][0]" class="red-txt noti">{{ notiMessage[idx][1] }}</p>
             </div>
             <ul class="domain-list">
               <li v-for="(ifurl, idx2) in ifgrp.if_url" :key="idx2">
@@ -43,19 +49,33 @@
   </li>
 </template>
 <script lang="ts">
-import Interface from '@/components/system-mngt/Interface.vue';
-import InputGroup from '@/components/system-mngt/InputGroup.vue';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { IfGrpType } from '@/types/SystemType';
+import { checkLength, checkEnglishNumber, checkEnglishKorean } from '@/utils/validation';
 @Component({
-  components: {
-    Interface,
-    InputGroup,
-  },
+  components: {},
 })
 export default class InterfaceGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
+
+  // ifgrps는 부모로부터 넘어오는 값.
+  // 해당 값을 배열로 선언하고, 추가 삭제할 때 마다 배열의 값이 변한다.
   @Prop({ default: () => [] }) ifgrps!: IfGrpType[];
+
+  notiMessage: [boolean | null, string][] = [[null, '']];
+
+  validCheck(idx: number) {
+    console.log(idx);
+    console.log(this.ifgrps[idx].if_nm);
+    let val = this.ifgrps[idx].if_nm;
+    if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
+      this.notiMessage[idx] = [true, ''];
+    } else if (val == '') {
+      this.notiMessage[idx] = [null, ''];
+    } else {
+      this.notiMessage[idx] = [false, this.$t('system.valid_check_ifgrp_nm') as string];
+    }
+  }
 
   get grps() {
     return this.ifgrps;
@@ -65,19 +85,7 @@ export default class InterfaceGroup extends Vue {
     this.$emit('update:ifgrps', newVal);
   }
 
-  // @Watch('ifgrps')
-  // onChanged(newVal: IfGrpType[]) {
-  //   console.log(newVal);
-  //   //this.$emit('input', newVal);
-  // }
-
-  // Item1: Record<string, unknown>[] = [];
-
-  // // Item1.id = '954';
-  // // console.log(Item1);
-
   items: number[] = [];
-  //ifgrps: IfGrpType[] = [];
   addIfGrp() {
     let empty = {
       if_nm: '',
@@ -89,11 +97,11 @@ export default class InterfaceGroup extends Vue {
         },
       ],
     };
-
+    this.notiMessage.push([null, '']);
     this.ifgrps.push(empty);
-    console.log(this.ifgrps);
   }
   deleteIfGrp(idx: number) {
+    this.notiMessage.splice(idx, 1);
     this.ifgrps.splice(idx, 1);
   }
   addUrl(idx: number) {
@@ -108,16 +116,6 @@ export default class InterfaceGroup extends Vue {
   deleteUrl(idx: number, idx2: number) {
     this.ifgrps[idx].if_url.splice(idx2, 1);
   }
-  // test() {
-  //   console.log('!!!!');
-  // }
-  // groupItems: number[] = [];
-  // addInterfaceGroup() {
-  //   this.groupItems.push(1);
-  // }
-  // deleteInterfaceGroup() {
-  //   this.groupItems.pop();
-  // }
 }
 </script>
 <style lang=""></style>
