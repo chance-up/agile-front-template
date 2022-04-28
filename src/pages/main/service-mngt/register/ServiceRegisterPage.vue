@@ -7,8 +7,8 @@
           :inputNm="$t('service.name')"
           :check="isDuplicatedNm"
           :placeholder="$t('service.name')"
-          :value.sync="formData.nm"
-          @input="duplicateCheckId"
+          :v-model="formData.nm"
+          @input="duplicateCheckId()"
         />
         <TextDebounceForm
           type="text"
@@ -16,7 +16,7 @@
           :check="isDuplicatedId"
           :placeholder="$t('service.id')"
           :value.sync="formData.id"
-          @input="duplicateCheckNm"
+          @input="duplicateCheckNm()"
         />
         <InputGroup
           type="text"
@@ -152,14 +152,28 @@ export default class SystemRegisterPage extends Vue {
       return;
     }
   }
-
+  timerId = 0;
   isDuplicatedId: boolean | null = null;
-  async duplicateCheckId() {
-    this.isDuplicatedId = await this.serviceModule.duplicateCheck(this.formData.id);
+  duplicateCheckId() {
+    if (this.timerId) {
+      clearTimeout(this.timerId);
+    }
+    this.timerId = setTimeout(async () => {
+      console.log('id 입력 1초 경과');
+      this.isDuplicatedId = await this.serviceModule.duplicateCheck(this.formData.id);
+    }, 1000);
   }
+
+  timerNm = 0;
   isDuplicatedNm: boolean | null = null;
-  async duplicateCheckNm() {
-    this.isDuplicatedNm = await this.serviceModule.duplicateCheck(this.formData.nm);
+  duplicateCheckNm() {
+    if (this.timerId) {
+      clearTimeout(this.timerId);
+    }
+    this.timerNm = setTimeout(async () => {
+      console.log('서비스명 입력 1초 경과');
+      this.isDuplicatedNm = await this.serviceModule.duplicateCheck(this.formData.nm);
+    }, 1000);
   }
 }
 </script>

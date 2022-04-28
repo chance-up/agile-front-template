@@ -2,7 +2,7 @@
   <li>
     <label for="" class="label point">{{ inputNm }}</label>
     <div class="form-cont">
-      <b-form-input
+      <input
         :type="type"
         :placeholder="placeholder"
         v-model="text"
@@ -11,7 +11,6 @@
           'check-false': notiMessage[0] === false,
         }"
         class="input-box lg"
-        debounce="1000"
       />
       <p v-if="check == false" class="red-txt noti">중복된 이름입니다.</p>
       <p v-if="!notiMessage[0]" class="red-txt noti">{{ notiMessage[1] }}</p>
@@ -19,7 +18,7 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { checkLength, checkEnglishNumber } from '@/utils/validation';
 @Component
 export default class TextDebounceForm extends Vue {
@@ -28,12 +27,10 @@ export default class TextDebounceForm extends Vue {
   @Prop({ default: '' }) inputNm!: string;
   @Prop({ default: '' }) placeholder!: string;
   @Prop({ default: '' }) value!: string;
-
-  notiMessage: [boolean | null, string] = [null, ''];
-  get text() {
-    return this.value;
-  }
-  set text(val: string) {
+  @Prop({ default: '' }) active!: string;
+  text = '';
+  @Watch('text')
+  onValueChange(val: string) {
     switch (this.inputNm) {
       case this.$t('service.name'):
         if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
@@ -53,8 +50,18 @@ export default class TextDebounceForm extends Vue {
           this.notiMessage = [false, this.$t('service.valid_check_id') as string];
         }
     }
-    this.$emit('update:value', val);
+    console.log('input changed => ' + val);
+    this.$emit('input', val);
   }
+
+  notiMessage: [boolean | null, string] = [null, ''];
+  // get text() {
+  //   return this.value;
+  // }
+  // set text(val: string) {
+
+  //   this.$emit('update:value', val);
+  // }
 }
 </script>
 <style lang=""></style>
