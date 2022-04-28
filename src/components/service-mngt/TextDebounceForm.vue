@@ -2,31 +2,31 @@
   <li>
     <label for="" class="label point">{{ inputNm }}</label>
     <div class="form-cont">
-      <input
+      <b-form-input
         :type="type"
         :placeholder="placeholder"
-        :disabled="disabled"
         v-model="text"
         :class="{
           'check-ok': notiMessage[0] === true,
           'check-false': notiMessage[0] === false,
         }"
         class="input-box lg"
+        debounce="1000"
       />
+      <p v-if="check == false" class="red-txt noti">중복된 이름입니다.</p>
       <p v-if="!notiMessage[0]" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
   </li>
 </template>
-
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { checkEmail, checkLength, checkEnglishKorean } from '@/utils/validation';
+import { checkLength, checkEnglishNumber } from '@/utils/validation';
 @Component
-export default class InputGroup extends Vue {
-  @Prop({ default: '' }) inputNm!: string;
+export default class TextDebounceForm extends Vue {
+  @Prop({ default: null }) check!: boolean | null;
   @Prop({ default: '' }) type!: string;
+  @Prop({ default: '' }) inputNm!: string;
   @Prop({ default: '' }) placeholder!: string;
-  @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) value!: string;
 
   notiMessage: [boolean | null, string] = [null, ''];
@@ -35,25 +35,18 @@ export default class InputGroup extends Vue {
   }
   set text(val: string) {
     switch (this.inputNm) {
-      case this.$t('service.tkcgrNm'):
-        if (checkLength(val, 1, 20) && checkEnglishKorean(val)) {
+      case this.$t('service.name'):
+        if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
           this.notiMessage = [true, ''];
         } else {
-          this.notiMessage = [false, this.$t('service.valid_check_tkcgrNm') as string];
+          this.notiMessage = [false, this.$t('service.valid_check_nm') as string];
         }
         break;
-      case this.$t('service.tkcgrPos'):
-        if (checkLength(val, 1, 20) && checkEnglishKorean(val)) {
+      case this.$t('service.id'):
+        if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
           this.notiMessage = [true, ''];
         } else {
-          this.notiMessage = [false, this.$t('service.valid_check_tkcgrPos') as string];
-        }
-        break;
-      case this.$t('service.tkcgrEml'):
-        if (checkEmail(val) && checkEnglishKorean(val)) {
-          this.notiMessage = [true, ''];
-        } else {
-          this.notiMessage = [false, this.$t('system.valid_check_tkcgrPos') as string];
+          this.notiMessage = [false, this.$t('service.valid_check_id') as string];
         }
         break;
     }
@@ -61,3 +54,4 @@ export default class InputGroup extends Vue {
   }
 }
 </script>
+<style lang=""></style>

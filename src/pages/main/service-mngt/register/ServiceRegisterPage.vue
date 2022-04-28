@@ -2,41 +2,38 @@
   <ContentLayout title="서비스 등록" subTitle="기본정보 등록" depth="서비스 관리">
     <template v-slot:contents>
       <ul>
-        <InputGroup
+        <TextDebounceForm
           type="text"
-          inputNm="서비스명"
-          placeholder="placeholder"
-          inputClass="input-box lg check-ok"
+          :inputNm="$t('service.name')"
+          :check="isDuplicatedNm"
+          :placeholder="$t('service.name')"
           :value.sync="formData.nm"
           @input="duplicateCheckId"
         />
-        <InputGroup
+        <TextDebounceForm
           type="text"
-          inputNm="서비스 ID"
-          placeholder="placeholder"
-          inputClass="input-box lg check-ok"
+          :inputNm="$t('service.id')"
+          :check="isDuplicatedId"
+          :placeholder="$t('service.id')"
           :value.sync="formData.id"
           @input="duplicateCheckNm"
         />
         <InputGroup
           type="text"
-          inputNm="담당자 이름"
-          placeholder="placeholder"
-          validCheck="중복된 API ID 입니다."
-          inputClass="input-box lg check-false"
+          :inputNm="$t('service.tkcgrNm')"
+          :placeholder="$t('service.tkcgrNm')"
           :value.sync="formData.tkcgr_nm"
         />
         <InputGroup
           type="text"
-          inputNm="소속"
-          placeholder="placeholder"
-          inputClass="input-box lg check-ok"
+          :inputNm="$t('service.tkcgrPos')"
+          :placeholder="$t('service.tkcgrPos')"
           :value.sync="formData.tkcgr_pos"
         />
         <InputGroup
           type="text"
-          inputNm="E-mail"
-          placeholder="placeholder"
+          :inputNm="$t('service.tkcgrEml')"
+          :placeholder="$t('service.tkcgrEml')"
           inputClass="input-box lg check-ok"
           :value.sync="formData.tkcgr_eml"
         />
@@ -85,7 +82,7 @@ import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { ServiceRegisterRequest } from '@/types/ServiceType';
-
+import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
 @Component({
   components: {
     ContentLayout,
@@ -94,6 +91,7 @@ import { ServiceRegisterRequest } from '@/types/ServiceType';
     AuthReqGroup,
     SlaReqGroup,
     SysExGroup,
+    TextDebounceForm,
   },
 })
 export default class SystemRegisterPage extends Vue {
