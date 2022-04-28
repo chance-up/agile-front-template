@@ -2,12 +2,8 @@
   <ContentLayout
     :title="$t('system.add_top_title')"
     :subTitle="$t('system.add_cont_title')"
-    depth="$t('system.add_depth')"
+    :depth="$t('system.add_depth')"
   >
-    <b-button variant="primary" disabled>
-      <b-spinner small></b-spinner>
-      <span class="sr-only">Loading...</span>
-    </b-button>
     <template v-slot:contents>
       <ul>
         <InputGroup type="text" :value.sync="systemItem.nm" :inputNm="$t('system.name')" :place="$t('system.name')" />
@@ -50,7 +46,7 @@
   </ContentLayout>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 
 import SystemModule from '@/store/modules/SystemModule';
@@ -61,8 +57,9 @@ import InterfaceGroup from '@/components/system-mngt/InterfaceGroup.vue';
 import Interface from '@/components/system-mngt/Interface.vue';
 import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import TextDebounceForm from '@/components/system-mngt/TextDebounceForm.vue';
-
 import { SystemResponse } from '@/types/SystemType';
+import VALIDATION_TYPE from '@/utils/validationType';
+
 @Component({
   components: {
     ContentLayout,
@@ -78,6 +75,9 @@ export default class SystemRegisterPage extends Vue {
   // 2. 중복 검사가 필요하지 않는 경우에는 유효성 검사만 수행한다.
   // 3. 중복 검사가 필요한 경우에는 중복 검사를 수행한다.
   // 4. 중복 검사에 필요한 메서드는 InputGroup에 prop으로 넘겨준다.
+
+  //
+  VALIDATION_TYPE = VALIDATION_TYPE;
 
   systemModule = getModule(SystemModule, this.$store);
 
