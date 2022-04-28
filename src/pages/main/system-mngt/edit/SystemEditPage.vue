@@ -7,12 +7,11 @@
     <template v-slot:contents>
       <ul>
         <InputGroup
-          :inputNm="$t('system.name')"
-          v-model="systemItem.nm"
-          :place="$t('system.name')"
-          inputClass="input-box lg"
-          :disabled="true"
           type="text"
+          :value.sync="systemItem.nm"
+          :inputNm="$t('system.name')"
+          :place="$t('system.name')"
+          :disabled="false"
         />
         <InputGroup
           :inputNm="$t('system.id')"
