@@ -15,4 +15,8 @@ export interface SearchCondition {
   nm?: string;
   id?: string;
   tkcgr_nm?: string;
+  page?: string;
+  size?: string;
+  sort_by?: string;
+  order_by?: string;
 }
