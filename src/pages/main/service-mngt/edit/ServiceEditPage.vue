@@ -25,23 +25,20 @@
         />
         <InputGroup
           type="text"
-          inputNm="담당자 이름"
-          placeholder="placeholder"
-          validCheck="중복된 API ID 입니다."
-          inputClass="input-box lg check-false"
+          :inputNm="$t('service.tkcgrNm')"
+          :placeholder="$t('service.tkcgrNm')"
           :value.sync="formData.tkcgr_nm"
         />
         <InputGroup
           type="text"
-          inputNm="소속"
-          placeholder="placeholder"
-          inputClass="input-box lg check-ok"
+          :inputNm="$t('service.tkcgrPos')"
+          :placeholder="$t('service.tkcgrPos')"
           :value.sync="formData.tkcgr_pos"
         />
         <InputGroup
           type="text"
-          inputNm="E-mail"
-          placeholder="placeholder"
+          :inputNm="$t('service.tkcgrEml')"
+          :placeholder="$t('service.tkcgrEml')"
           inputClass="input-box lg check-ok"
           :value.sync="formData.tkcgr_eml"
         />
