@@ -180,12 +180,12 @@ export const dummyListData = {
     pagination: {
       page: 1, //페이지 => 이동하고 싶은 페이지?(라고 추측)
       size: 10, //페이징 처리 수(한 페이지 당 보여줄 데이터 수)
-      totalElements: 57, //전체 데이터 수
-      totalPage: 6, //전체 페이지 수
-      currentElements: 10, //현재 페이지 데이터 수
-      currentPage: 1, //현재 페이지 번호
-      orderBy: 'ID', //DB 정렬 기준 칼럼
-      sortBy: 'DESC', //정렬
+      total_elements: 57, //전체 데이터 수
+      total_pages: 6, //전체 페이지 수
+      current_elements: 10, //현재 페이지 데이터 수
+      current_page: 1, //현재 페이지 번호
+      order_by: 'ID', //DB 정렬 기준 칼럼
+      sort_by: 'DESC', //정렬
       limit: 10, //DB Limit 사용값
     },
   },
@@ -290,12 +290,12 @@ export const dummySearchData = {
     pagination: {
       page: 6, //페이지 => 이동하고 싶은 페이지?(라고 추측)
       size: 10, //페이징 처리 수(한 페이지 당 보여줄 데이터 수)
-      totalElements: 57, //전체 데이터 수
-      totalPage: 6, //전체 페이지 수
-      currentElements: 10, //현재 페이지 데이터 수
-      currentPage: 6, //현재 페이지 번호
-      orderBy: 'ID', //DB 정렬 기준 칼럼
-      sortBy: 'DESC', //정렬
+      total_elements: 57, //전체 데이터 수
+      total_pages: 6, //전체 페이지 수
+      current_elements: 10, //현재 페이지 데이터 수
+      current_page: 6, //현재 페이지 번호
+      order_by: 'ID', //DB 정렬 기준 칼럼
+      sort_by: 'DESC', //정렬
       limit: 10, //DB Limit 사용값
     },
   },

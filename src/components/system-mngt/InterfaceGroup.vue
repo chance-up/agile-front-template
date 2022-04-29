@@ -28,18 +28,21 @@
             </div>
             <ul class="domain-list">
               <li v-for="(ifurl, idx2) in ifgrp.if_url" :key="idx2">
-                <select class="select-box" v-model="ifurl.protocol">
-                  <option value="http" selected>http</option>
-                  <option value="https">https</option>
-                </select>
-                <span>://</span>
-                <input type="text" id="" class="input-box mid" placeholder="domain" v-model="ifurl.domain" />
-                <span>:</span>
-                <input type="text" id="" class="input-box sm" placeholder="port" v-model="ifurl.port" />
-                <button class="xs-btn" @click="addUrl(idx)" v-if="idx2 === 0">
-                  <i class="plus"></i>
-                </button>
-                <button class="xs-btn" @click="deleteUrl(idx, idx2)" v-else><i class="minus"></i></button>
+                <div class="domain-cont">
+                  <select class="select-box" v-model="ifurl.protocol">
+                    <option value="http" selected>http</option>
+                    <option value="https">https</option>
+                  </select>
+                  <span>://</span>
+                  <input type="text" id="" class="input-box mid" placeholder="domain" v-model="ifurl.domain" />
+                  <span>:</span>
+                  <input type="text" id="" class="input-box sm" placeholder="port" v-model="ifurl.port" />
+                  <button class="xs-btn" @click="addUrl(idx)" v-if="idx2 === 0">
+                    <i class="plus"></i>
+                  </button>
+                  <button class="xs-btn" @click="deleteUrl(idx, idx2)" v-else><i class="minus"></i></button>
+                </div>
+                <p class="noti">도메인을 입력해 주세요.</p>
               </li>
             </ul>
           </div>
@@ -63,6 +66,12 @@ export default class InterfaceGroup extends Vue {
   @Prop({ default: () => [] }) ifgrps!: IfGrpType[];
 
   notiMessage: [boolean | null, string][] = [[null, '']];
+
+  @Watch('notiMessage')
+  onNotiMessageChange(val: [boolean | null, string][]) {
+    console.log('notiMessage', val);
+  }
+
   duplCheck(val: string) {
     const ifgrpList = this.ifgrps.filter((ifgrp) => ifgrp.if_nm === val);
     if (ifgrpList.length > 1) {

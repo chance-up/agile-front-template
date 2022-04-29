@@ -13,8 +13,8 @@
 
         <SelectSysForm groupNm="시스템 연동 정보" :optionList="ifGrpList" v-model="requestBody.ifGrp" />
 
-        <HandlerGroupForm groupNm="요청 handler 그룹" />
-        <HandlerGroupForm groupNm="응답 handler 그룹" />
+        <HandlerGroupForm groupNm="요청 handler 그룹" :handlerGroupList="handlerGroupList" @input="clickHandlerGroup" />
+        <HandlerGroupForm groupNm="응답 handler 그룹" :handlerGroupList="handlerGroupList" @input="clickHandlerGroup" />
         <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
         <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
       </ul>
@@ -34,7 +34,7 @@
 <script lang="ts">
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { dummySystemList, dummySystemInfList, ApiCreateRequestBody } from '@/types/ApiType';
+import { dummySystemList, dummySystemInfList, ApiCreateRequestBody, HandlerGroupDetail } from '@/types/ApiType';
 import HandlerGroupForm from '@/components/api-mngt/register/HandlerGroupForm.vue';
 import SelectForm from '@/components/api-mngt/register/SelectForm.vue';
 import SelectSysForm from '@/components/api-mngt/register/SelectSysForm.vue';
@@ -47,6 +47,7 @@ import { Dictionary } from 'vue-router/types/router';
 import { IfGrpType, SystemResponse } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
+import ApiModule from '@/store/modules/ApiModule';
 @Component({
   components: {
     ContentLayout,
@@ -60,7 +61,16 @@ import SystemModule from '@/store/modules/SystemModule';
   },
 })
 export default class ApiRegisterPage extends Vue {
+  // closeSelect = '';
+  clickHandlerGroup(input: string) {
+    console.log('click Handler group, input: ' + input);
+    // if (input != '') {
+    //   console.log('@@@@@@');
+    //   this.closeSelect = 'close';
+    // }
+  }
   systemModule = getModule(SystemModule, this.$store);
+  apiModule = getModule(ApiModule, this.$store);
   get dummySystemList(): string[] {
     return dummySystemList;
   }
@@ -75,7 +85,9 @@ export default class ApiRegisterPage extends Vue {
     return this.systemModule.systemList;
   }
   created() {
+    console.log('APiRegisterPage created');
     this.systemModule.getSystemList();
+    this.apiModule.getHandlerGroupList();
   }
 
   ifGrpList: IfGrpType[] = [];
@@ -134,6 +146,14 @@ export default class ApiRegisterPage extends Vue {
       res += `${key} : ${body[key]}\n`;
     });
     return res;
+  }
+
+  // handler group, api쏴서 받아오기
+  // created() {
+  //   this.apiModule.getHandlerGroupList();
+  // }
+  get handlerGroupList(): HandlerGroupDetail[] {
+    return this.apiModule.handlerGroupList;
   }
 }
 </script>

@@ -25,23 +25,20 @@
         />
         <InputGroup
           type="text"
-          inputNm="담당자 이름"
-          placeholder="placeholder"
-          validCheck="중복된 API ID 입니다."
-          inputClass="input-box lg check-false"
+          :inputNm="$t('service.tkcgrNm')"
+          :placeholder="$t('service.tkcgrNm')"
           :value.sync="formData.tkcgr_nm"
         />
         <InputGroup
           type="text"
-          inputNm="소속"
-          placeholder="placeholder"
-          inputClass="input-box lg check-ok"
+          :inputNm="$t('service.tkcgrPos')"
+          :placeholder="$t('service.tkcgrPos')"
           :value.sync="formData.tkcgr_pos"
         />
         <InputGroup
           type="text"
-          inputNm="E-mail"
-          placeholder="placeholder"
+          :inputNm="$t('service.tkcgrEml')"
+          :placeholder="$t('service.tkcgrEml')"
           inputClass="input-box lg check-ok"
           :value.sync="formData.tkcgr_eml"
         />
@@ -62,11 +59,20 @@
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
         ></AuthReqGroup>
+        <li>
+          <label class="label point">API 권한관리</label>
+          <div class="form-cont">
+            <div class="form-group"></div>
+
+            <div class="form-group"></div>
+          </div>
+        </li>
         <SlaReqGroup
           inputNm="SLA 정책관리"
           :SLAn.sync="formData.sla_yn"
-          :type="formData.sla_type"
-          :count="formData.sla_cnt"
+          :type.sync="formData.sla_type"
+          :totalCnt.sync="formData.sla_cnt"
+          :TPSCnt.sync="formData.sla_cnt"
         />
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
       </ul>

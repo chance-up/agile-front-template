@@ -9,10 +9,10 @@
           <ModalLayout
             v-if="showAlert"
             :alert="true"
-            errorTitle="에러발생"
+            errorTitle="정보"
             :errorDesc="message"
             @close="showAlert = false"
-            size="l"
+            size="m"
           >
             <!-- <template v-slot:modalContainer> {{ message }} </template> -->
           </ModalLayout>

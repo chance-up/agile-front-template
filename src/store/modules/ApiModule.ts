@@ -7,6 +7,7 @@ import {
   apiMockData2,
   dummyDeleteResData,
   HandlerGroupDetail,
+  dummyHandlerGroupList,
 } from '@/types/ApiType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
@@ -95,16 +96,14 @@ export default class ApiModule extends GateWayModule {
   // 핸들러그룹리스트
   public handlerGroupList: HandlerGroupDetail[] = [];
   @Mutation
-  setHandlerGroupList(handlerGroupList: HandlerGroupDetail[]) {
-    console.log('set handlerGroupList', handlerGroupList);
-    this.handlerGroupList = handlerGroupList;
+  setHandlerGroupList(list: HandlerGroupDetail[]): void {
+    this.handlerGroupList = list;
   }
   @Action
   async getHandlerGroupList() {
     try {
-      addMock('/api/handlerGroupList', JSON.stringify(apiMockList));
+      addMock('/api/handlerGroupList', JSON.stringify(dummyHandlerGroupList));
       const response = await AxiosClient.getInstance().get<HandlerGroupDetail[]>('/api/handlerGroupList');
-      console.log(response);
       this.context.commit('setHandlerGroupList', response);
     } catch (error: GateWayError | any) {
       handleCommonError(error);

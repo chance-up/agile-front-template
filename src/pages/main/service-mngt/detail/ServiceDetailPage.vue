@@ -9,7 +9,7 @@
         <InfoGroup inputNm="E-mail" :value="serviceOption.tkcgr_eml" />
         <InfoGroup inputNm="서비스 기간" :value="serviceOption.svc_st_dt" />
         <AuthGroup
-          inputNm="인중 수단"
+          inputNm="인증 수단"
           :athn="auth"
           :id="serviceOption.athn.BASIC_AUTH.id"
           :pw="serviceOption.athn.BASIC_AUTH.pw"
@@ -18,11 +18,18 @@
           :subject="serviceOption.athn.JWT.subject"
           :publickey="serviceOption.athn.JWT.publickey"
         />
+        <li>
+          <label class="label">API 권한관리</label>
+          <div class="form-cont">
+            <div class="form-group"></div>
+            <div class="form-group"></div>
+          </div>
+        </li>
         <SlaGroup
           inputNm="SLA 정책 관리"
           :SLAn="serviceOption.sla_yn"
           :term="serviceOption.sla_type"
-          :count="serviceOption.sla_cnt"
+          :totalCount="serviceOption.sla_cnt"
         />
         <InfoGroup inputNm="서비스 설명" :value="serviceOption.desc" />
       </ul>

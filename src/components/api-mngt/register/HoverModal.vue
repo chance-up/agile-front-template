@@ -2,14 +2,19 @@
   <div>
     <transition name="HoverModal">
       <!------- handler pop2 -------->
-      <div class="tip-box"><h1>asdfasdf</h1></div>
+      <div class="tip-box">
+        {{ apiDesc }}
+        <!-- <h1>api Desc</h1> -->
+      </div>
     </transition>
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 @Component({})
-export default class HoverModal extends Vue {}
+export default class HoverModal extends Vue {
+  @Prop() public apiDesc!: string;
+}
 </script>
 <style scoped>
 /***   pop2up   ***/
@@ -22,28 +27,35 @@ export default class HoverModal extends Vue {}
   border-radius: 8px;
   color: #ffffff; */
   position: fixed;
-  z-index: 9998;
-  top: 70%;
+  /* z-index: 9998; */
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 
+  padding: 15px 15px;
+  max-width: 200px;
+  max-height: 100px;
+  z-index: 5;
+  background: #777777;
+  border-radius: 8px;
+  color: #ffffff;
   /* top: 25rem;
   left: 400px; */
 
   /* width: 100%;
   height: 100%; */
-  background-color: rgba(183, 217, 34, 0.3);
-  display: table;
-  transition: opacity 0.3s ease;
+  /* background-color: rgba(183, 217, 34, 0.3);
+  display: table; */
+  /* transition: opacity 0.3s ease; */
   /* z-index: 5; */
-  border: 1px #ddd solid;
-  border-radius: 30px;
+  /* border: 1px #ddd solid; */
+  /* border-radius: 30px; */
   /* position: relative; */
   /* background: rgb(183, 217, 34, 0.1); */
-  width: 300px;
+  /* width: 300px;
   padding: 30px 30px;
   margin: 0 auto;
-  box-shadow: 1px 1px 5px #ccc;
+  box-shadow: 1px 1px 5px #ccc; */
 }
 .pop2-wrap {
   position: fixed;

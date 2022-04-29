@@ -7,6 +7,8 @@ import {
   getServiceInfo,
   getServiceId,
   getSearchServiceInfo,
+  BasicAuthResponse,
+  getBasicAuth,
 } from '@/types/ServiceType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
@@ -73,6 +75,11 @@ export default class ServiceModule extends GateWayModule {
     },
     api_aut: '',
     desc: '',
+  };
+
+  public basicAuth: BasicAuthResponse = {
+    id: '',
+    pw: '',
   };
 
   //서비스 리스트 요청
@@ -258,5 +265,19 @@ export default class ServiceModule extends GateWayModule {
     addMock(`/system/detail/${id}`, JSON.stringify(getServiceId));
     const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>(`/service/detail/${id}`);
     return true;
+  }
+
+  @Mutation
+  setBasicAuth(basicAuthResponse: BasicAuthResponse) {
+    console.log('setBasicAuth');
+    this.basicAuth = basicAuthResponse;
+  }
+
+  @Action
+  async getBasicAuth() {
+    addMock('/service/basicauth/', JSON.stringify(getBasicAuth));
+    const response = await AxiosClient.getInstance().get<GateWayResponse<BasicAuthResponse>>('/service/basicauth/');
+    console.log('getBasicAuth' + response.data.value.id);
+    this.context.commit('setBasicAuth', response.data.value);
   }
 }

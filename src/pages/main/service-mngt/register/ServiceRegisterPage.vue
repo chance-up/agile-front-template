@@ -7,7 +7,7 @@
           :inputNm="$t('service.name')"
           :check="isDuplicatedNm"
           :placeholder="$t('service.name')"
-          :v-model="formData.nm"
+          v-model="formData.nm"
           @input="duplicateCheckNm()"
         />
         <TextDebounceForm
@@ -15,7 +15,7 @@
           :inputNm="$t('service.id')"
           :check="isDuplicatedId"
           :placeholder="$t('service.id')"
-          :value.sync="formData.id"
+          v-model="formData.id"
           @input="duplicateCheckId()"
         />
         <InputGroup
@@ -45,7 +45,10 @@
           :endDt.sync="formData.svc_end_dt"
         />
         <AuthReqGroup
+          @basicAuthClicked="basicAuthClicked"
           inputNm="인증수단"
+          :basicId="basicAuth.id"
+          :basicPW="basicAuth.pw"
           :athn.sync="show"
           :id.sync="formData.athn.BASIC_AUTH.id"
           :pw.sync="formData.athn.BASIC_AUTH.pw"
@@ -53,12 +56,14 @@
           :issuer.sync="formData.athn.JWT.issuer"
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
+          :isShowProgress="isShowProgress"
         ></AuthReqGroup>
         <SlaReqGroup
           inputNm="SLA 정책관리"
           :SLAn.sync="formData.sla_yn"
-          :type="formData.sla_type"
-          :count="formData.sla_cnt"
+          :type.sync="formData.sla_type"
+          :totalCnt.sync="formData.sla_cnt"
+          :TPSCnt.sync="formData.sla_cnt"
         />
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
       </ul>
@@ -81,8 +86,10 @@ import SlaReqGroup from '@/components/service-mngt/SlqReqGroup.vue';
 import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
-import { ServiceRegisterRequest } from '@/types/ServiceType';
+import { BasicAuthResponse, ServiceRegisterRequest } from '@/types/ServiceType';
 import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
+import { USER_STATE } from '@/store/UserState';
+
 @Component({
   components: {
     ContentLayout,
@@ -152,6 +159,20 @@ export default class SystemRegisterPage extends Vue {
       return;
     }
   }
+
+  timerNm = 0;
+  isDuplicatedNm: boolean | null = null;
+  duplicateCheckNm() {
+    if (this.timerNm) {
+      clearTimeout(this.timerNm);
+    }
+    this.timerNm = setTimeout(async () => {
+      console.log('서비스명 입력 1초 경과');
+      console.log(this.formData.nm);
+      this.isDuplicatedNm = await this.serviceModule.duplicateCheck(this.formData.nm);
+    }, 1000);
+  }
+
   timerId = 0;
   isDuplicatedId: boolean | null = null;
   duplicateCheckId() {
@@ -165,17 +186,29 @@ export default class SystemRegisterPage extends Vue {
     }, 1000);
   }
 
-  timerNm = 0;
-  isDuplicatedNm: boolean | null = null;
-  duplicateCheckNm() {
-    if (this.timerId) {
-      clearTimeout(this.timerId);
+  basicAuthClicked() {
+    this.serviceModule.getBasicAuth();
+  }
+
+  get basicAuth(): BasicAuthResponse {
+    return this.serviceModule.basicAuth;
+  }
+
+  isShowProgress = true;
+  get userState() {
+    return this.serviceModule.currAsyncState;
+  }
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.isShowProgress = false;
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
     }
-    this.timerNm = setTimeout(async () => {
-      console.log('서비스명 입력 1초 경과');
-      console.log(this.formData.nm);
-      this.isDuplicatedNm = await this.serviceModule.duplicateCheck(this.formData.nm);
-    }, 1000);
   }
 }
 </script>

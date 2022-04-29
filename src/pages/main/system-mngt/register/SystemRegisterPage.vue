@@ -18,9 +18,9 @@
           :check="isDuplicated"
           :v-model="systemItem.id"
           :inputNm="$t('system.id')"
-          :place="$t('system.id')"
-          @input="duplicateCheck"
+          :place="$t('system.autoCreate')"
         />
+        <!-- @input="duplicateCheck" -->
         <InputGroup
           type="text"
           :value.sync="systemItem.tkcgr_nm"

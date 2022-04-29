@@ -35,6 +35,16 @@ export interface ServiceResponse {
   upd_id: string;
 }
 
+export interface BasicAuthResponse {
+  id: string;
+  pw: string;
+}
+
+export const basicAuthMock: BasicAuthResponse = {
+  id: 'AKSJaiohfasdAS7asD',
+  pw: 'KL8SsS1KKsdJKASH9',
+};
+
 export interface ServiceRegisterRequest {
   id: string;
   nm: string;
@@ -229,5 +239,15 @@ export const getServiceId: GateWayResponse<ServiceResponse> = {
 
 export const getSearchServiceInfo: GateWayResponse<ServiceResponse[]> = {
   data: searchServiceListData,
+  status: 0,
+};
+
+export const basicAuthData: Data<BasicAuthResponse> = {
+  pagination: pagination,
+  value: basicAuthMock,
+};
+
+export const getBasicAuth: GateWayResponse<BasicAuthResponse> = {
+  data: basicAuthData,
   status: 0,
 };

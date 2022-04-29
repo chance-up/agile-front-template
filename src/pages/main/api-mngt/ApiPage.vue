@@ -31,9 +31,19 @@
                 <th>{{ $t('api.action') }}</th>
               </tr>
             </thead>
+            <div class="text-center">
+              <b-spinner
+                v-show="isShowProgress"
+                style="width: 2rem; height: 2rem; position: absolute; left: 50%"
+                label="Large Spinner"
+              ></b-spinner>
+            </div>
             <tbody>
               <ListRow v-for="(apiData, index) in apiList" :key="index" :apiData="apiData" :index="index" />
             </tbody>
+          </template>
+          <template slot="pagination">
+            <Paging />
           </template>
         </ListForm>
       </template>
@@ -41,7 +51,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import ListLayout from '@/components/layout/ListLayout.vue';
 import SearchForm from '@/components/api-mngt/list/SearchForm.vue';
@@ -50,6 +60,9 @@ import ListRow from '@/components/api-mngt/list/ListRow.vue';
 import { ApiDetailResponse } from '@/types/ApiType';
 import ApiModule from '@/store/modules/ApiModule';
 import { getModule } from 'vuex-module-decorators';
+import Paging from '@/components/commons/Paging.vue';
+import { USER_STATE } from '@/store/UserState';
+import { BSpinner } from 'bootstrap-vue';
 
 @Component({
   components: {
@@ -58,6 +71,8 @@ import { getModule } from 'vuex-module-decorators';
     SearchForm,
     ListForm,
     ListRow,
+    Paging,
+    BSpinner,
   },
 })
 export default class ApiPage extends Vue {
@@ -75,7 +90,6 @@ export default class ApiPage extends Vue {
     },
   ];
   apiModule = getModule(ApiModule, this.$store);
-  isShowProgress = false;
 
   created() {
     this.apiModule.getApiList();
@@ -87,6 +101,22 @@ export default class ApiPage extends Vue {
   get apiList(): ApiDetailResponse[] {
     console.log(this.apiModule.apiList);
     return this.apiModule.apiList;
+  }
+  // for progress
+  isShowProgress = false;
+  get userState() {
+    return this.apiModule.currAsyncState;
+  }
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
+    }
   }
 }
 </script>
