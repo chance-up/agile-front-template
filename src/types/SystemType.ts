@@ -9,6 +9,11 @@ export interface IfGrpType {
   if_url: IfUrlType[];
 }
 
+export interface IfDomainEmptyChkType {
+  isFocus: boolean;
+  isEmpty: boolean;
+}
+
 //시스템 관리
 export interface SystemResponse {
   id: string; // system id(PK)
