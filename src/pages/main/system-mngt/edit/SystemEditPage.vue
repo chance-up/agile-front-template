@@ -1,10 +1,11 @@
 <template>
   <ContentLayout
+    :isShowProgress="isShowProgress"
     :title="$t('system.modify_top_title')"
     :subTitle="$t('system.modify_cont_title')"
     :depth="$t('system.modify_depth')"
   >
-    <template v-slot:contents>
+    <template v-if="!isShowProgress" v-slot:contents>
       <ul>
         <InputGroup
           type="text"
@@ -47,7 +48,7 @@
         <TextAreaGroup :inputNm="$t('system.desc')" v-model="systemItem.desc" />
       </ul>
     </template>
-    <template v-slot:buttons>
+    <template v-if="!isShowProgress" v-slot:buttons>
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="onSubmit">{{ $t('common.modify') }}</button>
         <button class="lg-btn white-btn" @click="cancelOnClickEvent">{{ $t('common.cancel') }}</button>
@@ -66,6 +67,7 @@ import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/system-mngt/InputGroup.vue';
 import InterfaceGroup from '@/components/system-mngt/InterfaceGroup.vue';
 import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
+import { USER_STATE } from '@/store/UserState';
 
 @Component({
   components: {
@@ -78,9 +80,26 @@ import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 export default class SystemEditPage extends Vue {
   systemModule = getModule(SystemModule, this.$store);
   systemItem: SystemResponse = {} as SystemResponse;
+  isShowProgress = false;
 
   get system() {
     return this.systemModule.system;
+  }
+
+  get userState() {
+    return this.systemModule.currAsyncState;
+  }
+
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    if (userState === USER_STATE.LOADING) {
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.isShowProgress = false;
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
+    }
   }
 
   created() {

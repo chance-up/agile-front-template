@@ -68,7 +68,7 @@
             ></b-spinner>
           </div>
           <!-- 각 리스트 페이지에 맞는 데이터로 v-for 돌려주시면 됩니다. <td> 태그 안이 조금씩 다를 수 있으니 퍼블리싱 파일 참조하면서 수정해주세요. -->
-          <tbody>
+          <tbody v-if="!isShowProgress">
             <tr v-for="(list, index) in listOption" :key="index">
               <td @click="getRoutePage('system-detail', list.id)">{{ index + 1 }}</td>
               <td @click="getRoutePage('system-detail', list.id)" class="tl">
@@ -85,17 +85,27 @@
                 <button class="mod-btn" @click="getRoutePage('system-edit', list.id)">
                   <i>{{ $t('common.modify') }}</i>
                 </button>
-                <button class="del-btn" @click="deleteSystem(list.id)">
+                <button class="del-btn" @click="showModal(list.id)">
                   <i>{{ $t('common.delete') }}</i>
                 </button>
               </td>
             </tr>
           </tbody>
         </template>
-        <template slot="pagination">
+        <template v-if="!isShowProgress" slot="pagination">
           <Paging :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
         </template>
       </ListForm>
+      <ModalLayout size="m" v-if="isShowModal">
+        <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+        <template v-slot:modalContainer>
+          <p class="text">서비스를 삭제하시겠습니까?</p>
+        </template>
+        <template v-slot:modalFooter
+          ><button class="lg-btn purple-btn" @click="deleteSystem">확인</button
+          ><button class="lg-btn purple-btn" @click="closeModal">취소</button>
+        </template>
+      </ModalLayout>
     </template>
   </ListLayout>
 </template>
@@ -111,6 +121,7 @@ import InputBox from '@/components/commons/search-option/InputBox.vue';
 import SelectBox from '@/components/commons/search-option/SelectBox.vue';
 import ListForm from '@/components/commons/ListForm.vue';
 import Paging from '@/components/commons/Paging.vue';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 
 import { SearchCondition } from '@/types/SearchType';
 import { SystemResponse } from '@/types/SystemType';
@@ -124,6 +135,7 @@ import { Pagination } from '@/types/GateWayResponse';
     SelectBox,
     ListForm,
     Paging,
+    ModalLayout,
   },
 })
 export default class SystemPage extends Vue {
@@ -141,6 +153,8 @@ export default class SystemPage extends Vue {
   searchData: SearchCondition = {};
   pagingData: SearchCondition = {};
   isShowProgress = true;
+  isShowModal = false;
+  currId = '';
 
   created() {
     if (Object.keys(this.$route.query).length > 0) {
@@ -236,9 +250,19 @@ export default class SystemPage extends Vue {
     }
   }
 
-  deleteSystem(id: string) {
-    this.$modal.show('삭제하시겠습니까?');
-    this.systemModule.deleteSystem(id);
+  async deleteSystem() {
+    await this.systemModule.deleteSystem(this.currId);
+    this.$router.go(0);
+    this.closeModal();
+  }
+
+  showModal(id: string) {
+    this.currId = id;
+    this.isShowModal = true;
+  }
+
+  closeModal() {
+    this.isShowModal = false;
   }
 
   destroyed() {

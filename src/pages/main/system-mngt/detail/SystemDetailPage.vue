@@ -1,5 +1,6 @@
 <template>
   <ContentLayout
+    :isShowProgress="isShowProgress"
     :title="$t('system.detail_top_title')"
     :subTitle="$t('system.detail_cont_title')"
     :depth="$t('system.detail_depth')"
@@ -13,23 +14,22 @@
         <InfoGroup :inputNm="$t('system.tkcgrEml')" :value="systemItem.tkcgr_eml" />
         <IfFormlGroup :inputNm="$t('system.ifGrp')" :ifGrps="systemItem.if_grp" />
         <InfoGroup :inputNm="$t('system.desc')" :value="systemItem.desc" />
+        <ModalLayout size="m" v-if="isShowModal">
+          <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+          <template v-slot:modalContainer>
+            <p class="text">서비스를 삭제하시겠습니까?</p>
+          </template>
+          <template v-slot:modalFooter
+            ><button class="lg-btn purple-btn" @click="onClickDelete">확인</button
+            ><button class="lg-btn purple-btn" @click="closeModal">취소</button>
+          </template>
+        </ModalLayout>
       </ul>
     </template>
-
-    <template v-else v-slot:contents>
-      <div class="text-center">
-        <b-spinner
-          v-show="isShowProgress"
-          style="width: 2rem; height: 2rem; position: absolute; left: 50%"
-          label="Large Spinner"
-        ></b-spinner>
-      </div>
-    </template>
-
     <template v-if="!isShowProgress" v-slot:buttons>
-      <div class="btn-wrap">
+      <div class="btn-wrap" v-if="!isShowProgress">
         <button class="lg-btn purple-btn" @click="onClickEdit">{{ $t('common.modify') }}</button>
-        <button class="lg-btn white-btn" @click="onClickDelete">{{ $t('common.delete') }}</button>
+        <button class="lg-btn white-btn" @click="showModal">{{ $t('common.delete') }}</button>
         <button class="lg-btn gray-btn" @click="onClickPrevious">{{ $t('common.list') }}</button>
       </div>
     </template>
@@ -45,6 +45,7 @@ import SystemModule from '@/store/modules/SystemModule';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InfoGroup from '@/components/system-mngt/detail/InfoGroup.vue';
 import IfFormlGroup from '@/components/system-mngt/detail/IfFormlGroup.vue';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { USER_STATE } from '@/store/UserState';
 
 @Component({
@@ -52,6 +53,7 @@ import { USER_STATE } from '@/store/UserState';
     ContentLayout,
     InfoGroup,
     IfFormlGroup,
+    ModalLayout,
   },
 })
 export default class SystemDetailPage extends Vue {
@@ -61,6 +63,7 @@ export default class SystemDetailPage extends Vue {
   systemModule = getModule(SystemModule, this.$store);
   systemItem: SystemResponse = {} as SystemResponse;
   isShowProgress = false;
+  isShowModal = false;
 
   get system() {
     return this.systemModule.system;
@@ -81,7 +84,6 @@ export default class SystemDetailPage extends Vue {
 
   @Watch('userState')
   onCurrAsyncStateChange(userState: USER_STATE) {
-    console.log('userState : ', userState);
     if (userState === USER_STATE.LOADING) {
       this.isShowProgress = true;
     } else if (userState === USER_STATE.ERROR) {
@@ -99,8 +101,17 @@ export default class SystemDetailPage extends Vue {
     this.$router.push({ name: 'system-edit', params: { id: this.$route.params.id } });
   }
 
-  onClickDelete() {
-    this.$modal.show('삭제하시겠습니까?');
+  async onClickDelete() {
+    await this.systemModule.deleteSystem(this.$route.params.id as string);
+    this.$router.push({ name: 'system' });
+  }
+
+  showModal() {
+    this.isShowModal = true;
+  }
+
+  closeModal() {
+    this.isShowModal = false;
   }
 }
 </script>

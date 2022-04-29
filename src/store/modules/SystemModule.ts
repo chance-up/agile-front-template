@@ -169,6 +169,7 @@ export default class SystemModule extends GateWayModule {
         `/system/deleteSystem/${id}`
       );
       console.log('system delete response', response);
+      this.getSystemList();
       this.dissmissLoading();
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
