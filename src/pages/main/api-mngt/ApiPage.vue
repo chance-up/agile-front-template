@@ -106,8 +106,14 @@ export default class ApiPage extends Vue {
     label: '',
     value: '',
   };
-  created() {
-    this.apiModule.getApiList();
+  mounted() {
+    const query = this.$route.query;
+    console.log('query : ', query);
+    if (Object.keys(query).length > 0) {
+      this.searchData.label = Object.keys(query)[0];
+      this.searchData.value = query[Object.keys(query)[0]] as string;
+    }
+    this.apiModule.getApiList(query);
   }
   destroyed() {
     this.apiModule.reset();
