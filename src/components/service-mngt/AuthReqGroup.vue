@@ -4,7 +4,7 @@
     <div class="form-cont">
       <div class="form-group">
         <select class="select-box" v-model="auth">
-          <option value="BASIC_AUTH">Basic Auth</option>
+          <option value="BASIC_AUTH" @cli="noticeInput()">Basic Auth</option>
           <option value="JWT">JWT</option>
         </select>
       </div>
@@ -36,7 +36,7 @@
           <li>
             <div class="auth-form">
               <label class="label">알고리즘 :</label>
-              <select class="select-box" v-model="show">
+              <select class="select-box" v-model="show" @focus="noticeAlg()">
                 <option value="init">선택해주세요</option>
                 <option v-for="item in JWTalg" :key="item" :value="item">{{ item }}</option>
               </select>
@@ -45,24 +45,36 @@
           <li>
             <div class="auth-form">
               <label class="label">발급자 :</label>
-              <input type="text" id="" class="input-box" placeholder="" v-model="JWTissuer" />
+              <input type="text" id="" class="input-box" placeholder="" v-model="JWTissuer" @focus="noticeInput()" />
             </div>
           </li>
           <li>
             <div class="auth-form">
               <label class="label">대상자 :</label>
-              <input type="text" id="" class="input-box" placeholder="" v-model="JWTsubject" />
+              <input type="text" id="" class="input-box" placeholder="" v-model="JWTsubject" @focus="noticeInput()" />
             </div>
           </li>
           <li>
             <div class="auth-form">
               <label class="label">공개key :</label>
-              <textarea class="textarea" v-model="JWTpublicKey"></textarea>
+              <textarea class="textarea" v-model="JWTpublicKey" @focus="noticeInput()"></textarea>
             </div>
           </li>
         </ul>
       </div>
       <!-- /JWT -->
+      <p
+        v-if="
+          (showAlg && show == 'init') ||
+          (showInput && JWTissuer == '') ||
+          (showInput && JWTsubject == '') ||
+          (showInput && JWTpublicKey == '') ||
+          (auth == 'BASIC_AUTH' && basicId == '')
+        "
+        class="red-txt noti"
+      >
+        해당 항목은 필수 입력값입니다.
+      </p>
     </div>
   </li>
 </template>
@@ -90,6 +102,8 @@ export default class AuthReqGroup extends Vue {
     return this.athn;
   }
   set auth(val: string) {
+    this.showAlg = false;
+    this.showInput = false;
     this.$emit('update:athn', val);
   }
 
@@ -118,11 +132,20 @@ export default class AuthReqGroup extends Vue {
     return this.publicKey;
   }
   set JWTpublicKey(val: string) {
-    this.$emit('update:publickey', val);
+    this.$emit('update:publicKey', val);
   }
 
   clicked() {
     this.$emit('basicAuthClicked');
+  }
+
+  showAlg = false;
+  noticeAlg() {
+    this.showAlg = true;
+  }
+  showInput = false;
+  noticeInput() {
+    this.showInput = true;
   }
 }
 </script>

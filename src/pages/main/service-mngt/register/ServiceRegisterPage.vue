@@ -244,6 +244,11 @@ export default class SystemRegisterPage extends Vue {
     }
   }
 
+  @Watch('formData')
+  onformDataChange(inputData: ServiceRegisterRequest) {
+    console.log(inputData);
+  }
+
   destroyed() {
     this.serviceModule.setBasicAuth({ id: '', pw: '' });
   }
