@@ -17,6 +17,7 @@
                 placeholder="연동방식 그룹명 입력"
                 v-model="ifgrp.if_nm"
                 @input="validCheck(idx)"
+                @focus="emptyChkFunc(idx)"
               />
               <button class="sm-btn" @click="addIfGrp" v-if="idx === 0">
                 <i><img src="@/assets/plus.svg" alt="추가" /></i>
@@ -24,7 +25,9 @@
               <button class="sm-btn" @click="deleteIfGrp(idx)" v-else>
                 <i><img src="@/assets/minus.svg" alt="삭제" /></i>
               </button>
-              <p v-if="!notiMessage[idx][0]" class="red-txt noti">{{ notiMessage[idx][1] }}</p>
+              <p v-if="!notiMessage[idx][0] && emptyChk[idx]" class="red-txt noti">
+                {{ notiMessage[idx][1] }}
+              </p>
             </div>
             <ul class="domain-list">
               <li v-for="(ifurl, idx2) in ifgrp.if_url" :key="idx2">
@@ -65,7 +68,8 @@ export default class InterfaceGroup extends Vue {
   // 해당 값을 배열로 선언하고, 추가 삭제할 때 마다 배열의 값이 변한다.
   @Prop({ default: () => [] }) ifgrps!: IfGrpType[];
 
-  notiMessage: [boolean | null, string][] = [[null, '']];
+  notiMessage: [boolean | null, string][] = [[null, this.$t('system.empty_check') as string]];
+  emptyChk: boolean[] = [false];
 
   @Watch('notiMessage')
   onNotiMessageChange(val: [boolean | null, string][]) {
@@ -90,7 +94,7 @@ export default class InterfaceGroup extends Vue {
     if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
       this.notiMessage[idx] = [true, ''];
     } else if (val == '') {
-      this.notiMessage[idx] = [null, ''];
+      this.notiMessage[idx] = [null, this.$t('system.empty_check') as string];
     } else {
       this.notiMessage[idx] = [false, this.$t('system.valid_check_ifgrp_nm') as string];
     }
@@ -116,12 +120,15 @@ export default class InterfaceGroup extends Vue {
         },
       ],
     };
-    this.notiMessage.push([null, '']);
+    this.notiMessage.push([null, this.$t('system.empty_check') as string]);
+    this.emptyChk.push(false);
     this.ifgrps.push(empty);
+    console.log(this.ifgrps);
   }
   deleteIfGrp(idx: number) {
     this.notiMessage.splice(idx, 1);
     this.ifgrps.splice(idx, 1);
+    this.emptyChk.splice(idx, 1);
   }
   addUrl(idx: number) {
     let empty = {
@@ -134,6 +141,10 @@ export default class InterfaceGroup extends Vue {
 
   deleteUrl(idx: number, idx2: number) {
     this.ifgrps[idx].if_url.splice(idx2, 1);
+  }
+
+  emptyChkFunc(idx: number) {
+    this.emptyChk.splice(idx, 1, true);
   }
 }
 </script>
