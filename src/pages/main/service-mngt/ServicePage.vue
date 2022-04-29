@@ -89,25 +89,25 @@
                 <button class="mod-btn" @click="$router.push({ name: 'service-edit', params: { id: list.id } })">
                   <i>{{ $t('common.modify') }}</i>
                 </button>
-                <button class="del-btn" @click="modalShow">
+                <button class="del-btn" @click="modalShow(list.id)">
                   <i>{{ $t('common.delete') }}</i>
                 </button>
-                <ModalLayout size="m" v-if="modal">
-                  <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
-                  <template v-slot:modalContainer>
-                    <p class="text">서비스를 삭제하시겠습니까?</p>
-                  </template>
-                  <template v-slot:modalFooter
-                    ><button class="lg-btn purple-btn" @click="deleteService(list.id)">확인</button
-                    ><button class="lg-btn purple-btn" @click="modalHide()">취소</button>
-                  </template>
-                </ModalLayout>
               </td>
             </tr>
           </tbody>
         </template>
         <template slot="pagination">
           <Paging :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
+          <ModalLayout size="m" v-if="modal">
+            <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+            <template v-slot:modalContainer>
+              <p class="text">서비스를 삭제하시겠습니까?</p>
+            </template>
+            <template v-slot:modalFooter
+              ><button class="lg-btn purple-btn" @click="deleteService(deleteId)">확인</button
+              ><button class="lg-btn purple-btn" @click="modalHide()">취소</button>
+            </template>
+          </ModalLayout>
         </template>
       </ListForm>
     </template>
@@ -241,7 +241,9 @@ export default class ServiceManagementPage extends Vue {
   }
 
   modal = false;
-  modalShow() {
+  deleteId = '';
+  modalShow(id: string) {
+    this.deleteId = id;
     this.modal = true;
   }
   modalHide() {
