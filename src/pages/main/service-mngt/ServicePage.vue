@@ -89,12 +89,23 @@
                 <button class="mod-btn" @click="$router.push({ name: 'service-edit', params: { id: list.id } })">
                   <i>{{ $t('common.modify') }}</i>
                 </button>
-                <button class="del-btn" @click="deleteService(list.id)">
+                <button class="del-btn" @click="modalShow">
                   <i>{{ $t('common.delete') }}</i>
                 </button>
+                <ModalLayout size="m" v-if="modal">
+                  <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+                  <template v-slot:modalContainer> <p class="text">서비스를 삭제하시겠습니까?</p></template>
+                  <template v-slot:modalFooter
+                    ><button class="lg-btn purple-btn" @click="deleteService(list.id)">확인</button
+                    ><button class="lg-btn purple-btn" @click="modalHide()">취소</button>
+                  </template>
+                </ModalLayout>
               </td>
             </tr>
           </tbody>
+        </template>
+        <template slot="pagination">
+          <Paging :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
         </template>
       </ListForm>
     </template>
@@ -111,6 +122,9 @@ import { ServiceResponse } from '@/types/ServiceType';
 import { SearchCondition } from '@/types/SearchType';
 import { USER_STATE } from '@/store/UserState';
 import { BSpinner } from 'bootstrap-vue';
+import Paging from '@/components/commons/Paging.vue';
+import { Pagination } from '@/types/GateWayResponse';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 
 @Component({
   components: {
@@ -118,16 +132,15 @@ import { BSpinner } from 'bootstrap-vue';
     ListForm,
     InputBox,
     BSpinner,
+    Paging,
+    ModalLayout,
   },
 })
 export default class ServiceManagementPage extends Vue {
   title = this.$t('service.title');
   listTitle = '서비스 리스트';
-  searchData: SearchCondition = {
-    nm: '',
-    id: '',
-    tkcgr_nm: '',
-  };
+  searchData: SearchCondition = {};
+  pagingData: SearchCondition = {};
   isShowProgress = true;
 
   serviceModule = getModule(ServiceModule, this.$store);
@@ -137,11 +150,8 @@ export default class ServiceManagementPage extends Vue {
   }
 
   deleteService(ServiceId: string) {
-    if (confirm('서비스를 삭제하시겠습니까?') == true) {
-      this.serviceModule.deleteServiceAction(ServiceId);
-    } else {
-      return;
-    }
+    this.serviceModule.deleteServiceAction(ServiceId);
+    this.modal = false;
   }
   searchOnClieckEvent() {
     console.log('searchData : ', this.searchData);
@@ -160,13 +170,20 @@ export default class ServiceManagementPage extends Vue {
   }
   created() {
     if (Object.keys(this.$route.query).length > 0) {
-      this.searchData.nm = this.$route.query.nm as string;
-      this.searchData.id = this.$route.query.id as string;
-      this.searchData.tkcgr_nm = this.$route.query.tkcgr_nm as string;
-      // this.serviceModule.getServiceList();
-      this.serviceModule.getServiceList(this.searchData);
+      if (Object.keys(this.$route.query).includes('nm')) this.searchData.nm = this.$route.query.nm as string;
+      if (Object.keys(this.$route.query).includes('id')) this.searchData.id = this.$route.query.id as string;
+      if (Object.keys(this.$route.query).includes('athn')) this.searchData.athn = this.$route.query.athn as string;
+      if (Object.keys(this.$route.query).includes('page')) this.pagingData.page = this.$route.query.page as string;
+      // if (Object.keys(this.$route.query).includes('size')) this.searchData.size = Number(this.$route.query.size);
+      // if (Object.keys(this.$route.query).includes('sort_by'))
+      //   this.searchData.sort_by = this.$route.query.sort_by as string;
+      // if (Object.keys(this.$route.query).includes('ordeer_by'))
+      //   this.searchData.order_by = this.$route.query.order_by as string;
+
+      const param = { ...this.searchData, ...this.pagingData };
+
+      this.serviceModule.getServiceList(param);
     } else {
-      // this.target = this.selectOptions[0].value;
       this.serviceModule.getServiceList();
     }
   }
@@ -190,6 +207,42 @@ export default class ServiceManagementPage extends Vue {
 
   destroyed() {
     this.serviceModule.setServiceList([]);
+    this.serviceModule.setPagination({} as Pagination);
+  }
+
+  get pagination(): Pagination {
+    return this.serviceModule.pagination;
+  }
+
+  onChangedPage(page: number) {
+    this.pagingData.page = String(page);
+    this.getList();
+  }
+
+  getList() {
+    const query = {} as SearchCondition;
+    if (Object.keys(this.searchData).includes('nm')) query.nm = this.searchData.nm as string;
+    if (Object.keys(this.searchData).includes('id')) query.id = this.searchData.id as string;
+    if (Object.keys(this.searchData).includes('tkcgr_nm')) query.athn = this.searchData.athn as string;
+    if (Object.keys(this.pagingData).includes('page')) query.page = this.pagingData.page;
+    if (Object.keys(this.pagingData).includes('size')) query.size = this.pagingData.size;
+    if (Object.keys(this.pagingData).includes('sort_by')) query.sort_by = this.pagingData.sort_by as string;
+    if (Object.keys(this.pagingData).includes('ordeer_by')) query.order_by = this.pagingData.order_by as string;
+
+    this.$router.push({
+      name: 'service',
+      query: {
+        ...query,
+      },
+    });
+  }
+
+  modal = false;
+  modalShow() {
+    this.modal = true;
+  }
+  modalHide() {
+    this.modal = false;
   }
 }
 </script>

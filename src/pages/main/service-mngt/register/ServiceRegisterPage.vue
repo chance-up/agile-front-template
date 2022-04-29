@@ -6,7 +6,7 @@
           type="text"
           :inputNm="$t('service.name')"
           :check="isDuplicatedNm"
-          :placeholder="$t('service.name')"
+          :placeholder="$t('service.nameEx')"
           v-model="formData.nm"
           @input="duplicateCheckNm()"
         />
@@ -14,26 +14,26 @@
           type="text"
           :inputNm="$t('service.id')"
           :check="isDuplicatedId"
-          :placeholder="$t('service.id')"
+          :placeholder="$t('service.idEx')"
           v-model="formData.id"
           @input="duplicateCheckId()"
         />
         <InputGroup
           type="text"
           :inputNm="$t('service.tkcgrNm')"
-          :placeholder="$t('service.tkcgrNm')"
+          :placeholder="$t('service.tkcgrNmEx')"
           :value.sync="formData.tkcgr_nm"
         />
         <InputGroup
           type="text"
           :inputNm="$t('service.tkcgrPos')"
-          :placeholder="$t('service.tkcgrPos')"
+          :placeholder="$t('service.tkcgrPosEx')"
           :value.sync="formData.tkcgr_pos"
         />
         <InputGroup
           type="text"
           :inputNm="$t('service.tkcgrEml')"
-          :placeholder="$t('service.tkcgrEml')"
+          :placeholder="$t('service.tkcgrEmlEx')"
           inputClass="input-box lg check-ok"
           :value.sync="formData.tkcgr_eml"
         />
@@ -50,13 +50,10 @@
           :basicId="basicAuth.id"
           :basicPW="basicAuth.pw"
           :athn.sync="show"
-          :id.sync="formData.athn.BASIC_AUTH.id"
-          :pw.sync="formData.athn.BASIC_AUTH.pw"
           :alg.sync="formData.athn.JWT.alg"
           :issuer.sync="formData.athn.JWT.issuer"
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
-          :isShowProgress="isShowProgress"
         ></AuthReqGroup>
         <SlaReqGroup
           inputNm="SLA 정책관리"
@@ -66,11 +63,20 @@
           :TPSCnt.sync="formData.sla_cnt"
         />
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
+
+        <ModalLayout size="m" v-if="modal">
+          <template v-slot:modalHeader><h1 class="h1-tit">서비스 등록</h1> </template>
+          <template v-slot:modalContainer> <p class="text">서비스를 등록하시겠습니까?</p></template>
+          <template v-slot:modalFooter
+            ><button class="lg-btn purple-btn" @click="submitForm()">확인</button
+            ><button class="lg-btn purple-btn" @click="modalHide()">취소</button>
+          </template>
+        </ModalLayout>
       </ul>
     </template>
     <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="submitForm()">등록</button>
+        <button class="lg-btn purple-btn" @click="modalShow()">등록</button>
         <button class="lg-btn white-btn" @click="$router.go(-1)">취소</button>
       </div>
     </template>
@@ -88,7 +94,7 @@ import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { BasicAuthResponse, ServiceRegisterRequest } from '@/types/ServiceType';
 import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
-import { USER_STATE } from '@/store/UserState';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 
 @Component({
   components: {
@@ -99,6 +105,7 @@ import { USER_STATE } from '@/store/UserState';
     SlaReqGroup,
     SysExGroup,
     TextDebounceForm,
+    ModalLayout,
   },
 })
 export default class SystemRegisterPage extends Vue {
@@ -150,14 +157,18 @@ export default class SystemRegisterPage extends Vue {
     desc: '',
   };
 
+  modal = false;
+  modalShow() {
+    this.modal = true;
+  }
+  modalHide() {
+    this.modal = false;
+  }
+
   submitForm(): void {
-    if (confirm('서비스를 등록하시겠습니까?') == true) {
-      console.log(this.formData);
-      this.serviceModule.createserviceAction(this.formData);
-      this.$router.back();
-    } else {
-      return;
-    }
+    console.log(this.formData);
+    this.serviceModule.createserviceAction(this.formData);
+    this.$router.back();
   }
 
   timerNm = 0;
@@ -169,7 +180,8 @@ export default class SystemRegisterPage extends Vue {
     this.timerNm = setTimeout(async () => {
       console.log('서비스명 입력 1초 경과');
       console.log(this.formData.nm);
-      this.isDuplicatedNm = await this.serviceModule.duplicateCheck(this.formData.nm);
+      await this.serviceModule.getDuplicatedCheckNm(this.formData.nm);
+      this.isDuplicatedNm = this.serviceModule.duplicatedNm.isDuplicated;
     }, 1000);
   }
 
@@ -182,7 +194,8 @@ export default class SystemRegisterPage extends Vue {
     this.timerId = setTimeout(async () => {
       console.log('id 입력 1초 경과');
       console.log(this.formData.id);
-      this.isDuplicatedId = await this.serviceModule.duplicateCheck(this.formData.id);
+      await this.serviceModule.getDuplicatedCheckId(this.formData.id);
+      this.isDuplicatedNm = this.serviceModule.duplicatedId.isDuplicated;
     }, 1000);
   }
 
@@ -194,21 +207,17 @@ export default class SystemRegisterPage extends Vue {
     return this.serviceModule.basicAuth;
   }
 
-  isShowProgress = true;
-  get userState() {
-    return this.serviceModule.currAsyncState;
+  @Watch('basicAuth.id')
+  onIdChange(val: string) {
+    this.formData.athn.BASIC_AUTH.id = val;
   }
-  @Watch('userState')
-  onCurrAsyncStateChange(userState: USER_STATE) {
-    console.log('userState : ', userState);
-    if (userState === USER_STATE.LOADING) {
-      this.isShowProgress = true;
-    } else if (userState === USER_STATE.ERROR) {
-      this.isShowProgress = false;
-      this.$modal.show('서버 통신 에러');
-    } else if (userState === USER_STATE.DONE) {
-      this.isShowProgress = false;
-    }
+  @Watch('basicAuth.pw')
+  onPwChange(val: string) {
+    this.formData.athn.BASIC_AUTH.pw = val;
+  }
+
+  destroyed() {
+    this.serviceModule.setBasicAuth({ id: '', pw: '' });
   }
 }
 </script>

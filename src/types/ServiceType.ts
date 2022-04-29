@@ -40,6 +40,10 @@ export interface BasicAuthResponse {
   pw: string;
 }
 
+export interface duplicatedCheck {
+  isDuplicated: boolean;
+}
+
 export const basicAuthMock: BasicAuthResponse = {
   id: 'AKSJaiohfasdAS7asD',
   pw: 'KL8SsS1KKsdJKASH9',
@@ -63,14 +67,14 @@ export interface ServiceRegisterRequest {
 
 export const pagination: Pagination = {
   page: 1,
-  size: 1,
-  total_elements: 1,
-  total_pages: 1,
-  current_elements: 1,
+  size: 10,
+  total_elements: 57,
+  total_pages: 6,
+  current_elements: 10,
   current_page: 1,
-  order_by: '',
-  sort_by: '',
-  limit: 1,
+  order_by: 'ID',
+  sort_by: 'DESC',
+  limit: 10,
 };
 
 export const searchServiceListResponse: ServiceResponse[] = [
@@ -249,5 +253,33 @@ export const basicAuthData: Data<BasicAuthResponse> = {
 
 export const getBasicAuth: GateWayResponse<BasicAuthResponse> = {
   data: basicAuthData,
+  status: 0,
+};
+
+export const duplicatedTrue: duplicatedCheck = {
+  isDuplicated: true,
+};
+
+export const duplicatedFalse: duplicatedCheck = {
+  isDuplicated: false,
+};
+
+export const duplicatedTrueData: Data<duplicatedCheck> = {
+  pagination: pagination,
+  value: duplicatedTrue,
+};
+
+export const duplicatedfalseData: Data<duplicatedCheck> = {
+  pagination: pagination,
+  value: duplicatedFalse,
+};
+
+export const getDuplicatedTrue: GateWayResponse<duplicatedCheck> = {
+  data: duplicatedTrueData,
+  status: 0,
+};
+
+export const getDuplicatedFalse: GateWayResponse<duplicatedCheck> = {
+  data: duplicatedfalseData,
   status: 0,
 };
