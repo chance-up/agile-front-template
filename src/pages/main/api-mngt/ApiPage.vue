@@ -1,8 +1,17 @@
 <template>
   <div>
     <ListLayout :title="`${this.$t('api.api')}${this.$t('api.management')}`" subTitle="API List">
-      <template v-slot:search-form>
-        <SearchForm :searchPanelOption="searchOption" />
+      <template slot="search-form">
+        <div class="search-wrap">
+          <h2 class="h2-tit">{{ $t('common.search') }}</h2>
+          <div class="search-cont">
+            <SelectBox v-model="searchData" :label="searchOption.label" :selectOptions="searchOption.selectOptions" />
+          </div>
+
+          <button class="mid-btn" @click="searchOnClieckEvent">
+            <i><img src="@/assets/search_ico.svg" :alt="$t('common.search')" /></i>{{ $t('common.search') }}
+          </button>
+        </div>
       </template>
       <template v-slot:list-form>
         <ListForm title="API List" :isShowProgress="isShowProgress">
@@ -41,6 +50,7 @@
             <tbody>
               <ListRow v-for="(apiData, index) in apiList" :key="index" :apiData="apiData" :index="index" />
             </tbody>
+            <button @click="handle">test</button>
           </template>
           <template slot="pagination">
             <Paging />
@@ -60,6 +70,9 @@ import ListRow from '@/components/api-mngt/list/ListRow.vue';
 import { ApiDetailResponse } from '@/types/ApiType';
 import ApiModule from '@/store/modules/ApiModule';
 import { getModule } from 'vuex-module-decorators';
+import SelectBox from '@/components/commons/search-option/SelectBox.vue';
+import InputBox from '@/components/commons/search-option/InputBox.vue';
+import { SelectOptionType } from '@/types/SearchType';
 import Paging from '@/components/commons/Paging.vue';
 import { USER_STATE } from '@/store/UserState';
 import { BSpinner } from 'bootstrap-vue';
@@ -71,26 +84,29 @@ import { BSpinner } from 'bootstrap-vue';
     SearchForm,
     ListForm,
     ListRow,
+    SelectBox,
+    InputBox,
     Paging,
     BSpinner,
   },
 })
 export default class ApiPage extends Vue {
-  searchOption = [
-    {
-      type: 'selectBox',
-      label: `${this.$t('api.basic')}` + `${this.$t('api.information')}`,
-      placeholder: `${this.$t('api.placeholder')}`,
-      selectOptions: [
-        `${this.$t('api.api')} ${this.$t('api.id')}`,
-        `${this.$t('api.api')} ${this.$t('api.name')}`,
-        `${this.$t('api.platform')}${this.$t('api.name')}`,
-        `${this.$t('api.uri')}`,
-      ],
-    },
-  ];
+  searchOption = {
+    type: 'selectBox',
+    label: `${this.$t('api.basic')}` + `${this.$t('api.information')}`,
+    placeholder: `${this.$t('api.placeholder')}`,
+    selectOptions: [
+      `${this.$t('api.api')} ${this.$t('api.id')}`,
+      `${this.$t('api.api')} ${this.$t('api.name')}`,
+      `${this.$t('api.platform')}${this.$t('api.name')}`,
+      `${this.$t('api.uri')}`,
+    ],
+  };
   apiModule = getModule(ApiModule, this.$store);
-
+  searchData: SelectOptionType = {
+    label: '',
+    value: '',
+  };
   created() {
     this.apiModule.getApiList();
   }
@@ -98,6 +114,24 @@ export default class ApiPage extends Vue {
     this.apiModule.reset();
   }
 
+  searchOnClieckEvent() {
+    console.log('searchData : ', this.searchData);
+    if (Object.values(this.searchData).some((item) => item != '')) {
+      this.$router.push({
+        name: 'api',
+        query: {
+          target: this.searchData.label,
+          value: this.searchData.value,
+        },
+      });
+    } else {
+      this.$modal.show('검색 데이터를 입력해주세요.');
+    }
+  }
+  handle() {
+    console.log(this.$route.query, 'this.$route.query');
+    this.$route.query.a = 'c';
+  }
   get apiList(): ApiDetailResponse[] {
     console.log(this.apiModule.apiList);
     return this.apiModule.apiList;
