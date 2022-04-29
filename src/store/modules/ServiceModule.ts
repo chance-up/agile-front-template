@@ -175,6 +175,7 @@ export default class ServiceModule extends GateWayModule {
     addMock('/api/service/registerService', JSON.stringify(getServiceId));
 
     try {
+      this.showLoading();
       const response = await AxiosClient.getInstance().post<GateWayResponse<ServiceResponse>>(
         '/api/service/registerService',
         {
@@ -182,6 +183,7 @@ export default class ServiceModule extends GateWayModule {
         }
       );
       console.log(response.data.value);
+      this.dissmissLoading();
       // TODO:: 성공 or 실패 팝업으로 변경
       // this.context.commit('createserviceMutation', response.data.value);
     } catch (error: GateWayError | any) {
@@ -215,13 +217,14 @@ export default class ServiceModule extends GateWayModule {
   async editServiceAction(data: ServiceRegisterRequest) {
     addMock('/api/service/updateServiceInfo', JSON.stringify(getServiceId));
     try {
+      this.showLoading();
       const response = await AxiosClient.getInstance().put<GateWayResponse<ServiceRegisterRequest>>(
         '/api/service/updateServiceInfo',
         {
           data,
         }
       );
-
+      this.dissmissLoading();
       // TODO:: 성공 or 실패 팝업으로 변경
       // this.context.commit('editServiceMutation', response.data);
     } catch (error: GateWayError | any) {
@@ -250,9 +253,9 @@ export default class ServiceModule extends GateWayModule {
         serviceId: id,
       });
       console.log(response);
-      this.context.commit('setServiceList', []);
+      // this.context.commit('setServiceList', []);
       // if (200 === response.data.common.code) {
-      this.getServiceList();
+      // this.getServiceList();
       // }
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {

@@ -62,7 +62,7 @@
           <div class="text-center">
             <b-spinner
               v-show="isShowProgress"
-              style="width: 2rem; height: 2rem; position: absolute; left: 50%"
+              style="width: 2rem; height: 2rem; position: absolute; left: 50%; margin-top: 2.5%"
               label="Large Spinner"
             ></b-spinner>
           </div>
@@ -94,7 +94,9 @@
                 </button>
                 <ModalLayout size="m" v-if="modal">
                   <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
-                  <template v-slot:modalContainer> <p class="text">서비스를 삭제하시겠습니까?</p></template>
+                  <template v-slot:modalContainer>
+                    <p class="text">서비스를 등록하시겠습니까?</p>
+                  </template>
                   <template v-slot:modalFooter
                     ><button class="lg-btn purple-btn" @click="deleteService(list.id)">확인</button
                     ><button class="lg-btn purple-btn" @click="modalHide()">취소</button>
@@ -149,8 +151,9 @@ export default class ServiceManagementPage extends Vue {
     return this.serviceModule.services;
   }
 
-  deleteService(ServiceId: string) {
-    this.serviceModule.deleteServiceAction(ServiceId);
+  async deleteService(ServiceId: string) {
+    await this.serviceModule.deleteServiceAction(ServiceId);
+    this.$router.go(0);
     this.modal = false;
   }
   searchOnClieckEvent() {

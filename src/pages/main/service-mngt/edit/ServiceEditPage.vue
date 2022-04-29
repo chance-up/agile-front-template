@@ -78,7 +78,15 @@
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
         <ModalLayout size="m" v-if="modal">
           <template v-slot:modalHeader><h1 class="h1-tit">서비스 수정</h1> </template>
-          <template v-slot:modalContainer> <p class="text">서비스를 수정하시겠습니까?</p></template>
+          <template v-slot:modalContainer>
+            <p v-if="!isShowProgress" class="text">서비스를 수정하시겠습니까?</p>
+            <div v-if="isShowProgress" style="width: 100%; text-align: center">
+              <b-spinner
+                v-show="isShowProgress"
+                style="width: 2.5rem; height: 2.5rem"
+                label="Large Spinner"
+              ></b-spinner></div
+          ></template>
           <template v-slot:modalFooter
             ><button class="lg-btn purple-btn" @click="editService()">확인</button
             ><button class="lg-btn purple-btn" @click="modalHide()">취소</button>
@@ -177,16 +185,13 @@ export default class SystemRegisterPage extends Vue {
         publickey: '',
       };
     } else {
-      this.formData.athn.BASIC_AUTH = {
-        id: '',
-        pw: '',
-      };
+      this.serviceModule.setBasicAuth({ id: '', pw: '' });
     }
   }
 
-  editService() {
+  async editService() {
     console.log(this.serviceOption);
-    this.serviceModule.editServiceAction(this.serviceOption);
+    await this.serviceModule.editServiceAction(this.serviceOption);
     this.$router.back();
   }
 
