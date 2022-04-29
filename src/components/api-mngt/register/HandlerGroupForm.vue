@@ -22,7 +22,7 @@
                 "
                 >{{ handlerGroup.apiGroupNm }}</span
               >
-              <p class="multi-btn" @click="showModalMethod(handlerGroup.apiGroupId)"></p>
+              <p ref="multiBtn" class="multi-btn" @click="showModalMethod(handlerGroup.apiGroupId)"></p>
             </li>
             <HandlerModal :handlerGroup="sendHandlerGroup" v-if="showModal" @close="showModal = false" />
           </ul>
@@ -55,27 +55,29 @@ export default class HandlerGroupForm extends Vue {
   //     this.isSelectOpen = false;
   //   }
   // }
+  clickCheck = 0;
   onClick2(e: MouseEvent): void {
-    // console.log('click!!!!!');
-    // console.log(e.target);
-    // console.log(this.$refs.selectFrom);
-    // console.log('click!!!!!');
+    console.log('========');
+
     if (e.target !== this.$refs.selectRow) {
-      if (e.target !== this.$refs.selectFrom) {
-        // if (e.target !== this.$refs.selectFrom && this.isSelectOpen == true) {
+      if (e.target !== this.$refs.selectFrom && e.target !== this.$refs.multiBtn) {
         //결과 창 닫기
-        // console.log('외부클릭함');
+        console.log('외부클릭함');
         this.isSelectOpen = false;
       } else {
-        // console.log('내부클릭함');
+        console.log('내부클릭함');
       }
     }
+    console.log('========');
   }
-  // mounted() {
+  // created() {
   //   window.addEventListener('click', this.onClick2);
   // }
-  created() {
-    window.addEventListener('click', this.onClick2);
+  mounted() {
+    console.log('addEvent');
+    const registerPage = document.getElementById('api-register') as HTMLElement;
+    registerPage.addEventListener('click', this.onClick2);
+    registerPage.removeEventListener;
   }
   chooseHandlerGroup = 'handler 그룹을 선택해주세요';
   showModal = false;

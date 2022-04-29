@@ -1,5 +1,5 @@
 <template lang="html">
-  <ContentLayout title="API 등록" subTitle="기본정보 등록" depth="API 관리">
+  <ContentLayout title="API 등록" subTitle="기본정보 등록" depth="API 관리" id="api-register">
     <template v-slot:contents>
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
@@ -13,8 +13,16 @@
 
         <SelectSysForm groupNm="시스템 연동 정보" :optionList="ifGrpList" v-model="requestBody.ifGrp" />
 
-        <HandlerGroupForm groupNm="요청 handler 그룹" :handlerGroupList="handlerGroupList" @input="clickHandlerGroup" />
-        <HandlerGroupForm groupNm="응답 handler 그룹" :handlerGroupList="handlerGroupList" @input="clickHandlerGroup" />
+        <HandlerGroupForm
+          groupNm="요청 handler 그룹"
+          :handlerGroupList="handlerGroupList"
+          v-model="requestBody.reqHandlrGrpId"
+        />
+        <HandlerGroupForm
+          groupNm="응답 handler 그룹"
+          :handlerGroupList="handlerGroupList"
+          v-model="requestBody.resHandlrGrpId"
+        />
         <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
         <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
       </ul>
