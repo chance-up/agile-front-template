@@ -105,8 +105,16 @@ export default class HandlerGroupForm extends Vue {
   /////
   @Watch('showModal')
   detectChangeShowModal(newV: boolean, oldV: boolean) {
+    console.log('=======================');
     console.log('showModal value change: ' + oldV + ' -> ' + newV);
     console.log('current showModal value: ' + this.showModal);
+  }
+
+  @Watch('isSelectOpen')
+  detectChangeIsSelectOpen(newV: boolean, oldV: boolean) {
+    console.log('=======================');
+    console.log('isSelectOpen value change: ' + oldV + ' -> ' + newV);
+    console.log('current isSelectOpen value: ' + this.isSelectOpen);
   }
 }
 </script>
