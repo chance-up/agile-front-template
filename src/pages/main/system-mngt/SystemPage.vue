@@ -93,7 +93,7 @@
           </tbody>
         </template>
         <template slot="pagination">
-          <Pagination :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
+          <Paging :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
         </template>
       </ListForm>
     </template>
@@ -110,11 +110,12 @@ import ListLayout from '@/components/layout/ListLayout.vue';
 import InputBox from '@/components/commons/search-option/InputBox.vue';
 import SelectBox from '@/components/commons/search-option/SelectBox.vue';
 import ListForm from '@/components/commons/ListForm.vue';
-import Pagination from '@/components/commons/Pagination.vue';
+import Paging from '@/components/commons/Paging.vue';
 
 import { SearchCondition } from '@/types/SearchType';
-import { SystemResponse, PaginationType } from '@/types/SystemType';
+import { SystemResponse } from '@/types/SystemType';
 import { USER_STATE } from '@/store/UserState';
+import { Pagination } from '@/types/GateWayResponse';
 
 @Component({
   components: {
@@ -122,7 +123,7 @@ import { USER_STATE } from '@/store/UserState';
     InputBox,
     SelectBox,
     ListForm,
-    Pagination,
+    Paging,
   },
 })
 export default class SystemPage extends Vue {
@@ -168,7 +169,7 @@ export default class SystemPage extends Vue {
     return this.systemModule.systemList;
   }
 
-  get pagination(): PaginationType {
+  get pagination(): Pagination {
     return this.systemModule.pagination;
   }
 
@@ -239,7 +240,7 @@ export default class SystemPage extends Vue {
 
   destroyed() {
     this.systemModule.setSystemList([]);
-    this.systemModule.setPagination({} as PaginationType);
+    this.systemModule.setPagination({} as Pagination);
   }
 }
 </script>

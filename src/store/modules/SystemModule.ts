@@ -6,10 +6,9 @@ import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
 
-import { GateWayResponse } from '@/types/GateWayResponse';
+import { GateWayResponse, Pagination } from '@/types/GateWayResponse';
 import GateWayModule from '../GateWayModule';
 import {
-  PaginationType,
   dummyListData,
   dummySearchData,
   dummyDetailData,
@@ -21,7 +20,7 @@ import {
 
 @Module({ name: 'SystemModule' })
 export default class SystemModule extends GateWayModule {
-  public pagination: PaginationType = {} as PaginationType;
+  public pagination: Pagination = {} as Pagination;
   public systemList: SystemResponse[] = [];
   public system: SystemResponse = {
     id: '',
@@ -48,7 +47,7 @@ export default class SystemModule extends GateWayModule {
   }
 
   @Mutation
-  setPagination(pagination: PaginationType) {
+  setPagination(pagination: Pagination) {
     this.pagination = pagination;
   }
 
@@ -85,23 +84,6 @@ export default class SystemModule extends GateWayModule {
         this.showError();
       }
     }
-    // } else {
-    //   try {
-    //     addMock('/system/getSystemSearch', JSON.stringify(dummySearchData));
-    //     const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>(
-    //       '/system/getSystemSearch'
-    //     );
-    //     // console.log('system get list response', response.data.value);
-    //     this.context.commit('setSystemList', response.data.value);
-    //     this.context.commit('setPagination', response.data.pagination);
-    //   } catch (error: GateWayError | any) {
-    //     if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-    //       console.log('NetWork not connection');
-    //     } else {
-    //       console.log('서버통신에 실패하였습니다.');
-    //     }
-    //   }
-    // }
   }
 
   // 시스템 관리 상세 정보

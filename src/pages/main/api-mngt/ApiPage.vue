@@ -43,7 +43,7 @@
             </tbody>
           </template>
           <template slot="pagination">
-            <Pagination />
+            <Paging />
           </template>
         </ListForm>
       </template>
@@ -60,7 +60,7 @@ import ListRow from '@/components/api-mngt/list/ListRow.vue';
 import { ApiDetailResponse } from '@/types/ApiType';
 import ApiModule from '@/store/modules/ApiModule';
 import { getModule } from 'vuex-module-decorators';
-import Pagination from '@/components/commons/Pagination.vue';
+import Paging from '@/components/commons/Paging.vue';
 import { USER_STATE } from '@/store/UserState';
 import { BSpinner } from 'bootstrap-vue';
 
@@ -71,7 +71,7 @@ import { BSpinner } from 'bootstrap-vue';
     SearchForm,
     ListForm,
     ListRow,
-    Pagination,
+    Paging,
     BSpinner,
   },
 })
