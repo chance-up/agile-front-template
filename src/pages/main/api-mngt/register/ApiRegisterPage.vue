@@ -4,8 +4,22 @@
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
         <SelectForm groupNm="시스템명" :optionList="sysList.map((item) => item.nm)" v-model="requestBody.sysNm" />
-        <TextDebounceForm groupNm="API ID" :check="apiIdCheck" type="text" :required="true" v-model="requestBody.id" />
-        <TextForm groupNm="API 명" type="text" :required="true" v-model="requestBody.nm" />
+        <TextDebounceForm
+          inputNm="API ID"
+          :check="isDuplicatedId"
+          :placeholder="$t('api.idEx')"
+          type="text"
+          :required="true"
+          v-model="requestBody.id"
+          @input="duplicateCheckId"
+        />
+        <TextForm
+          groupNm="API 명"
+          type="text"
+          :placeholder="$t('api.nmEx')"
+          :required="true"
+          v-model="requestBody.nm"
+        />
         <TextForm groupNm="인터페이스 번호" type="text" :required="true" :disabled="true" v-model="requestBody.ifNo" />
 
         <MethodForm groupNm="Method" v-model="requestBody.meth" />
@@ -131,18 +145,32 @@ export default class ApiRegisterPage extends Vue {
     this.requestBody.ifNo = selectedSystem.nm + '_v1_' + this.requestBody.id;
   }
   // api id가 입력될때마다 api id 중복체크
-  apiIdCheck: boolean | null = null;
-  @Watch('requestBody.id')
-  async handleChangeApiId() {
-    console.log('apiId changed', this.requestBody.id);
-    const { id } = this.requestBody;
-    this.apiIdCheck = await apiValidationCheck(id);
-    if (this.apiIdCheck) {
-      this.requestBody.ifNo = this.requestBody.sysNm + '_v1_' + this.requestBody.id;
-      this.requestBody.uriIn = 'someUriIn';
-      this.requestBody.uriOut = 'someUriOut';
+  // apiIdCheck: boolean | null = null;
+  // @Watch('requestBody.id')
+  // async handleChangeApiId() {
+  //   console.log('apiId changed', this.requestBody.id);
+  //   const { id } = this.requestBody;
+  //   this.apiIdCheck = await apiValidationCheck(id);
+  //   if (this.apiIdCheck) {
+  //     this.requestBody.ifNo = this.requestBody.sysNm + '_v1_' + this.requestBody.id;
+  //     this.requestBody.uriIn = 'someUriIn';
+  //     this.requestBody.uriOut = 'someUriOut';
+  //   }
+  // }
+
+  timerId = 0;
+  isDuplicatedId: boolean | null = null;
+  duplicateCheckId() {
+    if (this.timerId) {
+      clearTimeout(this.timerId);
     }
+    this.timerId = setTimeout(async () => {
+      console.log('id 입력 1초 경과');
+      console.log(this.requestBody.id);
+      this.isDuplicatedId = await apiValidationCheck(this.requestBody.id);
+    }, 1000);
   }
+
   // backend 연결 전 임시 등록
   handleClickSubmitButton() {
     // this.$modal.show(this.convertToString(this.requestBody) + '\n 등록하시겠습니까?');

@@ -2,16 +2,18 @@
   <li>
     <label for="" class="label" :class="{ point: required }">{{ groupNm }}</label>
     <div v-if="type == 'text'" class="form-cont">
-      <input v-if="disabled" type="text" :value="value" class="input-box lg" :class="{ 'check-ok': check }" disabled />
+      <input v-if="disabled" type="text" :value="value" class="input-box lg" disabled :placeholder="placeholder" />
       <input
         v-if="!disabled"
         type="text"
-        id=""
         class="input-box lg"
-        :class="{ 'check-ok': check }"
-        :value="formValue"
-        @input="$emit('input', $event.target.value)"
+        :class="{ 'check-ok': notiMessage[0], 'check-false': !notiMessage[0] && show }"
+        v-model="text"
+        :placeholder="placeholder"
+        @focus="notice()"
       />
+      <p v-if="show && notiMessage[0] == null" class="red-txt noti">해당 목록은 필수 입력값입니다.</p>
+      <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
 
     <div v-if="type == 'number'" class="form-cont">
@@ -20,40 +22,69 @@
         type="number"
         :value="value"
         class="input-box lg disabled"
-        :class="{ 'check-ok': check }"
         disabled
+        :placeholder="placeholder"
       />
       <input
         v-if="!disabled"
         type="number"
         id=""
         class="input-box lg"
-        :class="{ 'check-ok': check }"
-        :value="formValue"
+        :class="{ 'check-ok': notiMessage[0], 'check-false': !notiMessage[0] && show }"
+        :value="num"
         @input="$emit('input', $event.target.value)"
+        :placeholder="placeholder"
       />
     </div>
 
     <div v-if="type == 'textarea'" class="form-cont">
-      <textarea class="textarea" @input="$emit('input', $event.target.value)" :value="value" />
+      <textarea
+        class="textarea"
+        @input="$emit('input', $event.target.value)"
+        :value="value"
+        :placeholder="placeholder"
+      />
     </div>
   </li>
 </template>
 <script lang="ts">
+import { checkEnglishNumber, checkLength } from '@/utils/validation';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component
 export default class TextForm extends Vue {
   @Prop() type!: string | null;
   @Prop() groupNm!: string | null;
-  @Prop({ default: false }) check!: boolean | null;
   @Prop({ default: false }) required!: boolean | null;
   @Prop({ default: false }) disabled!: boolean;
-  @Prop() value!: number | null;
+  @Prop() value!: string | number | null;
+  @Prop() placeholder!: string | null;
 
-  formValue = 0;
   mounted() {
-    this.formValue = this.value as number;
+    if (typeof this.value === 'string') {
+      this.text = this.value;
+    } else if (typeof this.value === 'number') {
+      this.num = this.value;
+    }
+  }
+  notiMessage: [boolean | null, string] = [null, ''];
+  text = '';
+  num = 0;
+  show = false;
+
+  @Watch('text')
+  onValueChange(val: string) {
+    if (checkLength(val, 1, 20)) {
+      this.notiMessage = [true, ''];
+    } else if (val == '') {
+      this.notiMessage = [null, ''];
+    } else {
+      this.notiMessage = [false, this.$t('api.valid_check_nm') as string];
+    }
+    this.$emit('input', val);
+  }
+  notice() {
+    this.show = true;
   }
 }
 </script>
