@@ -15,8 +15,16 @@
 
         <SelectSysForm groupNm="시스템 연동 정보" :optionList="system.if_grp" v-model="requestBody.ifGrp" />
 
-        <HandlerGroupForm groupNm="요청 handler 그룹" v-model="requestBody.reqHandlrGrpId" :handlerGroupList="[]" />
-        <HandlerGroupForm groupNm="응답 handler 그룹" v-model="requestBody.resHandlrGrpId" :handlerGroupList="[]" />
+        <HandlerGroupForm
+          groupNm="요청 handler 그룹"
+          v-model="requestBody.reqHandlrGrpId"
+          :handlerGroupList="handlerGroupList"
+        />
+        <HandlerGroupForm
+          groupNm="응답 handler 그룹"
+          v-model="requestBody.resHandlrGrpId"
+          :handlerGroupList="handlerGroupList"
+        />
         <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
         <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
       </ul>
@@ -36,7 +44,7 @@
 <script lang="ts">
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { dummySystemList, dummySystemInfList, ApiCreateRequestBody } from '@/types/ApiType';
+import { dummySystemList, dummySystemInfList, ApiCreateRequestBody, HandlerGroupDetail } from '@/types/ApiType';
 import HandlerGroupForm from '@/components/api-mngt/register/HandlerGroupForm.vue';
 import SelectForm from '@/components/api-mngt/register/SelectForm.vue';
 import SelectSysForm from '@/components/api-mngt/register/SelectSysForm.vue';
@@ -85,6 +93,10 @@ export default class ApiEditPage extends Vue {
   }
   created() {
     this.apiModule.getApiDetail(this.$route.params.id);
+    this.apiModule.getHandlerGroupList();
+  }
+  get handlerGroupList(): HandlerGroupDetail[] {
+    return this.apiModule.handlerGroupList;
   }
 
   requestBody: ApiCreateRequestBody = {

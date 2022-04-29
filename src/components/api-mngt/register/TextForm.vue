@@ -49,13 +49,11 @@ export default class TextForm extends Vue {
   @Prop({ default: false }) check!: boolean | null;
   @Prop({ default: false }) required!: boolean | null;
   @Prop({ default: false }) disabled!: boolean;
-  @Prop() value!: string | null;
+  @Prop() value!: number | null;
 
-  formValue = '';
-
-  @Watch('value')
-  onValueChange(val: string) {
-    this.formValue = val;
+  formValue = 0;
+  mounted() {
+    this.formValue = this.value as number;
   }
 }
 </script>
