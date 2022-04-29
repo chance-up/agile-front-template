@@ -1,12 +1,12 @@
 <template>
   <tr>
-    <td>{{ index + 1 }}</td>
-    <td>
+    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">{{ index + 1 }}</td>
+    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">
       <span class="bold">{{ apiData.sysId }}</span>
     </td>
-    <td>{{ apiData.id }}</td>
+    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">{{ apiData.id }}</td>
     <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">{{ apiData.nm }}</td>
-    <td>
+    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">
       <span
         v-for="(method, idx) in apiData.meth"
         :key="idx"
@@ -21,9 +21,9 @@
         {{ method }}
       </span>
     </td>
-    <td class="tl">{{ apiData.uriIn }}</td>
-    <td>{{ apiData.timeOut }}</td>
-    <td>
+    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })" class="tl">{{ apiData.uriIn }}</td>
+    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">{{ apiData.timeOut }}</td>
+    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">
       <span>{{ apiData.cretDt.slice(0, 10) }}</span
       ><span>{{ apiData.updDt.slice(11, 19) }}</span>
     </td>
