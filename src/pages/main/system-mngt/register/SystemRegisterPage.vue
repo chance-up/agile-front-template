@@ -51,13 +51,15 @@
           :place="$t('system.tkcgrEml')"
           :isvalid.sync="tkcgrEmlValid"
         />
-        <InterfaceGroup :inputNm="$t('system.ifGrp')" :ifgrps.sync="systemItem.if_grp" />
+        <InterfaceGroup :inputNm="$t('system.ifGrp')" :isvalid.sync="ifGrpValid" :ifgrps.sync="systemItem.if_grp" />
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
     </template>
     <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="onSubmit">{{ $t('common.register') }}</button>
+        <button id="submitBtn" class="lg-btn purple-btn" @click="onSubmit" :disabled="isBtnDisabled">
+          {{ $t('common.register') }}
+        </button>
         <button class="lg-btn white-btn" @click="cancelOnClickEvent">{{ $t('common.cancel') }}</button>
       </div>
     </template>
@@ -76,6 +78,7 @@ import Interface from '@/components/system-mngt/Interface.vue';
 import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import TextDebounceForm from '@/components/system-mngt/TextDebounceForm.vue';
 import { SystemResponse } from '@/types/SystemType';
+import { USER_STATE } from '@/store/UserState';
 
 @Component({
   components: {
@@ -92,11 +95,16 @@ export default class SystemRegisterPage extends Vue {
   // 2. 중복 검사가 필요하지 않는 경우에는 유효성 검사만 수행한다.
   // 3. 중복 검사가 필요한 경우에는 중복 검사를 수행한다.
   // 4. 중복 검사에 필요한 메서드는 InputGroup에 prop으로 넘겨준다.
+  totalValid: boolean[] = [];
   nmValid = false;
   idValid = false;
   tkcgrNmValid = false;
   tkcgrPosValid = false;
   tkcgrEmlValid = false;
+  ifGrpValid: boolean[] = [false, false];
+
+  isShowProgress = false;
+  isBtnDisabled = true;
 
   systemModule = getModule(SystemModule, this.$store);
 
@@ -125,15 +133,82 @@ export default class SystemRegisterPage extends Vue {
     updated_by: '',
   };
 
-  onSubmit(): void {
+  get userState() {
+    return this.systemModule.currAsyncState;
+  }
+
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    if (userState === USER_STATE.LOADING) {
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.isShowProgress = false;
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
+    }
+  }
+
+  @Watch('nmValid')
+  onNmValidChange(newVal: boolean) {
+    this.totalValid.splice(0, 1, newVal);
+  }
+
+  @Watch('tkcgrNmValid')
+  onTkcgrNmValidChange(newVal: boolean) {
+    this.totalValid.splice(1, 1, newVal);
+  }
+
+  @Watch('tkcgrPosValid')
+  onTkcgrPosValidChange(newVal: boolean) {
+    this.totalValid.splice(2, 1, newVal);
+  }
+
+  @Watch('tkcgrEmlValid')
+  onTkcgrEmlValidChange(newVal: boolean) {
+    this.totalValid.splice(3, 1, newVal);
+  }
+
+  @Watch('ifGrpValid')
+  onIfGrpValidChange(newVal: boolean[]) {
+    if (newVal[0] && newVal[1]) this.totalValid.splice(4, 1, true);
+    else this.totalValid.splice(4, 1, false);
+  }
+
+  @Watch('totalValid')
+  onTotalValidChange(newVal: boolean[]) {
+    if (newVal.every((item) => item === true)) this.isBtnDisabled = false;
+    else this.isBtnDisabled = true;
+  }
+
+  async onSubmit() {
     if (confirm('서비스를 등록하시겠습니까?') == true) {
-      console.log(this.systemItem);
-      console.log('valid!!!!!');
-      console.log(this.nmValid);
-      console.log(this.idValid);
-      console.log(this.tkcgrNmValid);
-      console.log(this.tkcgrPosValid);
-      console.log(this.tkcgrEmlValid);
+      // console.log(this.systemItem);
+      // console.log('valid!!!!!');
+      // console.log(this.nmValid);
+      // console.log(this.idValid);
+      // console.log(this.tkcgrNmValid);
+      // console.log(this.tkcgrPosValid);
+      // console.log(this.tkcgrEmlValid);
+      // console.log('ifGrpValid', this.ifGrpValid);
+
+      const val =
+        this.nmValid &&
+        this.tkcgrNmValid &&
+        this.tkcgrPosValid &&
+        this.tkcgrEmlValid &&
+        this.ifGrpValid[0] &&
+        this.ifGrpValid[1]
+          ? true
+          : false;
+
+      if (!val) {
+        this.$modal.show('빈 항목이 있습니다.');
+        return;
+      } else {
+        await this.systemModule.registerSystem(this.systemItem);
+        this.$router.push({ name: 'system' });
+      }
     } else {
       return;
     }
@@ -146,6 +221,10 @@ export default class SystemRegisterPage extends Vue {
   isDuplicated: boolean | null = null;
   async duplicateCheck() {
     this.isDuplicated = await this.systemModule.duplicateCheck(this.systemItem.id);
+  }
+
+  destroyed() {
+    this.systemItem = {} as SystemResponse;
   }
 }
 </script>

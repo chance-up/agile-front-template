@@ -81,15 +81,37 @@ export default class InterfaceGroup extends Vue {
   // ifgrps는 부모로부터 넘어오는 값.
   // 해당 값을 배열로 선언하고, 추가 삭제할 때 마다 배열의 값이 변한다.
   @Prop({ default: () => [] }) ifgrps!: IfGrpType[];
+  @Prop({ default: false }) isvalid!: boolean | null;
 
   notiMessage: [boolean | null, string][] = [[null, this.$t('system.empty_check') as string]];
+
   emptyChk: boolean[] = [false];
   domainEmptyChk: IfDomainEmptyChkType[][] = [[{ isFocus: false, isEmpty: true }]];
+  ifGrpValid: boolean[] = [false, false];
 
   @Watch('notiMessage')
   onNotiMessageChange(val: [boolean | null, string][]) {
     console.log('notiMessage', val);
   }
+
+  // ifGrp valid check에 필요한 watch들
+  @Watch('emptyChk')
+  onEmptyChkChange(val: boolean[]) {
+    if (val.every((item) => item === true)) this.ifGrpValid.splice(0, 1, true);
+    else this.ifGrpValid.splice(0, 1, false);
+  }
+
+  @Watch('domainEmptyChk')
+  onDomainEmptyChkChange(val: IfDomainEmptyChkType[][]) {
+    if (val.every((item) => item.every((item2) => item2.isEmpty === false))) this.ifGrpValid.splice(1, 1, true);
+    else this.ifGrpValid.splice(1, 1, false);
+  }
+
+  @Watch('ifGrpValid')
+  ifGrpValidChange(val: boolean[]) {
+    this.$emit('update:isvalid', val);
+  }
+  // ------------------------------------
 
   duplCheck(val: string) {
     const ifgrpList = this.ifgrps.filter((ifgrp) => ifgrp.if_nm === val);
@@ -164,23 +186,25 @@ export default class InterfaceGroup extends Vue {
     this.domainEmptyChk[idx].splice(idx2, 1);
   }
 
+  //연동 방식 그룹명 포커싱 체크
   emptyChkFunc(idx: number) {
     this.emptyChk.splice(idx, 1, true);
   }
 
+  //연동 방식 uri 포커싱 체크
   domainEmptyChkFunc(idx: number, idx2: number) {
     const domianEmpty = this.domainEmptyChk[idx][idx2].isEmpty;
-    console.log('domainEmptyChk', this.domainEmptyChk);
-    this.domainEmptyChk[idx][idx2].isFocus = true;
-    console.log('현재 포커스 위치 : (', idx, ', ', idx2, ') ==> ', this.domainEmptyChk[idx][idx2]);
+    this.domainEmptyChk[idx].splice(idx2, 1, { isFocus: true, isEmpty: domianEmpty });
   }
 
+  //연동 방식 uri 공백 여부 체크
   domainValidCheck(idx: number, idx2: number) {
     let val = this.ifgrps[idx].if_url[idx2].domain;
+    const domainFocus = this.domainEmptyChk[idx][idx2].isFocus;
     if (val == '') {
-      this.domainEmptyChk[idx][idx2].isEmpty = true;
+      this.domainEmptyChk[idx].splice(idx2, 1, { isFocus: domainFocus, isEmpty: true });
     } else {
-      this.domainEmptyChk[idx][idx2].isEmpty = false;
+      this.domainEmptyChk[idx].splice(idx2, 1, { isFocus: domainFocus, isEmpty: false });
     }
   }
 }
