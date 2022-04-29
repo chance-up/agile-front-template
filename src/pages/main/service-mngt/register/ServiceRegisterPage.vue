@@ -65,16 +65,25 @@
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
 
         <ModalLayout size="m" v-if="modal">
-          <template v-slot:modalHeader><h1 class="h1-tit">서비스 등록</h1> </template>
-          <template v-slot:modalContainer> <p class="text">서비스를 등록하시겠습니까?</p></template>
+          <template v-slot:modalHeader><h2 class="h1-tit">서비스 등록</h2> </template>
+          <template v-slot:modalContainer>
+            <p v-if="!isShowProgress" class="text">서비스를 등록하시겠습니까?</p>
+            <div v-if="isShowProgress" style="width: 100%; text-align: center">
+              <b-spinner
+                v-show="isShowProgress"
+                style="width: 2.5rem; height: 2.5rem"
+                label="Large Spinner"
+              ></b-spinner>
+            </div>
+          </template>
           <template v-slot:modalFooter
-            ><button class="lg-btn purple-btn" @click="submitForm()">확인</button
-            ><button class="lg-btn purple-btn" @click="modalHide()">취소</button>
+            ><button v-if="!isShowProgress" class="lg-btn purple-btn" @click="submitForm()">확인</button
+            ><button v-if="!isShowProgress" class="lg-btn purple-btn" @click="modalHide()">취소</button>
           </template>
         </ModalLayout>
       </ul>
     </template>
-    <template v-slot:buttons>
+    <template v-if="!isShowProgress" v-slot:buttons>
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="modalShow()">등록</button>
         <button class="lg-btn white-btn" @click="$router.go(-1)">취소</button>
@@ -95,6 +104,8 @@ import ServiceModule from '@/store/modules/ServiceModule';
 import { BasicAuthResponse, ServiceRegisterRequest } from '@/types/ServiceType';
 import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
+import { USER_STATE } from '@/store/UserState';
+import { BSpinner } from 'bootstrap-vue';
 
 @Component({
   components: {
@@ -106,6 +117,7 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
     SysExGroup,
     TextDebounceForm,
     ModalLayout,
+    BSpinner,
   },
 })
 export default class SystemRegisterPage extends Vue {
@@ -121,10 +133,7 @@ export default class SystemRegisterPage extends Vue {
         publickey: '',
       };
     } else {
-      this.formData.athn.BASIC_AUTH = {
-        id: '',
-        pw: '',
-      };
+      this.serviceModule.setBasicAuth({ id: '', pw: '' });
     }
   }
 
@@ -165,9 +174,9 @@ export default class SystemRegisterPage extends Vue {
     this.modal = false;
   }
 
-  submitForm(): void {
+  async submitForm() {
     console.log(this.formData);
-    this.serviceModule.createserviceAction(this.formData);
+    await this.serviceModule.createserviceAction(this.formData);
     this.$router.back();
   }
 
@@ -195,7 +204,7 @@ export default class SystemRegisterPage extends Vue {
       console.log('id 입력 1초 경과');
       console.log(this.formData.id);
       await this.serviceModule.getDuplicatedCheckId(this.formData.id);
-      this.isDuplicatedNm = this.serviceModule.duplicatedId.isDuplicated;
+      this.isDuplicatedId = this.serviceModule.duplicatedId.isDuplicated;
     }, 1000);
   }
 
@@ -214,6 +223,25 @@ export default class SystemRegisterPage extends Vue {
   @Watch('basicAuth.pw')
   onPwChange(val: string) {
     this.formData.athn.BASIC_AUTH.pw = val;
+  }
+
+  isShowProgress = false;
+
+  get userState() {
+    return this.serviceModule.currAsyncState;
+  }
+
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.isShowProgress = false;
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
+    }
   }
 
   destroyed() {

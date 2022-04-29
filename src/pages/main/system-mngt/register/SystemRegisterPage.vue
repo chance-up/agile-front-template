@@ -13,14 +13,23 @@
           :place="$t('system.name')"
           :isvalid.sync="nmValid"
         />
-        <TextDebounceForm
+        <!-- 시스템 ID 자동생성/수정불가라서 disable 처리해야할 수도 있음 -->
+        <InputGroup
+          type="text"
+          :value.sync="systemItem.id"
+          :inputNm="$t('system.id')"
+          :place="$t('system.autoCreate')"
+          :isvalid.sync="idValid"
+        />
+        <!-- :disabled="true" -->
+        <!-- <TextDebounceForm
           type="text"
           :check="isDuplicated"
           :v-model="systemItem.id"
           :inputNm="$t('system.id')"
           :place="$t('system.autoCreate')"
-        />
-        <!-- @input="duplicateCheck" -->
+          @input="duplicateCheck"
+        /> -->
         <InputGroup
           type="text"
           :value.sync="systemItem.tkcgr_nm"
@@ -84,6 +93,7 @@ export default class SystemRegisterPage extends Vue {
   // 3. 중복 검사가 필요한 경우에는 중복 검사를 수행한다.
   // 4. 중복 검사에 필요한 메서드는 InputGroup에 prop으로 넘겨준다.
   nmValid = false;
+  idValid = false;
   tkcgrNmValid = false;
   tkcgrPosValid = false;
   tkcgrEmlValid = false;
@@ -120,6 +130,7 @@ export default class SystemRegisterPage extends Vue {
       console.log(this.systemItem);
       console.log('valid!!!!!');
       console.log(this.nmValid);
+      console.log(this.idValid);
       console.log(this.tkcgrNmValid);
       console.log(this.tkcgrPosValid);
       console.log(this.tkcgrEmlValid);

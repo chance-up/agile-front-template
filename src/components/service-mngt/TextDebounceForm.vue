@@ -11,9 +11,11 @@
           'check-false': notiMessage[0] === false,
         }"
         class="input-box lg"
+        @focus="notice()"
       />
+      <p v-if="show && notiMessage[0] == null" class="red-txt noti">해당 목록은 필수 입력값입니다.</p>
       <p v-if="check == false" class="red-txt noti">중복된 이름입니다.</p>
-      <p v-if="!notiMessage[0]" class="red-txt noti">{{ notiMessage[1] }}</p>
+      <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
   </li>
 </template>
@@ -29,6 +31,7 @@ export default class TextDebounceForm extends Vue {
   @Prop({ default: '' }) value!: string;
   @Prop({ default: '' }) active!: string;
   text = '';
+  show = false;
   @Watch('text')
   onValueChange(val: string) {
     switch (this.inputNm) {
@@ -54,6 +57,10 @@ export default class TextDebounceForm extends Vue {
   }
 
   notiMessage: [boolean | null, string] = [null, ''];
+
+  notice() {
+    this.show = true;
+  }
 }
 </script>
 <style lang=""></style>
