@@ -50,7 +50,6 @@
             <tbody>
               <ListRow v-for="(apiData, index) in apiList" :key="index" :apiData="apiData" :index="index" />
             </tbody>
-            <button @click="handle">test</button>
           </template>
           <template slot="pagination">
             <Paging />
@@ -113,24 +112,19 @@ export default class ApiPage extends Vue {
   destroyed() {
     this.apiModule.reset();
   }
-
   searchOnClieckEvent() {
     console.log('searchData : ', this.searchData);
+    const query: { [key: string]: string } = {};
+    query[this.searchData.label] = this.searchData.value;
+    console.log(query);
     if (Object.values(this.searchData).some((item) => item != '')) {
       this.$router.push({
         name: 'api',
-        query: {
-          target: this.searchData.label,
-          value: this.searchData.value,
-        },
+        query,
       });
     } else {
       this.$modal.show('검색 데이터를 입력해주세요.');
     }
-  }
-  handle() {
-    console.log(this.$route.query, 'this.$route.query');
-    this.$route.query.a = 'c';
   }
   get apiList(): ApiDetailResponse[] {
     console.log(this.apiModule.apiList);

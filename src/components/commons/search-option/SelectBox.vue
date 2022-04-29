@@ -6,7 +6,7 @@
         {{ item }}
       </option>
     </select>
-    <input type="text" class="input-box" :value="searchData.value" :placeholder="placeholder" />
+    <input type="text" class="input-box" v-model="searchData.value" :placeholder="placeholder" />
   </div>
 </template>
 
@@ -25,15 +25,23 @@ export default class SelectBox extends Vue {
     label: '',
     value: '',
   };
-
+  created() {
+    this.searchData.label = this.selectOptions[0];
+  }
   handleChangeTarget(event: any) {
     this.searchData.label = event.target.value;
+    this.searchData.value = '';
+    console.log('handleChangeTarget : ', this.searchData);
   }
 
   @Watch('value')
   handleChangeValue(value: SelectOptionType) {
     this.searchData.value = value.value;
     this.searchData.label = value.label;
+  }
+  @Watch('searchData.value')
+  handleChangeSearchData() {
+    this.$emit('input', this.searchData);
   }
 }
 </script>
