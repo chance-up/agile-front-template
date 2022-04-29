@@ -1,4 +1,4 @@
-import { GateWayResponse } from '@/types/GateWayResponse';
+import { GateWayResponse, Pagination } from '@/types/GateWayResponse';
 import { AxiosClient } from '@/axios/AxiosClient';
 import { Module, Mutation, Action } from 'vuex-module-decorators';
 import {
@@ -9,6 +9,9 @@ import {
   getSearchServiceInfo,
   BasicAuthResponse,
   getBasicAuth,
+  duplicatedCheck,
+  getDuplicatedTrue,
+  getDuplicatedFalse,
 } from '@/types/ServiceType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
@@ -77,9 +80,17 @@ export default class ServiceModule extends GateWayModule {
     desc: '',
   };
 
+  public pagination: Pagination = {} as Pagination;
+
   public basicAuth: BasicAuthResponse = {
     id: '',
     pw: '',
+  };
+  public duplicatedNm: duplicatedCheck = {
+    isDuplicated: true,
+  };
+  public duplicatedId: duplicatedCheck = {
+    isDuplicated: true,
   };
 
   //서비스 리스트 요청
@@ -92,42 +103,34 @@ export default class ServiceModule extends GateWayModule {
   getMethod() {
     console.log('getMethod');
   }
+  @Mutation
+  setPagination(pagination: Pagination) {
+    this.pagination = pagination;
+  }
 
   @Action
   async getServiceList(searchOption?: object) {
-    if (!searchOption) {
-      try {
-        this.showLoading();
-
-        addMock('/api/service/getServiceInfo', JSON.stringify(getServiceInfo));
-        const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
-          '/api/service/getServiceInfo'
-        );
-        this.context.commit('setServiceList', response.data.value);
-        this.dissmissLoading();
-      } catch (error: GateWayError | any) {
-        if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-          this.showError();
-        } else {
-          this.showError();
-        }
-      }
+    let data = null;
+    if (searchOption == undefined) {
+      data = JSON.stringify(getServiceInfo);
     } else {
-      try {
-        this.showLoading();
+      data = JSON.stringify(getSearchServiceInfo);
+    }
+    try {
+      this.showLoading();
 
-        addMock('/api/service/getServiceInfoSearch', JSON.stringify(getSearchServiceInfo));
-        const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
-          '/api/service/getServiceInfoSearch'
-        );
-        this.context.commit('setServiceList', response.data.value);
-        this.dissmissLoading();
-      } catch (error: GateWayError | any) {
-        if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-          this.showError();
-        } else {
-          this.showError();
-        }
+      addMock('/api/service/getServiceInfo', data);
+      const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
+        '/api/service/getServiceInfo'
+      );
+      this.context.commit('setServiceList', response.data.value);
+      this.context.commit('setPagination', response.data.pagination);
+      this.dissmissLoading();
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        this.showError();
+      } else {
+        this.showError();
       }
     }
   }
@@ -247,6 +250,7 @@ export default class ServiceModule extends GateWayModule {
         serviceId: id,
       });
       console.log(response);
+      this.context.commit('setServiceList', []);
       // if (200 === response.data.common.code) {
       this.getServiceList();
       // }
@@ -260,11 +264,28 @@ export default class ServiceModule extends GateWayModule {
   }
 
   // Service ID 중복 체크
+  @Mutation
+  setDuplicatedCheckNm(duplicatedResponse: duplicatedCheck) {
+    console.log('중복되지 않은 서비스명 입니다.');
+    this.duplicatedNm = duplicatedResponse;
+  }
   @Action
-  async duplicateCheck(id: string): Promise<boolean> {
-    addMock(`/system/detail/${id}`, JSON.stringify(getServiceId));
-    const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>(`/service/detail/${id}`);
-    return true;
+  async getDuplicatedCheckNm(nm: string) {
+    addMock(`/service/detail/${nm}`, JSON.stringify(getDuplicatedTrue));
+    const response = await AxiosClient.getInstance().get<GateWayResponse<duplicatedCheck>>(`/service/detail/${nm}`);
+    this.context.commit('setDuplicatedCheckNm', response.data.value);
+  }
+
+  @Mutation
+  setDuplicatedCheckId(duplicatedResponse: duplicatedCheck) {
+    console.log('중복된 서비스ID 입니다.');
+    this.duplicatedId = duplicatedResponse;
+  }
+  @Action
+  async getDuplicatedCheckId(id: string) {
+    addMock(`/service/detail/${id}`, JSON.stringify(getDuplicatedFalse));
+    const response = await AxiosClient.getInstance().get<GateWayResponse<duplicatedCheck>>(`/service/detail/${id}`);
+    this.context.commit('setDuplicatedCheckId', response.data.value);
   }
 
   @Mutation

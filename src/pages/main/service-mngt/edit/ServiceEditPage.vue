@@ -10,7 +10,7 @@
         <InputGroup
           type="text"
           inputNm="서비스명"
-          placeholder="placeholder"
+          :placeholder="$t('service.nameEx')"
           inputClass="input-box lg check-ok"
           :disabled="true"
           :value.sync="formData.nm"
@@ -18,7 +18,7 @@
         <InputGroup
           type="text"
           inputNm="서비스 ID"
-          placeholder="placeholder"
+          :placeholder="$t('service.idEx')"
           inputClass="input-box lg check-ok"
           :disabled="true"
           :value.sync="formData.id"
@@ -26,19 +26,19 @@
         <InputGroup
           type="text"
           :inputNm="$t('service.tkcgrNm')"
-          :placeholder="$t('service.tkcgrNm')"
+          :placeholder="$t('service.tkcgrNmEx')"
           :value.sync="formData.tkcgr_nm"
         />
         <InputGroup
           type="text"
           :inputNm="$t('service.tkcgrPos')"
-          :placeholder="$t('service.tkcgrPos')"
+          :placeholder="$t('service.tkcgrPosEx')"
           :value.sync="formData.tkcgr_pos"
         />
         <InputGroup
           type="text"
           :inputNm="$t('service.tkcgrEml')"
-          :placeholder="$t('service.tkcgrEml')"
+          :placeholder="$t('service.tkcgrEmlEx')"
           inputClass="input-box lg check-ok"
           :value.sync="formData.tkcgr_eml"
         />
@@ -50,10 +50,11 @@
           :endDt.sync="formData.svc_end_dt"
         />
         <AuthReqGroup
+          @basicAuthClicked="basicAuthClicked"
           inputNm="인증수단"
+          :basicId="basicAuth.id"
+          :basicPW="basicAuth.pw"
           :athn.sync="show"
-          :id.sync="formData.athn.BASIC_AUTH.id"
-          :pw.sync="formData.athn.BASIC_AUTH.pw"
           :alg.sync="formData.athn.JWT.alg"
           :issuer.sync="formData.athn.JWT.issuer"
           :subject.sync="formData.athn.JWT.subject"
@@ -75,11 +76,19 @@
           :TPSCnt.sync="formData.sla_cnt"
         />
         <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
+        <ModalLayout size="m" v-if="modal">
+          <template v-slot:modalHeader><h1 class="h1-tit">서비스 수정</h1> </template>
+          <template v-slot:modalContainer> <p class="text">서비스를 수정하시겠습니까?</p></template>
+          <template v-slot:modalFooter
+            ><button class="lg-btn purple-btn" @click="editService()">확인</button
+            ><button class="lg-btn purple-btn" @click="modalHide()">취소</button>
+          </template>
+        </ModalLayout>
       </ul>
     </template>
     <template v-if="!isShowProgress" v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="editService()">등록</button>
+        <button class="lg-btn purple-btn" @click="modalShow()">수정</button>
         <button class="lg-btn white-btn" @click="$router.back()">취소</button>
       </div>
     </template>
@@ -95,8 +104,9 @@ import SlaReqGroup from '@/components/service-mngt/SlqReqGroup.vue';
 import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
-import { ServiceRegisterRequest } from '@/types/ServiceType';
+import { BasicAuthResponse, ServiceRegisterRequest } from '@/types/ServiceType';
 import { USER_STATE } from '@/store/UserState';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 
 @Component({
   components: {
@@ -106,6 +116,7 @@ import { USER_STATE } from '@/store/UserState';
     AuthReqGroup,
     SlaReqGroup,
     SysExGroup,
+    ModalLayout,
   },
 })
 export default class SystemRegisterPage extends Vue {
@@ -174,13 +185,9 @@ export default class SystemRegisterPage extends Vue {
   }
 
   editService() {
-    if (confirm('서비스를 등록하시겠습니까?') == true) {
-      console.log(this.serviceOption);
-      this.serviceModule.editServiceAction(this.serviceOption);
-      this.$router.back();
-    } else {
-      return;
-    }
+    console.log(this.serviceOption);
+    this.serviceModule.editServiceAction(this.serviceOption);
+    this.$router.back();
   }
 
   createAuthId() {
@@ -205,6 +212,35 @@ export default class SystemRegisterPage extends Vue {
     } else if (userState === USER_STATE.DONE) {
       this.isShowProgress = false;
     }
+  }
+
+  modal = false;
+  modalShow() {
+    this.modal = true;
+  }
+  modalHide() {
+    this.modal = false;
+  }
+
+  basicAuthClicked() {
+    this.serviceModule.getBasicAuth();
+  }
+
+  get basicAuth(): BasicAuthResponse {
+    return this.serviceModule.basicAuth;
+  }
+
+  @Watch('basicAuth.id')
+  onIdChange(val: string) {
+    this.formData.athn.BASIC_AUTH.id = val;
+  }
+  @Watch('basicAuth.pw')
+  onPwChange(val: string) {
+    this.formData.athn.BASIC_AUTH.pw = val;
+  }
+
+  destroyed() {
+    this.serviceModule.setBasicAuth({ id: '', pw: '' });
   }
 }
 </script>

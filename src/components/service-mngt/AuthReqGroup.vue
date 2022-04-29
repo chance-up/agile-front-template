@@ -18,7 +18,6 @@
               <input type="text" id="" class="input-box" placeholder="자동생성/변경불가" disabled v-model="basicId" />
               <button @click="clicked" class="xs-btn">
                 <i class="serve"></i>
-                <!-- <BSpinner v-show="isShowProgress" style="width: 2rem; height: 2rem" label="Large Spinner"></BSpinner> -->
               </button>
             </div>
           </li>
@@ -84,7 +83,6 @@ export default class AuthReqGroup extends Vue {
   @Prop({ default: '' }) publicKey!: string;
   @Prop() basicId!: string;
   @Prop() basicPW!: string;
-  @Prop() isShowProgress!: boolean;
 
   show = 'init';
 
