@@ -14,7 +14,7 @@
         class="input-box lg"
         @focus="notice()"
       />
-      <p v-if="show && notiMessage[0] == null" class="red-txt noti">해당 목록은 필수 입력값입니다.</p>
+      <p v-if="show && text == ''" class="red-txt noti">해당 목록은 필수 입력값입니다.</p>
       <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
   </li>

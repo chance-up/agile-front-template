@@ -48,6 +48,7 @@ export default class HandlerGroupForm extends Vue {
   @Prop() groupNm!: string | null;
   // @Prop() closeSelect!: string | null;
   @Prop({ default: () => [] }) handlerGroupList!: HandlerGroupDetail[];
+
   chooseHandlerGroup = 'handler 그룹을 선택해주세요';
   showModal = false;
   sendHandlerGroup: HandlerGroupDetail = {
@@ -101,20 +102,6 @@ export default class HandlerGroupForm extends Vue {
     console.log('handlerGroupId => ' + handlerGroupId);
     this.$emit('input', handlerGroupId);
     this.isSelectOpen = false;
-  }
-  /////
-  @Watch('showModal')
-  detectChangeShowModal(newV: boolean, oldV: boolean) {
-    console.log('=======================');
-    console.log('showModal value change: ' + oldV + ' -> ' + newV);
-    console.log('current showModal value: ' + this.showModal);
-  }
-
-  @Watch('isSelectOpen')
-  detectChangeIsSelectOpen(newV: boolean, oldV: boolean) {
-    console.log('=======================');
-    console.log('isSelectOpen value change: ' + oldV + ' -> ' + newV);
-    console.log('current isSelectOpen value: ' + this.isSelectOpen);
   }
 }
 </script>

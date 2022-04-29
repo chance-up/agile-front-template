@@ -55,22 +55,18 @@ export default class ModalLayout extends Vue {
   s = false;
   created() {
     if (this.size == 'l') {
-      console.log('size=l');
       this.l = true;
       this.m = false;
       this.s = false;
     } else if (this.size == 'm') {
-      console.log('size=m');
       this.l = false;
       this.m = true;
       this.s = false;
     } else {
-      console.log('size=s');
       this.l = false;
       this.m = false;
       this.s = true;
     }
-    console.log(this.size);
   }
 }
 </script>
