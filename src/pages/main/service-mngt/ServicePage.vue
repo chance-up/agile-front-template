@@ -79,11 +79,11 @@
                 {{ list.athn.BASIC_AUTH.id == '' ? 'JWT' : 'Basic Auth' }}
               </td>
               <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                {{ list.svc_st_dt.slice(0, 10) }} ~ {{ list.svc_end_dt.slice(0, 10) }}
+                <span>{{ list.svc_st_dt.slice(0, 10) }}</span> ~ <span>{{ list.svc_end_dt.slice(0, 10) }}</span>
               </td>
               <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                 <span>{{ list.upd_dt.slice(0, 10) }}</span
-                ><br /><span>{{ list.upd_dt.slice(11, 19) }}</span>
+                ><span>{{ list.upd_dt.slice(11, 19) }}</span>
               </td>
               <td>
                 <button class="mod-btn" @click="$router.push({ name: 'service-edit', params: { id: list.id } })">
@@ -95,7 +95,7 @@
                 <ModalLayout size="m" v-if="modal">
                   <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
                   <template v-slot:modalContainer>
-                    <p class="text">서비스를 등록하시겠습니까?</p>
+                    <p class="text">서비스를 삭제하시겠습니까?</p>
                   </template>
                   <template v-slot:modalFooter
                     ><button class="lg-btn purple-btn" @click="deleteService(list.id)">확인</button

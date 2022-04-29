@@ -2,38 +2,42 @@
   <li>
     <label class="label">{{ inputNm }}</label>
     <div v-if="athn == 'BASIC_AUTH'" class="form-cont">
-      <div class="form-group">
-        <p>{{ athn }}</p>
-      </div>
-      <div class="form-group">
-        <label class="label">ID :</label>
-        <span>{{ id }}</span>
-      </div>
-      <div class="form-group">
-        <label class="label">PW :</label>
-        <span>{{ pw }}</span>
+      <p class="bold">{{ athn }}</p>
+      <div class="sub-group">
+        <ul>
+          <li>
+            <label class="label">ID :</label>
+            <span>{{ id }}</span>
+          </li>
+          <li>
+            <label class="label">PW :</label>
+            <span>{{ pw }}</span>
+          </li>
+        </ul>
       </div>
     </div>
 
     <div v-else-if="athn == 'JWT'" class="form-cont">
-      <div class="form-group">
-        <p>{{ athn }}</p>
-      </div>
-      <div class="form-group">
-        <label class="label">알고리즘 :</label>
-        <span>{{ alg }}</span>
-      </div>
-      <div class="form-group">
-        <label class="label">발급자 :</label>
-        <span>{{ issuer }}</span>
-      </div>
-      <div class="form-group">
-        <label class="label">대상자 :</label>
-        <span>{{ subject }}</span>
-      </div>
-      <div class="form-group">
-        <label class="label">공개key :</label>
-        <span>{{ publickey }}</span>
+      <p class="bold">{{ athn }}</p>
+      <div class="sub-group">
+        <ul>
+          <li>
+            <label class="label">알고리즘 :</label>
+            <span>{{ alg }}</span>
+          </li>
+          <li>
+            <label class="label">발급자 :</label>
+            <span>{{ issuer }}</span>
+          </li>
+          <li>
+            <label class="label">대상자 :</label>
+            <span>{{ subject }}</span>
+          </li>
+          <li>
+            <label class="label">공개key :</label>
+            <span>{{ publickey }}</span>
+          </li>
+        </ul>
       </div>
     </div>
   </li>

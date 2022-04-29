@@ -14,7 +14,7 @@
         class="input-box lg"
         @focus="notice()"
       />
-      <p v-if="show && text == ''" class="red-txt noti">해당 목록은 필수 입력값입니다.</p>
+      <p v-if="show && text == ''" class="red-txt noti">해당 항목은 필수 입력값입니다.</p>
       <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
   </li>
@@ -57,12 +57,12 @@ export default class InputGroup extends Vue {
         }
         break;
       case this.$t('service.tkcgrEml'):
-        if (checkEmail(val) && checkEnglishKorean(val)) {
+        if (checkLength(val, 1, 20) && checkEmail(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [true, ''];
+          this.notiMessage = [null, ''];
         } else {
-          this.notiMessage = [false, this.$t('system.valid_check_tkcgrPos') as string];
+          this.notiMessage = [false, this.$t('system.valid_check_tkcgrEml') as string];
         }
         break;
     }

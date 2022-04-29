@@ -12,20 +12,30 @@
 
       <div v-if="SLA == 'total'" class="form-group sla-form">
         <!--  총량  -->
-        <select class="select-box mr15" v-model="totalType">
+        <select class="select-box mr15" v-model="totalType" @focus="noticeType()">
           <option value="MINITUE">분</option>
           <option value="HOUR">시</option>
           <option value="DAY">일</option>
           <option value="MONTH">월</option>
         </select>
-        <input type="text" id="" class="input-box" placeholder="number" v-model="totalCount" />
+        <input type="text" id="" class="input-box" placeholder="number" v-model="totalCount" @focus="noticeCount()" />
         <span>건</span>
       </div>
 
       <div v-if="SLA == 'TPS'" class="form-group sla-form">
-        <input type="text" id="" class="input-box lg" placeholder="number" v-model="TPSCount" />
+        <input type="text" id="" class="input-box lg" placeholder="number" v-model="TPSCount" @focus="noticeCount()" />
         <span>건</span>
       </div>
+      <p
+        v-if="
+          (showCount && SLA == 'total' && !totalCount) ||
+          (showType && SLA == 'total' && !totalType) ||
+          (showCount && SLA == 'TPS' && !TPSCount)
+        "
+        class="red-txt noti"
+      >
+        해당 헝목은 필수 입력값입니다.
+      </p>
     </div>
   </li>
 </template>
@@ -43,6 +53,8 @@ export default class SlaReqGroup extends Vue {
     return this.SLAn;
   }
   set SLA(val: string) {
+    this.showType = false;
+    this.showCount = false;
     this.$emit('update:SLAn', val);
   }
 
@@ -65,6 +77,17 @@ export default class SlaReqGroup extends Vue {
   }
   set TPSCount(val: number) {
     this.$emit('update:TPSCnt', val);
+  }
+
+  showType = false;
+
+  noticeType() {
+    this.showType = true;
+  }
+  showCount = false;
+
+  noticeCount() {
+    this.showCount = true;
   }
 }
 </script>
