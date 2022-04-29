@@ -1,11 +1,11 @@
 <template lang="html">
   <ContentLayout
-    v-if="mockData"
     :title="`${$t('api.api')}` + ' ' + `${$t('api.information')}` + ' ' + `${$t('api.confirm')}`"
     :subTitle="`${$t('api.basic')}` + `${$t('api.information')}` + ' ' + `${$t('api.confirm')}`"
     :depth="`${$t('api.api')}` + ' ' + `${$t('api.management')}`"
+    :isShowProgress="isShowProgress"
   >
-    <template v-slot:contents>
+    <template v-slot:contents v-if="!isShowProgress">
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
         <InfoGroup :inputNm="`${$t('api.system')}` + `${$t('api.name')}`" :value="mockData.syIid" />
@@ -31,7 +31,7 @@
       </ul>
     </template>
 
-    <template v-slot:buttons>
+    <template v-slot:buttons v-if="!isShowProgress">
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="$router.push({ name: 'api-edit', params: { id: mockData.id } })">
@@ -49,10 +49,12 @@ import InfoGroup from '@/components/api-mngt/detail/InfoGroup.vue';
 import MethodGroup from '@/components/api-mngt/detail/MethodGroup.vue';
 import URIGroup from '@/components/api-mngt/detail/URIGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { ApiDetailResponse } from '@/types/ApiType';
 import ApiModule from '@/store/modules/ApiModule';
 import { getModule } from 'vuex-module-decorators';
+
+import { USER_STATE } from '@/store/UserState';
 @Component({
   components: {
     InfoGroup,
@@ -72,6 +74,22 @@ export default class ApiDetailPage extends Vue {
   }
   destroyed() {
     this.apiModule.reset();
+  }
+  // for progress
+  isShowProgress = false;
+  get userState() {
+    return this.apiModule.currAsyncState;
+  }
+  @Watch('userState')
+  onCurrAsyncStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      this.isShowProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isShowProgress = false;
+    }
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template lang="html">
   <!-- <div class="body-wrap"> -->
   <!-- <div class="wrap"> -->
-  <article class="contents-wrap">
+  <article class="contents-wrap" :id="id">
     <div class="tit-wrap">
       <h1 class="h1-tit">{{ title }}</h1>
       <div v-if="depth" class="directory-wrap">
@@ -41,5 +41,6 @@ export default class ContentLayout extends Vue {
   @Prop() subTitle!: string | null;
   @Prop() depth!: string | null;
   @Prop() isShowProgress!: boolean;
+  @Prop() id!: string | null;
 }
 </script>

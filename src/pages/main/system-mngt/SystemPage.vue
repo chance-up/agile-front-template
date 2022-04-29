@@ -179,7 +179,6 @@ export default class SystemPage extends Vue {
 
   @Watch('userState')
   onCurrAsyncStateChange(userState: USER_STATE) {
-    console.log('userState : ', userState);
     if (userState === USER_STATE.LOADING) {
       this.isShowProgress = true;
     } else if (userState === USER_STATE.ERROR) {
@@ -208,12 +207,16 @@ export default class SystemPage extends Vue {
     if (Object.keys(this.pagingData).includes('sort_by')) query.sort_by = this.pagingData.sort_by as string;
     if (Object.keys(this.pagingData).includes('ordeer_by')) query.order_by = this.pagingData.order_by as string;
 
-    this.$router.push({
-      name: 'system',
-      query: {
-        ...query,
-      },
-    });
+    if (Object.is(JSON.stringify(this.$router.currentRoute.query), JSON.stringify(query))) {
+      this.$router.go(0);
+    } else {
+      this.$router.push({
+        name: 'system',
+        query: {
+          ...query,
+        },
+      });
+    }
   }
 
   onChangedPage(page: number) {
