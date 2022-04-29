@@ -78,7 +78,7 @@ export default class ServiceDetailPage extends Vue {
   onServiceOptionChange(val: ServiceResponse) {
     if (val.athn.BASIC_AUTH.id === '') {
       this.auth = 'JWT';
-    } else if (val.athn.JWT.alg === []) {
+    } else if (val.athn.JWT.alg === '') {
       this.auth = 'Basic Auth';
     }
   }

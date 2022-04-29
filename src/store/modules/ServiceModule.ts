@@ -12,6 +12,8 @@ import {
   duplicatedCheck,
   getDuplicatedTrue,
   getDuplicatedFalse,
+  getJWTAlg,
+  JWTAlgResponse,
 } from '@/types/ServiceType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
@@ -39,7 +41,7 @@ export default class ServiceModule extends GateWayModule {
         pw: '',
       },
       JWT: {
-        alg: [],
+        alg: '',
         issuer: '',
         subject: '',
         publickey: '',
@@ -70,7 +72,7 @@ export default class ServiceModule extends GateWayModule {
         pw: '',
       },
       JWT: {
-        alg: [],
+        alg: '',
         issuer: '',
         subject: '',
         publickey: '',
@@ -91,6 +93,10 @@ export default class ServiceModule extends GateWayModule {
   };
   public duplicatedId: duplicatedCheck = {
     isDuplicated: true,
+  };
+
+  public JWTAlg: JWTAlgResponse = {
+    alg: [],
   };
 
   //서비스 리스트 요청
@@ -303,5 +309,18 @@ export default class ServiceModule extends GateWayModule {
     const response = await AxiosClient.getInstance().get<GateWayResponse<BasicAuthResponse>>('/service/basicauth/');
     console.log('getBasicAuth' + response.data.value.id);
     this.context.commit('setBasicAuth', response.data.value);
+  }
+
+  @Mutation
+  setJWTAuth(JWTAlgResponse: JWTAlgResponse) {
+    console.log('set JWT Alg');
+    this.JWTAlg = JWTAlgResponse;
+  }
+
+  @Action
+  async getJWTAlg() {
+    addMock('/service/jwt/', JSON.stringify(getJWTAlg));
+    const response = await AxiosClient.getInstance().get<GateWayResponse<JWTAlgResponse>>('/service/jwt/');
+    this.context.commit('setJWTAuth', response.data.value);
   }
 }

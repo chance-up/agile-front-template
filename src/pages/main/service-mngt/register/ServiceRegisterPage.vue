@@ -50,7 +50,8 @@
           :basicId="basicAuth.id"
           :basicPW="basicAuth.pw"
           :athn.sync="show"
-          :alg.sync="formData.athn.JWT.alg"
+          :alg.sync="JWTAlg.alg"
+          :pickedAlg.sync="formData.athn.JWT.alg"
           :issuer.sync="formData.athn.JWT.issuer"
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
@@ -101,7 +102,7 @@ import SlaReqGroup from '@/components/service-mngt/SlqReqGroup.vue';
 import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
-import { BasicAuthResponse, ServiceRegisterRequest } from '@/types/ServiceType';
+import { BasicAuthResponse, JWTAlgResponse, ServiceRegisterRequest } from '@/types/ServiceType';
 import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { USER_STATE } from '@/store/UserState';
@@ -127,13 +128,14 @@ export default class SystemRegisterPage extends Vue {
   onShowChange(val: string) {
     if (val == 'BASIC_AUTH') {
       this.formData.athn.JWT = {
-        alg: [],
+        alg: '',
         issuer: '',
         subject: '',
         publickey: '',
       };
     } else {
       this.serviceModule.setBasicAuth({ id: '', pw: '' });
+      this.serviceModule.getJWTAlg();
     }
   }
 
@@ -156,7 +158,7 @@ export default class SystemRegisterPage extends Vue {
         pw: '',
       },
       JWT: {
-        alg: [],
+        alg: '',
         issuer: '',
         subject: '',
         publickey: '',
@@ -225,6 +227,10 @@ export default class SystemRegisterPage extends Vue {
     this.formData.athn.BASIC_AUTH.pw = val;
   }
 
+  get JWTAlg(): JWTAlgResponse {
+    return this.serviceModule.JWTAlg;
+  }
+
   isShowProgress = false;
 
   get userState() {
@@ -242,11 +248,6 @@ export default class SystemRegisterPage extends Vue {
     } else if (userState === USER_STATE.DONE) {
       this.isShowProgress = false;
     }
-  }
-
-  @Watch('formData')
-  onformDataChange(inputData: ServiceRegisterRequest) {
-    console.log(inputData);
   }
 
   destroyed() {

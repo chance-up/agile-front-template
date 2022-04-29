@@ -36,7 +36,7 @@
           <li>
             <div class="auth-form">
               <label class="label">알고리즘 :</label>
-              <select class="select-box" v-model="show" @focus="noticeAlg()">
+              <select class="select-box" v-model="algPick" @focus="noticeAlg()">
                 <option value="init">선택해주세요</option>
                 <option v-for="item in JWTalg" :key="item" :value="item">{{ item }}</option>
               </select>
@@ -65,7 +65,7 @@
       <!-- /JWT -->
       <p
         v-if="
-          (showAlg && show == 'init') ||
+          (showAlg && algPick == 'init') ||
           (showInput && JWTissuer == '') ||
           (showInput && JWTsubject == '') ||
           (showInput && JWTpublicKey == '') ||
@@ -93,11 +93,16 @@ export default class AuthReqGroup extends Vue {
   @Prop({ default: '' }) issuer!: string;
   @Prop({ default: '' }) subject!: string;
   @Prop({ default: '' }) publicKey!: string;
+  @Prop({ default: '' }) pickedAlg!: string;
   @Prop() basicId!: string;
   @Prop() basicPW!: string;
 
-  show = 'init';
-
+  get algPick() {
+    return this.pickedAlg;
+  }
+  set algPick(val: string) {
+    this.$emit('update:pickedAlg', val);
+  }
   get auth() {
     return this.athn;
   }

@@ -54,8 +54,9 @@
           inputNm="인증수단"
           :basicId="basicAuth.id"
           :basicPW="basicAuth.pw"
-          :athn.sync="show"
-          :alg.sync="formData.athn.JWT.alg"
+          :athn.sync="showAuth"
+          :alg.sync="JWTAlg.alg"
+          :pickedAlg.sync="formData.athn.JWT.alg"
           :issuer.sync="formData.athn.JWT.issuer"
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
@@ -112,7 +113,7 @@ import SlaReqGroup from '@/components/service-mngt/SlqReqGroup.vue';
 import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
-import { BasicAuthResponse, ServiceRegisterRequest } from '@/types/ServiceType';
+import { BasicAuthResponse, JWTAlgResponse, ServiceRegisterRequest } from '@/types/ServiceType';
 import { USER_STATE } from '@/store/UserState';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 
@@ -153,7 +154,7 @@ export default class SystemRegisterPage extends Vue {
         pw: '',
       },
       JWT: {
-        alg: [],
+        alg: '',
         issuer: '',
         subject: '',
         publickey: '',
@@ -163,28 +164,29 @@ export default class SystemRegisterPage extends Vue {
     desc: '',
   };
 
-  show = '';
+  showAuth = '';
   @Watch('serviceOption')
   onServiceOptionChanged() {
     if (this.serviceOption.athn.BASIC_AUTH?.id != '') {
-      this.show = 'BASIC_AUTH';
+      this.showAuth = 'BASIC_AUTH';
     } else {
-      this.show = 'JWT';
+      this.showAuth = 'JWT';
     }
     this.formData = this.serviceOption;
   }
 
-  @Watch('show')
+  @Watch('showAuth')
   onShowChange(val: string) {
-    console.log(this.show);
+    console.log(this.showAuth);
     if (val == 'BASIC_AUTH') {
       this.formData.athn.JWT = {
-        alg: [],
+        alg: '',
         issuer: '',
         subject: '',
         publickey: '',
       };
-    } else {
+    } else if (val == 'JWT') {
+      this.serviceModule.getJWTAlg();
       this.serviceModule.setBasicAuth({ id: '', pw: '' });
     }
   }
@@ -217,6 +219,9 @@ export default class SystemRegisterPage extends Vue {
     } else if (userState === USER_STATE.DONE) {
       this.isShowProgress = false;
     }
+  }
+  get JWTAlg(): JWTAlgResponse {
+    return this.serviceModule.JWTAlg;
   }
 
   modal = false;

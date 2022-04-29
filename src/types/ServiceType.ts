@@ -10,7 +10,7 @@ interface BasicAuthDetail {
 }
 
 interface JWTDetail {
-  alg: string[];
+  alg: string;
   issuer: string;
   subject: string;
   publickey: string;
@@ -43,6 +43,14 @@ export interface BasicAuthResponse {
 export interface duplicatedCheck {
   isDuplicated: boolean;
 }
+
+export interface JWTAlgResponse {
+  alg: string[];
+}
+
+export const JWtAlgMock: JWTAlgResponse = {
+  alg: ['ABC111', 'DEF222', 'GHI333'],
+};
 
 export const basicAuthMock: BasicAuthResponse = {
   id: 'AKSJaiohfasdAS7asD',
@@ -91,7 +99,7 @@ export const searchServiceListResponse: ServiceResponse[] = [
     svc_end_dt: '9999-12-31 00:00:00',
     athn: {
       BASIC_AUTH: { id: '', pw: '' },
-      JWT: { alg: ['A', 'B', 'C'], issuer: '임꺽정', subject: '홍길등', publickey: 'testKey' },
+      JWT: { alg: 'ABC216', issuer: '임꺽정', subject: '홍길등', publickey: 'testKey' },
     },
     api_aut: 'admin',
     desc: 'test',
@@ -113,7 +121,7 @@ export const searchServiceListResponse: ServiceResponse[] = [
     svc_end_dt: '9999-12-31 00:00:00',
     athn: {
       BASIC_AUTH: { id: 'admin', pw: '123123' },
-      JWT: { alg: [], issuer: '', subject: '', publickey: '' },
+      JWT: { alg: '', issuer: '', subject: '', publickey: '' },
     },
     api_aut: 'admin',
     desc: 'test',
@@ -135,7 +143,7 @@ export const searchServiceListResponse: ServiceResponse[] = [
     svc_end_dt: '9999-12-31 00:00:00',
     athn: {
       BASIC_AUTH: { id: 'admin', pw: '123123' },
-      JWT: { alg: [], issuer: '', subject: '', publickey: '' },
+      JWT: { alg: '', issuer: '', subject: '', publickey: '' },
     },
     api_aut: 'admin',
     desc: 'test',
@@ -160,7 +168,7 @@ export const serviceListResponse: ServiceResponse[] = [
     svc_end_dt: '9999-12-31 00:00:00',
     athn: {
       BASIC_AUTH: { id: '', pw: '' },
-      JWT: { alg: ['A', 'B', 'C'], issuer: '임꺽정', subject: '홍길등', publickey: 'testKey' },
+      JWT: { alg: 'ABC216', issuer: '임꺽정', subject: '홍길등', publickey: 'testKey' },
     },
     api_aut: 'admin',
     desc: 'test',
@@ -182,7 +190,7 @@ export const serviceListResponse: ServiceResponse[] = [
     svc_end_dt: '9999-12-31 00:00:00',
     athn: {
       BASIC_AUTH: { id: 'admin', pw: '123123' },
-      JWT: { alg: [], issuer: '', subject: '', publickey: '' },
+      JWT: { alg: '', issuer: '', subject: '', publickey: '' },
     },
     api_aut: 'admin',
     desc: 'test',
@@ -206,7 +214,7 @@ export const serviceResponse: ServiceResponse = {
   svc_end_dt: '9999-12-31 00:00:00',
   athn: {
     BASIC_AUTH: { id: '', pw: '' },
-    JWT: { alg: ['A', 'B', 'C'], issuer: '임꺽정', subject: '홍길등', publickey: 'testKey' },
+    JWT: { alg: 'ABC111', issuer: '임꺽정', subject: '홍길등', publickey: 'testKey' },
   },
   api_aut: 'admin',
   desc: 'test',
@@ -281,5 +289,15 @@ export const getDuplicatedTrue: GateWayResponse<duplicatedCheck> = {
 
 export const getDuplicatedFalse: GateWayResponse<duplicatedCheck> = {
   data: duplicatedfalseData,
+  status: 0,
+};
+
+export const JWTAlgData: Data<JWTAlgResponse> = {
+  pagination: pagination,
+  value: JWtAlgMock,
+};
+
+export const getJWTAlg: GateWayResponse<JWTAlgResponse> = {
+  data: JWTAlgData,
   status: 0,
 };
