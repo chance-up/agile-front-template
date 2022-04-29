@@ -204,7 +204,7 @@ export default class SystemRegisterPage extends Vue {
       console.log('id 입력 1초 경과');
       console.log(this.formData.id);
       await this.serviceModule.getDuplicatedCheckId(this.formData.id);
-      this.isDuplicatedNm = this.serviceModule.duplicatedId.isDuplicated;
+      this.isDuplicatedId = this.serviceModule.duplicatedId.isDuplicated;
     }, 1000);
   }
 
