@@ -11,8 +11,8 @@
                 id=""
                 class="input-box lg"
                 :class="{
-                  'check-ok': notiMessage[0] === true,
-                  'check-false': notiMessage[0] === false,
+                  'check-ok': notiMessage[idx][0] === true,
+                  'check-false': notiMessage[idx][0] === false,
                 }"
                 placeholder="연동방식 그룹명 입력"
                 v-model="ifgrp.if_nm"
@@ -37,7 +37,19 @@
                     <option value="https">https</option>
                   </select>
                   <span>://</span>
-                  <input type="text" id="" class="input-box mid" placeholder="domain" v-model="ifurl.domain" />
+                  <input
+                    type="text"
+                    id=""
+                    class="input-box mid"
+                    :class="{
+                      'check-ok': domainEmptyChk[idx][idx2].isFocus && !domainEmptyChk[idx][idx2].isEmpty,
+                      'check-false': domainEmptyChk[idx][idx2].isFocus && domainEmptyChk[idx][idx2].isEmpty,
+                    }"
+                    placeholder="domain"
+                    v-model="ifurl.domain"
+                    @input="domainValidCheck(idx, idx2)"
+                    @focus="domainEmptyChkFunc(idx, idx2)"
+                  />
                   <span>:</span>
                   <input type="text" id="" class="input-box sm" placeholder="port" v-model="ifurl.port" />
                   <button class="xs-btn" @click="addUrl(idx)" v-if="idx2 === 0">
@@ -45,7 +57,9 @@
                   </button>
                   <button class="xs-btn" @click="deleteUrl(idx, idx2)" v-else><i class="minus"></i></button>
                 </div>
-                <p class="noti">도메인을 입력해 주세요.</p>
+                <p v-if="domainEmptyChk[idx][idx2].isFocus && domainEmptyChk[idx][idx2].isEmpty" class="noti">
+                  도메인을 입력해 주세요.
+                </p>
               </li>
             </ul>
           </div>
@@ -56,7 +70,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { IfGrpType } from '@/types/SystemType';
+import { IfDomainEmptyChkType, IfGrpType } from '@/types/SystemType';
 import { checkLength, checkEnglishNumber, checkEnglishKorean } from '@/utils/validation';
 @Component({
   components: {},
@@ -70,6 +84,7 @@ export default class InterfaceGroup extends Vue {
 
   notiMessage: [boolean | null, string][] = [[null, this.$t('system.empty_check') as string]];
   emptyChk: boolean[] = [false];
+  domainEmptyChk: IfDomainEmptyChkType[][] = [[{ isFocus: false, isEmpty: true }]];
 
   @Watch('notiMessage')
   onNotiMessageChange(val: [boolean | null, string][]) {
@@ -121,14 +136,18 @@ export default class InterfaceGroup extends Vue {
       ],
     };
     this.notiMessage.push([null, this.$t('system.empty_check') as string]);
-    this.emptyChk.push(false);
     this.ifgrps.push(empty);
     console.log(this.ifgrps);
+
+    this.emptyChk.push(false);
+    this.domainEmptyChk.push([{ isFocus: false, isEmpty: true }]);
   }
   deleteIfGrp(idx: number) {
     this.notiMessage.splice(idx, 1);
     this.ifgrps.splice(idx, 1);
+
     this.emptyChk.splice(idx, 1);
+    this.domainEmptyChk.splice(idx, 1);
   }
   addUrl(idx: number) {
     let empty = {
@@ -137,14 +156,32 @@ export default class InterfaceGroup extends Vue {
       port: '',
     };
     this.ifgrps[idx].if_url.push(empty);
+    this.domainEmptyChk[idx].push({ isFocus: false, isEmpty: true });
   }
 
   deleteUrl(idx: number, idx2: number) {
     this.ifgrps[idx].if_url.splice(idx2, 1);
+    this.domainEmptyChk[idx].splice(idx2, 1);
   }
 
   emptyChkFunc(idx: number) {
     this.emptyChk.splice(idx, 1, true);
+  }
+
+  domainEmptyChkFunc(idx: number, idx2: number) {
+    const domianEmpty = this.domainEmptyChk[idx][idx2].isEmpty;
+    console.log('domainEmptyChk', this.domainEmptyChk);
+    this.domainEmptyChk[idx][idx2].isFocus = true;
+    console.log('현재 포커스 위치 : (', idx, ', ', idx2, ') ==> ', this.domainEmptyChk[idx][idx2]);
+  }
+
+  domainValidCheck(idx: number, idx2: number) {
+    let val = this.ifgrps[idx].if_url[idx2].domain;
+    if (val == '') {
+      this.domainEmptyChk[idx][idx2].isEmpty = true;
+    } else {
+      this.domainEmptyChk[idx][idx2].isEmpty = false;
+    }
   }
 }
 </script>
