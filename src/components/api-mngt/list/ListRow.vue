@@ -2,7 +2,7 @@
   <tr>
     <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">{{ index + 1 }}</td>
     <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">
-      <span class="bold">{{ apiData.sysId }}</span>
+      <span class="bold">{{ apiData.sysNm }}</span>
     </td>
     <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">{{ apiData.id }}</td>
     <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">{{ apiData.nm }}</td>
