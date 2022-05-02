@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { checkEmail, checkLength, checkEnglishKorean } from '@/utils/validation';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { checkEmail, checkLength, checkEnglishNumberKorean } from '@/utils/validation';
 @Component
 export default class InputGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
@@ -30,16 +30,23 @@ export default class InputGroup extends Vue {
   @Prop({ default: '' }) placeholder!: string;
   @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) value!: string;
+  @Prop({ default: false }) isvalid!: boolean | null;
   emptyChk = false;
 
   notiMessage: [boolean | null, string] = [null, ''];
+
+  @Watch('notiMessage')
+  messageChanged(val: [boolean | null, string]) {
+    this.$emit('update:isvalid', this.notiMessage[0]);
+  }
+
   get text() {
     return this.value;
   }
   set text(val: string) {
     switch (this.inputNm) {
       case this.$t('service.tkcgrNm'):
-        if (checkLength(val, 1, 20) && checkEnglishKorean(val)) {
+        if (checkLength(val, 1, 20) && checkEnglishNumberKorean(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
           this.notiMessage = [null, ''];
@@ -48,7 +55,7 @@ export default class InputGroup extends Vue {
         }
         break;
       case this.$t('service.tkcgrPos'):
-        if (checkLength(val, 1, 20) && checkEnglishKorean(val)) {
+        if (checkLength(val, 1, 20) && checkEnglishNumberKorean(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
           this.notiMessage = [null, ''];

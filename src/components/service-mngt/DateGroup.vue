@@ -25,7 +25,7 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 
@@ -40,6 +40,26 @@ export default class DateGroup extends Vue {
   @Prop({ default: '' }) placeholderENd!: string;
   @Prop({ default: null }) startDt!: string;
   @Prop({ default: null }) endDt!: string;
+  @Prop({ default: false }) isvalid!: boolean | null;
+
+  notiMessage: [boolean | null, boolean | null] = [null, null];
+  @Watch('start')
+  onStartChanged(val: string) {
+    if (this.start == null || this.end == null || this.start == '' || this.end == '') {
+      console.log(val);
+      this.$emit('update:isvalid', false);
+    } else {
+      this.$emit('update:isvalid', true);
+    }
+  }
+  @Watch('end')
+  onEndChanged(val: string) {
+    if (this.start == null || this.end == null || this.start == '' || this.end == '') {
+      this.$emit('update:isvalid', false);
+    } else {
+      this.$emit('update:isvalid', true);
+    }
+  }
 
   get start() {
     return this.startDt;

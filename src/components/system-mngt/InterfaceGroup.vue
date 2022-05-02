@@ -96,19 +96,63 @@ export default class InterfaceGroup extends Vue {
   }
 
   duplCheck(val: string) {
-    const ifgrpList = this.ifgrps.filter((ifgrp) => ifgrp.if_nm === val);
-    // if (ifgrpList.length > 1) {
-    //   this.notiMessage[this.ifgrps.length] = [false, '중복된 이름이 있습니다.'];
+    // const ifgrp =
+    //   this.ifgrps.filter((ifgrp) => {
+    //     return ifgrp.if_nm === val;
+    //   }).length > 0;
+    // // const ifgrp = this.ifgrps.find((ifgrp) => ifgrp.if_nm === val);
+    // return ifgrp;
+
+    let duplArr: number[] = [];
+    this.ifgrps.forEach((ifgrp, idx) => {
+      if (ifgrp.if_nm === val) {
+        duplArr.push(idx);
+      }
+    });
+    console.log('@!!!!' + duplArr.length);
+    if (duplArr.length > 1) {
+      return true;
+    } else {
+      return false;
+    }
+    // duplArr.forEach((idx) => {
+    //   console.log('!!!!!!' + idx);
+    //   this.notiMessage[idx].isValid = false;
+    //   this.notiMessage[idx].msg = '이미 존재하는 그룹명입니다.';
+    // });
+    // let duplArr: number[] = [];
+    // this.ifgrps.forEach((ifgrp, idx) => {
+    //   if (ifgrp.if_nm === val) {
+    //     duplArr.push(idx);
+    //   }
+    // });
+    // if (duplArr.length > 0) {
+    // duplArr.forEach((idx) => {
+    //   console.log('!!!!!!' + idx);
+    //   this.notiMessage[idx].isValid = false;
+    //   this.notiMessage[idx].msg = '이미 존재하는 그룹명입니다.';
+    // });
     // } else {
-    //   this.notiMessage[this.ifgrps.length] = [true, ''];
+    // }
+    // console.log(this.notiMessage);
+    // duplArr.forEach((idx) => {
+    //   this.notiMessage[idx].isValid = false;
+    //   this.notiMessage[idx].msg = '이미 존재하는 그룹명입니다.';
+    // });
+    // console.log('::list :: ' + ifgrpList + '::length :: ' + ifgrpList.length);
+    // console.log(ifgrpList);
+    // if (count > 0) {
+    //   this.notiMessage[this.ifgrps.length - 1].isValid = false;
+    //   this.notiMessage[this.ifgrps.length - 1].msg = '중복된 이름이 있습니다.';
+    // } else {
+    //   this.notiMessage[this.ifgrps.length - 1].isValid = true;
+    //   this.notiMessage[this.ifgrps.length - 1].msg = '';
     // }
   }
 
   validCheck(idx: number) {
-    console.log(this.ifgrps.length);
-    console.log(this.ifgrps[idx].if_nm);
     let val = this.ifgrps[idx].if_nm;
-    this.duplCheck(val);
+    console.log(this.duplCheck(val));
 
     if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
       this.notiMessage[idx].isValid = true;
@@ -120,6 +164,11 @@ export default class InterfaceGroup extends Vue {
     } else {
       this.notiMessage[idx].isValid = false;
       this.notiMessage[idx].msg = this.$t('system.valid_check_ifgrp_nm') as string;
+    }
+
+    if (this.duplCheck(val)) {
+      this.notiMessage[idx].isValid = false;
+      this.notiMessage[idx].msg = this.$t('system.dupl_check_ifgrp_nm') as string;
     }
   }
 
@@ -143,7 +192,6 @@ export default class InterfaceGroup extends Vue {
   }
 
   set grps(newVal: IfGrpType[]) {
-    console.log('!!!!!!2222');
     this.$emit('update:ifgrps', newVal);
   }
 

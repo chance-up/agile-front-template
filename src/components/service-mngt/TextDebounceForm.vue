@@ -7,7 +7,7 @@
         :placeholder="placeholder"
         v-model="text"
         :class="{
-          'check-ok': notiMessage[0] === true,
+          'check-ok': notiMessage[0] === true && check === true,
           'check-false': notiMessage[0] === false || check === false,
         }"
         class="input-box lg"
@@ -30,8 +30,17 @@ export default class TextDebounceForm extends Vue {
   @Prop({ default: '' }) placeholder!: string;
   @Prop({ default: '' }) value!: string;
   @Prop({ default: '' }) active!: string;
+  @Prop({ default: false }) isvalid!: boolean | null;
+
   text = '';
   emptyChk = false;
+  notiMessage: [boolean | null, string] = [null, ''];
+
+  @Watch('notiMessage')
+  messageChanged(val: [boolean | null, string]) {
+    this.$emit('update:isvalid', this.notiMessage[0]);
+  }
+
   @Watch('text')
   onValueChange(val: string) {
     switch (this.inputNm) {
@@ -55,8 +64,6 @@ export default class TextDebounceForm extends Vue {
     }
     this.$emit('input', val);
   }
-
-  notiMessage: [boolean | null, string] = [null, ''];
 
   notice() {
     this.emptyChk = true;
