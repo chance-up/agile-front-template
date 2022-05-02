@@ -1,32 +1,53 @@
 <template lang="html">
   <!-- for progress -->
-  <ContentLayout title="API 정보 수정" subTitle="기본정보 수정" depth="API 관리" :isShowProgress="isShowProgress">
+  <ContentLayout
+    :title="$t('api.apiInformationEdit')"
+    :subTitle="$t('api.basicInformation') + $t('api.edit')"
+    :depth="$t('api.apiManagement')"
+    :isShowProgress="isShowProgress"
+  >
     <!-- for progress -->
     <template v-slot:contents v-if="!isShowProgress">
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
-        <TextForm groupNm="시스템명" type="text" :required="true" v-model="requestBody.sysNm" :disabled="true" />
-        <TextForm groupNm="API ID" type="text" :required="true" v-model="requestBody.id" :disabled="true" />
-        <TextForm groupNm="API 명" type="text" :required="true" v-model="requestBody.nm" :disabled="true" />
-        <TextForm groupNm="인터페이스 번호" type="text" :required="true" :disabled="true" v-model="requestBody.ifNo" />
+        <TextForm
+          :groupNm="$t('api.sysNm')"
+          type="text"
+          :required="true"
+          v-model="requestBody.sysNm"
+          :disabled="true"
+        />
+        <TextForm :groupNm="$t('api.apiId')" type="text" :required="true" v-model="requestBody.id" :disabled="true" />
+        <TextForm :groupNm="$t('api.apiNm')" type="text" :required="true" v-model="requestBody.nm" :disabled="true" />
+        <TextForm
+          :groupNm="$t('api.interfaceNumber')"
+          type="text"
+          :required="true"
+          :disabled="true"
+          v-model="requestBody.ifNo"
+        />
 
         <MethodForm groupNm="Method" v-model="requestBody.meth" />
         <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" />
 
-        <SelectSysForm groupNm="시스템 연동 정보" :optionList="system.if_grp" v-model="requestBody.ifGrp" />
+        <SelectSysForm
+          :groupNm="$t('api.systemInterlockInformation')"
+          :optionList="system.if_grp"
+          v-model="requestBody.ifGrp"
+        />
 
         <HandlerGroupForm
-          groupNm="요청 handler 그룹"
+          :groupNm="$t('api.reqHandlrGrp')"
           v-model="requestBody.reqHandlrGrpId"
           :handlerGroupList="handlerGroupList"
         />
         <HandlerGroupForm
-          groupNm="응답 handler 그룹"
+          :groupNm="$t('api.resHandlrGrp')"
           v-model="requestBody.resHandlrGrpId"
           :handlerGroupList="handlerGroupList"
         />
-        <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
-        <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
+        <TextForm :groupNm="$t('api.timeOutMS')" type="number" :required="true" v-model="requestBody.timeOut" />
+        <TextForm :groupNm="$t('api.apiDescription')" type="textarea" v-model="requestBody.desc" />
       </ul>
     </template>
     <!-- for progress -->
@@ -34,8 +55,8 @@
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="handleClickSubmitButton">수정테스트</button>
-        <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">수정</button>
-        <button class="lg-btn white-btn" @click="$router.go(-1)">취소</button>
+        <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">{{ $t(api.edit) }}</button>
+        <button class="lg-btn white-btn" @click="$router.go(-1)">{{ $t(api.cancel) }}</button>
       </div>
     </template>
   </ContentLayout>

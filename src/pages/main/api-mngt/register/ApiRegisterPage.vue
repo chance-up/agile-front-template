@@ -1,9 +1,18 @@
 <template lang="html">
-  <ContentLayout title="API 등록" subTitle="기본정보 등록" depth="API 관리" id="api-register">
+  <ContentLayout
+    :title="$t('api.apiRegister')"
+    :subTitle="$t('api.basicInformationRegister')"
+    :depth="$t('api.apiManagement')"
+    id="api-register"
+  >
     <template v-slot:contents>
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
-        <SelectForm groupNm="시스템명" :optionList="sysList.map((item) => item.nm)" v-model="requestBody.sysNm" />
+        <SelectForm
+          :groupNm="$t('api.sysNm')"
+          :optionList="sysList.map((item) => item.nm)"
+          v-model="requestBody.sysNm"
+        />
         <TextDebounceForm
           inputNm="API ID"
           :check="isDuplicatedId"
@@ -14,26 +23,36 @@
           @input="duplicateCheckId"
         />
         <TextForm
-          groupNm="API 명"
+          :groupNm="$t('api.apiNm')"
           type="text"
           :placeholder="$t('api.nmEx')"
           :required="true"
           v-model="requestBody.nm"
         />
-        <TextForm groupNm="인터페이스 번호" type="text" :required="true" :disabled="true" v-model="requestBody.ifNo" />
+        <TextForm
+          :groupNm="$t('api.interfaceNumber')"
+          type="text"
+          :required="true"
+          :disabled="true"
+          v-model="requestBody.ifNo"
+        />
 
         <MethodForm groupNm="Method" v-model="requestBody.meth" />
         <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" />
 
-        <SelectSysForm groupNm="시스템 연동 정보" :optionList="ifGrpList" v-model="requestBody.ifGrp" />
+        <SelectSysForm
+          :groupNm="$t('api.systemInterlockInformation')"
+          :optionList="ifGrpList"
+          v-model="requestBody.ifGrp"
+        />
 
         <HandlerGroupForm
-          groupNm="요청 handler 그룹"
+          :groupNm="$t('api.reqHandlrGrp')"
           :handlerGroupList="handlerGroupList"
           v-model="requestBody.reqHandlrGrpId"
         />
         <HandlerGroupForm
-          groupNm="응답 handler 그룹"
+          :groupNm="$t('api.resHandlrGrp')"
           :handlerGroupList="handlerGroupList"
           v-model="requestBody.resHandlrGrpId"
         />
@@ -46,8 +65,8 @@
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="handleClickSubmitButton">등록테스트</button>
-        <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">등록</button>
-        <button class="lg-btn white-btn" @click="$router.go(-1)">취소</button>
+        <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">{{ $t('common.register') }}</button>
+        <button class="lg-btn white-btn" @click="$router.go(-1)">{{ $t('common.cancel') }}</button>
       </div>
     </template>
   </ContentLayout>
@@ -169,7 +188,7 @@ export default class ApiRegisterPage extends Vue {
   // backend 연결 전 임시 등록
   handleClickSubmitButton() {
     // this.$modal.show(this.convertToString(this.requestBody) + '\n 등록하시겠습니까?');
-    confirm(this.convertToString(this.requestBody) + '\n 등록하시겠습니까?');
+    confirm(this.convertToString(this.requestBody) + '\n' + this.$t('api.confirm_api_register'));
   }
   convertToString(body: ApiCreateRequestBody) {
     let res = '';

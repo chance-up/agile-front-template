@@ -20,18 +20,26 @@
   "api": {
     "apiId": "API ID",
     "apiNm": "API 명",
+    "apiRegister": "API 등록",
+    "basicInformationRegister": "기본 정보 등록",
+    "sysNm": "시스템명",
+    "apiManagement": "API 관리",
+    "apiInformationEdit": "API 정보 수정",
     "name": "명",
     "id": "ID",
-    "basic": "기본",
+    "basicInformation": "기본 정보",
     "management": "관리",
     "information": "정보",
+    "interfaceNumber": "인터페이스 번호",
+    "reqHandlrGrp": "요청 handler 그룹",
+    "resHandlrGrp": "응답 handler 그룹",
+    "apiDescription": "API 설명",
     "confirm": "확인",
     "system": "시스템",
     "interface": "인터페이스",
     "number": "번호",
     "platform": "플랫폼",
     "register": "등록",
-    "search": "검색",
     "group": "그룹",
     "request": "요청",
     "response": "응답",
@@ -49,13 +57,16 @@
     "placeholder": "입력해주세요.",
     "interlock": "연동",
     "handler": "handler",
+    "systemInterlockInformation": "시스템 연동 정보",
 
     "idEx": "예시 API ID",
     "nmEx": "예시 API 명",
 
     "valid_check_nm": "형식에 맞게 입력 바랍니다.(최대 20자 입력 가능)",
-    "valid_check_id": "형식에 맞게 입력 바랍니다.(최대 20자, 영어 대/소문자, 숫자만 입력 가능)"
-
+    "valid_check_id": "형식에 맞게 입력 바랍니다.(최대 20자, 영어 대/소문자, 숫자만 입력 가능)",
+    "server_error": "서버 통신 에러",
+    "enter_search_data": "검색 데이터를 입력해주세요.",
+    "confirm_api_register": "등록하시겠습니까?"
   },
   "service": {
     "title": "서비스 리스트",

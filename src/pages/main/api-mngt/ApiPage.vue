@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ListLayout :title="`${this.$t('api.api')}${this.$t('api.management')}`" subTitle="API List">
+    <ListLayout :title="`${this.$t('api.apiManagement')}`" subTitle="API List">
       <template slot="search-form">
         <div class="search-wrap">
           <h2 class="h2-tit">{{ $t('common.search') }}</h2>
@@ -17,7 +17,7 @@
         <ListForm title="API List" :isShowProgress="isShowProgress">
           <template v-slot:list-btn-area>
             <button class="mid-btn" @click="$router.push({ name: 'api-register' })">
-              <i><img src="@/assets/check_ico.svg" :alt="$t('api.register')" /></i>{{ $t('api.register') }}
+              <i><img src="@/assets/check_ico.svg" :alt="$t('common.register')" /></i>{{ $t('common.register') }}
             </button>
           </template>
           <template v-slot:list-table>
@@ -35,9 +35,9 @@
             <thead>
               <tr>
                 <th>No.</th>
-                <th>{{ $t('api.system') + $t('api.name') }}</th>
-                <th>{{ $t('api.api') + ' ' + $t('api.id') }}</th>
-                <th>{{ $t('api.api') + ' ' + $t('api.name') }}</th>
+                <th>{{ $t('api.sysNm') }}</th>
+                <th>{{ $t('api.apiId') }}</th>
+                <th>{{ $t('api.apiNm') }}</th>
                 <th>{{ $t('api.method') }}</th>
                 <th>{{ $t('api.uri') }}</th>
                 <th>{{ $t('api.timeOut') }}<br />(ms)</th>
@@ -108,12 +108,12 @@ import { Pagination } from '@/types/GateWayResponse';
 export default class ApiPage extends Vue {
   searchOption: { type: string; label: string; placeholder: string; selectOptions: SelectOptionType[] } = {
     type: 'selectBox',
-    label: `${this.$t('api.basic')}` + `${this.$t('api.information')}`,
+    label: `${this.$t('api.basicInformation')}`,
     placeholder: `${this.$t('api.placeholder')}`,
     selectOptions: [
-      { label: 'id', value: `${this.$t('api.api')} ${this.$t('api.id')}` },
-      { label: 'nm', value: `${this.$t('api.api')} ${this.$t('api.name')}` },
-      { label: 'sysNm', value: `${this.$t('api.system')} ${this.$t('api.name')}` },
+      { label: 'id', value: `${this.$t('api.apiId')}` },
+      { label: 'nm', value: `${this.$t('api.apiNm')}` },
+      { label: 'sysNm', value: `${this.$t('api.sysNm')}` },
       { label: 'uri', value: `${this.$t('api.uri')}` },
     ],
   };
@@ -153,7 +153,7 @@ export default class ApiPage extends Vue {
     if (userState === USER_STATE.LOADING) {
       this.isShowProgress = true;
     } else if (userState === USER_STATE.ERROR) {
-      this.$modal.show('서버 통신 에러');
+      this.$modal.show(`${this.$t('api.server_error')}`);
     } else if (userState === USER_STATE.DONE) {
       this.isShowProgress = false;
     }
@@ -167,7 +167,7 @@ export default class ApiPage extends Vue {
     if (Object.values(this.searchData).some((item) => item != '')) {
       this.getList();
     } else {
-      this.$modal.show('검색 데이터를 입력해주세요.');
+      this.$modal.show(`${this.$t('api.enter_search_data')}`);
     }
   }
 

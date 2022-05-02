@@ -1,16 +1,16 @@
 <template lang="html">
   <ContentLayout
-    :title="`${$t('api.api')}` + ' ' + `${$t('api.information')}` + ' ' + `${$t('api.confirm')}`"
-    :subTitle="`${$t('api.basic')}` + `${$t('api.information')}` + ' ' + `${$t('api.confirm')}`"
+    :title="`${$t('api.api')}` + ' ' + `${$t('api.information')}` + ' ' + `${$t('common.ok')}`"
+    :subTitle="`${$t('api.basic')}` + `${$t('api.information')}` + ' ' + `${$t('common.ok')}`"
     :depth="`${$t('api.api')}` + ' ' + `${$t('api.management')}`"
     :isShowProgress="isShowProgress"
   >
     <template v-slot:contents v-if="!isShowProgress">
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
-        <InfoGroup :inputNm="`${$t('api.system')}` + `${$t('api.name')}`" :value="mockData.sysNm" />
-        <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.id')}`" :value="mockData.id" />
-        <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.name')}`" :value="mockData.nm" />
+        <InfoGroup :inputNm="`${$t('api.sysNm')}`" :value="mockData.sysNm" />
+        <InfoGroup :inputNm="`${$t('api.apiId')}`" :value="mockData.id" />
+        <InfoGroup :inputNm="`${$t('api.apiNm')}`" :value="mockData.nm" />
         <InfoGroup :inputNm="`${$t('api.interface')}` + ' ' + `${$t('api.number')}`" :value="mockData.ifNo" />
         <MethodGroup :inputNm="`${$t('api.method')}`" :methods="mockData.meth" />
         <URIGroup :inputNm="`${$t('api.uri')}`" :uriSer="mockData.uriIn" :uriSys="mockData.uriOut" />
@@ -86,7 +86,7 @@ export default class ApiDetailPage extends Vue {
     if (userState === USER_STATE.LOADING) {
       this.isShowProgress = true;
     } else if (userState === USER_STATE.ERROR) {
-      this.$modal.show('서버 통신 에러');
+      this.$modal.show(`${this.$t('api.server_error')}`);
     } else if (userState === USER_STATE.DONE) {
       this.isShowProgress = false;
     }
