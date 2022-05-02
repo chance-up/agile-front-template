@@ -15,14 +15,20 @@
         @blur="emptyChkFunc"
         @focus="emptyChkFunc"
       />
-      <p v-if="emptyChk == false" class="red-txt noti">해당 항목은 필수 입력값입니다.</p>
       <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
   </li>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { checkEmail, checkLength, checkEnglishNumber, checkEnglishKorean, checkEmpty } from '@/utils/validation';
+import {
+  checkEmail,
+  checkLength,
+  checkEnglishNumber,
+  checkEnglishKorean,
+  checkEmpty,
+  checkEnglishNumberKorean,
+} from '@/utils/validation';
 
 @Component
 export default class InputGroup extends Vue {
@@ -34,7 +40,6 @@ export default class InputGroup extends Vue {
   @Prop({ default: false }) isvalid!: boolean | null;
 
   notiMessage: [boolean | null, string] = [null, ''];
-  emptyChk: boolean | null = null;
 
   @Watch('notiMessage')
   messageChanged(val: [boolean | null, string]) {
@@ -47,7 +52,7 @@ export default class InputGroup extends Vue {
   set v(val: string) {
     switch (this.inputNm) {
       case this.$t('system.name'):
-        if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
+        if (checkLength(val, 1, 20) && checkEnglishNumberKorean(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
           this.notiMessage = [null, ''];
@@ -76,7 +81,7 @@ export default class InputGroup extends Vue {
         }
         break;
       case this.$t('system.tkcgrPos'):
-        if (checkLength(val, 1, 20)) {
+        if (checkLength(val, 1, 50)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
           this.notiMessage = [null, ''];
@@ -102,9 +107,9 @@ export default class InputGroup extends Vue {
 
   emptyChkFunc() {
     if (checkEmpty(this.v)) {
-      this.emptyChk = true;
+      this.notiMessage = [true, ''];
     } else {
-      this.emptyChk = false;
+      this.notiMessage = [false, this.$t('system.empty_check') as string];
     }
   }
 }
