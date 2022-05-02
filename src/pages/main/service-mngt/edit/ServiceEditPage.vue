@@ -197,7 +197,6 @@ export default class SystemRegisterPage extends Vue {
         publickey: '',
       };
     } else if (val == 'JWT') {
-      this.serviceModule.getJWTAlg();
       this.serviceModule.setBasicAuth({ id: '', pw: '' });
     }
   }
@@ -248,6 +247,7 @@ export default class SystemRegisterPage extends Vue {
 
   created() {
     this.serviceModule.getService(this.$route.params.id);
+    this.serviceModule.getJWTAlg();
   }
 
   get userState() {

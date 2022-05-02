@@ -195,7 +195,6 @@ export default class SystemRegisterPage extends Vue {
       };
     } else {
       this.serviceModule.setBasicAuth({ id: '', pw: '' });
-      this.serviceModule.getJWTAlg();
     }
   }
 
@@ -325,6 +324,9 @@ export default class SystemRegisterPage extends Vue {
     }
   }
 
+  created() {
+    this.serviceModule.getJWTAlg();
+  }
   destroyed() {
     this.serviceModule.setBasicAuth({ id: '', pw: '' });
   }
