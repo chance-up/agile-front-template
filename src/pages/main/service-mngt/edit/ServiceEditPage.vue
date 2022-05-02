@@ -138,11 +138,11 @@ export default class SystemRegisterPage extends Vue {
   isShowProgress = false;
 
   isBtnDisabled = true;
-  totalValid: boolean[] = [];
-  tkcgrNmValid = false;
-  dateValid = false;
-  tkcgrPosValid = false;
-  tkcgrEmlValid = false;
+  totalValid: boolean[] = [true, true, true, true];
+  tkcgrNmValid = null;
+  dateValid = null;
+  tkcgrPosValid = null;
+  tkcgrEmlValid = null;
 
   get serviceOption(): ServiceRegisterRequest {
     return this.serviceModule.service;
