@@ -35,7 +35,7 @@
             <thead>
               <tr>
                 <th>No.</th>
-                <th>{{ $t('api.platform') + $t('api.name') }}</th>
+                <th>{{ $t('api.system') + $t('api.name') }}</th>
                 <th>{{ $t('api.api') + ' ' + $t('api.id') }}</th>
                 <th>{{ $t('api.api') + ' ' + $t('api.name') }}</th>
                 <th>{{ $t('api.method') }}</th>
@@ -57,7 +57,7 @@
             </tbody>
           </template>
           <template v-slot:pagination>
-            <Paging :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
+            <Paging v-if="pagination" :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
             <!-- <ModalLayout size="m" v-if="modal">
               <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
               <template v-slot:modalContainer>

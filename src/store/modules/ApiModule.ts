@@ -43,7 +43,29 @@ export default class ApiModule extends GateWayModule {
     try {
       this.showLoading();
       console.log('searchQuery: ', searchQuery);
-      addMock('/api/list', JSON.stringify(apiMockList));
+      // 목 검색작업 시작(api연결후 삭제필요)
+      // ============================
+      const mockList: GateWayResponse<ApiDetailResponse[]> = JSON.parse(JSON.stringify(apiMockList));
+      mockList.data.value = mockList.data.value.filter((item: ApiDetailResponse) => {
+        if (searchQuery) {
+          if (searchQuery.nm) {
+            return item.nm.indexOf(searchQuery.nm) > -1;
+          } else if (searchQuery.id) {
+            return item.id.indexOf(searchQuery.id) > -1;
+          } else if (searchQuery.sysNm) {
+            return item.sysNm.indexOf(searchQuery.sysNm) > -1;
+          } else if (searchQuery.uri) {
+            return item.uriIn.indexOf(searchQuery.uri) > -1;
+          } else {
+            return mockList.data.value;
+          }
+        }
+      });
+      // ============================
+      console.log(mockList);
+      (mockList.data.pagination as Pagination).total_elements = mockList.data.value.length;
+      (mockList.data.pagination as Pagination).total_pages = parseInt(mockList.data.value.length / 10 + 1 + '');
+      addMock('/api/list', JSON.stringify(mockList));
       const response = await AxiosClient.getInstance().get<GateWayResponse<ApiDetailResponse[]>>(
         '/api/list',
         searchQuery
