@@ -164,13 +164,10 @@ export default class SystemModule extends GateWayModule {
     try {
       addMock(`/system/deleteSystem/${id}`, JSON.stringify(dummyDeleteData));
 
-      this.showLoading();
       const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(
         `/system/deleteSystem/${id}`
       );
       console.log('system delete response', response);
-      this.getSystemList();
-      this.dissmissLoading();
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
         // console.log('NetWork not connection');
