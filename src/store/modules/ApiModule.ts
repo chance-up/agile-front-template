@@ -1,4 +1,4 @@
-import { GateWayResponse } from '@/types/GateWayResponse';
+import { GateWayResponse, Pagination } from '@/types/GateWayResponse';
 import {
   ApiSearchQuery,
   apiMockList,
@@ -17,9 +17,13 @@ import ErrorCode from '@/error/ErrorCodes';
 import GateWayModule from '../GateWayModule';
 
 function handleCommonError(error: GateWayError | any) {
-  if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-    console.log('NETWORK_ERROR');
-  } else {
+  try {
+    if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+      console.log('NETWORK_ERROR');
+    } else {
+      console.log('서버통신에 실패하였습니다.');
+    }
+  } catch (e) {
     console.log('서버통신에 실패하였습니다.');
   }
 }
@@ -40,15 +44,21 @@ export default class ApiModule extends GateWayModule {
       this.showLoading();
       console.log('searchQuery: ', searchQuery);
       addMock('/api/list', JSON.stringify(apiMockList));
-      const response = await AxiosClient.getInstance().get<ApiDetailResponse[]>('/api/list', searchQuery);
+      const response = await AxiosClient.getInstance().get<GateWayResponse<ApiDetailResponse[]>>(
+        '/api/list',
+        searchQuery
+      );
       console.log(response);
-      response.map((item: ApiDetailResponse) => {
+      response.data.value.map((item: ApiDetailResponse) => {
         if (typeof item.meth == 'string') item.meth = JSON.parse(item.meth);
       });
-      this.context.commit('setApiList', response);
+      this.context.commit('setApiList', response.data.value);
+      this.context.commit('setPagination', response.data.pagination);
       this.dissmissLoading();
     } catch (error: GateWayError | any) {
       handleCommonError(error);
+      this.dissmissLoading();
+
       // 디테일 에러 처리
     }
   }
@@ -115,14 +125,20 @@ export default class ApiModule extends GateWayModule {
     this.context.commit('setApiList', []);
     this.context.commit('setApiDetail', null);
   }
+
+  // 페이지네이션
+  public pagination: Pagination | null = null;
+  @Mutation
+  setPagination(pagination: Pagination | null): void {
+    this.pagination = pagination;
+  }
 }
 
 // 중복 체크
 export const apiValidationCheck = async (id: string) => {
-  console.log(id, apiMockList[0].id);
   addMock(
     '/api/validation',
-    JSON.stringify(apiMockList.map((item: ApiDetailResponse) => item.id).includes(id) ? false : true)
+    JSON.stringify(apiMockList.data.value.map((item: ApiDetailResponse) => item.id).includes(id) ? false : true)
   );
   const response = await AxiosClient.getInstance().get<boolean>('/api/validation', { id });
   console.log('apiValidationCheck => ' + response);

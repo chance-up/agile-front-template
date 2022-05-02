@@ -81,7 +81,7 @@ import ListLayout from '@/components/layout/ListLayout.vue';
 import SearchForm from '@/components/api-mngt/list/SearchForm.vue';
 import ListForm from '@/components/commons/ListForm.vue';
 import ListRow from '@/components/api-mngt/list/ListRow.vue';
-import { ApiDetailResponse, ApiSearchLabel } from '@/types/ApiType';
+import { ApiDetailResponse, dummyPaginationSetting } from '@/types/ApiType';
 import ApiModule from '@/store/modules/ApiModule';
 import { getModule } from 'vuex-module-decorators';
 import SelectBox from '@/components/commons/search-option/SelectBox.vue';
@@ -192,16 +192,9 @@ export default class ApiPage extends Vue {
       },
     });
   }
-  pagination: Pagination = {
-    page: 1,
-    size: 10,
-    total_elements: 100,
-    total_pages: 10,
-    current_elements: 1,
-    current_page: 1,
-    order_by: 'nm',
-    sort_by: 'asc',
-    limit: 100,
-  };
+
+  get pagination(): Pagination | null {
+    return this.apiModule.pagination;
+  }
 }
 </script>
