@@ -17,9 +17,9 @@
         <InputGroup
           type="text"
           :value.sync="systemItem.id"
+          :isvalid.sync="idValid"
           :inputNm="$t('system.id')"
           :place="$t('system.autoCreate')"
-          :isvalid.sync="idValid"
         />
         <!-- :disabled="true" -->
         <!-- <TextDebounceForm
@@ -33,9 +33,9 @@
         <InputGroup
           type="text"
           :value.sync="systemItem.tkcgr_nm"
+          :isvalid.sync="tkcgrNmValid"
           :inputNm="$t('system.tkcgrNm')"
           :place="$t('system.tkcgrNm')"
-          :isvalid.sync="tkcgrNmValid"
         />
         <InputGroup
           type="text"
