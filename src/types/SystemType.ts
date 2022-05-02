@@ -321,11 +321,18 @@ export const dummyDetailData = {
       if_grp: [
         {
           if_nm: 'authentication',
-          if_url: ['https://capri.com:443', 'https://capri.com:443'],
+          if_url: [
+            { protocol: 'https', domain: 'capri.com', port: '443' },
+            { protocol: 'https', domain: 'capri.com', port: '8080' },
+          ],
         },
         {
           if_nm: 'service',
-          if_url: ['https://capri.com:443', 'https://capri.com:8080', 'https://capri.com:8081'],
+          if_url: [
+            { protocol: 'https', domain: 'capri.com', port: '443' },
+            { protocol: 'https', domain: 'test.com', port: '8080' },
+            { protocol: 'http', domain: 'naver.com', port: '8081' },
+          ],
         },
       ],
       desc: 'desc',
@@ -410,22 +417,12 @@ export const dummyDeleteData = {
   data: null,
 };
 
-export const dummyTestData1 = {
-  if_grp: {
-    authentication: ['https://capri.com:443'],
-    service: ['http://127.0.0.1:8080', 'http://127.0.0.2:8080'],
-    // ...
-  },
-};
-export const dummyTestData2 = {
-  ifGrp: [
-    {
-      ifNm: 'authentication',
-      ifUrl: ['https://capri.com:443', 'https://capri.com:443'],
-    },
-    {
-      ifNm: 'service',
-      ifUrl: ['https://capri.com:443', 'https://capri.com:8080', 'https://capri.com:8081'],
-    },
-  ],
-};
+export interface IfGrpValidMessageType {
+  isValid: boolean | null;
+  msg: string;
+  domainValid: IfDomainValidMessageType[];
+}
+export interface IfDomainValidMessageType {
+  isValid: boolean | null;
+  msg: string;
+}

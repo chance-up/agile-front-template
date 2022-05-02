@@ -103,7 +103,11 @@ export default class SystemEditPage extends Vue {
 
   @Watch('system')
   onSystemChange() {
+    console.log('!!!!!!!!!!');
+    console.log(this.systemItem);
     this.systemItem = this.system;
+    console.log(this.systemItem.tkcgr_nm);
+    console.log(this.systemItem.if_grp);
   }
 
   onSubmit(): void {
