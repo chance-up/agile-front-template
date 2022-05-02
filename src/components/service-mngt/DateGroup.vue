@@ -4,13 +4,13 @@
     <div class="form-cont">
       <div class="date-wrap">
         <div class="date-cont">
-          <date-picker valueType="format" v-model="start" @focus="noticeStart()"></date-picker>
+          <date-picker valueType="format" placeholder="YYYY-MM-DD" v-model="start" @focus="noticeStart()"></date-picker>
 
           <i class="icon"><img src="@/assets/picker.svg" alt="달력아이콘" /></i>
         </div>
         <span class="text">~</span>
         <div class="date-cont">
-          <date-picker valueType="format" v-model="end" @focus="noticeEnd()"></date-picker>
+          <date-picker valueType="format" placeholder="YYYY-MM-DD" v-model="end" @focus="noticeEnd()"></date-picker>
 
           <i class="icon"><img src="@/assets/picker.svg" alt="달력아이콘" /></i>
         </div>
