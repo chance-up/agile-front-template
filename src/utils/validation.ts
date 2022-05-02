@@ -7,6 +7,9 @@ export const checkEmail = (email: string) => {
 export const checkLength = (value: string, min: number, max: number) => {
   return value.length >= min && value.length <= max;
 };
+export const checkEmpty = (value: string) => {
+  return value.length !== 0;
+};
 
 export const checkEnglishNumber = (value: string) => {
   const r = /^[a-zA-Z0-9]*$/;

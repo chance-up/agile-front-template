@@ -37,7 +37,7 @@
             <div class="auth-form">
               <label class="label">알고리즘 :</label>
               <select class="select-box" v-model="algPick" @focus="noticeAlg()">
-                <option value="init">선택해주세요</option>
+                <option value="">선택해주세요</option>
                 <option v-for="item in JWTalg" :key="item" :value="item">{{ item }}</option>
               </select>
             </div>
@@ -96,7 +96,6 @@ export default class AuthReqGroup extends Vue {
   @Prop({ default: '' }) pickedAlg!: string;
   @Prop() basicId!: string;
   @Prop() basicPW!: string;
-
   get algPick() {
     return this.pickedAlg;
   }
@@ -111,39 +110,33 @@ export default class AuthReqGroup extends Vue {
     this.showInput = false;
     this.$emit('update:athn', val);
   }
-
   get JWTalg() {
     return this.alg;
   }
   set JWTalg(val: string[]) {
     this.$emit('update:alg', val);
   }
-
   get JWTissuer() {
     return this.issuer;
   }
   set JWTissuer(val: string) {
     this.$emit('update:issuer', val);
   }
-
   get JWTsubject() {
     return this.subject;
   }
   set JWTsubject(val: string) {
     this.$emit('update:subject', val);
   }
-
   get JWTpublicKey() {
     return this.publicKey;
   }
   set JWTpublicKey(val: string) {
     this.$emit('update:publicKey', val);
   }
-
   clicked() {
     this.$emit('basicAuthClicked');
   }
-
   showAlg = false;
   noticeAlg() {
     this.showAlg = true;

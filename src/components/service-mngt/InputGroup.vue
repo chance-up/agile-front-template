@@ -14,7 +14,7 @@
         class="input-box lg"
         @focus="notice()"
       />
-      <p v-if="show && text == ''" class="red-txt noti">해당 항목은 필수 입력값입니다.</p>
+      <p v-if="emptyChk && text == ''" class="red-txt noti">해당 항목은 필수 입력값입니다.</p>
       <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
   </li>
@@ -30,7 +30,7 @@ export default class InputGroup extends Vue {
   @Prop({ default: '' }) placeholder!: string;
   @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) value!: string;
-  show = false;
+  emptyChk = false;
 
   notiMessage: [boolean | null, string] = [null, ''];
   get text() {
@@ -70,7 +70,7 @@ export default class InputGroup extends Vue {
   }
 
   notice() {
-    this.show = true;
+    this.emptyChk = true;
   }
 }
 </script>
