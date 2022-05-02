@@ -14,14 +14,14 @@
         <ul class="handler-list inside-click">
           <li class="inside-click" v-for="(eachApi, index) in handlerGroup.apiIdList" :key="index">
             <span class="inside-click">{{ eachApi.apiNm }}</span>
-            <a
+            <p
               v-on:mouseout="handleMouseOut"
               v-on:mouseover="[changeApiDesc(eachApi.apiDesc)]"
               href=""
               class="tip-btn inside-click"
             >
               <i><img src="@/assets/tip.svg" alt="팁" :value="eachApi.apiDesc" /></i>
-            </a>
+            </p>
           </li>
           <HoverModal v-if="showHoverModal" @close="showHoverModal = false" :apiDesc="sendApiDesc">
             <!-- <h3 slot="header">custom header</h3> -->

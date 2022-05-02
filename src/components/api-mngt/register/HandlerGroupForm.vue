@@ -6,7 +6,7 @@
       <div class="multi-wrap">
         <div ref="selectRow" class="select-row inside-click" @click="handleOnClickGroup">{{ chooseHandlerGroup }}</div>
         <!--  dropdown시 active class 추가-->
-        <div ref="selectFrom" class="select-form inside-click" :class="{ none: !isSelectOpen }">
+        <div ref="selectFrom" class="select-form inside-click" :class="{ none: !isSelectOpen, groupNm: true }">
           <!--  dropdown시 block class 추가-->
           <ul class="inside-click">
             <li class="inside-click" v-for="(handlerGroup, index) in handlerGroupList" :key="index">
