@@ -12,15 +12,23 @@
         :placeholder="place"
         :disabled="disabled"
         v-model="v"
+        @blur="emptyChkFunc"
         @focus="emptyChkFunc"
       />
-      <p v-if="!notiMessage[0] && emptyChk" class="red-txt noti">{{ notiMessage[1] }}</p>
+      <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
   </li>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { checkEmail, checkLength, checkEnglishNumber, checkEnglishKorean } from '@/utils/validation';
+import {
+  checkEmail,
+  checkLength,
+  checkEnglishNumber,
+  checkEnglishKorean,
+  checkEmpty,
+  checkEnglishNumberKorean,
+} from '@/utils/validation';
 
 @Component
 export default class InputGroup extends Vue {
@@ -31,8 +39,7 @@ export default class InputGroup extends Vue {
   @Prop({ default: '' }) value!: string;
   @Prop({ default: false }) isvalid!: boolean | null;
 
-  notiMessage: [boolean | null, string] = [null, this.$t('system.empty_check') as string];
-  emptyChk = false;
+  notiMessage: [boolean | null, string] = [null, ''];
 
   @Watch('notiMessage')
   messageChanged(val: [boolean | null, string]) {
@@ -45,28 +52,39 @@ export default class InputGroup extends Vue {
   set v(val: string) {
     switch (this.inputNm) {
       case this.$t('system.name'):
+        if (checkLength(val, 1, 20) && checkEnglishNumberKorean(val)) {
+          this.notiMessage = [true, ''];
+        } else if (val == '') {
+          this.notiMessage = [null, ''];
+        } else {
+          this.notiMessage = [false, this.$t('system.valid_check_nm') as string];
+          console.log(this.notiMessage);
+        }
+        break;
+      case this.$t('system.id'):
         if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, this.$t('system.empty_check') as string];
+          this.notiMessage = [null, ''];
         } else {
-          this.notiMessage = [false, this.$t('system.valid_check_nm') as string];
+          this.notiMessage = [false, this.$t('system.valid_check_id') as string];
+          console.log(this.notiMessage);
         }
         break;
       case this.$t('system.tkcgrNm'):
         if (checkLength(val, 1, 20) && checkEnglishKorean(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, this.$t('system.empty_check') as string];
+          this.notiMessage = [null, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrNm') as string];
         }
         break;
       case this.$t('system.tkcgrPos'):
-        if (checkLength(val, 1, 20)) {
+        if (checkLength(val, 1, 50)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, this.$t('system.empty_check') as string];
+          this.notiMessage = [null, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrPos') as string];
         }
@@ -75,21 +93,24 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 20) && checkEmail(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, this.$t('system.empty_check') as string];
+          this.notiMessage = [null, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrEml') as string];
         }
         break;
       default:
-        this.notiMessage = [null, this.$t('system.empty_check') as string];
+        this.notiMessage = [null, ''];
     }
 
     this.$emit('update:value', val);
   }
 
   emptyChkFunc() {
-    console.log('test', this.notiMessage);
-    this.emptyChk = true;
+    if (checkEmpty(this.v)) {
+      this.notiMessage = [true, ''];
+    } else {
+      this.notiMessage = [false, this.$t('system.empty_check') as string];
+    }
   }
 }
 </script>

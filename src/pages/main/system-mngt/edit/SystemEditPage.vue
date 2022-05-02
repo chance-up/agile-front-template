@@ -7,45 +7,40 @@
   >
     <template v-if="!isShowProgress" v-slot:contents>
       <ul>
+        <InputGroup type="text" :value.sync="systemItem.nm" :inputNm="$t('system.name')" :place="$t('system.name')" />
+
         <InputGroup
           type="text"
-          :value.sync="systemItem.nm"
-          :inputNm="$t('system.name')"
-          :place="$t('system.name')"
-          :disabled="false"
-        />
-        <InputGroup
           :inputNm="$t('system.id')"
-          v-model="systemItem.id"
+          :value.sync="systemItem.id"
           :place="$t('system.id')"
           inputClass="input-box lg"
           :disabled="true"
-          type="text"
         />
         <InputGroup
+          type="text"
+          :value.sync="systemItem.tkcgr_nm"
           :inputNm="$t('system.tkcgrNm')"
-          v-model="systemItem.tkcgr_nm"
           :place="$t('system.tkcgrNm')"
           inputClass="input-box lg check-false"
-          type="text"
         />
         <!-- validCheck="중복된 API ID 입니다." -->
         <InputGroup
+          type="text"
           :inputNm="$t('system.tkcgrPos')"
-          v-model="systemItem.tkcgr_pos"
+          :value.sync="systemItem.tkcgr_pos"
           :place="$t('system.tkcgrPos')"
           inputClass="input-box lg check-ok"
-          type="text"
         />
         <InputGroup
           :inputNm="$t('system.tkcgrEml')"
-          v-model="systemItem.tkcgr_eml"
+          :value.sync="systemItem.tkcgr_eml"
           :place="$t('system.tkcgrEml')"
           inputClass="input-box lg check-ok"
           type="text"
         />
-        <InterfaceGroup :inputNm="$t('system.ifGrp')" :linkType="systemItem.if_grp" />
-        <TextAreaGroup :inputNm="$t('system.desc')" v-model="systemItem.desc" />
+        <InterfaceGroup :inputNm="$t('system.ifGrp')" :ifgrps.sync="systemItem.if_grp" />
+        <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
     </template>
     <template v-if="!isShowProgress" v-slot:buttons>
@@ -108,7 +103,11 @@ export default class SystemEditPage extends Vue {
 
   @Watch('system')
   onSystemChange() {
+    console.log('!!!!!!!!!!');
+    console.log(this.systemItem);
     this.systemItem = this.system;
+    console.log(this.systemItem.tkcgr_nm);
+    console.log(this.systemItem.if_grp);
   }
 
   onSubmit(): void {

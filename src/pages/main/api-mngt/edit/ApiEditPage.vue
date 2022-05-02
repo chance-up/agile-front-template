@@ -44,7 +44,7 @@
 <script lang="ts">
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { dummySystemList, dummySystemInfList, ApiCreateRequestBody, HandlerGroupDetail } from '@/types/ApiType';
+import { ApiCreateRequestBody, HandlerGroupDetail } from '@/types/ApiType';
 import HandlerGroupForm from '@/components/api-mngt/register/HandlerGroupForm.vue';
 import SelectForm from '@/components/api-mngt/register/SelectForm.vue';
 import SelectSysForm from '@/components/api-mngt/register/SelectSysForm.vue';
@@ -75,12 +75,7 @@ import { USER_STATE } from '@/store/UserState';
 export default class ApiEditPage extends Vue {
   apiModule = getModule(ApiModule, this.$store);
   systemModule = getModule(SystemModule, this.$store);
-  get dummySystemList(): string[] {
-    return dummySystemList;
-  }
-  get dummySystemInfList(): string[] {
-    return dummySystemInfList;
-  }
+
   get params(): Dictionary<string> | null {
     console.log(this.$route.params);
     return this.$route.params;

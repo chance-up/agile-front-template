@@ -187,9 +187,9 @@ export default class SystemRegisterPage extends Vue {
   duplicateCheckNm() {
     if (this.timerNm) {
       clearTimeout(this.timerNm);
+      this.isDuplicatedNm = true;
     }
     this.timerNm = setTimeout(async () => {
-      console.log('서비스명 입력 1초 경과');
       console.log(this.formData.nm);
       await this.serviceModule.getDuplicatedCheckNm(this.formData.nm);
       this.isDuplicatedNm = this.serviceModule.duplicatedNm.isDuplicated;
@@ -201,9 +201,9 @@ export default class SystemRegisterPage extends Vue {
   duplicateCheckId() {
     if (this.timerId) {
       clearTimeout(this.timerId);
+      this.isDuplicatedId = true;
     }
     this.timerId = setTimeout(async () => {
-      console.log('id 입력 1초 경과');
       console.log(this.formData.id);
       await this.serviceModule.getDuplicatedCheckId(this.formData.id);
       this.isDuplicatedId = this.serviceModule.duplicatedId.isDuplicated;

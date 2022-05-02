@@ -34,17 +34,10 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { dummySystemList, dummySystemInfList } from '@/types/ApiType';
 
 @Component
 export default class HandlerDetail extends Vue {
   @Prop() groupNm!: string | null;
-  get dummySystemList(): string[] {
-    return dummySystemList;
-  }
-  get dummySystemInfList(): string[] {
-    return dummySystemInfList;
-  }
 
   //  multi select
   isSelectOpen = false;

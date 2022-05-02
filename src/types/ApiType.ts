@@ -1,3 +1,16 @@
+import { GateWayResponse, Pagination } from './GateWayResponse';
+
+export const dummyPagination: Pagination = {
+  page: 1,
+  size: 10,
+  total_elements: 57,
+  total_pages: 6,
+  current_elements: 10,
+  current_page: 1,
+  order_by: 'ID',
+  sort_by: 'DESC',
+  limit: 10,
+};
 export interface DummyApiResponse {
   sysNm: string;
   apiId: string;
@@ -66,12 +79,26 @@ export interface ApiCreateRequestBody {
   desc: string | null;
 }
 
-export interface ApiSearchQuery {
-  apiId?: string;
-  apiName?: string;
-  platformName?: string;
-  uri?: string;
+export interface RequsetPagenation {
   page?: number;
+  size?: number;
+  total_elements?: number;
+  total_pages?: number;
+  current_elements?: number;
+  current_page?: number;
+  order_by?: string;
+  sort_by?: string;
+  limit?: number;
+}
+export interface ApiSearchQuery extends RequsetPagenation {
+  id?: string;
+  nm?: string;
+  sysNm?: string;
+  uri?: string;
+}
+
+export interface ApiSearchLabel {
+  [key: string]: string;
 }
 
 export const apiMockData: ApiDetailResponse = {
@@ -114,8 +141,13 @@ export const apiMockData2: ApiDetailResponse = {
   updId: null,
 };
 
-export const apiMockList: ApiDetailResponse[] = [apiMockData, apiMockData2];
-
+export const apiMockList: GateWayResponse<ApiDetailResponse[]> = {
+  status: 200,
+  data: {
+    pagination: dummyPagination,
+    value: [apiMockData, apiMockData2],
+  },
+};
 export const dummyData: DummyApiResponse = {
   sysNm: '플랫폼 서비스A',
   apiId: 'API ID_NUMBER',
@@ -131,45 +163,6 @@ export const dummyData: DummyApiResponse = {
   apiCmt: 'API별 분/시/일/월 단위 총량, TPS API별 분/시/일/월 단위 총량, API별 분/시/일/월 단위 총량',
   updateTime: '2020-01-01 00:00:00',
 };
-
-export const dummyList: DummyApiResponse[] = [
-  dummyData,
-  dummyData,
-  dummyData,
-  dummyData,
-  dummyData,
-  dummyData,
-  dummyData,
-  dummyData,
-  dummyData,
-  dummyData,
-];
-
-export const dummySystemList: string[] = [
-  '시스템1',
-  '시스템2',
-  '시스템3',
-  '시스템4',
-  '시스템5',
-  '시스템6',
-  '시스템7',
-  '시스템8',
-  '시스템9',
-  '시스템10',
-];
-
-export const dummySystemInfList: string[] = [
-  'test1.com',
-  'test2.com',
-  'test3.com',
-  'test4.com',
-  'test5.com',
-  'test6.com',
-  'test7.com',
-  'test8.com',
-  'test9.com',
-  'test10.com',
-];
 
 export interface ApiInfoEdit {
   id: string;
@@ -250,6 +243,18 @@ export const dummyHandlerGroupList: HandlerGroupDetail[] = [
     ],
   },
 ];
+
+export const dummyPaginationSetting: Pagination = {
+  page: 6,
+  size: 10,
+  total_elements: 57,
+  total_pages: 6,
+  current_elements: 10,
+  current_page: 6,
+  order_by: 'ID',
+  sort_by: 'DESC',
+  limit: 10,
+};
 
 export interface HandlerDetail {
   apiId: number | string;
