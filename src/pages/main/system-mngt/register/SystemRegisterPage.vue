@@ -54,10 +54,20 @@
         <InterfaceGroup :inputNm="$t('system.ifGrp')" :isvalid.sync="ifGrpValid" :ifgrps.sync="systemItem.if_grp" />
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
+      <ModalLayout size="m" v-if="isShowModal">
+        <template v-slot:modalHeader><h1 class="h1-tit">시스템 등록</h1> </template>
+        <template v-slot:modalContainer>
+          <p class="text">시스템을 등록하시겠습니까?</p>
+        </template>
+        <template v-slot:modalFooter
+          ><button class="lg-btn purple-btn" @click="onSubmit">확인</button
+          ><button class="lg-btn purple-btn" @click="closeModal">취소</button>
+        </template>
+      </ModalLayout>
     </template>
-    <template v-slot:buttons>
+    <template v-slot:buttons v-if="!isShowProgress">
       <div class="btn-wrap">
-        <button id="submitBtn" class="lg-btn purple-btn" @click="onSubmit" :disabled="isBtnDisabled">
+        <button id="submitBtn" class="lg-btn purple-btn" @click="showModal" :disabled="isBtnDisabled">
           {{ $t('common.register') }}
         </button>
         <button class="lg-btn white-btn" @click="cancelOnClickEvent">{{ $t('common.cancel') }}</button>
@@ -77,6 +87,7 @@ import InterfaceGroup from '@/components/system-mngt/InterfaceGroup.vue';
 import Interface from '@/components/system-mngt/Interface.vue';
 import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import TextDebounceForm from '@/components/system-mngt/TextDebounceForm.vue';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { SystemResponse } from '@/types/SystemType';
 import { USER_STATE } from '@/store/UserState';
 
@@ -88,6 +99,7 @@ import { USER_STATE } from '@/store/UserState';
     Interface,
     TextAreaGroup,
     TextDebounceForm,
+    ModalLayout,
   },
 })
 export default class SystemRegisterPage extends Vue {
@@ -104,6 +116,7 @@ export default class SystemRegisterPage extends Vue {
   ifGrpValid: boolean[] = [false, false];
 
   isShowProgress = false;
+  isShowModal = false;
   isBtnDisabled = true;
 
   systemModule = getModule(SystemModule, this.$store);
@@ -182,35 +195,31 @@ export default class SystemRegisterPage extends Vue {
   }
 
   async onSubmit() {
-    if (confirm('서비스를 등록하시겠습니까?') == true) {
-      // console.log(this.systemItem);
-      // console.log('valid!!!!!');
-      // console.log(this.nmValid);
-      // console.log(this.idValid);
-      // console.log(this.tkcgrNmValid);
-      // console.log(this.tkcgrPosValid);
-      // console.log(this.tkcgrEmlValid);
-      // console.log('ifGrpValid', this.ifGrpValid);
+    // console.log(this.systemItem);
+    // console.log('valid!!!!!');
+    // console.log(this.nmValid);
+    // console.log(this.idValid);
+    // console.log(this.tkcgrNmValid);
+    // console.log(this.tkcgrPosValid);
+    // console.log(this.tkcgrEmlValid);
+    // console.log('ifGrpValid', this.ifGrpValid);
 
-      const val =
-        this.nmValid &&
-        this.tkcgrNmValid &&
-        this.tkcgrPosValid &&
-        this.tkcgrEmlValid &&
-        this.ifGrpValid[0] &&
-        this.ifGrpValid[1]
-          ? true
-          : false;
+    const val =
+      this.nmValid &&
+      this.tkcgrNmValid &&
+      this.tkcgrPosValid &&
+      this.tkcgrEmlValid &&
+      this.ifGrpValid[0] &&
+      this.ifGrpValid[1]
+        ? true
+        : false;
 
-      if (!val) {
-        this.$modal.show('빈 항목이 있습니다.');
-        return;
-      } else {
-        await this.systemModule.registerSystem(this.systemItem);
-        this.$router.push({ name: 'system' });
-      }
-    } else {
+    if (!val) {
+      this.$modal.show('빈 항목이 있습니다.');
       return;
+    } else {
+      await this.systemModule.registerSystem(this.systemItem);
+      this.$router.push({ name: 'system' });
     }
   }
 
@@ -221,6 +230,14 @@ export default class SystemRegisterPage extends Vue {
   isDuplicated: boolean | null = null;
   async duplicateCheck() {
     this.isDuplicated = await this.systemModule.duplicateCheck(this.systemItem.id);
+  }
+
+  showModal() {
+    this.isShowModal = true;
+  }
+
+  closeModal() {
+    this.isShowModal = false;
   }
 
   destroyed() {

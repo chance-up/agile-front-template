@@ -14,6 +14,8 @@ export interface SelectOptionType {
 export interface SearchCondition {
   nm?: string;
   id?: string;
+  sysNm?: string;
+  uri?: string;
   athn?: string;
   tkcgr_nm?: string;
   page?: string;
