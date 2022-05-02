@@ -3,8 +3,8 @@ import { GateWayResponse, Pagination } from './GateWayResponse';
 export const dummyPagination: Pagination = {
   page: 1,
   size: 10,
-  total_elements: 57,
-  total_pages: 6,
+  total_elements: 13,
+  total_pages: 2,
   current_elements: 10,
   current_page: 1,
   order_by: 'ID',
@@ -145,7 +145,21 @@ export const apiMockList: GateWayResponse<ApiDetailResponse[]> = {
   status: 200,
   data: {
     pagination: dummyPagination,
-    value: [apiMockData, apiMockData2],
+    value: [
+      apiMockData,
+      apiMockData2,
+      apiMockData,
+      apiMockData2,
+      apiMockData,
+      apiMockData2,
+      apiMockData,
+      apiMockData2,
+      apiMockData,
+      apiMockData2,
+      apiMockData,
+      apiMockData2,
+      apiMockData,
+    ],
   },
 };
 export const dummyData: DummyApiResponse = {
@@ -245,12 +259,12 @@ export const dummyHandlerGroupList: HandlerGroupDetail[] = [
 ];
 
 export const dummyPaginationSetting: Pagination = {
-  page: 6,
+  page: 1,
   size: 10,
-  total_elements: 57,
-  total_pages: 6,
+  total_elements: 13,
+  total_pages: 2,
   current_elements: 10,
-  current_page: 6,
+  current_page: 1,
   order_by: 'ID',
   sort_by: 'DESC',
   limit: 10,

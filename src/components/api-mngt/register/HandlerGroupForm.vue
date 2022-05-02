@@ -4,27 +4,22 @@
     <div class="form-cont">
       <!--  multi select -->
       <div class="multi-wrap">
-        <div ref="selectRow" class="select-row" @click="handleOnClickGroup">{{ chooseHandlerGroup }}</div>
+        <div ref="selectRow" class="select-row inside-click" @click="handleOnClickGroup">{{ chooseHandlerGroup }}</div>
         <!--  dropdown시 active class 추가-->
-        <div ref="selectFrom" class="select-form" :class="{ none: !isSelectOpen }">
+        <div ref="selectFrom" class="select-form inside-click" :class="{ none: !isSelectOpen, groupNm: true }">
           <!--  dropdown시 block class 추가-->
-          <ul>
-            <!-- <EachHandler
-              :handlerGroup="handlerGroup"
-              v-for="(handlerGroup, index) in handlerGroupList"
-              :key="index"
-              @click="handleSelectHandlerGroup"
-            /> -->
-            <li v-for="(handlerGroup, index) in handlerGroupList" :key="index">
+          <ul class="inside-click">
+            <li class="inside-click" v-for="(handlerGroup, index) in handlerGroupList" :key="index">
               <span
+                class="inside-click"
                 @click="
                   [handleSelectHandlerGroup(handlerGroup.apiGroupId), (chooseHandlerGroup = handlerGroup.apiGroupNm)]
                 "
                 >{{ handlerGroup.apiGroupNm }}</span
               >
-              <p ref="multiBtn" class="multi-btn" @click="showModalMethod(handlerGroup.apiGroupId)"></p>
+              <p ref="multiBtn" class="multi-btn inside-click" @click="showModalMethod(handlerGroup.apiGroupId)"></p>
             </li>
-            <HandlerModal :handlerGroup="sendHandlerGroup" v-if="showModal" @close="showModal = false" />
+            <HandlerModal :handlerGroup="sendHandlerGroup" v-if="showModal" @close="showModal = false" size="l" />
           </ul>
         </div>
       </div>
@@ -46,8 +41,44 @@ import HandlerModal from '@/components/api-mngt/register/HandlerModal.vue';
 })
 export default class HandlerGroupForm extends Vue {
   @Prop() groupNm!: string | null;
-  // @Prop() closeSelect!: string | null;
   @Prop({ default: () => [] }) handlerGroupList!: HandlerGroupDetail[];
+
+  clickCheck = 0;
+  onClick(e: any): void {
+    // console.log('========');
+    console.log('========: ' + this.groupNm);
+    // this.clickCheck++;
+    const insideClick = e.target.classList as object;
+    // console.log('inside click: ' + Object.values(insideClick).includes('inside-click'));
+    // if (Object.values(insideClick).includes('select-row')) {
+    //   console.log('@@@@');
+    //   this.isSelectOpen = true;
+    // }
+    if (!Object.values(insideClick).includes('inside-click') && this.isSelectOpen) {
+      console.log('외부클릭함');
+      console.log(this.isSelectOpen);
+      console.log(this.clickCheck);
+      this.handleOnClickGroup();
+      this.showModal = false;
+      if (Object.values(insideClick).includes('select-row')) {
+        console.log('say hi');
+      }
+      // this.test();
+    }
+    console.log('========');
+  }
+  test() {
+    this.isSelectOpen = false;
+  }
+  // created() {
+  //   window.addEventListener('click', this.onClick2);
+  // }
+  mounted() {
+    console.log('addEvent');
+    const registerPage = document.getElementById('api-register') as HTMLElement;
+    registerPage.addEventListener('click', this.onClick);
+    registerPage.removeEventListener;
+  }
   chooseHandlerGroup = 'handler 그룹을 선택해주세요';
   showModal = false;
   sendHandlerGroup: HandlerGroupDetail = {
@@ -92,6 +123,11 @@ export default class HandlerGroupForm extends Vue {
   //  multi select
   isSelectOpen = false;
   handleOnClickGroup(): void {
+    this.clickCheck = 0;
+    if (!this.isSelectOpen) {
+      this.clickCheck++;
+    }
+
     this.isSelectOpen = !this.isSelectOpen;
   }
   handleOnClickGroupDetail(): void {
@@ -101,20 +137,6 @@ export default class HandlerGroupForm extends Vue {
     console.log('handlerGroupId => ' + handlerGroupId);
     this.$emit('input', handlerGroupId);
     this.isSelectOpen = false;
-  }
-  /////
-  @Watch('showModal')
-  detectChangeShowModal(newV: boolean, oldV: boolean) {
-    console.log('=======================');
-    console.log('showModal value change: ' + oldV + ' -> ' + newV);
-    console.log('current showModal value: ' + this.showModal);
-  }
-
-  @Watch('isSelectOpen')
-  detectChangeIsSelectOpen(newV: boolean, oldV: boolean) {
-    console.log('=======================');
-    console.log('isSelectOpen value change: ' + oldV + ' -> ' + newV);
-    console.log('current isSelectOpen value: ' + this.isSelectOpen);
   }
 }
 </script>
