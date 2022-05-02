@@ -15,6 +15,11 @@
       </template>
       <template v-slot:list-form>
         <ListForm title="API List" :isShowProgress="isShowProgress">
+          <template v-slot:list-btn-area>
+            <button class="mid-btn" @click="$router.push({ name: 'api-register' })">
+              <i><img src="@/assets/check_ico.svg" :alt="$t('api.register')" /></i>{{ $t('api.register') }}
+            </button>
+          </template>
           <template v-slot:list-table>
             <colgroup>
               <col width="5%" />
@@ -51,8 +56,18 @@
               <ListRow v-for="(apiData, index) in apiList" :key="index" :apiData="apiData" :index="index" />
             </tbody>
           </template>
-          <template slot="pagination">
-            <Paging />
+          <template v-slot:pagination>
+            <Paging :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
+            <!-- <ModalLayout size="m" v-if="modal">
+              <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+              <template v-slot:modalContainer>
+                <p class="text">API를 삭제하시겠습니까?</p>
+              </template>
+              <template v-slot:modalFooter
+                ><button class="lg-btn purple-btn" @click="deleteService(deleteId)">확인</button
+                ><button class="lg-btn purple-btn" @click="modalHide()">취소</button>
+              </template>
+            </ModalLayout> -->
           </template>
         </ListForm>
       </template>
@@ -64,17 +79,18 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import ListLayout from '@/components/layout/ListLayout.vue';
 import SearchForm from '@/components/api-mngt/list/SearchForm.vue';
-import ListForm from '@/components/api-mngt/list/ListForm.vue';
+import ListForm from '@/components/commons/ListForm.vue';
 import ListRow from '@/components/api-mngt/list/ListRow.vue';
-import { ApiDetailResponse } from '@/types/ApiType';
+import { ApiDetailResponse, ApiSearchLabel } from '@/types/ApiType';
 import ApiModule from '@/store/modules/ApiModule';
 import { getModule } from 'vuex-module-decorators';
 import SelectBox from '@/components/commons/search-option/SelectBox.vue';
 import InputBox from '@/components/commons/search-option/InputBox.vue';
-import { SelectOptionType } from '@/types/SearchType';
+import { SearchCondition, SelectOptionType } from '@/types/SearchType';
 import Paging from '@/components/commons/Paging.vue';
 import { USER_STATE } from '@/store/UserState';
 import { BSpinner } from 'bootstrap-vue';
+import { Pagination } from '@/types/GateWayResponse';
 
 @Component({
   components: {
@@ -90,15 +106,15 @@ import { BSpinner } from 'bootstrap-vue';
   },
 })
 export default class ApiPage extends Vue {
-  searchOption = {
+  searchOption: { type: string; label: string; placeholder: string; selectOptions: SelectOptionType[] } = {
     type: 'selectBox',
     label: `${this.$t('api.basic')}` + `${this.$t('api.information')}`,
     placeholder: `${this.$t('api.placeholder')}`,
     selectOptions: [
-      `${this.$t('api.api')} ${this.$t('api.id')}`,
-      `${this.$t('api.api')} ${this.$t('api.name')}`,
-      `${this.$t('api.platform')}${this.$t('api.name')}`,
-      `${this.$t('api.uri')}`,
+      { label: 'id', value: `${this.$t('api.api')} ${this.$t('api.id')}` },
+      { label: 'nm', value: `${this.$t('api.api')} ${this.$t('api.name')}` },
+      { label: 'sysNm', value: `${this.$t('api.system')} ${this.$t('api.name')}` },
+      { label: 'uri', value: `${this.$t('api.uri')}` },
     ],
   };
   apiModule = getModule(ApiModule, this.$store);
@@ -106,6 +122,8 @@ export default class ApiPage extends Vue {
     label: '',
     value: '',
   };
+  pagingData: SearchCondition = {};
+
   mounted() {
     const query = this.$route.query;
     console.log('query : ', query);
@@ -115,27 +133,15 @@ export default class ApiPage extends Vue {
     }
     this.apiModule.getApiList(query);
   }
-  destroyed() {
+
+  unmounted() {
     this.apiModule.reset();
-  }
-  searchOnClieckEvent() {
-    console.log('searchData : ', this.searchData);
-    const query: { [key: string]: string } = {};
-    query[this.searchData.label] = this.searchData.value;
-    console.log(query);
-    if (Object.values(this.searchData).some((item) => item != '')) {
-      this.$router.push({
-        name: 'api',
-        query,
-      });
-    } else {
-      this.$modal.show('검색 데이터를 입력해주세요.');
-    }
   }
   get apiList(): ApiDetailResponse[] {
     console.log(this.apiModule.apiList);
     return this.apiModule.apiList;
   }
+
   // for progress
   isShowProgress = false;
   get userState() {
@@ -152,5 +158,50 @@ export default class ApiPage extends Vue {
       this.isShowProgress = false;
     }
   }
+
+  // for searching
+  searchOnClieckEvent() {
+    console.log('searchData : ', this.searchData);
+    const query: { [key: string]: string } = {};
+    query[this.searchData.label] = this.searchData.value;
+    if (Object.values(this.searchData).some((item) => item != '')) {
+      this.getList();
+    } else {
+      this.$modal.show('검색 데이터를 입력해주세요.');
+    }
+  }
+
+  // for paging
+  onChangedPage(page: number) {
+    this.pagingData.page = String(page);
+    this.getList();
+  }
+
+  getList() {
+    const query = {} as { [key: string]: string };
+    if (Object.keys(this.searchData).includes('label')) query[this.searchData.label] = this.searchData.value as string;
+    if (Object.keys(this.pagingData).includes('page')) query.page = this.pagingData.page as string;
+    if (Object.keys(this.pagingData).includes('size')) query.size = this.pagingData.size as string;
+    if (Object.keys(this.pagingData).includes('sort_by')) query.sort_by = this.pagingData.sort_by as string;
+    if (Object.keys(this.pagingData).includes('ordeer_by')) query.order_by = this.pagingData.order_by as string;
+
+    this.$router.push({
+      name: 'api',
+      query: {
+        ...query,
+      },
+    });
+  }
+  pagination: Pagination = {
+    page: 1,
+    size: 10,
+    total_elements: 100,
+    total_pages: 10,
+    current_elements: 1,
+    current_page: 1,
+    order_by: 'nm',
+    sort_by: 'asc',
+    limit: 100,
+  };
 }
 </script>

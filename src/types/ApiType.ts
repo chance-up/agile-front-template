@@ -1,3 +1,5 @@
+import { Pagination } from './GateWayResponse';
+
 export interface DummyApiResponse {
   sysNm: string;
   apiId: string;
@@ -66,12 +68,26 @@ export interface ApiCreateRequestBody {
   desc: string | null;
 }
 
-export interface ApiSearchQuery {
-  apiId?: string;
-  apiName?: string;
-  platformName?: string;
-  uri?: string;
+export interface RequsetPagenation {
   page?: number;
+  size?: number;
+  total_elements?: number;
+  total_pages?: number;
+  current_elements?: number;
+  current_page?: number;
+  order_by?: string;
+  sort_by?: string;
+  limit?: number;
+}
+export interface ApiSearchQuery extends RequsetPagenation {
+  id?: string;
+  nm?: string;
+  sysNm?: string;
+  uri?: string;
+}
+
+export interface ApiSearchLabel {
+  [key: string]: string;
 }
 
 export const apiMockData: ApiDetailResponse = {

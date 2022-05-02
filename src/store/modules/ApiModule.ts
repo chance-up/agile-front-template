@@ -38,7 +38,7 @@ export default class ApiModule extends GateWayModule {
   async getApiList(searchQuery?: ApiSearchQuery) {
     try {
       this.showLoading();
-
+      console.log('searchQuery: ', searchQuery);
       addMock('/api/list', JSON.stringify(apiMockList));
       const response = await AxiosClient.getInstance().get<ApiDetailResponse[]>('/api/list', searchQuery);
       console.log(response);
