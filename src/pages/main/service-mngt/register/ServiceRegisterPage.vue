@@ -9,6 +9,7 @@
           :placeholder="$t('service.nameEx')"
           v-model="formData.nm"
           @input="duplicateCheckNm()"
+          :isvalid.sync="nmValid"
         />
         <TextDebounceForm
           type="text"
@@ -17,18 +18,21 @@
           :placeholder="$t('service.idEx')"
           v-model="formData.id"
           @input="duplicateCheckId()"
+          :isvalid.sync="idValid"
         />
         <InputGroup
           type="text"
           :inputNm="$t('service.tkcgrNm')"
           :placeholder="$t('service.tkcgrNmEx')"
           :value.sync="formData.tkcgr_nm"
+          :isvalid.sync="tkcgrNmValid"
         />
         <InputGroup
           type="text"
           :inputNm="$t('service.tkcgrPos')"
           :placeholder="$t('service.tkcgrPosEx')"
           :value.sync="formData.tkcgr_pos"
+          :isvalid.sync="tkcgrPosValid"
         />
         <InputGroup
           type="text"
@@ -36,6 +40,7 @@
           :placeholder="$t('service.tkcgrEmlEx')"
           inputClass="input-box lg check-ok"
           :value.sync="formData.tkcgr_eml"
+          :isvalid.sync="tkcgrEmlValid"
         />
         <DateGroup
           inputNm="서비스 기간"
@@ -43,6 +48,7 @@
           placeholderENd="YYYY-MM-DD"
           :startDt.sync="formData.svc_st_dt"
           :endDt.sync="formData.svc_end_dt"
+          :isvalid.sync="dateValid"
         />
         <AuthReqGroup
           @basicAuthClicked="basicAuthClicked"
@@ -78,7 +84,7 @@
             </div>
           </template>
           <template v-slot:modalFooter
-            ><button v-if="!isShowProgress" class="lg-btn purple-btn" @click="submitForm()">확인</button
+            ><button v-if="!isShowProgress" class="lg-btn purple-btn" @click="submit()">확인</button
             ><button v-if="!isShowProgress" class="lg-btn purple-btn" @click="modalHide()">취소</button>
           </template>
         </ModalLayout>
@@ -86,7 +92,7 @@
     </template>
     <template v-if="!isShowProgress" v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()">등록</button>
+        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled">등록</button>
         <button class="lg-btn white-btn" @click="$router.go(-1)">취소</button>
       </div>
     </template>
@@ -123,6 +129,60 @@ import { BSpinner } from 'bootstrap-vue';
 })
 export default class SystemRegisterPage extends Vue {
   show = 'BASIC_AUTH';
+  isBtnDisabled = true;
+  totalValid: boolean[] = [false, false, false, false, false, false, false];
+  nmValid = false;
+  idValid = false;
+  tkcgrNmValid = false;
+  tkcgrPosValid = false;
+  tkcgrEmlValid = false;
+  dateValid = false;
+
+  @Watch('nmValid')
+  onNmValidChange(newVal: boolean) {
+    this.totalValid.splice(0, 1, newVal);
+  }
+
+  @Watch('idValid')
+  onIdValidChange(newVal: boolean) {
+    this.totalValid.splice(1, 1, newVal);
+  }
+
+  @Watch('tkcgrNmValid')
+  onTkcgrNmValidChange(newVal: boolean) {
+    this.totalValid.splice(2, 1, newVal);
+  }
+
+  @Watch('tkcgrPosValid')
+  onTkcgrPosValidChange(newVal: boolean) {
+    this.totalValid.splice(3, 1, newVal);
+  }
+
+  @Watch('tkcgrEmlValid')
+  onTkcgrEmlValidChange(newVal: boolean) {
+    this.totalValid.splice(4, 1, newVal);
+  }
+
+  @Watch('dateValid')
+  onDateValidChange(newVal: boolean) {
+    this.totalValid.splice(5, 1, newVal);
+  }
+
+  @Watch('isDuplicatedNm')
+  onIsDuplicatedNmValidChange(newVal: boolean) {
+    this.totalValid.splice(6, 1, newVal);
+  }
+
+  // @Watch('isDuplicatedId')
+  // onIsDuplicatedIdValidChange(newVal: boolean) {
+  //   this.totalValid.splice(7, 1, newVal);
+  // }
+
+  @Watch('totalValid')
+  onTotalValidChange(newVal: boolean[]) {
+    if (newVal.every((item) => item === true)) this.isBtnDisabled = false;
+    else this.isBtnDisabled = true;
+  }
 
   @Watch('show')
   onShowChange(val: string) {
@@ -176,10 +236,27 @@ export default class SystemRegisterPage extends Vue {
     this.modal = false;
   }
 
-  async submitForm() {
-    console.log(this.formData);
-    await this.serviceModule.createserviceAction(this.formData);
-    this.$router.back();
+  async submit() {
+    const val =
+      this.nmValid &&
+      this.idValid &&
+      this.tkcgrNmValid &&
+      this.tkcgrPosValid &&
+      this.tkcgrEmlValid &&
+      this.dateValid &&
+      this.isDuplicatedNm
+        ? // &&this.isDuplicatedId
+          true
+        : false;
+
+    if (!val) {
+      this.$modal.show('빈 항목이 있습니다.');
+      return;
+    } else {
+      console.log(this.formData);
+      await this.serviceModule.createserviceAction(this.formData);
+      this.$router.back();
+    }
   }
 
   timerNm = 0;
@@ -187,7 +264,6 @@ export default class SystemRegisterPage extends Vue {
   duplicateCheckNm() {
     if (this.timerNm) {
       clearTimeout(this.timerNm);
-      this.isDuplicatedNm = true;
     }
     this.timerNm = setTimeout(async () => {
       console.log(this.formData.nm);
@@ -201,7 +277,6 @@ export default class SystemRegisterPage extends Vue {
   duplicateCheckId() {
     if (this.timerId) {
       clearTimeout(this.timerId);
-      this.isDuplicatedId = true;
     }
     this.timerId = setTimeout(async () => {
       console.log(this.formData.id);

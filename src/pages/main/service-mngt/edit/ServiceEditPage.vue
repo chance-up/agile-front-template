@@ -28,12 +28,14 @@
           :inputNm="$t('service.tkcgrNm')"
           :placeholder="$t('service.tkcgrNmEx')"
           :value.sync="formData.tkcgr_nm"
+          :isvalid.sync="tkcgrNmValid"
         />
         <InputGroup
           type="text"
           :inputNm="$t('service.tkcgrPos')"
           :placeholder="$t('service.tkcgrPosEx')"
           :value.sync="formData.tkcgr_pos"
+          :isvalid.sync="tkcgrPosValid"
         />
         <InputGroup
           type="text"
@@ -41,6 +43,7 @@
           :placeholder="$t('service.tkcgrEmlEx')"
           inputClass="input-box lg check-ok"
           :value.sync="formData.tkcgr_eml"
+          :isvalid.sync="tkcgrEmlValid"
         />
         <DateGroup
           inputNm="서비스 기간"
@@ -48,6 +51,7 @@
           placeholderENd="YYYY-MM-DD"
           :startDt.sync="formData.svc_st_dt"
           :endDt.sync="formData.svc_end_dt"
+          :isvalid.sync="dateValid"
         />
         <AuthReqGroup
           @basicAuthClicked="basicAuthClicked"
@@ -97,7 +101,7 @@
     </template>
     <template v-if="!isShowProgress" v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()">수정</button>
+        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled">수정</button>
         <button class="lg-btn white-btn" @click="$router.back()">취소</button>
       </div>
     </template>
@@ -132,6 +136,13 @@ export default class SystemRegisterPage extends Vue {
   // router push 로 전달받은 id 는 this.$route.params.id 로 사용하시면 됩니다.
   serviceModule = getModule(ServiceModule, this.$store);
   isShowProgress = false;
+
+  isBtnDisabled = true;
+  totalValid: boolean[] = [];
+  tkcgrNmValid = false;
+  dateValid = false;
+  tkcgrPosValid = false;
+  tkcgrEmlValid = false;
 
   get serviceOption(): ServiceRegisterRequest {
     return this.serviceModule.service;
@@ -191,10 +202,44 @@ export default class SystemRegisterPage extends Vue {
     }
   }
 
+  @Watch('tkcgrNmValid')
+  onTkcgrNmValidChange(newVal: boolean) {
+    this.totalValid.splice(0, 1, newVal);
+  }
+
+  @Watch('tkcgrPosValid')
+  onTkcgrPosValidChange(newVal: boolean) {
+    this.totalValid.splice(1, 1, newVal);
+  }
+
+  @Watch('tkcgrEmlValid')
+  onTkcgrEmlValidChange(newVal: boolean) {
+    this.totalValid.splice(2, 1, newVal);
+  }
+
+  @Watch('dateValid')
+  onDateValidChange(newVal: boolean) {
+    this.totalValid.splice(3, 1, newVal);
+  }
+
+  @Watch('totalValid')
+  onTotalValidChange(newVal: boolean[]) {
+    console.log(this.totalValid);
+    if (newVal.every((item) => item === true)) this.isBtnDisabled = false;
+    else this.isBtnDisabled = true;
+  }
+
   async editService() {
-    console.log(this.serviceOption);
-    await this.serviceModule.editServiceAction(this.serviceOption);
-    this.$router.back();
+    const val = !this.tkcgrNmValid || !this.tkcgrPosValid || !this.tkcgrEmlValid || !this.dateValid ? false : true;
+
+    if (!val) {
+      this.$modal.show('빈 항목이 있습니다.');
+      return;
+    } else {
+      console.log(this.serviceOption);
+      await this.serviceModule.editServiceAction(this.serviceOption);
+      this.$router.back();
+    }
   }
 
   createAuthId() {
