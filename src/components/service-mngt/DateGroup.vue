@@ -5,6 +5,7 @@
       <div class="date-wrap">
         <div class="date-cont">
           <date-picker
+            :get-classes="getRangeClasses"
             v-model="start"
             value-type="format"
             format="YYYY-MM-DD"
@@ -19,12 +20,13 @@
         <span class="text">~</span>
         <div class="date-cont">
           <date-picker
+            :get-classes="getRangeClasses"
+            v-model="end"
             value-type="format"
             format="YYYY-MM-DD"
             :defalut-value="new Date()"
             :disabled-date="disabledBeforeTodayAndBeforeStartDay"
             placeholder="YYYY-MM-DD"
-            v-model="end"
             @focus="noticeEnd()"
           ></date-picker>
 
@@ -113,6 +115,22 @@ export default class DateGroup extends Vue {
     today.setHours(0, 0, 0, 0);
 
     return date < today || date < new Date(this.start);
+  }
+
+  getRangeClasses(cellDate: Date, classnames: string) {
+    const classes = [];
+    const start = this.start && new Date(this.start).setHours(0, 0, 0, 0);
+    const end = this.end && new Date(this.end).setHours(0, 0, 0, 0);
+    if (
+      !/disabled|active|not-current-month/.test(classnames) &&
+      start &&
+      end &&
+      cellDate.getTime() >= start &&
+      cellDate.getTime() <= end
+    ) {
+      classes.push('in-range');
+    }
+    return classes;
   }
 }
 </script>
