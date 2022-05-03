@@ -10,7 +10,7 @@ import {
   dummyHandlerGroupList,
 } from '@/types/ApiType';
 import { addMock } from '@/axios/AxiosIntercept';
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
+import { Module, Mutation, Action } from 'vuex-module-decorators';
 import { AxiosClient } from '@/axios/AxiosClient';
 import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
@@ -146,6 +146,7 @@ export default class ApiModule extends GateWayModule {
   reset() {
     this.context.commit('setApiList', []);
     this.context.commit('setApiDetail', null);
+    this.context.commit('pagination', null);
   }
 
   // 페이지네이션
