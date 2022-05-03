@@ -156,21 +156,17 @@ export default class ApiRegisterPage extends Vue {
     this.ifGrpList = selectedSystem.if_grp;
     this.requestBody.ifGrp = this.ifGrpList[0].if_nm;
     this.requestBody.sysId = selectedSystem.id;
-    this.requestBody.ifNo = selectedSystem.nm + '_v1_' + this.requestBody.id;
+    this.requestBody.ifNo = this.requestBody.sysId + '-0001';
   }
-  // api id가 입력될때마다 api id 중복체크
-  // apiIdCheck: boolean | null = null;
-  // @Watch('requestBody.id')
-  // async handleChangeApiId() {
-  //   console.log('apiId changed', this.requestBody.id);
-  //   const { id } = this.requestBody;
-  //   this.apiIdCheck = await apiValidationCheck(id);
-  //   if (this.apiIdCheck) {
-  //     this.requestBody.ifNo = this.requestBody.sysNm + '_v1_' + this.requestBody.id;
-  //     this.requestBody.uriIn = 'someUriIn';
-  //     this.requestBody.uriOut = 'someUriOut';
-  //   }
-  // }
+  apiIdCheck: boolean | null = null;
+
+  @Watch('isDuplicatedId')
+  async handleChangeApiId() {
+    if (this.isDuplicatedId) {
+      this.requestBody.uriIn = this.requestBody.sysId + '/v1/' + this.requestBody.id;
+      this.requestBody.uriOut = this.requestBody.sysId + '/v1/' + this.requestBody.id;
+    }
+  }
 
   timerId = 0;
   isDuplicatedId: boolean | null = null;
