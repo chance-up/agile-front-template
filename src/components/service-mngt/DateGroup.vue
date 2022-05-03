@@ -4,13 +4,29 @@
     <div class="form-cont">
       <div class="date-wrap">
         <div class="date-cont">
-          <date-picker valueType="format" placeholder="YYYY-MM-DD" v-model="start" @focus="noticeStart()"></date-picker>
+          <date-picker
+            v-model="start"
+            value-type="format"
+            format="YYYY-MM-DD"
+            :defalut-value="new Date()"
+            :disabled-date="disabledBeforeTodayAndAfterEndDay"
+            placeholder="YYYY-MM-DD"
+            @focus="noticeStart()"
+          ></date-picker>
 
           <i class="icon"><img src="@/assets/picker.svg" alt="달력아이콘" /></i>
         </div>
         <span class="text">~</span>
         <div class="date-cont">
-          <date-picker valueType="format" placeholder="YYYY-MM-DD" v-model="end" @focus="noticeEnd()"></date-picker>
+          <date-picker
+            value-type="format"
+            format="YYYY-MM-DD"
+            :defalut-value="new Date()"
+            :disabled-date="disabledBeforeTodayAndBeforeStartDay"
+            placeholder="YYYY-MM-DD"
+            v-model="end"
+            @focus="noticeEnd()"
+          ></date-picker>
 
           <i class="icon"><img src="@/assets/picker.svg" alt="달력아이콘" /></i>
         </div>
@@ -83,6 +99,20 @@ export default class DateGroup extends Vue {
 
   noticeEnd() {
     this.showEnd = true;
+  }
+
+  disabledBeforeTodayAndAfterEndDay(date: Date) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return date < today || date > new Date(this.end);
+  }
+
+  disabledBeforeTodayAndBeforeStartDay(date: Date) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return date < today || date < new Date(this.start);
   }
 }
 </script>
