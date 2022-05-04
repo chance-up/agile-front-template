@@ -6,13 +6,13 @@
   >
     <template v-slot:contents>
       <ul>
-        <InputGroup
+        <!-- <InputGroup
           type="text"
           :value.sync="systemItem.nm"
           :inputNm="$t('system.name')"
           :place="$t('system.name')"
           :isvalid.sync="nmValid"
-        />
+        /> -->
         <!-- 시스템 ID 자동생성/수정불가라서 disable 처리해야할 수도 있음 -->
         <InputGroup
           type="text"
@@ -67,8 +67,9 @@
     </template>
     <template v-slot:buttons v-if="!isShowProgress">
       <div class="btn-wrap">
-        <button id="submitBtn" class="lg-btn purple-btn" @click="showModal" :disabled="isBtnDisabled">
+        <button id="submitBtn" class="lg-btn purple-btn" @click="showModal">
           {{ $t('common.register') }}
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="isShowModal"></span>
         </button>
         <button class="lg-btn white-btn" @click="cancelOnClickEvent">{{ $t('common.cancel') }}</button>
       </div>
@@ -108,7 +109,6 @@ export default class SystemRegisterPage extends Vue {
   // 3. 중복 검사가 필요한 경우에는 중복 검사를 수행한다.
   // 4. 중복 검사에 필요한 메서드는 InputGroup에 prop으로 넘겨준다.
   totalValid: boolean[] = [];
-  nmValid = false;
   idValid = false;
   tkcgrNmValid = false;
   tkcgrPosValid = false;
@@ -162,24 +162,19 @@ export default class SystemRegisterPage extends Vue {
     }
   }
 
-  @Watch('nmValid')
-  onNmValidChange(newVal: boolean) {
-    this.totalValid.splice(0, 1, newVal);
-  }
-
   @Watch('tkcgrNmValid')
   onTkcgrNmValidChange(newVal: boolean) {
-    this.totalValid.splice(1, 1, newVal);
+    this.totalValid.splice(0, 1, newVal);
   }
 
   @Watch('tkcgrPosValid')
   onTkcgrPosValidChange(newVal: boolean) {
-    this.totalValid.splice(2, 1, newVal);
+    this.totalValid.splice(1, 1, newVal);
   }
 
   @Watch('tkcgrEmlValid')
   onTkcgrEmlValidChange(newVal: boolean) {
-    this.totalValid.splice(3, 1, newVal);
+    this.totalValid.splice(2, 1, newVal);
   }
 
   @Watch('ifGrpValid')
@@ -205,12 +200,7 @@ export default class SystemRegisterPage extends Vue {
     // console.log('ifGrpValid', this.ifGrpValid);
 
     const val =
-      this.nmValid &&
-      this.tkcgrNmValid &&
-      this.tkcgrPosValid &&
-      this.tkcgrEmlValid &&
-      this.ifGrpValid[0] &&
-      this.ifGrpValid[1]
+      this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.ifGrpValid[0] && this.ifGrpValid[1]
         ? true
         : false;
 

@@ -152,7 +152,7 @@ export default class InterfaceGroup extends Vue {
 
   validCheck(idx: number) {
     let val = this.ifgrps[idx].if_nm;
-    console.log(this.duplCheck(val));
+    // console.log(this.duplCheck(val));
 
     if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
       this.notiMessage[idx].isValid = true;

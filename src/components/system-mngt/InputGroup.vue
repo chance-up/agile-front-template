@@ -12,7 +12,6 @@
         :placeholder="place"
         :disabled="disabled"
         v-model="v"
-        @blur="emptyChkFunc"
         @focus="emptyChkFunc"
       />
       <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
@@ -106,9 +105,7 @@ export default class InputGroup extends Vue {
   }
 
   emptyChkFunc() {
-    if (checkEmpty(this.v)) {
-      this.notiMessage = [true, ''];
-    } else {
+    if (!checkEmpty(this.v)) {
       this.notiMessage = [false, this.$t('system.empty_check') as string];
     }
   }
