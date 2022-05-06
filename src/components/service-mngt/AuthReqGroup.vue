@@ -107,7 +107,7 @@ export default class AuthReqGroup extends Vue {
   @Watch('basicId')
   onBasicIdChanged(val: string) {
     if (this.auth == 'BASIC_AUTH') {
-      if (val == '') {
+      if (val == '' || val == null) {
         this.$emit('update:isvalid', false);
       } else {
         this.$emit('update:isvalid', true);
@@ -117,7 +117,16 @@ export default class AuthReqGroup extends Vue {
   @Watch('algPick')
   onAlgPickChanged(val: string) {
     if (this.auth == 'JWT') {
-      if (this.algPick != '' && this.JWTissuer != '' && this.JWTsubject != '' && this.JWTpublicKey != '') {
+      if (
+        this.algPick != '' &&
+        this.JWTissuer != '' &&
+        this.JWTsubject != '' &&
+        this.JWTpublicKey != '' &&
+        this.algPick != null &&
+        this.JWTissuer != null &&
+        this.JWTsubject != null &&
+        this.JWTpublicKey != null
+      ) {
         this.$emit('update:isvalid', true);
       } else {
         this.$emit('update:isvalid', false);
@@ -128,7 +137,16 @@ export default class AuthReqGroup extends Vue {
   @Watch('JWTissuer')
   onJWTissuerChanged(val: string) {
     if (this.auth == 'JWT') {
-      if (this.algPick != '' && this.JWTissuer != '' && this.JWTsubject != '' && this.JWTpublicKey != '') {
+      if (
+        this.algPick != '' &&
+        this.JWTissuer != '' &&
+        this.JWTsubject != '' &&
+        this.JWTpublicKey != '' &&
+        this.algPick != null &&
+        this.JWTissuer != null &&
+        this.JWTsubject != null &&
+        this.JWTpublicKey != null
+      ) {
         this.$emit('update:isvalid', true);
       } else {
         this.$emit('update:isvalid', false);
@@ -138,7 +156,16 @@ export default class AuthReqGroup extends Vue {
   @Watch('JWTsubject')
   onJWTsubjwctChanged(val: string) {
     if (this.auth == 'JWT') {
-      if (this.algPick != '' && this.JWTissuer != '' && this.JWTsubject != '' && this.JWTpublicKey != '') {
+      if (
+        this.algPick != '' &&
+        this.JWTissuer != '' &&
+        this.JWTsubject != '' &&
+        this.JWTpublicKey != '' &&
+        this.algPick != null &&
+        this.JWTissuer != null &&
+        this.JWTsubject != null &&
+        this.JWTpublicKey != null
+      ) {
         this.$emit('update:isvalid', true);
       } else {
         this.$emit('update:isvalid', false);
@@ -148,7 +175,16 @@ export default class AuthReqGroup extends Vue {
   @Watch('JWTpublicKey')
   onJWTpublicKeyChanged(val: string) {
     if (this.auth == 'JWT') {
-      if (this.algPick != '' && this.JWTissuer != '' && this.JWTsubject != '' && this.JWTpublicKey != '') {
+      if (
+        this.algPick != '' &&
+        this.JWTissuer != '' &&
+        this.JWTsubject != '' &&
+        this.JWTpublicKey != '' &&
+        this.algPick != null &&
+        this.JWTissuer != null &&
+        this.JWTsubject != null &&
+        this.JWTpublicKey != null
+      ) {
         this.$emit('update:isvalid', true);
       } else {
         this.$emit('update:isvalid', false);

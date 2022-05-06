@@ -2,14 +2,14 @@
   <ContentLayout :isShowProgress="isShowProgress" title="서비스 정보 확인" subTitle="기본정보 확인" depth="서비스 관리">
     <template v-if="!isShowProgress" v-slot:contents>
       <ul>
-        <InfoGroup inputNm="서비스명" :value="serviceOption.nm" />
-        <InfoGroup inputNm="서비스ID" :value="serviceOption.id" />
-        <InfoGroup inputNm="담당자 이름" :value="serviceOption.tkcgr_nm" />
-        <InfoGroup inputNm="소속" :value="serviceOption.tkcgr_pos" />
-        <InfoGroup inputNm="E-mail" :value="serviceOption.tkcgr_eml" />
-        <InfoGroup inputNm="서비스 기간" :value="serviceOption.svc_st_dt" />
+        <InfoGroup :inputNm="$t('service.name')" :value="serviceOption.nm" />
+        <InfoGroup :inputNm="$t('service.id')" :value="serviceOption.id" />
+        <InfoGroup :inputNm="$t('service.tkcgrNm')" :value="serviceOption.tkcgr_nm" />
+        <InfoGroup :inputNm="$t('service.tkcgrPos')" :value="serviceOption.tkcgr_pos" />
+        <InfoGroup :inputNm="$t('service.tkcgrEml')" :value="serviceOption.tkcgr_eml" />
+        <InfoGroup :inputNm="$t('service.date')" :value="serviceOption.svc_st_dt" />
         <AuthGroup
-          inputNm="인증 수단"
+          :inputNm="$t('service.authentication_method')"
           :athn="auth"
           :id="serviceOption.athn.BASIC_AUTH.id"
           :pw="serviceOption.athn.BASIC_AUTH.pw"
@@ -19,19 +19,31 @@
           :publickey="serviceOption.athn.JWT.publickey"
         />
         <li>
-          <label class="label">API 권한관리</label>
+          <label class="label">{{ $t('service.api_mngt') }}</label>
           <div class="form-cont">
             <div class="form-group"></div>
             <div class="form-group"></div>
           </div>
         </li>
         <SlaGroup
-          inputNm="SLA 정책 관리"
+          :inputNm="$t('service.SLA_mngt')"
           :SLAn="serviceOption.sla_yn"
           :term="serviceOption.sla_type"
           :totalCount="serviceOption.sla_cnt"
         />
-        <InfoGroup inputNm="서비스 설명" :value="serviceOption.desc" />
+        <InfoGroup :inputNm="$t('service.desc')" :value="serviceOption.desc" />
+        <ModalLayout size="m" v-if="modal">
+          <template v-slot:modalHeader
+            ><h1 class="h1-tit">{{ $t('service.delete') }}</h1>
+          </template>
+          <template v-slot:modalContainer>
+            <p class="text">{{ $t('service.delete_message') }}</p>
+          </template>
+          <template v-slot:modalFooter
+            ><button class="lg-btn purple-btn" @click="deleteService(deleteId)">{{ $t('common.ok') }}</button
+            ><button class="lg-btn purple-btn" @click="modalHide()">{{ $t('common.cancel') }}</button>
+          </template>
+        </ModalLayout>
       </ul>
     </template>
 
@@ -41,10 +53,10 @@
           class="lg-btn purple-btn"
           @click="$router.push({ name: 'service-edit', params: { id: $route.params.id } })"
         >
-          수정
+          {{ $t('common.modify') }}
         </button>
-        <button class="lg-btn white-btn" @click="deleteService(serviceOption.id)">삭제</button>
-        <button class="lg-btn gray-btn" @click="$router.go(-1)">목록</button>
+        <button class="lg-btn white-btn" @click="modalShow(serviceOption.id)">{{ $t('common.delete') }}</button>
+        <button class="lg-btn gray-btn" @click="$router.go(-1)">{{ $t('common.list') }}</button>
       </div>
     </template>
   </ContentLayout>
@@ -61,6 +73,7 @@ import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { Watch } from 'vue-property-decorator';
 import { USER_STATE } from '@/store/UserState';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 
 @Component({
   components: {
@@ -68,6 +81,7 @@ import { USER_STATE } from '@/store/UserState';
     AuthGroup,
     SlaGroup,
     ContentLayout,
+    ModalLayout,
   },
 })
 export default class ServiceDetailPage extends Vue {
@@ -89,13 +103,10 @@ export default class ServiceDetailPage extends Vue {
     return this.serviceModule.service;
   }
 
-  deleteService(ServiceId: string) {
-    if (confirm('서비스를 삭제하시겠습니까?') == true) {
-      this.serviceModule.deleteServiceAction(ServiceId);
-      this.$router.back();
-    } else {
-      return;
-    }
+  async deleteService(ServiceId: string) {
+    await this.serviceModule.deleteServiceAction(ServiceId);
+    this.$router.back;
+    this.modal = false;
   }
 
   created() {
@@ -116,6 +127,16 @@ export default class ServiceDetailPage extends Vue {
     } else if (userState === USER_STATE.DONE) {
       this.isShowProgress = false;
     }
+  }
+
+  modal = false;
+  deleteId = '';
+  modalShow(id: string) {
+    this.deleteId = id;
+    this.modal = true;
+  }
+  modalHide() {
+    this.modal = false;
   }
 }
 </script>

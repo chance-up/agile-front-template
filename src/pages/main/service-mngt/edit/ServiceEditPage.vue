@@ -1,15 +1,15 @@
 <template>
   <ContentLayout
     :isShowProgress="isShowProgress"
-    title="서비스 인증 정보 수정"
-    subTitle="기본정보 수정"
-    depth="서비스 관리"
+    :title="$t('service.modify_title')"
+    :subTitle="$t('service.modify_sub_title')"
+    :depth="$t('service.title')"
   >
     <template v-slot:contents v-if="formData.id != ''">
       <ul>
         <InputGroup
           type="text"
-          inputNm="서비스명"
+          :inputNm="$t('service.name')"
           :placeholder="$t('service.nameEx')"
           inputClass="input-box lg check-ok"
           :disabled="true"
@@ -17,7 +17,7 @@
         />
         <InputGroup
           type="text"
-          inputNm="서비스 ID"
+          :inputNm="$t('service.id')"
           :placeholder="$t('service.idEx')"
           inputClass="input-box lg check-ok"
           :disabled="true"
@@ -46,7 +46,7 @@
           :isvalid.sync="tkcgrEmlValid"
         />
         <DateGroup
-          inputNm="서비스 기간"
+          :inputNm="$t('service.date')"
           placeholderStart="YYYY-MM-DD"
           placeholderENd="YYYY-MM-DD"
           :startDt.sync="formData.svc_st_dt"
@@ -55,7 +55,7 @@
         />
         <AuthReqGroup
           @basicAuthClicked="basicAuthClicked"
-          inputNm="인증수단"
+          :inputNm="$t('service.authentication_method')"
           :basicId="basicAuth.id"
           :basicPw="basicAuth.pw"
           :athn.sync="showAuth"
@@ -67,7 +67,7 @@
           :isvalid.sync="authValid"
         ></AuthReqGroup>
         <li>
-          <label class="label point">API 권한관리</label>
+          <label class="label point">{{ $t('service.api_mngt') }}</label>
           <div class="form-cont">
             <div class="form-group"></div>
 
@@ -75,17 +75,19 @@
           </div>
         </li>
         <SlaReqGroup
-          inputNm="SLA 정책관리"
+          :inputNm="$t('service.SLA_mngt')"
           :SLAn.sync="formData.sla_yn"
           :type.sync="formData.sla_type"
           :totalCnt.sync="formData.sla_cnt"
           :TPSCnt.sync="formData.sla_cnt"
         />
-        <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
+        <SysExGroup :inputNm="$t('service.desc')" v-model="formData.desc" />
         <ModalLayout size="m" v-if="modal">
-          <template v-slot:modalHeader><h1 class="h1-tit">서비스 수정</h1> </template>
+          <template v-slot:modalHeader
+            ><h1 class="h1-tit">{{ $t('service.modify') }}</h1>
+          </template>
           <template v-slot:modalContainer>
-            <p v-if="!isShowProgress" class="text">서비스를 수정하시겠습니까?</p>
+            <p v-if="!isShowProgress" class="text">{{ $t('service.modify_message') }}</p>
             <div v-if="isShowProgress" style="width: 100%; text-align: center">
               <b-spinner
                 v-show="isShowProgress"
@@ -94,16 +96,23 @@
               ></b-spinner></div
           ></template>
           <template v-slot:modalFooter
-            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="editService()">확인</button
-            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="modalHide()">취소</button>
+            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="editService()">
+              {{ $t('common.ok') }}</button
+            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="modalHide()">
+              {{ $t('common.cancel') }}
+            </button>
           </template>
         </ModalLayout>
       </ul>
     </template>
     <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled || isShowProgress">수정</button>
-        <button class="lg-btn white-btn" @click="$router.back()" :disabled="isShowProgress">취소</button>
+        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled || isShowProgress">
+          {{ $t('common.register') }}
+        </button>
+        <button class="lg-btn white-btn" @click="$router.back()" :disabled="isShowProgress">
+          {{ $t('common.cancel') }}
+        </button>
       </div>
     </template>
   </ContentLayout>
