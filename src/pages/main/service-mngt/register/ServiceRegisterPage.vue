@@ -54,13 +54,14 @@
           @basicAuthClicked="basicAuthClicked"
           inputNm="인증수단"
           :basicId="basicAuth.id"
-          :basicPW="basicAuth.pw"
+          :basicPw="basicAuth.pw"
           :athn.sync="show"
           :alg.sync="JWTAlg.alg"
           :pickedAlg.sync="formData.athn.JWT.alg"
           :issuer.sync="formData.athn.JWT.issuer"
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
+          :isvalid.sync="authValid"
         ></AuthReqGroup>
         <SlaReqGroup
           inputNm="SLA 정책관리"
@@ -137,6 +138,7 @@ export default class SystemRegisterPage extends Vue {
   tkcgrPosValid = false;
   tkcgrEmlValid = false;
   dateValid = false;
+  authValid = false;
 
   @Watch('nmValid')
   onNmValidChange(newVal: boolean) {
@@ -168,9 +170,14 @@ export default class SystemRegisterPage extends Vue {
     this.totalValid.splice(5, 1, newVal);
   }
 
+  @Watch('authValid')
+  onAuthValidChange(newVal: boolean) {
+    this.totalValid.splice(6, 1, newVal);
+  }
+
   @Watch('isDuplicatedNm')
   onIsDuplicatedNmValidChange(newVal: boolean) {
-    this.totalValid.splice(6, 1, newVal);
+    this.totalValid.splice(7, 1, newVal);
   }
 
   // @Watch('isDuplicatedId')
@@ -243,6 +250,7 @@ export default class SystemRegisterPage extends Vue {
       this.tkcgrPosValid &&
       this.tkcgrEmlValid &&
       this.dateValid &&
+      this.authValid &&
       this.isDuplicatedNm
         ? // &&this.isDuplicatedId
           true

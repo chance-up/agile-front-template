@@ -57,13 +57,14 @@
           @basicAuthClicked="basicAuthClicked"
           inputNm="인증수단"
           :basicId="basicAuth.id"
-          :basicPW="basicAuth.pw"
+          :basicPw="basicAuth.pw"
           :athn.sync="showAuth"
           :alg.sync="JWTAlg.alg"
           :pickedAlg.sync="formData.athn.JWT.alg"
           :issuer.sync="formData.athn.JWT.issuer"
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
+          :isvalid.sync="authValid"
         ></AuthReqGroup>
         <li>
           <label class="label point">API 권한관리</label>
@@ -143,6 +144,7 @@ export default class SystemRegisterPage extends Vue {
   dateValid = null;
   tkcgrPosValid = null;
   tkcgrEmlValid = null;
+  authValid = null;
 
   get serviceOption(): ServiceRegisterRequest {
     return this.serviceModule.service;
@@ -221,6 +223,11 @@ export default class SystemRegisterPage extends Vue {
     this.totalValid.splice(3, 1, newVal);
   }
 
+  @Watch('authValid')
+  onAuthValidChange(newVal: boolean) {
+    this.totalValid.splice(4, 1, newVal);
+  }
+
   @Watch('totalValid')
   onTotalValidChange(newVal: boolean[]) {
     console.log(this.totalValid);
@@ -229,7 +236,10 @@ export default class SystemRegisterPage extends Vue {
   }
 
   async editService() {
-    const val = !this.tkcgrNmValid || !this.tkcgrPosValid || !this.tkcgrEmlValid || !this.dateValid ? false : true;
+    const val =
+      !this.tkcgrNmValid || !this.tkcgrPosValid || !this.tkcgrEmlValid || !this.dateValid || this.authValid
+        ? false
+        : true;
 
     if (!val) {
       this.$modal.show('빈 항목이 있습니다.');

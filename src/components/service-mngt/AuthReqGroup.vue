@@ -24,7 +24,7 @@
           <li>
             <div class="auth-form">
               <label class="label">PW :</label>
-              <input type="text" id="" class="input-box" placeholder="자동생성/변경불가" disabled v-model="basicPW" />
+              <input type="text" id="" class="input-box" placeholder="자동생성/변경불가" disabled v-model="basicPw" />
             </div>
           </li>
         </ul>
@@ -79,7 +79,7 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { BSpinner } from 'bootstrap-vue';
 @Component({
   components: {
@@ -95,7 +95,66 @@ export default class AuthReqGroup extends Vue {
   @Prop({ default: '' }) publicKey!: string;
   @Prop({ default: '' }) pickedAlg!: string;
   @Prop() basicId!: string;
-  @Prop() basicPW!: string;
+  @Prop() basicPw!: string;
+  @Prop({ default: false }) isvalid!: boolean | null;
+
+  @Watch('auth')
+  onAuthChanged(val: string) {
+    this.$emit('update:isvalid', false);
+  }
+
+  @Watch('basicId')
+  onBasicIdChanged(val: string) {
+    if (this.auth == 'BASIC_AUTH') {
+      if (val == '') {
+        this.$emit('update:isvalid', false);
+      } else {
+        this.$emit('update:isvalid', true);
+      }
+    }
+  }
+  @Watch('algPick')
+  onAlgPickChanged(val: string) {
+    if (this.auth == 'JWT') {
+      if (this.algPick != '' && this.JWTissuer != '' && this.JWTsubject != '' && this.JWTpublicKey != '') {
+        this.$emit('update:isvalid', true);
+      } else {
+        this.$emit('update:isvalid', false);
+      }
+    }
+  }
+
+  @Watch('JWTissuer')
+  onJWTissuerChanged(val: string) {
+    if (this.auth == 'JWT') {
+      if (this.algPick != '' && this.JWTissuer != '' && this.JWTsubject != '' && this.JWTpublicKey != '') {
+        this.$emit('update:isvalid', true);
+      } else {
+        this.$emit('update:isvalid', false);
+      }
+    }
+  }
+  @Watch('JWTsubject')
+  onJWTsubjwctChanged(val: string) {
+    if (this.auth == 'JWT') {
+      if (this.algPick != '' && this.JWTissuer != '' && this.JWTsubject != '' && this.JWTpublicKey != '') {
+        this.$emit('update:isvalid', true);
+      } else {
+        this.$emit('update:isvalid', false);
+      }
+    }
+  }
+  @Watch('JWTpublicKey')
+  onJWTpublicKeyChanged(val: string) {
+    if (this.auth == 'JWT') {
+      if (this.algPick != '' && this.JWTissuer != '' && this.JWTsubject != '' && this.JWTpublicKey != '') {
+        this.$emit('update:isvalid', true);
+      } else {
+        this.$emit('update:isvalid', false);
+      }
+    }
+  }
+
   get algPick() {
     return this.pickedAlg;
   }
