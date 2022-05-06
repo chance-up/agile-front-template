@@ -187,13 +187,4 @@ export default class SystemModule extends GateWayModule {
     console.log('response : ', response);
     return false;
   }
-
-  get systemDateList() {
-    const dateList: SystemResponse[] = [];
-    this.systemList.map((item) => {
-      console.log('item : ', item);
-      dateList.push(item);
-    });
-    return dateList;
-  }
 }

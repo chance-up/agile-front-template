@@ -7,8 +7,6 @@
   >
     <template v-if="!isShowProgress" v-slot:contents>
       <ul>
-        <InputGroup type="text" :value.sync="systemItem.nm" :inputNm="$t('system.name')" :place="$t('system.name')" />
-
         <InputGroup
           type="text"
           :inputNm="$t('system.id')"

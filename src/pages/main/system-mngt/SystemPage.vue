@@ -73,7 +73,12 @@
                   <td @click="getRoutePage('system-detail', list.id)">{{ list.tkcgr_nm }}</td>
                   <td @click="getRoutePage('system-detail', list.id)">
                     <p class="date-txt">
-                      {{ list.updated_at === '' ? list.created_at : list.updated_at }}
+                      <span>
+                        {{ list.updated_at === '' ? getDate(list.created_at) : getDate(list.updated_at) }}
+                      </span>
+                      <span>
+                        {{ list.updated_at === '' ? getHours(list.created_at) : getHours(list.updated_at) }}
+                      </span>
                     </p>
                   </td>
                   <td>
@@ -166,10 +171,6 @@ export default class SystemPage extends Vue {
     return this.systemModule.currAsyncState;
   }
 
-  get systemDateList() {
-    return this.systemModule.systemDateList;
-  }
-
   created() {
     this.systemModule.setSystemList([]);
     this.systemModule.setPagination({} as Pagination);
@@ -193,8 +194,6 @@ export default class SystemPage extends Vue {
     } else {
       this.systemModule.getSystemList();
     }
-
-    console.log('systemDateList : ', this.systemDateList);
   }
 
   @Watch('userState')
@@ -260,6 +259,26 @@ export default class SystemPage extends Vue {
     await this.systemModule.deleteSystem(this.currId);
     this.$router.go(0);
     this.closeModal();
+  }
+
+  getDate(date: Date) {
+    date = new Date(date);
+
+    const year = date.getFullYear();
+    const month = date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+    const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+
+    return year + '-' + month + '-' + day;
+  }
+
+  getHours(date: Date) {
+    date = new Date(date);
+
+    const hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+    const minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+    const seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+
+    return hours + ':' + minutes + ':' + seconds;
   }
 
   showModal(id: string) {
