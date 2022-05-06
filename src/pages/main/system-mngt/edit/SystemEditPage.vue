@@ -89,7 +89,7 @@ export default class SystemEditPage extends Vue {
       this.isShowProgress = true;
     } else if (userState === USER_STATE.ERROR) {
       this.isShowProgress = false;
-      this.$modal.show('서버 통신 에러');
+      this.$modal.show(`${this.$t('error.server_error')}`);
     } else if (userState === USER_STATE.DONE) {
       this.isShowProgress = false;
     }
