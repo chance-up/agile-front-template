@@ -14,11 +14,7 @@
       <div class="box-tit">
         <h2 class="h2-tit">{{ subTitle }}</h2>
         <div class="text-center">
-          <b-spinner
-            v-show="isShowProgress"
-            style="width: 2rem; height: 2rem; margin-top: 5%"
-            label="Large Spinner"
-          ></b-spinner>
+          <b-spinner v-show="isShowProgress" label="Large Spinner"></b-spinner>
         </div>
       </div>
       <div class="form-wrap">
