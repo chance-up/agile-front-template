@@ -105,7 +105,7 @@ export default class ServiceDetailPage extends Vue {
 
   async deleteService(ServiceId: string) {
     await this.serviceModule.deleteServiceAction(ServiceId);
-    this.$router.back;
+    this.$router.back();
     this.modal = false;
   }
 
