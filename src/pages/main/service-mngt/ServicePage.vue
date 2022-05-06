@@ -179,6 +179,7 @@ export default class ServiceManagementPage extends Vue {
     }
   }
   created() {
+    this.serviceModule.setPagination({} as Pagination);
     if (Object.keys(this.$route.query).length > 0) {
       if (Object.keys(this.$route.query).includes('nm')) this.searchData.nm = this.$route.query.nm as string;
       if (Object.keys(this.$route.query).includes('id')) this.searchData.id = this.$route.query.id as string;
