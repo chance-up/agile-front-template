@@ -172,14 +172,14 @@ export default class SystemRegisterPage extends Vue {
     svc_end_dt: '',
     athn: {
       BASIC_AUTH: {
-        id: '',
-        pw: '',
+        id: null,
+        pw: null,
       },
       JWT: {
-        alg: '',
-        issuer: '',
-        subject: '',
-        publickey: '',
+        alg: null,
+        issuer: null,
+        subject: null,
+        publickey: null,
       },
     },
     api_aut: '',
@@ -202,13 +202,13 @@ export default class SystemRegisterPage extends Vue {
     console.log(this.showAuth);
     if (val == 'BASIC_AUTH') {
       this.formData.athn.JWT = {
-        alg: '',
-        issuer: '',
-        subject: '',
-        publickey: '',
+        alg: null,
+        issuer: null,
+        subject: null,
+        publickey: null,
       };
     } else if (val == 'JWT') {
-      this.serviceModule.setBasicAuth({ id: '', pw: '' });
+      this.serviceModule.setBasicAuth({ id: null, pw: null });
     }
   }
 
