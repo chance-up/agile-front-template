@@ -15,7 +15,7 @@
         @focus="notice()"
       />
       <p v-if="emptyChk && text == ''" class="red-txt noti">해당 항목은 필수 입력값입니다.</p>
-      <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
+      <p v-if="notiMessage[0] == false && notiMessage[1] != ''" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
   </li>
 </template>
@@ -44,12 +44,13 @@ export default class InputGroup extends Vue {
     return this.value;
   }
   set text(val: string) {
+    console.log('test');
     switch (this.inputNm) {
       case this.$t('service.tkcgrNm'):
         if (checkLength(val, 1, 20) && checkEnglishNumberKorean(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, ''];
         } else {
           this.notiMessage = [false, this.$t('service.valid_check_tkcgrNm') as string];
         }
@@ -58,7 +59,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 20) && checkEnglishNumberKorean(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, ''];
         } else {
           this.notiMessage = [false, this.$t('service.valid_check_tkcgrPos') as string];
         }
@@ -67,7 +68,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 20) && checkEmail(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrEml') as string];
         }

@@ -230,7 +230,6 @@ export default class SystemRegisterPage extends Vue {
 
   @Watch('totalValid')
   onTotalValidChange(newVal: boolean[]) {
-    console.log(this.totalValid);
     if (newVal.every((item) => item === true)) this.isBtnDisabled = false;
     else this.isBtnDisabled = true;
   }
@@ -249,7 +248,6 @@ export default class SystemRegisterPage extends Vue {
       this.$modal.show('빈 항목이 있습니다.');
       return;
     } else {
-      console.log(this.serviceOption);
       await this.serviceModule.editServiceAction(this.serviceOption);
       this.$router.back();
     }

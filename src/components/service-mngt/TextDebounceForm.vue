@@ -15,7 +15,7 @@
       />
       <p v-if="emptyChk && text == ''" class="red-txt noti">해당 항목은 필수 입력값입니다.</p>
       <p v-if="check == false" class="red-txt noti">중복된 입력값입니다.</p>
-      <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
+      <p v-if="notiMessage[0] == false && notiMessage[1] != ''" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
   </li>
 </template>
@@ -48,7 +48,7 @@ export default class TextDebounceForm extends Vue {
         if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, ''];
         } else {
           this.notiMessage = [false, this.$t('service.valid_check_nm') as string];
         }
@@ -57,7 +57,7 @@ export default class TextDebounceForm extends Vue {
         if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, ''];
         } else {
           this.notiMessage = [false, this.$t('service.valid_check_id') as string];
         }
