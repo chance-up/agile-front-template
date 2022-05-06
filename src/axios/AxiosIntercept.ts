@@ -63,7 +63,8 @@ axios.interceptors.response.use(
 );
 
 axios.interceptors.request.use(
-  (config) => {
+  async (config) => {
+    await sleep(1000);
     console.log('http request api => ', config.url);
     if (isMockData(config.url ? config.url : '')) {
       return getMockError(config);
@@ -72,6 +73,12 @@ axios.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
+
+function sleep(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 addMock(
   '/users/',

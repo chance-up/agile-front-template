@@ -1,5 +1,6 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import { USER_STATE } from '@/store/UserState';
+import { AxiosClient } from '@/axios/AxiosClient';
 
 export default abstract class GateWayModule extends VuexModule {
   public currAsyncState = USER_STATE.IDLE;
@@ -20,5 +21,10 @@ export default abstract class GateWayModule extends VuexModule {
   @Action
   showError() {
     this.context.commit('fetchCurrAsyncState', USER_STATE.ERROR);
+  }
+
+  @Action
+  release() {
+    AxiosClient.getInstance().cancel();
   }
 }

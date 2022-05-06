@@ -209,6 +209,7 @@ export default class ServiceManagementPage extends Vue {
   }
 
   destroyed() {
+    this.serviceModule.release();
     this.serviceModule.setServiceList([]);
     this.serviceModule.setPagination({} as Pagination);
   }

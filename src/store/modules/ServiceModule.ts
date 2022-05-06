@@ -19,7 +19,6 @@ import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
 import GateWayModule from '../GateWayModule';
-
 @Module({ name: 'ServiceModule' })
 export default class ServiceModule extends GateWayModule {
   public services: ServiceResponse[] = [];
@@ -133,7 +132,9 @@ export default class ServiceModule extends GateWayModule {
       this.context.commit('setPagination', response.data.pagination);
       this.dissmissLoading();
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
+        console.log('Cancel');
+      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
         this.showError();
       } else {
         this.showError();
