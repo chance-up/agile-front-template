@@ -1,5 +1,9 @@
 <template>
-  <ContentLayout title="서비스 등록" subTitle="기본정보 등록" depth="서비스 관리">
+  <ContentLayout
+    :title="$t('service.register')"
+    :subTitle="$t('service.register_sub_title')"
+    :depth="$t('service.title')"
+  >
     <template v-slot:contents>
       <ul>
         <TextDebounceForm
@@ -43,7 +47,7 @@
           :isvalid.sync="tkcgrEmlValid"
         />
         <DateGroup
-          inputNm="서비스 기간"
+          :inputNm="$t('service.date')"
           placeholderStart="YYYY-MM-DD"
           placeholderENd="YYYY-MM-DD"
           :startDt.sync="formData.svc_st_dt"
@@ -52,7 +56,7 @@
         />
         <AuthReqGroup
           @basicAuthClicked="basicAuthClicked"
-          inputNm="인증수단"
+          :inputNm="$t('service.authentication_method')"
           :basicId="basicAuth.id"
           :basicPw="basicAuth.pw"
           :athn.sync="show"
@@ -64,18 +68,20 @@
           :isvalid.sync="authValid"
         ></AuthReqGroup>
         <SlaReqGroup
-          inputNm="SLA 정책관리"
+          :inputNm="$t('service.SLA_mngt')"
           :SLAn.sync="formData.sla_yn"
           :type.sync="formData.sla_type"
           :totalCnt.sync="formData.sla_cnt"
           :TPSCnt.sync="formData.sla_cnt"
         />
-        <SysExGroup inputNm="시스템 설명" v-model="formData.desc" />
+        <SysExGroup :inputNm="$t('service.desc')" v-model="formData.desc" />
 
         <ModalLayout size="m" v-if="modal">
-          <template v-slot:modalHeader><h2 class="h1-tit">서비스 등록</h2> </template>
+          <template v-slot:modalHeader
+            ><h2 class="h1-tit">{{ $t('service.register') }}</h2>
+          </template>
           <template v-slot:modalContainer>
-            <p v-if="!isShowProgress" class="text">서비스를 등록하시겠습니까?</p>
+            <p v-if="!isShowProgress" class="text">{{ $t('service.register_message') }}</p>
             <div v-if="isShowProgress" style="width: 100%; text-align: center">
               <b-spinner
                 v-show="isShowProgress"
@@ -85,16 +91,23 @@
             </div>
           </template>
           <template v-slot:modalFooter
-            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="submit()">확인</button
-            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="modalHide()">취소</button>
+            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="submit()">
+              {{ $t('common.ok') }}</button
+            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="modalHide()">
+              {{ $t('common.cancel') }}
+            </button>
           </template>
         </ModalLayout>
       </ul>
     </template>
     <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled || isShowProgress">등록</button>
-        <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isShowProgress">취소</button>
+        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled || isShowProgress">
+          {{ $t('common.register') }}
+        </button>
+        <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isShowProgress">
+          {{ $t('common.cancel') }}
+        </button>
       </div>
     </template>
   </ContentLayout>
@@ -195,13 +208,13 @@ export default class SystemRegisterPage extends Vue {
   onShowChange(val: string) {
     if (val == 'BASIC_AUTH') {
       this.formData.athn.JWT = {
-        alg: '',
-        issuer: '',
-        subject: '',
-        publickey: '',
+        alg: null,
+        issuer: null,
+        subject: null,
+        publickey: null,
       };
     } else {
-      this.serviceModule.setBasicAuth({ id: '', pw: '' });
+      this.serviceModule.setBasicAuth({ id: null, pw: null });
     }
   }
 

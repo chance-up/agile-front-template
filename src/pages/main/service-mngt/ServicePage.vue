@@ -1,5 +1,5 @@
 <template>
-  <ListLayout :title="title">
+  <ListLayout :title="$t('service.title')">
     <template slot="search-form">
       <div class="search-wrap">
         <h2 class="h2-tit">{{ $t('common.search') }}</h2>
@@ -31,10 +31,10 @@
         </div> -->
     </template>
     <template slot="list-form">
-      <ListForm :title="listTitle" :isShowProgress="isShowProgress">
+      <ListForm :title="$t('service.list_title')" :isShowProgress="isShowProgress">
         <template slot="list-btn-area">
           <button class="mid-btn" @click="$router.push({ name: 'service-register' })">
-            <i><img src="@/assets/check_ico.svg" alt="등록" /></i>등록
+            <i><img src="@/assets/check_ico.svg" alt="등록" /></i>{{ $t('common.register') }}
           </button>
         </template>
 
@@ -106,13 +106,15 @@
         <template slot="pagination">
           <Paging :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
           <ModalLayout size="m" v-if="modal">
-            <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+            <template v-slot:modalHeader
+              ><h1 class="h1-tit">{{ $t('service.delete') }}</h1>
+            </template>
             <template v-slot:modalContainer>
-              <p class="text">서비스를 삭제하시겠습니까?</p>
+              <p class="text">{{ $t('service.delete_message') }}</p>
             </template>
             <template v-slot:modalFooter
-              ><button class="lg-btn purple-btn" @click="deleteService(deleteId)">확인</button
-              ><button class="lg-btn purple-btn" @click="modalHide()">취소</button>
+              ><button class="lg-btn purple-btn" @click="deleteService(deleteId)">{{ $t('common.ok') }}</button
+              ><button class="lg-btn purple-btn" @click="modalHide()">{{ $t('common.cancel') }}</button>
             </template>
           </ModalLayout>
         </template>
@@ -146,8 +148,6 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
   },
 })
 export default class ServiceManagementPage extends Vue {
-  title = this.$t('service.title');
-  listTitle = '서비스 리스트';
   searchData: SearchCondition = {};
   pagingData: SearchCondition = {};
   isShowProgress = true;
