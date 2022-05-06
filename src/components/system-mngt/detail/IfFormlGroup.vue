@@ -6,7 +6,7 @@
         <p class="bold">{{ group.if_nm }}</p>
         <dl class="dot-list">
           <dt v-for="(item, index2) in group.if_url" :key="index2">
-            {{ item }}
+            {{ item.protocol }}://{{ item.domain }}:{{ item.port }}
           </dt>
         </dl>
       </div>

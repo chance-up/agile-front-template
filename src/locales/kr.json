@@ -11,7 +11,8 @@
     "save": "저장",
     "list": "목록",
     "register": "등록",
-    "search": "검색"
+    "search": "검색",
+    "add": "추가"
   },
   "message": {
     "example": "예",
@@ -114,7 +115,7 @@
     "tkcgrNm": "담당자 이름",
     "tkcgrPos": "소속",
     "tkcgrEml": "E-mail",
-    "ifGrp": "연동방식",
+    "ifGrp": "End-point",
     "desc": "시스템 설명",
     "update": "Update",
     "action": "Action",

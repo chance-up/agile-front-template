@@ -19,10 +19,10 @@
                 @input="validCheck(idx)"
               />
               <button class="sm-btn" @click="addIfGrp" v-if="idx === 0">
-                <i><img src="@/assets/plus.svg" alt="추가" /></i>
+                <i><img src="@/assets/plus.svg" :alt="$t('common.add')" /></i>
               </button>
               <button class="sm-btn" @click="deleteIfGrp(idx)" v-else>
-                <i><img src="@/assets/minus.svg" alt="삭제" /></i>
+                <i><img src="@/assets/minus.svg" :alt="$t('common.delete')" /></i>
               </button>
               <p v-if="notiMessage[idx].isValid == false" class="red-txt noti">
                 {{ notiMessage[idx].msg }}

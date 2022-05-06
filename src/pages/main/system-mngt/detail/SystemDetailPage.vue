@@ -7,7 +7,7 @@
   >
     <template v-if="!isShowProgress" v-slot:contents>
       <ul>
-        <InfoGroup :inputNm="$t('system.name')" :value="systemItem.nm" />
+        <!-- <InfoGroup :inputNm="$t('system.name')" :value="systemItem.nm" /> -->
         <InfoGroup :inputNm="$t('system.id')" :value="systemItem.id" />
         <InfoGroup :inputNm="$t('system.tkcgrNm')" :value="systemItem.tkcgr_nm" />
         <InfoGroup :inputNm="$t('system.tkcgrPos')" :value="systemItem.tkcgr_pos" />
