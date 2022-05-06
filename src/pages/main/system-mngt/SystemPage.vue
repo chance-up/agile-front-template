@@ -42,55 +42,52 @@
         </template>
         <!-- 각 페이지마다 테이블 규격이 조금씩 달라서 template으로 묶어서 colgroup ~ tbody까지 넣어주시면 됩니다. -->
         <template slot="list-table">
-          <colgroup>
-            <col width="8%" />
-            <col width="20%" />
-            <col width="*" />
-            <col width="12%" />
-            <col width="22%" />
-            <col width="12%" />
-          </colgroup>
-          <thead>
-            <tr>
-              <th>{{ $t('system.no') }}</th>
-              <th>{{ $t('system.name') }}</th>
-              <th>{{ $t('system.id') }}</th>
-              <th>{{ $t('system.tkcgr') }}</th>
-              <th>{{ $t('system.update') }}</th>
-              <th>{{ $t('system.action') }}</th>
-            </tr>
-          </thead>
-          <div class="text-center">
-            <b-spinner
-              v-show="isShowProgress"
-              style="width: 2rem; height: 2rem; position: absolute; left: 50%; margin-top: 2.5%"
-              label="Large Spinner"
-            ></b-spinner>
+          <div class="tb-wrap">
+            <div class="text-center" v-if="isShowProgress">
+              <!-- v-show="isShowProgress" -->
+              <b-spinner label="Large Spinner"></b-spinner>
+            </div>
+            <table class="list-tb" v-if="!isShowProgress">
+              <colgroup>
+                <col width="8%" />
+                <col width="*" />
+                <col width="22%" />
+                <col width="27%" />
+                <col width="17%" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>{{ $t('system.no') }}</th>
+                  <th>{{ $t('system.id') }}</th>
+                  <th>{{ $t('system.tkcgr') }}</th>
+                  <th>{{ $t('system.update') }}</th>
+                  <th>{{ $t('system.action') }}</th>
+                </tr>
+              </thead>
+
+              <!-- 각 리스트 페이지에 맞는 데이터로 v-for 돌려주시면 됩니다. <td> 태그 안이 조금씩 다를 수 있으니 퍼블리싱 파일 참조하면서 수정해주세요. -->
+              <tbody>
+                <tr v-for="(list, index) in listOption" :key="index">
+                  <td @click="getRoutePage('system-detail', list.id)">{{ index + 1 }}</td>
+                  <td @click="getRoutePage('system-detail', list.id)">{{ list.id }}</td>
+                  <td @click="getRoutePage('system-detail', list.id)">{{ list.tkcgr_nm }}</td>
+                  <td @click="getRoutePage('system-detail', list.id)">
+                    <p class="date-txt">
+                      {{ list.updated_at === '' ? list.created_at : list.updated_at }}
+                    </p>
+                  </td>
+                  <td>
+                    <button class="mod-btn" @click="getRoutePage('system-edit', list.id)">
+                      <i>{{ $t('common.modify') }}</i>
+                    </button>
+                    <button class="del-btn" @click="showModal(list.id)">
+                      <i>{{ $t('common.delete') }}</i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <!-- 각 리스트 페이지에 맞는 데이터로 v-for 돌려주시면 됩니다. <td> 태그 안이 조금씩 다를 수 있으니 퍼블리싱 파일 참조하면서 수정해주세요. -->
-          <tbody>
-            <tr v-for="(list, index) in listOption" :key="index">
-              <td @click="getRoutePage('system-detail', list.id)">{{ index + 1 }}</td>
-              <td @click="getRoutePage('system-detail', list.id)" class="tl">
-                <span class="bold">{{ list.nm }}</span>
-              </td>
-              <td @click="getRoutePage('system-detail', list.id)">{{ list.id }}</td>
-              <td @click="getRoutePage('system-detail', list.id)">{{ list.tkcgr_nm }}</td>
-              <td @click="getRoutePage('system-detail', list.id)">
-                <p>
-                  {{ list.updated_at === '' ? list.created_at : list.updated_at }}
-                </p>
-              </td>
-              <td>
-                <button class="mod-btn" @click="getRoutePage('system-edit', list.id)">
-                  <i>{{ $t('common.modify') }}</i>
-                </button>
-                <button class="del-btn" @click="showModal(list.id)">
-                  <i>{{ $t('common.delete') }}</i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
         </template>
         <template slot="pagination">
           <Paging :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
@@ -152,11 +149,31 @@ export default class SystemPage extends Vue {
 
   searchData: SearchCondition = {};
   pagingData: SearchCondition = {};
+  DateList: string[][] = [];
   isShowProgress = true;
   isShowModal = false;
   currId = '';
 
+  get listOption(): SystemResponse[] {
+    return this.systemModule.systemList;
+  }
+
+  get pagination(): Pagination {
+    return this.systemModule.pagination;
+  }
+
+  get userState() {
+    return this.systemModule.currAsyncState;
+  }
+
+  get systemDateList() {
+    return this.systemModule.systemDateList;
+  }
+
   created() {
+    this.systemModule.setSystemList([]);
+    this.systemModule.setPagination({} as Pagination);
+
     if (Object.keys(this.$route.query).length > 0) {
       if (Object.keys(this.$route.query).includes('nm')) this.searchData.nm = this.$route.query.nm as string;
       if (Object.keys(this.$route.query).includes('id')) this.searchData.id = this.$route.query.id as string;
@@ -172,23 +189,12 @@ export default class SystemPage extends Vue {
       //store 말고 페이지에서 action 부를 때도 예외처리를 해줘야하는지 물어보기
 
       const param = { ...this.searchData, ...this.pagingData };
-
       this.systemModule.getSystemList(param);
     } else {
       this.systemModule.getSystemList();
     }
-  }
 
-  get listOption(): SystemResponse[] {
-    return this.systemModule.systemList;
-  }
-
-  get pagination(): Pagination {
-    return this.systemModule.pagination;
-  }
-
-  get userState() {
-    return this.systemModule.currAsyncState;
+    console.log('systemDateList : ', this.systemDateList);
   }
 
   @Watch('userState')

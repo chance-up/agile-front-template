@@ -21,40 +21,47 @@
             </button>
           </template>
           <template v-slot:list-table>
-            <colgroup>
-              <col width="5%" />
-              <col width="15%" />
-              <col width="12%" />
-              <col width="*" />
-              <col width="14%" />
-              <col width="13%" />
-              <col width="8%" />
-              <col width="10%" />
-              <col width="8%" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>{{ $t('api.sysNm') }}</th>
-                <th>{{ $t('api.apiId') }}</th>
-                <th>{{ $t('api.apiNm') }}</th>
-                <th>{{ $t('api.method') }}</th>
-                <th>{{ $t('api.uri') }}</th>
-                <th>{{ $t('api.timeOut') }}<br />(ms)</th>
-                <th>{{ $t('api.update') }}</th>
-                <th>{{ $t('api.action') }}</th>
-              </tr>
-            </thead>
-            <div class="text-center">
-              <b-spinner
-                v-show="isShowProgress"
-                style="width: 2rem; height: 2rem; position: absolute; left: 50%"
-                label="Large Spinner"
-              ></b-spinner>
+            <div class="tb-wrap">
+              <div class="text-center" v-if="isShowProgress">
+                <b-spinner label="Large Spinner"></b-spinner>
+              </div>
+              <table class="list-tb" v-if="!isShowProgress">
+                <colgroup>
+                  <col width="5%" />
+                  <col width="15%" />
+                  <col width="12%" />
+                  <col width="*" />
+                  <col width="14%" />
+                  <col width="13%" />
+                  <col width="8%" />
+                  <col width="10%" />
+                  <col width="8%" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>{{ $t('api.sysNm') }}</th>
+                    <th>{{ $t('api.apiId') }}</th>
+                    <th>{{ $t('api.apiNm') }}</th>
+                    <th>{{ $t('api.method') }}</th>
+                    <th>{{ $t('api.uri') }}</th>
+                    <th>{{ $t('api.timeOut') }}<br />(ms)</th>
+                    <th>{{ $t('api.update') }}</th>
+                    <th>{{ $t('api.action') }}</th>
+                  </tr>
+                </thead>
+                <div class="text-center">
+                  <b-spinner
+                    v-show="isShowProgress"
+                    style="width: 2rem; height: 2rem; position: absolute; left: 50%"
+                    label="Large Spinner"
+                  ></b-spinner>
+                </div>
+                <tbody>
+                  <ListRow v-for="(apiData, index) in apiList" :key="index" :apiData="apiData" :index="index" />
+                </tbody>
+              </table>
             </div>
-            <tbody>
-              <ListRow v-for="(apiData, index) in apiList" :key="index" :apiData="apiData" :index="index" />
-            </tbody>
           </template>
           <template v-slot:pagination>
             <Paging v-if="pagination" :pagingOption="pagination" @onChangedPage:page="onChangedPage" />

@@ -5,45 +5,55 @@
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 100;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 300;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 400;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 500;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 700;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 900;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');
 }
-
-
 
 .tl {
   text-align: left !important;
@@ -60,7 +70,6 @@
 .clear {
   clear: both !important;
 }
-
 
 .mr0 {
   margin-right: 0px !important;
@@ -102,7 +111,6 @@
   margin-left: 30px !important;
 }
 
-
 .mt0 {
   margin-top: 0px !important;
 }
@@ -143,44 +151,41 @@
   margin-bottom: 35px !important;
 }
 
-
 .bold {
   font-weight: 500 !important;
 }
 
 .link:hover {
-  color: #8041F7;
+  color: #8041f7;
   text-decoration: underline;
 }
 
-
 .mid-btn {
-  background: #ECE1FE !important;
+  background: #ece1fe !important;
   border-radius: 8px;
   padding: 10px 20px;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
-  color: #8041F7;
+  color: #8041f7;
 }
 
 .mid-btn:hover {
-  background: #ECE1FE !important;
+  background: #ece1fe !important;
   box-shadow: 1px 1px 5px #ccc;
 }
 
 .mid-btn:focus {
-  background: #ECE1FE !important;
+  background: #ece1fe !important;
 }
 
 .mid-btn:active {
-  background: #D9C1FF !important;
+  background: #d9c1ff !important;
 }
 
-.mid-btn>i {
+.mid-btn > i {
   margin-right: 10px;
 }
-
 
 .sm-btn {
   margin-left: 15px;
@@ -211,24 +216,23 @@
   border: 1px #222 solid;
 }
 
-
 .xs-btn .plus {
   display: block;
   width: 12px;
   height: 12px;
   margin: 0 auto;
-  background: url("@/assets/plus_xs.svg") no-repeat center center;
+  background: url('@/assets/plus_xs.svg') no-repeat center center;
 }
 
 .xs-btn:hover .plus,
 .xs-btn:focus .plus {
   margin: 0 auto;
-  background: url("@/assets/plus_xs_over.svg") no-repeat center center;
+  background: url('@/assets/plus_xs_over.svg') no-repeat center center;
 }
 
 .xs-btn:active .plus {
   margin: 0 auto;
-  background: url("@/assets/plus_xs_active.svg") no-repeat center center;
+  background: url('@/assets/plus_xs_active.svg') no-repeat center center;
 }
 
 .xs-btn .minus {
@@ -236,18 +240,18 @@
   width: 12px;
   height: 12px;
   margin: 0 auto;
-  background: url("@/assets/minus_xs.svg") no-repeat center center;
+  background: url('@/assets/minus_xs.svg') no-repeat center center;
 }
 
 .xs-btn:hover .minus,
 .xs-btn:focus .minus {
   margin: 0 auto;
-  background: url("@/assets/minus_xs_over.svg") no-repeat center center;
+  background: url('@/assets/minus_xs_over.svg') no-repeat center center;
 }
 
 .xs-btn:active .minus {
   margin: 0 auto;
-  background: url("@/assets/minus_xs_active.svg") no-repeat center center;
+  background: url('@/assets/minus_xs_active.svg') no-repeat center center;
 }
 
 .xs-btn .serve {
@@ -255,18 +259,18 @@
   width: 12px;
   height: 12px;
   margin: 0 auto;
-  background: url("@/assets/serve_xs.svg") no-repeat center center;
+  background: url('@/assets/serve_xs.svg') no-repeat center center;
 }
 
 .xs-btn:hover .serve,
 .xs-btn:focus .serve {
   margin: 0 auto;
-  background: url("@/assets/serve_xs_over.svg") no-repeat center center;
+  background: url('@/assets/serve_xs_over.svg') no-repeat center center;
 }
 
 .xs-btn:active .serve {
   margin: 0 auto;
-  background: url("@/assets/serve_xs_active.svg") no-repeat center center;
+  background: url('@/assets/serve_xs_active.svg') no-repeat center center;
 }
 
 .xs-btn .reserve {
@@ -274,20 +278,19 @@
   width: 12px;
   height: 12px;
   margin: 0 auto;
-  background: url("@/assets/reserve_xs.svg") no-repeat center center;
+  background: url('@/assets/reserve_xs.svg') no-repeat center center;
 }
 
 .xs-btn:hover .reserve,
 .xs-btn:focus .reserve {
   margin: 0 auto;
-  background: url("@/assets/reserve_xs_over.svg") no-repeat center center;
+  background: url('@/assets/reserve_xs_over.svg') no-repeat center center;
 }
 
 .xs-btn:active .reserve {
   margin: 0 auto;
-  background: url("@/assets/reserve_xs_active.svg") no-repeat center center;
+  background: url('@/assets/reserve_xs_active.svg') no-repeat center center;
 }
-
 
 .lg-btn {
   border-radius: 8px;
@@ -297,14 +300,13 @@
   line-height: 20px;
 }
 
-.lg-btn>i {
+.lg-btn > i {
   margin-right: 10px;
 }
 
-
 .purple-btn {
-  background: #8041F7 !important;
-  border: 1px #8041F7 solid !important;
+  background: #8041f7 !important;
+  border: 1px #8041f7 solid !important;
   color: #fff;
 }
 
@@ -317,13 +319,13 @@
 }
 
 .purple-btn:active {
-  background: #5614D3 !important;
-  border: 1px #5614D3 solid !important;
+  background: #5614d3 !important;
+  border: 1px #5614d3 solid !important;
   box-shadow: 1px 1px 5px #ccc;
 }
 
-.purple-btn>i {}
-
+.purple-btn > i {
+}
 
 .white-btn {
   background: #fff !important;
@@ -340,16 +342,15 @@
 }
 
 .white-btn:active {
-  background: #F1F1F1 !important;
+  background: #f1f1f1 !important;
   border: 1px #777 solid !important;
   box-shadow: 1px 1px 5px #ccc;
 }
 
-
 .gray-btn {
-  background: #F3F7F9 !important;
-  border: 1px #F3F7F9 solid !important;
-  color: #868B9B;
+  background: #f3f7f9 !important;
+  border: 1px #f3f7f9 solid !important;
+  color: #868b9b;
 }
 
 .gray-btn:hover {
@@ -361,69 +362,62 @@
 }
 
 .white-btn:active {
-  background: #E5ECEF !important;
-  border: 1px #E5ECEF solid !important;
+  background: #e5ecef !important;
+  border: 1px #e5ecef solid !important;
   box-shadow: 1px 1px 5px #ccc;
 }
-
-
-
 
 .mod-btn {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background: url("@/assets/mod_ico.svg") no-repeat center center;
+  background: url('@/assets/mod_ico.svg') no-repeat center center;
   margin-right: 5px;
 }
 
 .mod-btn:hover {
-  background: url("@/assets/mod_ico_over.svg") no-repeat center center;
+  background: url('@/assets/mod_ico_over.svg') no-repeat center center;
 }
 
 .mod-btn:focus {
-  background: url("@/assets/mod_ico_over.svg") no-repeat center center;
+  background: url('@/assets/mod_ico_over.svg') no-repeat center center;
 }
 
 .mod-btn:active {
-  background: url("@/assets/mod_ico_active.svg") no-repeat center center;
+  background: url('@/assets/mod_ico_active.svg') no-repeat center center;
 }
 
-.mod-btn>i {
+.mod-btn > i {
   display: none;
 }
-
 
 .del-btn {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background: url("@/assets/del_ico.svg") no-repeat center center;
+  background: url('@/assets/del_ico.svg') no-repeat center center;
 }
 
 .del-btn:hover {
-  background: url("@/assets/del_ico_over.svg") no-repeat center center;
+  background: url('@/assets/del_ico_over.svg') no-repeat center center;
 }
 
 .del-btn:focus {
-  background: url("@/assets/del_ico_over.svg") no-repeat center center;
+  background: url('@/assets/del_ico_over.svg') no-repeat center center;
 }
 
 .del-btn:active {
-  background: url("@/assets/del_ico_active.svg") no-repeat center center;
+  background: url('@/assets/del_ico_active.svg') no-repeat center center;
 }
 
-.del-btn>i {
+.del-btn > i {
   display: none;
 }
-
 
 .tip-btn {
   width: 24px;
   height: 24px;
 }
-
-
 
 .badge {
   display: inline-block;
@@ -437,25 +431,24 @@
 }
 
 .badge.red {
-  background-color: #FFDBDB;
-  color: #FF4E63 !important;
+  background-color: #ffdbdb;
+  color: #ff4e63 !important;
 }
 
 .badge.syan {
-  background-color: #C4F7F5;
-  color: #00CEC6 !important;
+  background-color: #c4f7f5;
+  color: #00cec6 !important;
 }
 
 .badge.blue {
-  background-color: #C0E1FD;
-  color: #1C98FB !important;
+  background-color: #c0e1fd;
+  color: #1c98fb !important;
 }
 
 .badge.violet {
-  background-color: #ECE1FE;
-  color: #8041F7 !important;
+  background-color: #ece1fe;
+  color: #8041f7 !important;
 }
-
 
 /*  check box    */
 .check {
@@ -488,15 +481,15 @@
   left: 0px;
   width: 22px;
   height: 22px;
-  background: url("@/assets/check_off.svg") no-repeat center center;
+  background: url('@/assets/check_off.svg') no-repeat center center;
 }
 
-.check:hover input~.checkmark {
-  background: url("@/assets/check_over.svg") no-repeat center center;
+.check:hover input ~ .checkmark {
+  background: url('@/assets/check_over.svg') no-repeat center center;
 }
 
-.check input:checked~.checkmark {
-  background: url("@/assets/check_on.svg") no-repeat center center;
+.check input:checked ~ .checkmark {
+  background: url('@/assets/check_on.svg') no-repeat center center;
 }
 
 .checkmark:after {
@@ -504,7 +497,7 @@
   position: absolute;
 }
 
-.check input:checked~.checkmark:after {
+.check input:checked ~ .checkmark:after {
   display: block;
 }
 
@@ -519,7 +512,6 @@
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
 }
-
 
 .discription {
   font-weight: 300;
@@ -537,7 +529,6 @@
   text-decoration: underline !important;
   padding: 0px 3px;
 }
-
 
 .text {
   line-height: 24px;
@@ -572,13 +563,12 @@
 
 */
 
-
 .textarea {
   display: inline-table;
   width: 366px;
   height: 126px;
-  background-color: #F3F7F9;
-  border: 1px #F3F7F9 solid;
+  background-color: #f3f7f9;
+  border: 1px #f3f7f9 solid;
   border-radius: 8px;
   padding: 12px 12px;
   font-size: 14px;
@@ -590,7 +580,6 @@
   text-align: left;
 }
 
-
 .disable {
   background-color: #e5e5e5 !important;
   border: 1px #e5e5e5 solid !important;
@@ -601,7 +590,6 @@
 .disable:active {
   outline: 1px #e5e5e5 solid;
 }
-
 
 /****   paging  *****/
 
@@ -642,27 +630,26 @@
 
 .page-wrap ul li:hover,
 .page-wrap ul li:focus {
-  background: #ECE1FE;
+  background: #ece1fe;
   border-radius: 30px;
 }
 
 .page-wrap ul li.active {
-  background: #ECE1FE;
+  background: #ece1fe;
   border-radius: 30px;
 }
 
 .page-wrap ul li.active a {
-  color: #8041F7;
+  color: #8041f7;
   font-weight: 500;
 }
 
 .page-btn {
-  background: #EBEDF2;
+  background: #ebedf2;
   border-radius: 30px;
 }
 
 /****   // paging  *****/
-
 
 .lg {
   width: 366px !important;
@@ -677,13 +664,13 @@
 }
 
 .check-ok {
-  background-image: url("@/assets/ok.svg");
+  background-image: url('@/assets/ok.svg');
   background-position: right 12px center;
   background-repeat: no-repeat;
 }
 
 .check-false {
-  background-image: url("@/assets/false.svg");
+  background-image: url('@/assets/false.svg');
   background-position: right 12px center;
   background-repeat: no-repeat;
 }
@@ -693,7 +680,7 @@
   font-size: 13px !important;
   font-weight: 400;
   line-height: 24px !important;
-  color: #F82929 !important;
+  color: #f82929 !important;
   text-align: left;
   padding-left: 8px;
 }
@@ -706,11 +693,22 @@
   font-size: 16px;
 }
 
-
 .block {
   display: block !important;
 }
 
 .none {
   display: none !important;
+}
+
+.spinner-border {
+  color: #8041f7 !important;
+  opacity: 1 !important;
+}
+
+.text-center {
+  text-align: center !important;
+  position: absolute;
+  left: 50%;
+  top: 50%;
 }

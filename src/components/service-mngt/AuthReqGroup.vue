@@ -18,6 +18,7 @@
               <input type="text" id="" class="input-box" placeholder="자동생성/변경불가" disabled v-model="basicId" />
               <button @click="clicked" class="xs-btn">
                 <i class="serve"></i>
+                <!-- <b-spinner small></b-spinner> -->
               </button>
             </div>
           </li>

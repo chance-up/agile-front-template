@@ -7,11 +7,9 @@
         <slot name="list-btn-area" />
       </div>
     </div>
-    <div class="tb-wrap">
-      <table class="list-tb">
-        <slot name="list-table" />
-      </table>
-    </div>
+    <slot name="list-table" />
+    <!-- </table>
+    </div> -->
     <div class="page-wrap">
       <slot name="pagination" />
     </div>

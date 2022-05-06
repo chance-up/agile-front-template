@@ -15,7 +15,7 @@
             @focus="noticeStart()"
           ></date-picker>
 
-          <i class="icon"><img src="@/assets/picker.svg" alt="달력아이콘" /></i>
+          <!-- <i class="icon"><img src="@/assets/picker.svg" alt="달력아이콘" /></i> -->
         </div>
         <span class="text">~</span>
         <div class="date-cont">
@@ -30,7 +30,7 @@
             @focus="noticeEnd()"
           ></date-picker>
 
-          <i class="icon"><img src="@/assets/picker.svg" alt="달력아이콘" /></i>
+          <!-- <i class="icon"><img src="@/assets/picker.svg" alt="달력아이콘" /></i> -->
         </div>
       </div>
       <p
