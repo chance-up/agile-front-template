@@ -99,13 +99,15 @@
         </template>
       </ListForm>
       <ModalLayout size="m" v-if="isShowModal">
-        <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+        <template v-slot:modalHeader
+          ><h1 class="h1-tit">{{ $t('system.modal_system_delete') }}</h1>
+        </template>
         <template v-slot:modalContainer>
-          <p class="text">서비스를 삭제하시겠습니까?</p>
+          <p class="text">{{ $t('system.modal_delete_message') }}</p>
         </template>
         <template v-slot:modalFooter
-          ><button class="lg-btn purple-btn" @click="deleteSystem">확인</button
-          ><button class="lg-btn purple-btn" @click="closeModal">취소</button>
+          ><button class="lg-btn purple-btn" @click="deleteSystem">{{ $t('common.ok') }}</button
+          ><button class="lg-btn purple-btn" @click="closeModal">{{ $t('common.cancel') }}</button>
         </template>
       </ModalLayout>
     </template>
@@ -142,15 +144,6 @@ import { Pagination } from '@/types/GateWayResponse';
 })
 export default class SystemPage extends Vue {
   systemModule = getModule(SystemModule, this.$store);
-
-  // target = '';
-  // selectOptions: SelectOptionType[] = [
-  //   { label: 'api id', value: 'id' },
-  //   { label: 'api 명', value: 'nm' },
-  //   { label: '시스템명', value: 'sys_id' },
-  //   { label: 'uri', value: 'uri' },
-  // ];
-  // searchData: object = {};
 
   searchData: SearchCondition = {};
   pagingData: SearchCondition = {};
@@ -212,7 +205,7 @@ export default class SystemPage extends Vue {
     if (Object.values(this.searchData).some((item) => item != '')) {
       this.getList();
     } else {
-      this.$modal.show('검색 데이터를 입력해주세요.');
+      this.$modal.show(`${this.$t('system.enter_search_data')}`);
     }
   }
 
@@ -261,24 +254,12 @@ export default class SystemPage extends Vue {
     this.closeModal();
   }
 
-  getDate(date: Date) {
-    date = new Date(date);
-
-    const year = date.getFullYear();
-    const month = date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-    const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-
-    return year + '-' + month + '-' + day;
+  getDate(date: string) {
+    return date.split(' ')[0];
   }
 
-  getHours(date: Date) {
-    date = new Date(date);
-
-    const hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-    const minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-    const seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-
-    return hours + ':' + minutes + ':' + seconds;
+  getHours(date: string) {
+    return date.split(' ')[1];
   }
 
   showModal(id: string) {

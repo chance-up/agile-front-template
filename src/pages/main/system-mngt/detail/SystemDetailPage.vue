@@ -15,13 +15,15 @@
         <IfFormlGroup :inputNm="$t('system.ifGrp')" :ifGrps="systemItem.if_grp" />
         <InfoGroup :inputNm="$t('system.desc')" :value="systemItem.desc" />
         <ModalLayout size="m" v-if="isShowModal">
-          <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+          <template v-slot:modalHeader
+            ><h1 class="h1-tit">{{ $t('system.modal_system_delete') }}</h1>
+          </template>
           <template v-slot:modalContainer>
-            <p class="text">서비스를 삭제하시겠습니까?</p>
+            <p class="text">{{ $t('system.modal_delete_message') }}</p>
           </template>
           <template v-slot:modalFooter
-            ><button class="lg-btn purple-btn" @click="onClickDelete">확인</button
-            ><button class="lg-btn purple-btn" @click="closeModal">취소</button>
+            ><button class="lg-btn purple-btn" @click="onClickDelete">{{ $t('common.ok') }}</button
+            ><button class="lg-btn purple-btn" @click="closeModal">{{ $t('common.cancel') }}</button>
           </template>
         </ModalLayout>
       </ul>
@@ -87,7 +89,7 @@ export default class SystemDetailPage extends Vue {
     if (userState === USER_STATE.LOADING) {
       this.isShowProgress = true;
     } else if (userState === USER_STATE.ERROR) {
-      this.$modal.show('서버 통신 에러');
+      this.$modal.show(`${this.$t('error.server_error')}`);
     } else if (userState === USER_STATE.DONE) {
       this.isShowProgress = false;
     }

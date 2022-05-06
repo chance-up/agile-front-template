@@ -55,13 +55,15 @@
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
       <ModalLayout size="m" v-if="isShowModal">
-        <template v-slot:modalHeader><h1 class="h1-tit">시스템 등록</h1> </template>
+        <template v-slot:modalHeader
+          ><h1 class="h1-tit">{{ $t('system.modal_system_register') }}</h1>
+        </template>
         <template v-slot:modalContainer>
-          <p class="text">시스템을 등록하시겠습니까?</p>
+          <p class="text">{{ $t('system.modal_register_message') }}</p>
         </template>
         <template v-slot:modalFooter
-          ><button class="lg-btn purple-btn" @click="onSubmit">확인</button
-          ><button class="lg-btn purple-btn" @click="closeModal">취소</button>
+          ><button class="lg-btn purple-btn" @click="onSubmit">{{ $t('common.ok') }}</button
+          ><button class="lg-btn purple-btn" @click="closeModal">{{ $t('common.cancel') }}</button>
         </template>
       </ModalLayout>
     </template>
@@ -156,7 +158,7 @@ export default class SystemRegisterPage extends Vue {
       this.isShowProgress = true;
     } else if (userState === USER_STATE.ERROR) {
       this.isShowProgress = false;
-      this.$modal.show('서버 통신 에러');
+      this.$modal.show(`${this.$t('error.server_error')}`);
     } else if (userState === USER_STATE.DONE) {
       this.isShowProgress = false;
     }
@@ -205,7 +207,7 @@ export default class SystemRegisterPage extends Vue {
         : false;
 
     if (!val) {
-      this.$modal.show('빈 항목이 있습니다.');
+      this.$modal.show(`${this.$t('system.empty_check_message')}`);
       return;
     } else {
       await this.systemModule.registerSystem(this.systemItem);
