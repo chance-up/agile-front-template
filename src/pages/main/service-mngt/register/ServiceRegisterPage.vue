@@ -270,6 +270,7 @@ export default class SystemRegisterPage extends Vue {
   isDuplicatedNm: boolean | null = null;
   duplicateCheckNm() {
     if (this.timerNm) {
+      this.isDuplicatedNm = null;
       clearTimeout(this.timerNm);
     }
     this.timerNm = setTimeout(async () => {
@@ -283,6 +284,7 @@ export default class SystemRegisterPage extends Vue {
   isDuplicatedId: boolean | null = null;
   duplicateCheckId() {
     if (this.timerId) {
+      this.isDuplicatedId = null;
       clearTimeout(this.timerId);
     }
     this.timerId = setTimeout(async () => {
