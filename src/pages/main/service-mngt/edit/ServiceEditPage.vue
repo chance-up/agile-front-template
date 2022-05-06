@@ -94,16 +94,16 @@
               ></b-spinner></div
           ></template>
           <template v-slot:modalFooter
-            ><button class="lg-btn purple-btn" @click="editService()">확인</button
-            ><button class="lg-btn purple-btn" @click="modalHide()">취소</button>
+            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="editService()">확인</button
+            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="modalHide()">취소</button>
           </template>
         </ModalLayout>
       </ul>
     </template>
-    <template v-if="!isShowProgress" v-slot:buttons>
+    <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled">수정</button>
-        <button class="lg-btn white-btn" @click="$router.back()">취소</button>
+        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled || isShowProgress">수정</button>
+        <button class="lg-btn white-btn" @click="$router.back()" :disabled="isShowProgress">취소</button>
       </div>
     </template>
   </ContentLayout>
@@ -139,7 +139,7 @@ export default class SystemRegisterPage extends Vue {
   isShowProgress = false;
 
   isBtnDisabled = true;
-  totalValid: boolean[] = [true, true, true, true];
+  totalValid: boolean[] = [true, true, true, true, true];
   tkcgrNmValid = null;
   dateValid = null;
   tkcgrPosValid = null;
@@ -237,7 +237,11 @@ export default class SystemRegisterPage extends Vue {
 
   async editService() {
     const val =
-      !this.tkcgrNmValid || !this.tkcgrPosValid || !this.tkcgrEmlValid || !this.dateValid || this.authValid
+      this.tkcgrNmValid == false ||
+      this.tkcgrPosValid == false ||
+      this.tkcgrEmlValid == false ||
+      this.dateValid == false ||
+      this.authValid == false
         ? false
         : true;
 

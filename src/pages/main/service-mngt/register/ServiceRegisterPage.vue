@@ -85,16 +85,16 @@
             </div>
           </template>
           <template v-slot:modalFooter
-            ><button v-if="!isShowProgress" class="lg-btn purple-btn" @click="submit()">확인</button
-            ><button v-if="!isShowProgress" class="lg-btn purple-btn" @click="modalHide()">취소</button>
+            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="submit()">확인</button
+            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="modalHide()">취소</button>
           </template>
         </ModalLayout>
       </ul>
     </template>
-    <template v-if="!isShowProgress" v-slot:buttons>
+    <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled">등록</button>
-        <button class="lg-btn white-btn" @click="$router.go(-1)">취소</button>
+        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled || isShowProgress">등록</button>
+        <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isShowProgress">취소</button>
       </div>
     </template>
   </ContentLayout>
