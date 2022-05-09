@@ -166,7 +166,7 @@ export default class ApiPage extends Vue {
   }
 
   destroyed() {
-    this.apiModule.reset();
+    this.apiModule.apiReset();
   }
 
   get apiList(): ApiDetailResponse[] {

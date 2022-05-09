@@ -139,9 +139,9 @@ export default class ApiModule extends GateWayModule {
   }
   // 초기화
   @Action
-  reset() {
+  apiReset() {
     // release시 에러 발생 (동작은 정상동작)
-    // this.release();
+    this.release();
     this.context.commit('setApiPagination', null);
     this.context.commit('setApiList', []);
     this.context.commit('setApiDetail', null);
