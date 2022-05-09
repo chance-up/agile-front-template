@@ -42,14 +42,12 @@ export default class SystemModule extends GateWayModule {
     this.systemPagination = pagination;
   }
 
-  // system state reset
+  // // system state reset
   @Action
-  reset() {
-    console.log('system reset action');
+  systemReset() {
     this.context.commit('setSystemList', []);
-    this.context.commit('setSystem', {} as SystemResponse);
-    this.context.commit('setSystemPagination', {} as Pagination);
-    this.release();
+    this.context.commit('setSystem', {});
+    this.context.commit('setSystemPagination', {});
   }
 
   // 시스템 관리 리스트 조회
