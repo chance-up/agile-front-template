@@ -23,7 +23,6 @@
           :endDt.sync="formData.svc_end_dt"
           :isvalid.sync="dateValid"
         />
-
         <AuthReqGroup
           @basicAuthClicked="basicAuthClicked"
           :inputNm="$t('service.authentication_method')"
