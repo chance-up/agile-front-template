@@ -258,6 +258,65 @@ export const dummyHandlerGroupList: HandlerGroupDetail[] = [
   },
 ];
 
+export const dummyResHandlerGroupList: HandlerGroupDetail[] = [
+  {
+    apiGroupId: 1,
+    // apiGroupNm: 'API & Login Authentication Group Name',
+    apiGroupNm: 'Res api group name 1',
+    apiGroupDesc: 'Res api group name 1 의 Desc',
+    apiIdList: [
+      {
+        apiId: 1,
+        apiNm: 'Res api group name 1 의 api name 1',
+        apiDesc: 'Res api group name 1 의 api name 1 의 Desc',
+      },
+      {
+        apiId: 2,
+        apiNm: 'Res api group name 1 의 api name 2',
+        apiDesc: 'Res api group name 1 의 api name 2 의 Desc',
+      },
+      {
+        apiId: 3,
+        apiNm: 'Res api group name 1 의 api name 3',
+        apiDesc: 'Res api group name 1 의 api name 3 의 Desc',
+      },
+      {
+        apiId: 4,
+        apiNm: 'Res api group name 1 의 api name 4',
+        apiDesc: 'Res api group name 1 의 api name 4 의 Desc',
+      },
+    ],
+  },
+  {
+    apiGroupId: 2,
+    // apiGroupNm: 'API & Login Authentication Group Name',
+    apiGroupNm: 'Res api group name 2',
+    apiGroupDesc: 'Res api group name 2 의 Desc',
+    apiIdList: [
+      {
+        apiId: 1,
+        apiNm: 'Res api group name 2 의 api name 1',
+        apiDesc: 'Res api group name 2 의 api name 1 의 Desc',
+      },
+      {
+        apiId: 2,
+        apiNm: 'Res api group name 2 의 api name 2',
+        apiDesc: 'Res api group name 2 의 api name 2 의 Desc',
+      },
+      {
+        apiId: 3,
+        apiNm: 'Res api group name 2 의 api name 3',
+        apiDesc: 'Res api group name 2 의 api name 3 의 Desc',
+      },
+      {
+        apiId: 4,
+        apiNm: 'Res api group name 2 의 api name 4',
+        apiDesc: 'Res api group name 2 의 api name 4 의 Desc',
+      },
+    ],
+  },
+];
+
 export const dummyPaginationSetting: Pagination = {
   page: 1,
   size: 10,

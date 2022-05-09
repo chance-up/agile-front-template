@@ -47,7 +47,11 @@
             v-model="requestBody.ifGrp"
           />
 
-          <HandlerGroupForm :groupNm="$t('api.resHandlrGrp')" :handlerGroupList="handlerGroupList" />
+          <HandlerGroupForm
+            :groupNm="$t('api.resHandlrGrp')"
+            :reqHandlerGroupList="reqHandlerGroupList"
+            :resHandlerGroupList="resHandlerGroupList"
+          />
           <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
           <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
         </ul>
@@ -215,7 +219,10 @@ export default class ApiRegisterPage extends Vue {
     return res;
   }
 
-  get handlerGroupList(): HandlerGroupDetail[] {
+  get reqHandlerGroupList(): HandlerGroupDetail[] {
+    return this.apiModule.handlerGroupList;
+  }
+  get resHandlerGroupList(): HandlerGroupDetail[] {
     return this.apiModule.handlerGroupList;
   }
 }
