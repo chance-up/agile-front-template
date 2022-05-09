@@ -65,7 +65,7 @@
                     :index="index"
                     @deleteApi="
                       (msg) => {
-                        test(msg);
+                        emitDelApi(msg);
                       }
                     "
                   />
@@ -135,9 +135,9 @@ export default class ApiPage extends Vue {
   }
   showModal = false;
   deleteMsg = '';
-  test(msg: string) {
+  emitDelApi(msg: string) {
     this.deleteMsg = msg;
-    console.log(msg + ' 를 삭제하시겠습니까?');
+    // console.log(msg + ' 를 삭제하시겠습니까?');
     this.showModal = true;
   }
   searchOption: { type: string; label: string; placeholder: string; selectOptions: SelectOptionType[] } = {
