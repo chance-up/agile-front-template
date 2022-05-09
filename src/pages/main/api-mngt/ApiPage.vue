@@ -58,23 +58,35 @@
                   ></b-spinner>
                 </div>
                 <tbody>
-                  <ListRow v-for="(apiData, index) in apiList" :key="index" :apiData="apiData" :index="index" />
+                  <ListRow
+                    v-for="(apiData, index) in apiList"
+                    :key="index"
+                    :apiData="apiData"
+                    :index="index"
+                    @deleteApi="
+                      (msg) => {
+                        test(msg);
+                      }
+                    "
+                  />
+                  <!-- @deleteApi="test(msg)" -->
+                  <!-- <ListRow :key="0" :apiData="apiList[0]" :index="0" @deleteApi="test" /> -->
                 </tbody>
               </table>
             </div>
           </template>
           <template v-slot:pagination>
             <Paging v-if="pagination" :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
-            <!-- <ModalLayout size="m" v-if="modal">
+            <ModalLayout size="m" v-if="showModal">
               <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
               <template v-slot:modalContainer>
-                <p class="text">API를 삭제하시겠습니까?</p>
+                <p class="text">{{ deleteMsg }}를 삭제하시겠습니까?</p>
               </template>
               <template v-slot:modalFooter
-                ><button class="lg-btn purple-btn" @click="deleteService(deleteId)">확인</button
-                ><button class="lg-btn purple-btn" @click="modalHide()">취소</button>
+                ><button class="lg-btn purple-btn" @click="deleteApi(deleteMsg)">{{ $t('common.ok') }}</button
+                ><button class="lg-btn purple-btn" @click="showModal = false">{{ $t('common.cancel') }}</button>
               </template>
-            </ModalLayout> -->
+            </ModalLayout>
           </template>
         </ListForm>
       </template>
@@ -98,6 +110,7 @@ import Paging from '@/components/commons/Paging.vue';
 import { USER_STATE } from '@/store/UserState';
 import { BSpinner } from 'bootstrap-vue';
 import { Pagination } from '@/types/GateWayResponse';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 
 @Component({
   components: {
@@ -110,9 +123,23 @@ import { Pagination } from '@/types/GateWayResponse';
     InputBox,
     Paging,
     BSpinner,
+    ModalLayout,
   },
 })
 export default class ApiPage extends Vue {
+  async deleteApi(apiId: string) {
+    // await this.serviceModule.deleteServiceAction(ServiceId);
+    await this.apiModule.deleteApi(apiId);
+    this.$router.go(0);
+    this.showModal = false;
+  }
+  showModal = false;
+  deleteMsg = '';
+  test(msg: string) {
+    this.deleteMsg = msg;
+    console.log(msg + ' 를 삭제하시겠습니까?');
+    this.showModal = true;
+  }
   searchOption: { type: string; label: string; placeholder: string; selectOptions: SelectOptionType[] } = {
     type: 'selectBox',
     label: `${this.$t('api.basicInformation')}`,
