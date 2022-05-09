@@ -40,7 +40,7 @@
                 <thead>
                   <tr>
                     <th>No.</th>
-                    <th>{{ $t('api.sysNm') }}</th>
+                    <th>{{ $t('api.sysId') }}</th>
                     <th>{{ $t('api.apiId') }}</th>
                     <th>{{ $t('api.apiNm') }}</th>
                     <th>{{ $t('api.method') }}</th>
@@ -120,7 +120,6 @@ export default class ApiPage extends Vue {
     selectOptions: [
       { label: 'id', value: `${this.$t('api.apiId')}` },
       { label: 'nm', value: `${this.$t('api.apiNm')}` },
-      { label: 'sysNm', value: `${this.$t('api.sysNm')}` },
       { label: 'uri', value: `${this.$t('api.uri')}` },
     ],
   };

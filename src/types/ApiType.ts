@@ -75,7 +75,6 @@ export interface RequsetPagenation {
 export interface ApiSearchQuery extends RequsetPagenation {
   id?: string;
   nm?: string;
-  sysNm?: string;
   uri?: string;
 }
 

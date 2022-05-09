@@ -24,13 +24,6 @@
             @input="duplicateCheckId"
           />
           <TextForm
-            :groupNm="$t('api.apiNm')"
-            type="text"
-            :placeholder="$t('api.nmEx')"
-            :required="true"
-            v-model="requestBody.nm"
-          />
-          <TextForm
             :groupNm="$t('api.interfaceNumber')"
             type="text"
             :required="true"
@@ -110,7 +103,6 @@ export default class ApiRegisterPage extends Vue {
   // closeSelect = '';
   requestBody2: ApiCreateRequestBody = {
     sysId: '2',
-    sysNm: '2',
     id: '2',
     nm: '2',
     ifNo: '2',
@@ -146,7 +138,12 @@ export default class ApiRegisterPage extends Vue {
   created() {
     console.log('APiRegisterPage created');
     axios
-      .all([this.systemModule.getSystemList(), this.apiModule.getHandlerGroupList()])
+      .all([
+        this.systemModule.getSystemList(),
+        this.apiModule.getHandlerGroupList(),
+        this.handlerModule.getReqHandlerGroupList(),
+        this.handlerModule.getResHandlerGroupList(),
+      ])
       .then(() => {
         this.showPage = true;
       })
@@ -169,19 +166,18 @@ export default class ApiRegisterPage extends Vue {
     desc: '',
   };
   //시스템관리 모듈에서 시스템리스트 조회
-  @Watch('sysList')
-  onSysListChange() {
-    console.log('sysList changed', this.sysList);
-    this.requestBody.sysNm = this.sysList[0].nm;
-  }
+  // @Watch('sysList')
+  // onSysListChange() {
+  //   console.log('sysList changed', this.sysList);
+  //   this.requestBody.sysNm = this.sysList[0].nm;
+  // }
   // system id가 선택될때마다 시스템 연동정보 리스트 업데이트
-  @Watch('requestBody.sysNm')
-  handleChangeSysNm(val: string) {
-    console.log('sysNm changed', val);
+  @Watch('requestBody.sysId')
+  handleChangeSysId(val: string) {
+    console.log('sysId changed', val);
     const selectedSystem = this.sysList.filter((item) => item.nm === val)?.[0];
     this.ifGrpList = selectedSystem.if_grp;
     this.requestBody.ifGrp = this.ifGrpList[0].if_nm;
-    this.requestBody.sysId = selectedSystem.id;
     this.requestBody.ifNo = this.requestBody.sysId + '-0001';
   }
   apiIdCheck: boolean | null = null;

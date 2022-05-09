@@ -11,10 +11,10 @@
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
       <ul>
         <TextForm
-          :groupNm="$t('api.sysNm')"
+          :groupNm="$t('api.sysId')"
           type="text"
           :required="true"
-          v-model="requestBody.sysNm"
+          v-model="requestBody.sysId"
           :disabled="true"
         />
         <TextForm :groupNm="$t('api.apiId')" type="text" :required="true" v-model="requestBody.id" :disabled="true" />

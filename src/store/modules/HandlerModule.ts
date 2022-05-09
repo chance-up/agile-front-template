@@ -48,7 +48,7 @@ export default class HandlerModule extends GateWayModule {
     try {
       addMock('/api/getResponseHandlerGroupList', JSON.stringify(dummyResHandlerGroupList));
       const response = await AxiosClient.getInstance().get<HandlerGroupDetail[]>('/api/getResponseHandlerGroupList');
-      this.context.commit('setReqHandlerGroupList', response);
+      this.context.commit('setResHandlerGroupList', response);
     } catch (error: GateWayError | any) {
       handleCommonError(error);
     }
