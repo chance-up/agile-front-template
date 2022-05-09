@@ -6,61 +6,69 @@
     id="api-register"
   >
     <template v-slot:contents>
-      <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
-      <ul>
-        <SelectForm
-          :groupNm="$t('api.sysNm')"
-          :optionList="sysList.map((item) => item.nm)"
-          v-model="requestBody.sysNm"
-        />
-        <TextDebounceForm
-          inputNm="API ID"
-          :check="isDuplicatedId"
-          :placeholder="$t('api.idEx')"
-          type="text"
-          :required="true"
-          v-model="requestBody.id"
-          @input="duplicateCheckId"
-        />
-        <TextForm
-          :groupNm="$t('api.apiNm')"
-          type="text"
-          :placeholder="$t('api.nmEx')"
-          :required="true"
-          v-model="requestBody.nm"
-        />
-        <TextForm
-          :groupNm="$t('api.interfaceNumber')"
-          type="text"
-          :required="true"
-          :disabled="true"
-          v-model="requestBody.ifNo"
-        />
+      <div>
+        <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
+        <ul v-if="showPage">
+          <SelectForm
+            :groupNm="$t('api.sysNm')"
+            :optionList="sysList.map((item) => item.nm)"
+            v-model="requestBody.sysNm"
+          />
+          <TextDebounceForm
+            inputNm="API ID"
+            :check="isDuplicatedId"
+            :placeholder="$t('api.idEx')"
+            type="text"
+            :required="true"
+            v-model="requestBody.id"
+            @input="duplicateCheckId"
+          />
+          <TextForm
+            :groupNm="$t('api.apiNm')"
+            type="text"
+            :placeholder="$t('api.nmEx')"
+            :required="true"
+            v-model="requestBody.nm"
+          />
+          <TextForm
+            :groupNm="$t('api.interfaceNumber')"
+            type="text"
+            :required="true"
+            :disabled="true"
+            v-model="requestBody.ifNo"
+          />
 
-        <MethodForm groupNm="Method" v-model="requestBody.meth" />
-        <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" />
+          <MethodForm groupNm="Method" v-model="requestBody.meth" />
+          <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" />
 
-        <SelectSysForm
-          :groupNm="$t('api.systemInterlockInformation')"
-          :optionList="ifGrpList"
-          v-model="requestBody.ifGrp"
-        />
+          <SelectSysForm
+            :groupNm="$t('api.systemInterlockInformation')"
+            :optionList="ifGrpList"
+            v-model="requestBody.ifGrp"
+          />
 
-        <HandlerGroupForm
-          :groupNm="$t('api.reqHandlrGrp')"
-          :handlerGroupList="handlerGroupList"
-          v-model="requestBody.reqHandlrGrpId"
-        />
-        <HandlerGroupForm
-          :groupNm="$t('api.resHandlrGrp')"
-          :handlerGroupList="handlerGroupList"
-          v-model="requestBody.resHandlrGrpId"
-        />
-        <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
-        <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
-      </ul>
+          <HandlerGroupForm
+            :groupNm="$t('api.reqHandlrGrp')"
+            :handlerGroupList="handlerGroupList"
+            v-model="requestBody.reqHandlrGrpId"
+          />
+          <HandlerGroupForm
+            :groupNm="$t('api.resHandlrGrp')"
+            :handlerGroupList="handlerGroupList"
+            v-model="requestBody.resHandlrGrpId"
+          />
+          <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
+          <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
+        </ul>
+        <div class="text-center" v-if="!showPage">
+          <b-spinner
+            v-show="!showPage"
+            style="width: 2rem; height: 2rem; position: absolute; left: 50%"
+            label="Large Spinner"
+          ></b-spinner>
+        </div>
+      </div>
     </template>
-
     <template v-slot:buttons>
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
@@ -89,6 +97,7 @@ import { IfGrpType, SystemResponse } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
 import ApiModule from '@/store/modules/ApiModule';
+import axios from 'axios';
 @Component({
   components: {
     ContentLayout,
@@ -120,10 +129,16 @@ export default class ApiRegisterPage extends Vue {
   get sysList(): SystemResponse[] {
     return this.systemModule.systemList;
   }
+  showPage = false;
+
   created() {
     console.log('APiRegisterPage created');
-    this.systemModule.getSystemList();
-    this.apiModule.getHandlerGroupList();
+    axios
+      .all([this.systemModule.getSystemList(), this.apiModule.getHandlerGroupList()])
+      .then(() => {
+        this.showPage = true;
+      })
+      .catch();
   }
 
   ifGrpList: IfGrpType[] = [];
@@ -194,10 +209,6 @@ export default class ApiRegisterPage extends Vue {
     return res;
   }
 
-  // handler group, api쏴서 받아오기
-  // created() {
-  //   this.apiModule.getHandlerGroupList();
-  // }
   get handlerGroupList(): HandlerGroupDetail[] {
     return this.apiModule.handlerGroupList;
   }
