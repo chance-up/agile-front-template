@@ -44,6 +44,16 @@
             :groupNm="$t('api.resHandlrGrp')"
             :reqHandlerGroupList="reqHandlerGroupList"
             :resHandlerGroupList="resHandlerGroupList"
+            @reqInput="
+              (msg) => {
+                requestBody.reqHandlrGrpId = msg;
+              }
+            "
+            @resInput="
+              (msg) => {
+                requestBody.resHandlrGrpId = msg;
+              }
+            "
           />
           <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
           <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
@@ -100,27 +110,8 @@ import axios from 'axios';
   },
 })
 export default class ApiRegisterPage extends Vue {
-  // closeSelect = '';
-  requestBody2: ApiCreateRequestBody = {
-    sysId: '2',
-    id: '2',
-    nm: '2',
-    ifNo: '2',
-    meth: [],
-    uriIn: '2',
-    uriOut: '2',
-    ifGrp: '2',
-    reqHandlrGrpId: '2',
-    resHandlrGrpId: '2',
-    timeOut: 2,
-    desc: '2',
-  };
   clickHandlerGroup(input: string) {
     console.log('click Handler group, input: ' + input);
-    // if (input != '') {
-    //   console.log('@@@@@@');
-    //   this.closeSelect = 'close';
-    // }
   }
   systemModule = getModule(SystemModule, this.$store);
   apiModule = getModule(ApiModule, this.$store);

@@ -192,13 +192,13 @@ export default class HandlerGroupForm extends Vue {
   // }
   handleSelectReqHandlerGroup(handlerGroupId: string): void {
     console.log('handlerGroupId => ' + handlerGroupId);
-    this.$emit('input', handlerGroupId);
+    this.$emit('reqInput', handlerGroupId);
     this.isSelectOpenRequest = false;
   }
 
   handleSelectResHandlerGroup(handlerGroupId: string): void {
     console.log('handlerGroupId => ' + handlerGroupId);
-    this.$emit('input', handlerGroupId);
+    this.$emit('resInput', handlerGroupId);
     this.isSelectOpenResponse = false;
   }
 }

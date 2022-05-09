@@ -72,7 +72,7 @@ export const dummyReqHandlerGroupList: HandlerGroupDetail[] = [
 
 export const dummyResHandlerGroupList: HandlerGroupDetail[] = [
   {
-    apiGroupId: 1,
+    apiGroupId: 11,
     // apiGroupNm: 'API & Login Authentication Group Name',
     apiGroupNm: 'Res api group name 1',
     apiGroupDesc: 'Res api group name 1 의 Desc',
@@ -100,7 +100,7 @@ export const dummyResHandlerGroupList: HandlerGroupDetail[] = [
     ],
   },
   {
-    apiGroupId: 2,
+    apiGroupId: 22,
     // apiGroupNm: 'API & Login Authentication Group Name',
     apiGroupNm: 'Res api group name 2',
     apiGroupDesc: 'Res api group name 2 의 Desc',
