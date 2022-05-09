@@ -12,7 +12,7 @@
           <div ref="selectFrom" class="select-form inside-click" :class="{ none: !isSelectOpenRequest }">
             <!--  dropdown시 block class 추가-->
             <ul class="inside-click">
-              <li class="inside-click" v-for="(handlerGroup, index) in handlerGroupList" :key="index">
+              <li class="inside-click" v-for="(handlerGroup, index) in reqHandlerGroupList" :key="index">
                 <span
                   class="inside-click"
                   @click="
@@ -53,7 +53,7 @@
           <div ref="selectFrom" class="select-form inside-click" :class="{ none: !isSelectOpenResponse }">
             <!--  dropdown시 block class 추가-->
             <ul class="inside-click">
-              <li class="inside-click" v-for="(handlerGroup, index) in handlerGroupList2" :key="index">
+              <li class="inside-click" v-for="(handlerGroup, index) in resHandlerGroupList" :key="index">
                 <span
                   class="inside-click"
                   @click="
@@ -96,8 +96,8 @@ import HandlerModal from '@/components/api-mngt/register/HandlerModal.vue';
 })
 export default class HandlerGroupForm extends Vue {
   @Prop() groupNm!: string | null;
-  @Prop({ default: () => [] }) handlerGroupList!: HandlerGroupDetail[];
-  handlerGroupList2: any = [];
+  @Prop({ default: () => [] }) reqHandlerGroupList!: HandlerGroupDetail[];
+  @Prop({ default: () => [] }) resHandlerGroupList!: HandlerGroupDetail[];
 
   onClick(e: any): void {
     // console.log('========');
@@ -127,40 +127,7 @@ export default class HandlerGroupForm extends Vue {
     }
     console.log('========');
   }
-  @Watch('handlerGroupList')
-  changeValue() {
-    for (let index = 0; index < this.handlerGroupList.length; index++) {
-      const element = this.handlerGroupList[index];
-      element.apiGroupId = 'new ' + element.apiGroupId;
-      element.apiGroupNm = 'new' + element.apiGroupNm;
-      for (let i = 0; i < element.apiIdList.length; i++) {
-        const elementList = element.apiIdList[i];
 
-        elementList.apiId = 'new ' + elementList.apiId;
-        elementList.apiNm = 'new ' + elementList.apiNm;
-      }
-      console.log('asdfasffasdfasfd11111');
-      console.log(this.handlerGroupList);
-      this.handlerGroupList2.push(element);
-    }
-  }
-  created() {
-    // window.addEventListener('click', this.onClick2);
-    for (let index = 0; index < this.handlerGroupList.length; index++) {
-      const element = this.handlerGroupList[index];
-      element.apiGroupId = 'new' + element.apiGroupId;
-      element.apiGroupNm = 'new' + element.apiGroupNm;
-      for (let i = 0; i < element.apiIdList.length; i++) {
-        const elementList = element.apiIdList[i];
-
-        elementList.apiId = 'new' + elementList.apiId;
-      }
-      this.handlerGroupList2.push(element);
-    }
-    console.log('asdfasffasdfasfd');
-    console.log(this.handlerGroupList);
-    console.log(this.handlerGroupList2);
-  }
   mounted() {
     console.log('addEvent');
     const registerPage = document.getElementById('api-register') as HTMLElement;
@@ -199,8 +166,8 @@ export default class HandlerGroupForm extends Vue {
     ],
   };
   showReqModalMethod(apiGroupId: string | number) {
-    for (let index = 0; index < this.handlerGroupList.length; index++) {
-      const handlerGroup = this.handlerGroupList[index];
+    for (let index = 0; index < this.reqHandlerGroupList.length; index++) {
+      const handlerGroup = this.reqHandlerGroupList[index];
       if (handlerGroup.apiGroupId == apiGroupId) {
         this.sendHandlerGroup = handlerGroup;
         break;
@@ -209,8 +176,8 @@ export default class HandlerGroupForm extends Vue {
     this.showReqModal = true;
   }
   showResModalMethod(apiGroupId: string | number) {
-    for (let index = 0; index < this.handlerGroupList2.length; index++) {
-      const handlerGroup = this.handlerGroupList2[index];
+    for (let index = 0; index < this.resHandlerGroupList.length; index++) {
+      const handlerGroup = this.resHandlerGroupList[index];
       if (handlerGroup.apiGroupId == apiGroupId) {
         this.sendHandlerGroup = handlerGroup;
         break;
