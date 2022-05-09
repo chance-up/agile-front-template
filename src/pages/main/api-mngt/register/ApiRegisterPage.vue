@@ -46,16 +46,13 @@
           v-model="requestBody.ifGrp"
         />
 
-        <HandlerGroupForm
+        <!-- <HandlerGroupForm
           :groupNm="$t('api.reqHandlrGrp')"
           :handlerGroupList="handlerGroupList"
           v-model="requestBody.reqHandlrGrpId"
-        />
-        <HandlerGroupForm
-          :groupNm="$t('api.resHandlrGrp')"
-          :handlerGroupList="handlerGroupList"
-          v-model="requestBody.resHandlrGrpId"
-        />
+        /> -->
+        <HandlerGroupForm :groupNm="$t('api.resHandlrGrp')" :handlerGroupList="handlerGroupList" />
+        <!-- v-model="(requestBody.resHandlrGrpId, requestBody2.resHandlrGrpId)" -->
         <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
         <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
       </ul>
@@ -103,6 +100,21 @@ import ApiModule from '@/store/modules/ApiModule';
 })
 export default class ApiRegisterPage extends Vue {
   // closeSelect = '';
+  requestBody2: ApiCreateRequestBody = {
+    sysId: '2',
+    sysNm: '2',
+    id: '2',
+    nm: '2',
+    ifNo: '2',
+    meth: [],
+    uriIn: '2',
+    uriOut: '2',
+    ifGrp: '2',
+    reqHandlrGrpId: '2',
+    resHandlrGrpId: '2',
+    timeOut: 2,
+    desc: '2',
+  };
   clickHandlerGroup(input: string) {
     console.log('click Handler group, input: ' + input);
     // if (input != '') {
