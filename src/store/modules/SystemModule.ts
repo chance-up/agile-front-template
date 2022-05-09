@@ -22,22 +22,10 @@ import {
 
 @Module({ name: 'SystemModule' })
 export default class SystemModule extends GateWayModule {
-  public pagination: Pagination = {} as Pagination;
   public systemList: SystemResponse[] = [];
-  public system: SystemResponse = {
-    id: '',
-    nm: '',
-    tkcgr_nm: '',
-    tkcgr_pos: '',
-    tkcgr_eml: '',
-    if_grp: [],
-    desc: '',
-    created_at: '',
-    created_by: '',
-    updated_at: '',
-    updated_by: '',
-  };
+  public system: SystemResponse = {} as SystemResponse;
   public systemIdEdptList: SystemIdEdpt[] = [];
+  public systemPagination: Pagination = {} as Pagination;
 
   @Mutation
   setSystemList(list: SystemResponse[]): void {
@@ -45,13 +33,23 @@ export default class SystemModule extends GateWayModule {
   }
 
   @Mutation
-  setSystem(system: SystemResponse) {
+  setSystem(system: SystemResponse): void {
     this.system = system;
   }
 
   @Mutation
-  setPagination(pagination: Pagination) {
-    this.pagination = pagination;
+  setSystemPagination(pagination: Pagination): void {
+    this.systemPagination = pagination;
+  }
+
+  // system state reset
+  @Action
+  reset() {
+    console.log('system reset action');
+    this.context.commit('setSystemList', []);
+    this.context.commit('setSystem', {} as SystemResponse);
+    this.context.commit('setSystemPagination', {} as Pagination);
+    this.release();
   }
 
   // 시스템 관리 리스트 조회
@@ -75,11 +73,13 @@ export default class SystemModule extends GateWayModule {
       console.log('response', response.data.value);
       console.log('response.data.pagination : ', response.data.pagination);
       this.context.commit('setSystemList', response.data.value);
-      this.context.commit('setPagination', response.data.pagination);
+      this.context.commit('setSystemPagination', response.data.pagination);
 
       this.dissmissLoading();
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
+        console.log('get system list cancel');
+      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
         // console.log('NetWork not connection');
         this.showError();
       } else {
@@ -101,7 +101,9 @@ export default class SystemModule extends GateWayModule {
       this.context.commit('setSystem', response.data.value);
       this.dissmissLoading();
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
+        console.log('get system list cancel');
+      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
         // console.log('NetWork not connection');
         this.showError();
       } else {
@@ -126,7 +128,9 @@ export default class SystemModule extends GateWayModule {
       console.log('system register response', response);
       this.dissmissLoading();
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
+        console.log('get system list cancel');
+      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
         // console.log('NetWork not connection');
         this.showError();
       } else {
@@ -151,7 +155,9 @@ export default class SystemModule extends GateWayModule {
       console.log('system put response', response);
       this.dissmissLoading();
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
+        console.log('get system list cancel');
+      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
         // console.log('NetWork not connection');
         this.showError();
       } else {
@@ -172,7 +178,9 @@ export default class SystemModule extends GateWayModule {
       );
       console.log('system delete response', response);
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
+        console.log('get system list cancel');
+      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
         // console.log('NetWork not connection');
         this.showError();
       } else {
@@ -203,7 +211,9 @@ export default class SystemModule extends GateWayModule {
       const response = await AxiosClient.getInstance().get<GateWayResponse<SystemIdEdpt[]>>('/mngt/v1/getSystemIdList');
       this.context.commit('setSystemIdEdptList', response.data.value);
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
+        console.log('get system list cancel');
+      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
         // console.log('NetWork not connection');
         this.showError();
       } else {
