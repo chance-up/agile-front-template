@@ -73,7 +73,7 @@ export default class ApiModule extends GateWayModule {
         if (typeof item.meth == 'string') item.meth = JSON.parse(item.meth);
       });
       this.context.commit('setApiList', response.data.value);
-      this.context.commit('setPagination', response.data.pagination);
+      this.context.commit('setApiPagination', response.data.pagination);
       this.dissmissLoading();
     } catch (error: GateWayError | any) {
       handleCommonError(error);
@@ -142,16 +142,19 @@ export default class ApiModule extends GateWayModule {
   // 초기화
   @Action
   reset() {
+    // release시 에러 발생 (동작은 정상동작)
+    this.release();
+    this.context.commit('setApiPagination', null);
     this.context.commit('setApiList', []);
     this.context.commit('setApiDetail', null);
-    this.context.commit('pagination', null);
   }
 
   // 페이지네이션
-  public pagination: Pagination | null = null;
+  public apiPagination: Pagination | null = null;
   @Mutation
-  setPagination(pagination: Pagination | null): void {
-    this.pagination = pagination;
+  setApiPagination(pagination: Pagination | null): void {
+    console.log('set API pagination', pagination);
+    this.apiPagination = pagination;
   }
 }
 

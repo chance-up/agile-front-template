@@ -38,7 +38,7 @@ export default class TextDebounceForm extends Vue {
   text = '';
   show = false;
   @Watch('text')
-  onValueChange(val: string) {
+  onTextChange(val: string) {
     if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
       this.notiMessage = [true, ''];
     } else if (val == '') {
@@ -47,6 +47,10 @@ export default class TextDebounceForm extends Vue {
       this.notiMessage = [false, this.$t('api.valid_check_id') as string];
     }
     this.$emit('input', val);
+  }
+  @Watch('value')
+  onValueChange(val: string) {
+    this.text = val;
   }
 
   notiMessage: [boolean | null, string] = [null, ''];

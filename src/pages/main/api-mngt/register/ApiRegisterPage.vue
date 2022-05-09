@@ -11,7 +11,7 @@
         <ul v-if="showPage">
           <SelectForm
             :groupNm="$t('api.sysId')"
-            :optionList="sysList.map((item) => item.nm)"
+            :optionList="systemIdEdptList.map((item) => item.id)"
             v-model="requestBody.sysId"
           />
           <TextDebounceForm
@@ -24,22 +24,14 @@
             v-model="requestBody.id"
             @input="duplicateCheckId"
           />
-          <TextForm
-            :groupNm="$t('api.interfaceNumber')"
-            type="text"
-            :required="true"
-            :disabled="true"
-            v-model="requestBody.ifNo"
-          />
 
           <MethodForm groupNm="Method" v-model="requestBody.meth" />
           <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" />
 
-          <SelectSysForm
+          <!-- <SelectSysForm
             :groupNm="$t('api.systemInterlockInformation')"
-            :optionList="ifGrpList"
-            v-model="requestBody.ifGrp"
-          />
+            :optionList="edptList"
+          /> -->
 
           <HandlerGroupForm
             :groupNm="$t('api.resHandlrGrp')"
@@ -56,8 +48,8 @@
               }
             "
           />
-          <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
-          <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
+          <TextForm :groupNm="$t('api.timeOutMS')" type="number" :required="true" v-model="requestBody.timeOut" />
+          <TextForm :groupNm="$t('api.apiDescription')" type="textarea" v-model="requestBody.desc" />
         </ul>
         <div class="text-center" v-if="!showPage">
           <b-spinner
@@ -92,7 +84,7 @@ import UriForm from '@/components/api-mngt/register/UriForm.vue';
 import TextDebounceForm from '@/components/api-mngt/register/TextDebounceForm.vue';
 import { apiValidationCheck } from '@/store/modules/ApiModule';
 import { Dictionary } from 'vue-router/types/router';
-import { IfGrpType, SystemResponse } from '@/types/SystemType';
+import { IfGrpType, SystemIdEdpt, SystemResponse } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
 import ApiModule from '@/store/modules/ApiModule';
@@ -122,8 +114,8 @@ export default class ApiRegisterPage extends Vue {
     console.log(this.$route.params);
     return this.$route.params;
   }
-  get sysList(): SystemResponse[] {
-    return this.systemModule.systemList;
+  get systemIdEdptList(): SystemIdEdpt[] {
+    return this.systemModule.systemIdEdptList;
   }
   showPage = false;
 
@@ -131,8 +123,7 @@ export default class ApiRegisterPage extends Vue {
     console.log('APiRegisterPage created');
     axios
       .all([
-        this.systemModule.getSystemList(),
-        this.apiModule.getHandlerGroupList(),
+        this.systemModule.getSystemIdEdptList(),
         this.handlerModule.getReqHandlerGroupList(),
         this.handlerModule.getResHandlerGroupList(),
       ])
@@ -141,12 +132,11 @@ export default class ApiRegisterPage extends Vue {
       })
       .catch();
   }
-  ifGrpList: IfGrpType[] = [];
+  edptList: string[] = [];
   requestBody: ApiCreateRequestBody = {
     sysId: '',
     id: '',
     nm: '',
-    ifNo: '',
     meth: [],
     uriIn: '',
     uriOut: '',
@@ -166,14 +156,17 @@ export default class ApiRegisterPage extends Vue {
   @Watch('requestBody.sysId')
   handleChangeSysId(val: string) {
     console.log('sysId changed', val);
-    const selectedSystem = this.sysList.filter((item) => item.nm === val)?.[0];
-    this.ifGrpList = selectedSystem.if_grp;
-    this.requestBody.ifNo = this.requestBody.sysId + '-0001';
+    const selectedSystem = this.systemIdEdptList.filter((item) => item.id === val)?.[0];
+    this.edptList = selectedSystem.edpt;
+    this.requestBody.id = '';
+    this.requestBody.uriIn = '';
+    this.requestBody.uriOut = '';
   }
   apiIdCheck: boolean | null = null;
 
   @Watch('isDuplicatedId')
   async handleChangeApiId() {
+    console.log('isDuplicatedId changed', this.isDuplicatedId);
     if (this.isDuplicatedId) {
       this.requestBody.uriIn = this.requestBody.sysId + '/v1/' + this.requestBody.id;
       this.requestBody.uriOut = this.requestBody.sysId + '/v1/' + this.requestBody.id;
@@ -183,6 +176,7 @@ export default class ApiRegisterPage extends Vue {
   timerId = 0;
   isDuplicatedId: boolean | null = null;
   duplicateCheckId() {
+    this.isDuplicatedId = null;
     if (this.timerId) {
       clearTimeout(this.timerId);
     }
@@ -206,15 +200,6 @@ export default class ApiRegisterPage extends Vue {
 
   // 등록
   async onSubmit() {
-    // console.log(this.systemItem);
-    // console.log('valid!!!!!');
-    // console.log(this.nmValid);
-    // console.log(this.idValid);
-    // console.log(this.tkcgrNmValid);
-    // console.log(this.tkcgrPosValid);
-    // console.log(this.tkcgrEmlValid);
-    // console.log('ifGrpValid', this.ifGrpValid);
-
     const val = this.idValid && this.methodValid && this.ifGrpValid && this.handlerValid && this.timeoutValid;
 
     if (!val) {

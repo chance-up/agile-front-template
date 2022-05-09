@@ -179,7 +179,7 @@ export default class ServiceManagementPage extends Vue {
     }
   }
   created() {
-    this.serviceModule.setPagination({} as Pagination);
+    this.serviceModule.setServicePagination({} as Pagination);
     if (Object.keys(this.$route.query).length > 0) {
       if (Object.keys(this.$route.query).includes('nm')) this.searchData.nm = this.$route.query.nm as string;
       if (Object.keys(this.$route.query).includes('id')) this.searchData.id = this.$route.query.id as string;
@@ -218,12 +218,11 @@ export default class ServiceManagementPage extends Vue {
 
   destroyed() {
     this.serviceModule.release();
-    this.serviceModule.setServiceList([]);
-    this.serviceModule.setPagination({} as Pagination);
+    this.serviceModule.reset();
   }
 
   get pagination(): Pagination {
-    return this.serviceModule.pagination;
+    return this.serviceModule.servicePagination;
   }
 
   onChangedPage(page: number) {

@@ -112,6 +112,11 @@ export default class ServiceDetailPage extends Vue {
     this.serviceModule.getService(this.$route.params.serviceId);
   }
 
+  destroyed() {
+    this.serviceModule.release();
+    this.serviceModule.reset();
+  }
+
   get userState() {
     return this.serviceModule.currAsyncState;
   }

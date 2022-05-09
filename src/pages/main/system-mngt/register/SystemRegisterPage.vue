@@ -175,11 +175,12 @@ export default class SystemRegisterPage extends Vue {
     this.totalValid.splice(2, 1, newVal);
   }
 
-  // @Watch('ifGrpValid')
-  // onIfGrpValidChange(newVal: boolean[]) {
-  //   if (newVal[0] && newVal[1]) this.totalValid.splice(4, 1, true);
-  //   else this.totalValid.splice(4, 1, false);
-  // }
+  @Watch('ifGrpValid')
+  onIfGrpValidChange(newVal: boolean[]) {
+    if (newVal[0] && newVal[1]) this.totalValid.splice(4, 1, true);
+    else this.totalValid.splice(4, 1, false);
+    console.log('ifGrpValid', newVal);
+  }
 
   @Watch('totalValid')
   onTotalValidChange(newVal: boolean[]) {
@@ -197,15 +198,18 @@ export default class SystemRegisterPage extends Vue {
     // console.log(this.tkcgrEmlValid);
     // console.log('ifGrpValid', this.ifGrpValid);
 
-    const val = this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid ? true : false;
+    // const val =
+    //   this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.ifGrpValid[0] && this.ifGrpValid[1]
+    //     ? true
+    //     : false;
 
-    if (!val) {
-      this.$modal.show(`${this.$t('system.empty_check_message')}`);
-      return;
-    } else {
-      await this.systemModule.registerSystem(this.systemItem);
-      this.$router.push({ name: 'system' });
-    }
+    // if (!val) {
+    //   this.$modal.show(`${this.$t('system.empty_check_message')}`);
+    //   return;
+    // } else {
+    await this.systemModule.registerSystem(this.systemItem);
+    this.$router.push({ name: 'system' });
+    // }
   }
 
   cancelOnClickEvent() {
@@ -218,7 +222,14 @@ export default class SystemRegisterPage extends Vue {
   }
 
   showModal() {
-    this.isShowModal = true;
+    const val = this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid ? true : false;
+
+    if (!val) {
+      this.$modal.show(`${this.$t('system.empty_check_message')}`);
+      return;
+    } else {
+      this.isShowModal = true;
+    }
   }
 
   closeModal() {

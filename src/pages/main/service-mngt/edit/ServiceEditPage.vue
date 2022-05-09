@@ -82,27 +82,22 @@
           </template>
           <template v-slot:modalContainer>
             <p v-if="!isShowProgress" class="text">{{ $t('service.modify_message') }}</p>
-            <div v-if="isShowProgress" style="width: 100%; text-align: center">
-              <b-spinner
-                v-show="isShowProgress"
-                style="width: 2.5rem; height: 2.5rem"
-                label="Large Spinner"
-              ></b-spinner></div
+            <div v-if="isShowProgress" style="width: 100%; text-align: center"></div
           ></template>
           <template v-slot:modalFooter
-            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="editService()">
+            ><button class="lg-btn purple-btn" @click="editService()">
               {{ $t('common.ok') }}</button
-            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="modalHide()">
+            ><button class="lg-btn purple-btn" @click="modalHide()">
               {{ $t('common.cancel') }}
             </button>
           </template>
         </ModalLayout>
       </ul>
     </template>
-    <template v-slot:buttons v-if="!isShowProgress">
+    <template v-slot:buttons v-if="formData.id != ''">
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled || isShowProgress">
-          {{ $t('common.register') }}
+        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isShowProgress">
+          {{ $t('common.modify') }}<b-spinner v-show="isShowProgress" small></b-spinner>
         </button>
         <button class="lg-btn white-btn" @click="$router.back()" :disabled="isShowProgress">
           {{ $t('common.cancel') }}
@@ -143,7 +138,6 @@ export default class SystemRegisterPage extends Vue {
   isBasicAuthProgress = false;
 
   isBtnDisabled = true;
-  totalValid: boolean[] = [true, true, true, true, true];
   tkcgrNmValid = null;
   dateValid = null;
   tkcgrPosValid = null;
@@ -207,54 +201,10 @@ export default class SystemRegisterPage extends Vue {
     }
   }
 
-  @Watch('tkcgrNmValid')
-  onTkcgrNmValidChange(newVal: boolean) {
-    this.totalValid.splice(0, 1, newVal);
-  }
-
-  @Watch('tkcgrPosValid')
-  onTkcgrPosValidChange(newVal: boolean) {
-    this.totalValid.splice(1, 1, newVal);
-  }
-
-  @Watch('tkcgrEmlValid')
-  onTkcgrEmlValidChange(newVal: boolean) {
-    this.totalValid.splice(2, 1, newVal);
-  }
-
-  @Watch('dateValid')
-  onDateValidChange(newVal: boolean) {
-    this.totalValid.splice(3, 1, newVal);
-  }
-
-  @Watch('authValid')
-  onAuthValidChange(newVal: boolean) {
-    this.totalValid.splice(4, 1, newVal);
-  }
-
-  @Watch('totalValid')
-  onTotalValidChange(newVal: boolean[]) {
-    if (newVal.every((item) => item === true)) this.isBtnDisabled = false;
-    else this.isBtnDisabled = true;
-  }
-
   async editService() {
-    const val =
-      this.tkcgrNmValid == false ||
-      this.tkcgrPosValid == false ||
-      this.tkcgrEmlValid == false ||
-      this.dateValid == false ||
-      this.authValid == false
-        ? false
-        : true;
-
-    if (!val) {
-      this.$modal.show('빈 항목이 있습니다.');
-      return;
-    } else {
-      await this.serviceModule.editServiceAction(this.serviceOption);
-      this.$router.back();
-    }
+    this.modal = false;
+    await this.serviceModule.editServiceAction(this.serviceOption);
+    this.$router.back();
   }
 
   createAuthId() {
@@ -304,7 +254,21 @@ export default class SystemRegisterPage extends Vue {
 
   modal = false;
   modalShow() {
-    this.modal = true;
+    const val =
+      this.tkcgrNmValid == false ||
+      this.tkcgrPosValid == false ||
+      this.tkcgrEmlValid == false ||
+      this.dateValid == false ||
+      this.authValid == false
+        ? false
+        : true;
+
+    if (!val) {
+      this.$modal.show('빈 항목이 있습니다.');
+      return;
+    } else {
+      this.modal = true;
+    }
   }
   modalHide() {
     this.modal = false;
@@ -328,7 +292,9 @@ export default class SystemRegisterPage extends Vue {
   }
 
   destroyed() {
-    this.serviceModule.setBasicAuth({ id: '', pw: '' });
+    this.serviceModule.release();
+    this.serviceModule.reset();
+    this.serviceModule.setBasicAuth({ id: null, pw: null });
   }
 }
 </script>

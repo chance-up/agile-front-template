@@ -82,7 +82,7 @@ export default class ServiceModule extends GateWayModule {
     desc: '',
   };
 
-  public pagination: Pagination = {} as Pagination;
+  public servicePagination: Pagination = {} as Pagination;
 
   public basicAuth: BasicAuthResponse = {
     id: '',
@@ -101,6 +101,13 @@ export default class ServiceModule extends GateWayModule {
 
   public basicAuthState = USER_STATE.IDLE;
 
+  @Action
+  reset() {
+    this.context.commit('setServiceList', []);
+    this.context.commit('setService', {} as ServiceResponse);
+    this.context.commit('setServicePagination', {});
+  }
+
   //서비스 리스트 요청
   @Mutation
   setServiceList(list: ServiceResponse[]): void {
@@ -112,8 +119,8 @@ export default class ServiceModule extends GateWayModule {
     console.log('getMethod');
   }
   @Mutation
-  setPagination(pagination: Pagination) {
-    this.pagination = pagination;
+  setServicePagination(pagination: Pagination) {
+    this.servicePagination = pagination;
   }
 
   @Action
@@ -132,7 +139,7 @@ export default class ServiceModule extends GateWayModule {
         '/api/service/getServiceInfo'
       );
       this.context.commit('setServiceList', response.data.value);
-      this.context.commit('setPagination', response.data.pagination);
+      this.context.commit('setServicePagination', response.data.pagination);
       this.dissmissLoading();
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
