@@ -136,7 +136,6 @@ export default class ApiRegisterPage extends Vue {
   requestBody: ApiCreateRequestBody = {
     sysId: '',
     id: '',
-    nm: '',
     meth: [],
     uriIn: '',
     uriOut: '',

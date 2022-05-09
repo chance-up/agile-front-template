@@ -32,6 +32,9 @@ export default class ApiModule extends GateWayModule {
   //api 리스트 요청
 
   public apiList: ApiDetailResponse[] = [];
+  public apiDetail: ApiDetailResponse | null = null;
+  public handlerGroupList: HandlerGroupDetail[] = [];
+  public apiPagination: Pagination | null = null;
 
   @Mutation
   setApiList(list: ApiDetailResponse[]): void {
@@ -48,9 +51,7 @@ export default class ApiModule extends GateWayModule {
       const mockList: GateWayResponse<ApiDetailResponse[]> = JSON.parse(JSON.stringify(apiMockList));
       mockList.data.value = mockList.data.value.filter((item: ApiDetailResponse) => {
         if (searchQuery) {
-          if (searchQuery.nm) {
-            return item.nm.indexOf(searchQuery.nm) > -1;
-          } else if (searchQuery.id) {
+          if (searchQuery.id) {
             return item.id.indexOf(searchQuery.id) > -1;
           } else if (searchQuery.uri) {
             return item.uriIn.indexOf(searchQuery.uri) > -1;
@@ -84,8 +85,6 @@ export default class ApiModule extends GateWayModule {
   }
 
   //api 상세 요청
-
-  public apiDetail: ApiDetailResponse | null = null;
 
   @Mutation
   setApiDetail(api: ApiDetailResponse | null) {
@@ -124,7 +123,6 @@ export default class ApiModule extends GateWayModule {
   }
 
   // 핸들러그룹리스트
-  public handlerGroupList: HandlerGroupDetail[] = [];
   @Mutation
   setHandlerGroupList(list: HandlerGroupDetail[]): void {
     this.handlerGroupList = list;
@@ -143,14 +141,13 @@ export default class ApiModule extends GateWayModule {
   @Action
   reset() {
     // release시 에러 발생 (동작은 정상동작)
-    this.release();
+    // this.release();
     this.context.commit('setApiPagination', null);
     this.context.commit('setApiList', []);
     this.context.commit('setApiDetail', null);
   }
 
   // 페이지네이션
-  public apiPagination: Pagination | null = null;
   @Mutation
   setApiPagination(pagination: Pagination | null): void {
     console.log('set API pagination', pagination);
