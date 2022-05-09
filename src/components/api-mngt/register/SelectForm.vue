@@ -17,7 +17,11 @@ export default class SelectForm extends Vue {
   @Prop() groupNm!: string | null;
   @Prop() optionList!: string[] | null;
   @Prop() value!: string | null;
-
+  // @Prop({ default: false }) isvalid!: boolean | null;
+  // @Watch('notiMessage')
+  // messageChanged(val: [boolean | null, string]) {
+  //   this.$emit('update:isvalid', this.notiMessage[0]);
+  // }
   mounted() {
     this.clickSelectbox = true;
   }
