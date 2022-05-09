@@ -99,7 +99,7 @@
         </ModalLayout>
       </ul>
     </template>
-    <template v-slot:buttons>
+    <template v-slot:buttons v-if="!isShowProgress">
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled || isShowProgress">
           {{ $t('common.register') }}
