@@ -73,7 +73,7 @@ export default class ApiDetailPage extends Vue {
     this.apiModule.getApiDetail(this.$route.params.id);
   }
   destroyed() {
-    this.apiModule.reset();
+    this.apiModule.apiReset();
   }
   // for progress
   isShowProgress = false;

@@ -95,7 +95,7 @@
           </div>
         </template>
         <template slot="pagination">
-          <Paging :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
+          <Paging :pagingOption="systemPagination" @onChangedPage:page="onChangedPage" />
         </template>
       </ListForm>
       <ModalLayout size="m" v-if="isShowModal">
@@ -156,8 +156,8 @@ export default class SystemPage extends Vue {
     return this.systemModule.systemList;
   }
 
-  get pagination(): Pagination {
-    return this.systemModule.pagination;
+  get systemPagination(): Pagination | null {
+    return this.systemModule.systemPagination;
   }
 
   get userState() {
@@ -165,8 +165,7 @@ export default class SystemPage extends Vue {
   }
 
   created() {
-    this.systemModule.setSystemList([]);
-    this.systemModule.setPagination({} as Pagination);
+    // this.systemModule.reset();
 
     if (Object.keys(this.$route.query).length > 0) {
       if (Object.keys(this.$route.query).includes('nm')) this.searchData.nm = this.$route.query.nm as string;
@@ -272,8 +271,7 @@ export default class SystemPage extends Vue {
   }
 
   destroyed() {
-    this.systemModule.setSystemList([]);
-    this.systemModule.setPagination({} as Pagination);
+    this.systemModule.reset();
   }
 }
 </script>

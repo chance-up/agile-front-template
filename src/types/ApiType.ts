@@ -14,7 +14,6 @@ export const dummyPagination: Pagination = {
 export interface ApiDetailResponse {
   id: string;
   sysId: string;
-  nm: string;
   ifNo: string;
   meth: string[] | string;
   uriIn: string;
@@ -49,7 +48,6 @@ export interface ApiCreateRequestBody {
   [x: string]: any;
   id: string;
   sysId: string;
-  nm: string;
   meth: string[] | string;
   uriIn: string;
   uriOut: string;
@@ -84,7 +82,6 @@ export interface ApiSearchLabel {
 export const apiMockData: ApiDetailResponse = {
   id: 'getCustInfo11',
   sysId: 'id1',
-  nm: '고객 정보 조회',
   ifNo: 'IF_CAPRI_000122',
   meth: ['GET', 'POST'],
   uriIn: '/CAPRI/v1/getCustInfo22',
@@ -103,7 +100,6 @@ export const apiMockData: ApiDetailResponse = {
 export const apiMockData2: ApiDetailResponse = {
   id: 'getCustInfo22',
   sysId: 'id2',
-  nm: '고객 정보 삭제',
   ifNo: 'IF_CAPRI_000122',
   meth: '["DELETE", "PUT"]',
   uriIn: '/CAPRI/v1/getCustInfo22',
