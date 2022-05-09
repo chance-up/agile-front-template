@@ -29,7 +29,6 @@
                 <colgroup>
                   <col width="5%" />
                   <col width="15%" />
-                  <col width="12%" />
                   <col width="*" />
                   <col width="14%" />
                   <col width="13%" />
@@ -42,7 +41,6 @@
                     <th>No.</th>
                     <th>{{ $t('api.sysId') }}</th>
                     <th>{{ $t('api.apiId') }}</th>
-                    <th>{{ $t('api.apiNm') }}</th>
                     <th>{{ $t('api.method') }}</th>
                     <th>{{ $t('api.uri') }}</th>
                     <th>{{ $t('api.timeOut') }}<br />(ms)</th>
@@ -170,6 +168,7 @@ export default class ApiPage extends Vue {
   destroyed() {
     this.apiModule.reset();
   }
+
   get apiList(): ApiDetailResponse[] {
     console.log(this.apiModule.apiList);
     return this.apiModule.apiList;
