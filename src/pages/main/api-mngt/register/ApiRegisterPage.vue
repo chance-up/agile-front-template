@@ -92,6 +92,7 @@ import { IfGrpType, SystemResponse } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
 import ApiModule from '@/store/modules/ApiModule';
+import HandlerModule from '@/store/modules/HandlerModule';
 import axios from 'axios';
 @Component({
   components: {
@@ -131,6 +132,7 @@ export default class ApiRegisterPage extends Vue {
   }
   systemModule = getModule(SystemModule, this.$store);
   apiModule = getModule(ApiModule, this.$store);
+  handlerModule = getModule(HandlerModule, this.$store);
 
   get params(): Dictionary<string> | null {
     console.log(this.$route.params);
@@ -220,10 +222,10 @@ export default class ApiRegisterPage extends Vue {
   }
 
   get reqHandlerGroupList(): HandlerGroupDetail[] {
-    return this.apiModule.handlerGroupList;
+    return this.handlerModule.reqHandlerGroupList;
   }
   get resHandlerGroupList(): HandlerGroupDetail[] {
-    return this.apiModule.handlerGroupList;
+    return this.handlerModule.resHandlerGroupList;
   }
 }
 </script>

@@ -6,7 +6,7 @@
         <!--  multi select -->
         <div class="multi-wrap">
           <div ref="selectRow" class="select-row inside-click req-class" @click="requestHandleOnClickGroup">
-            {{ chooseHandlerGroup }}
+            {{ chooseReqHandlerGroup }}
           </div>
           <!--  dropdown시 active class 추가-->
           <div ref="selectFrom" class="select-form inside-click" :class="{ none: !isSelectOpenRequest }">
@@ -18,7 +18,7 @@
                   @click="
                     [
                       handleSelectReqHandlerGroup(handlerGroup.apiGroupId),
-                      (chooseHandlerGroup = handlerGroup.apiGroupNm),
+                      (chooseReqHandlerGroup = handlerGroup.apiGroupNm),
                     ]
                   "
                   >{{ handlerGroup.apiGroupNm }}</span
@@ -47,7 +47,7 @@
         <!--  multi select -->
         <div class="multi-wrap">
           <div ref="selectRow" class="select-row inside-click res-class" @click="responseHandleOnClickGroup">
-            {{ chooseHandlerGroup }}
+            {{ chooseResHandlerGroup }}
           </div>
           <!--  dropdown시 active class 추가-->
           <div ref="selectFrom" class="select-form inside-click" :class="{ none: !isSelectOpenResponse }">
@@ -59,7 +59,7 @@
                   @click="
                     [
                       handleSelectResHandlerGroup(handlerGroup.apiGroupId),
-                      (chooseHandlerGroup = handlerGroup.apiGroupNm),
+                      (chooseResHandlerGroup = handlerGroup.apiGroupNm),
                     ]
                   "
                   >{{ handlerGroup.apiGroupNm }}</span
@@ -100,41 +100,32 @@ export default class HandlerGroupForm extends Vue {
   @Prop({ default: () => [] }) resHandlerGroupList!: HandlerGroupDetail[];
 
   onClick(e: any): void {
-    // console.log('========');
-    console.log('========: ' + this.groupNm);
-    // this.clickCheck++;
     const insideClick = e.target.classList as object;
     if (Object.values(insideClick).includes('req-class')) {
-      console.log('@#@#@#@#');
       if (this.isSelectOpenResponse) {
         this.isSelectOpenResponse = false;
       }
     }
 
     if (!Object.values(insideClick).includes('inside-click') && this.isSelectOpenRequest) {
-      console.log('외부클릭함');
-      console.log(this.isSelectOpenRequest);
       this.requestHandleOnClickGroup();
       this.isSelectOpenRequest = false;
       this.showReqModal = false;
     }
     if (!Object.values(insideClick).includes('inside-click') && this.isSelectOpenResponse) {
-      console.log('외부클릭함');
-      console.log(this.isSelectOpenResponse);
       this.responseHandleOnClickGroup();
       this.isSelectOpenResponse = false;
       this.showResModal = false;
     }
-    console.log('========');
   }
 
   mounted() {
-    console.log('addEvent');
     const registerPage = document.getElementById('api-register') as HTMLElement;
     registerPage.addEventListener('click', this.onClick);
     registerPage.removeEventListener;
   }
-  chooseHandlerGroup = 'handler 그룹을 선택해주세요';
+  chooseReqHandlerGroup = 'handler 그룹을 선택해주세요';
+  chooseResHandlerGroup = 'handler 그룹을 선택해주세요';
   showReqModal = false;
   showResModal = false;
   sendHandlerGroup: HandlerGroupDetail = {

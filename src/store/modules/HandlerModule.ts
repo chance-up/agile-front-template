@@ -1,14 +1,5 @@
 import { GateWayResponse, Pagination } from '@/types/GateWayResponse';
-import {
-  ApiSearchQuery,
-  apiMockList,
-  ApiDetailResponse,
-  apiMockData,
-  apiMockData2,
-  dummyDeleteResData,
-  HandlerGroupDetail,
-  dummyHandlerGroupList,
-} from '@/types/ApiType';
+import { HandlerGroupDetail, dummyReqHandlerGroupList, dummyResHandlerGroupList } from '@/types/HandlerType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { Module, Mutation, Action } from 'vuex-module-decorators';
 import { AxiosClient } from '@/axios/AxiosClient';
@@ -29,19 +20,35 @@ function handleCommonError(error: GateWayError | any) {
 }
 @Module({ name: 'HandlerModule' })
 export default class HandlerModule extends GateWayModule {
-
-  // 핸들러그룹리스트
-  public handlerGroupList: HandlerGroupDetail[] = [];
+  // 핸들러 Req 그룹리스트
+  public reqHandlerGroupList: HandlerGroupDetail[] = [];
   @Mutation
-  setHandlerGroupList(list: HandlerGroupDetail[]): void {
-    this.handlerGroupList = list;
+  setReqHandlerGroupList(list: HandlerGroupDetail[]): void {
+    this.reqHandlerGroupList = list;
   }
   @Action
-  async getHandlerGroupList() {
+  async getReqHandlerGroupList() {
     try {
-      addMock('/api/handlerGroupList', JSON.stringify(dummyHandlerGroupList));
-      const response = await AxiosClient.getInstance().get<HandlerGroupDetail[]>('/api/handlerGroupList');
-      this.context.commit('setHandlerGroupList', response);
+      addMock('/api/getRequestHandlerGroupList', JSON.stringify(dummyReqHandlerGroupList));
+      const response = await AxiosClient.getInstance().get<HandlerGroupDetail[]>('/api/getRequestHandlerGroupList');
+      this.context.commit('setReqHandlerGroupList', response);
+    } catch (error: GateWayError | any) {
+      handleCommonError(error);
+    }
+  }
+
+  // 핸들러 Res 그룹리스트
+  public resHandlerGroupList: HandlerGroupDetail[] = [];
+  @Mutation
+  setResHandlerGroupList(list: HandlerGroupDetail[]): void {
+    this.resHandlerGroupList = list;
+  }
+  @Action
+  async getResHandlerGroupList() {
+    try {
+      addMock('/api/getResponseHandlerGroupList', JSON.stringify(dummyResHandlerGroupList));
+      const response = await AxiosClient.getInstance().get<HandlerGroupDetail[]>('/api/getResponseHandlerGroupList');
+      this.context.commit('setReqHandlerGroupList', response);
     } catch (error: GateWayError | any) {
       handleCommonError(error);
     }
