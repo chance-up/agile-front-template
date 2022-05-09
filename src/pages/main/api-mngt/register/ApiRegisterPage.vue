@@ -48,8 +48,8 @@
               }
             "
           />
-          <TextForm groupNm="타임아웃(ms)" type="number" :required="true" v-model="requestBody.timeOut" />
-          <TextForm groupNm="시스템 설명" type="textarea" v-model="requestBody.desc" />
+          <TextForm :groupNm="$t('api.timeOutMS')" type="number" :required="true" v-model="requestBody.timeOut" />
+          <TextForm :groupNm="$t('api.apiDescription')" type="textarea" v-model="requestBody.desc" />
         </ul>
         <div class="text-center" v-if="!showPage">
           <b-spinner
