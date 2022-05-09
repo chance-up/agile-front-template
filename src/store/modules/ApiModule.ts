@@ -142,16 +142,18 @@ export default class ApiModule extends GateWayModule {
   // 초기화
   @Action
   reset() {
+    // release시 에러 발생 (동작은 정상동작)
+    this.release();
     this.context.commit('setApiPagination', null);
     this.context.commit('setApiList', []);
     this.context.commit('setApiDetail', null);
-    this.release();
   }
 
   // 페이지네이션
   public apiPagination: Pagination | null = null;
   @Mutation
   setApiPagination(pagination: Pagination | null): void {
+    console.log('set API pagination', pagination);
     this.apiPagination = pagination;
   }
 }
