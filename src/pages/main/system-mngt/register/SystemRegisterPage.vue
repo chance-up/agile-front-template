@@ -106,16 +106,12 @@ import { USER_STATE } from '@/store/UserState';
   },
 })
 export default class SystemRegisterPage extends Vue {
-  // 1. 중복 검사 + 유효성 검사하는 로직을 추가하고자 한다.
-  // 2. 중복 검사가 필요하지 않는 경우에는 유효성 검사만 수행한다.
-  // 3. 중복 검사가 필요한 경우에는 중복 검사를 수행한다.
-  // 4. 중복 검사에 필요한 메서드는 InputGroup에 prop으로 넘겨준다.
   totalValid: boolean[] = [];
   idValid = false;
   tkcgrNmValid = false;
   tkcgrPosValid = false;
   tkcgrEmlValid = false;
-  ifGrpValid: boolean[] = [false, false];
+  ifGrpValid = false;
 
   isShowProgress = false;
   isShowModal = false;
@@ -179,11 +175,11 @@ export default class SystemRegisterPage extends Vue {
     this.totalValid.splice(2, 1, newVal);
   }
 
-  @Watch('ifGrpValid')
-  onIfGrpValidChange(newVal: boolean[]) {
-    if (newVal[0] && newVal[1]) this.totalValid.splice(4, 1, true);
-    else this.totalValid.splice(4, 1, false);
-  }
+  // @Watch('ifGrpValid')
+  // onIfGrpValidChange(newVal: boolean[]) {
+  //   if (newVal[0] && newVal[1]) this.totalValid.splice(4, 1, true);
+  //   else this.totalValid.splice(4, 1, false);
+  // }
 
   @Watch('totalValid')
   onTotalValidChange(newVal: boolean[]) {
@@ -201,10 +197,7 @@ export default class SystemRegisterPage extends Vue {
     // console.log(this.tkcgrEmlValid);
     // console.log('ifGrpValid', this.ifGrpValid);
 
-    const val =
-      this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.ifGrpValid[0] && this.ifGrpValid[1]
-        ? true
-        : false;
+    const val = this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid ? true : false;
 
     if (!val) {
       this.$modal.show(`${this.$t('system.empty_check_message')}`);

@@ -70,7 +70,7 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import { IfGrpType, IfGrpValidMessageType } from '@/types/SystemType';
 import { checkLength, checkEnglishNumber, checkNumber } from '@/utils/validation';
 @Component({
@@ -84,6 +84,22 @@ export default class InterfaceGroup extends Vue {
   @Prop({ default: () => [] }) ifgrps!: IfGrpType[];
   @Prop({ default: false }) isvalid!: boolean | null;
   notiMessage: IfGrpValidMessageType[] = [];
+
+  @Watch('notiMessage')
+  messageChanged(val: IfGrpValidMessageType[]) {
+    let valid: boolean | null = true;
+    this.notiMessage.forEach((grpMsg) => {
+      console.log(grpMsg.isValid);
+      valid = valid && grpMsg.isValid;
+
+      grpMsg.domainValid.forEach((domainMsg) => {
+        console.log(domainMsg.isValid);
+        valid = valid && domainMsg.isValid;
+      });
+    });
+    console.log('this is interface Valid!! :: ' + valid);
+    this.$emit('update:isvalid', valid);
+  }
 
   // notiMessage: [boolean | null, string, [boolean | null, string]][] = [[null, '', [null, '']]];
 
@@ -111,7 +127,6 @@ export default class InterfaceGroup extends Vue {
         duplArr.push(idx);
       }
     });
-    console.log('@!!!!' + duplArr.length);
     if (duplArr.length > 1) {
       return true;
     } else {
