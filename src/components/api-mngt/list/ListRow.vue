@@ -58,8 +58,9 @@ export default class ListRow extends Vue {
   apiModule = getModule(ApiModule, this.$store);
   deleteApi(id: string) {
     console.log('delete Id: ' + id);
-    this.$modal.show('삭제하시겠습니까?');
-    this.apiModule.deleteApi(id);
+    // this.$modal.show('삭제하시겠습니까?');
+    // this.apiModule.deleteApi(id);
+    this.$emit('deleteApi', id);
   }
 }
 </script>
