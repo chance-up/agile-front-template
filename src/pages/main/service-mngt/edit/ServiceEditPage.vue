@@ -36,6 +36,7 @@
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
           :isvalid.sync="authValid"
+          :progress="isShowProgress"
         ></AuthReqGroup>
         <li>
           <label class="label point">{{ $t('service.api_mngt') }}</label>

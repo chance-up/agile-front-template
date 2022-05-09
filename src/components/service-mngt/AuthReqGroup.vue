@@ -17,8 +17,8 @@
               <label class="label">ID :</label>
               <input type="text" id="" class="input-box" placeholder="자동생성/변경불가" disabled v-model="basicId" />
               <button @click="clicked" class="xs-btn">
-                <i class="serve"></i>
-                <!-- <b-spinner small></b-spinner> -->
+                <i v-show="!progress" class="serve"></i>
+                <b-spinner v-show="progress" small></b-spinner>
               </button>
             </div>
           </li>
@@ -98,6 +98,7 @@ export default class AuthReqGroup extends Vue {
   @Prop() basicId!: string;
   @Prop() basicPw!: string;
   @Prop({ default: false }) isvalid!: boolean | null;
+  @Prop({ default: false }) progress!: boolean;
 
   @Watch('auth')
   onAuthChanged() {

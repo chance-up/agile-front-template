@@ -35,6 +35,7 @@
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
           :isvalid.sync="authValid"
+          :progress="isShowProgress"
         ></AuthReqGroup>
         <SlaReqGroup
           :inputNm="$t('service.SLA_mngt')"
@@ -135,8 +136,7 @@ import { BSpinner } from 'bootstrap-vue';
 export default class SystemRegisterPage extends Vue {
   show = 'BASIC_AUTH';
   isBtnDisabled = true;
-  totalValid: boolean[] = [false, false, false, false, false, false, false];
-  nmValid = false;
+  totalValid: boolean[] = [false, false, false, false, false, false];
   idValid = false;
   tkcgrNmValid = false;
   tkcgrPosValid = false;
@@ -144,49 +144,39 @@ export default class SystemRegisterPage extends Vue {
   dateValid = false;
   authValid = false;
 
-  @Watch('nmValid')
-  onNmValidChange(newVal: boolean) {
-    this.totalValid.splice(0, 1, newVal);
-  }
-
   @Watch('idValid')
   onIdValidChange(newVal: boolean) {
-    this.totalValid.splice(1, 1, newVal);
+    this.totalValid.splice(0, 1, newVal);
   }
 
   @Watch('tkcgrNmValid')
   onTkcgrNmValidChange(newVal: boolean) {
-    this.totalValid.splice(2, 1, newVal);
+    this.totalValid.splice(1, 1, newVal);
   }
 
   @Watch('tkcgrPosValid')
   onTkcgrPosValidChange(newVal: boolean) {
-    this.totalValid.splice(3, 1, newVal);
+    this.totalValid.splice(2, 1, newVal);
   }
 
   @Watch('tkcgrEmlValid')
   onTkcgrEmlValidChange(newVal: boolean) {
-    this.totalValid.splice(4, 1, newVal);
+    this.totalValid.splice(3, 1, newVal);
   }
 
   @Watch('dateValid')
   onDateValidChange(newVal: boolean) {
-    this.totalValid.splice(5, 1, newVal);
+    this.totalValid.splice(4, 1, newVal);
   }
 
   @Watch('authValid')
   onAuthValidChange(newVal: boolean) {
-    this.totalValid.splice(6, 1, newVal);
-  }
-
-  @Watch('isDuplicatedNm')
-  onIsDuplicatedNmValidChange(newVal: boolean) {
-    this.totalValid.splice(7, 1, newVal);
+    this.totalValid.splice(5, 1, newVal);
   }
 
   // @Watch('isDuplicatedId')
   // onIsDuplicatedIdValidChange(newVal: boolean) {
-  //   this.totalValid.splice(7, 1, newVal);
+  //   this.totalValid.splice(6, 1, newVal);
   // }
 
   @Watch('totalValid')
@@ -248,14 +238,7 @@ export default class SystemRegisterPage extends Vue {
 
   async submit() {
     const val =
-      this.nmValid &&
-      this.idValid &&
-      this.tkcgrNmValid &&
-      this.tkcgrPosValid &&
-      this.tkcgrEmlValid &&
-      this.dateValid &&
-      this.authValid &&
-      this.isDuplicatedNm
+      this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.dateValid && this.authValid
         ? // &&this.isDuplicatedId
           true
         : false;
@@ -268,20 +251,6 @@ export default class SystemRegisterPage extends Vue {
       await this.serviceModule.createserviceAction(this.formData);
       this.$router.back();
     }
-  }
-
-  timerNm = 0;
-  isDuplicatedNm: boolean | null = null;
-  duplicateCheckNm() {
-    if (this.timerNm) {
-      this.isDuplicatedNm = null;
-      clearTimeout(this.timerNm);
-    }
-    this.timerNm = setTimeout(async () => {
-      console.log(this.formData.nm);
-      await this.serviceModule.getDuplicatedCheckNm(this.formData.nm);
-      this.isDuplicatedNm = this.serviceModule.duplicatedNm.isDuplicated;
-    }, 1000);
   }
 
   timerId = 0;
