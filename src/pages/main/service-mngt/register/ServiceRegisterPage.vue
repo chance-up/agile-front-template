@@ -35,7 +35,7 @@
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
           :isvalid.sync="authValid"
-          :progress="isShowProgress"
+          :progress="isBasicAuthProgress"
         ></AuthReqGroup>
         <SlaReqGroup
           :inputNm="$t('service.SLA_mngt')"
@@ -143,6 +143,7 @@ export default class SystemRegisterPage extends Vue {
   tkcgrEmlValid = false;
   dateValid = false;
   authValid = false;
+  isBasicAuthProgress = false;
 
   @Watch('idValid')
   onIdValidChange(newVal: boolean) {
@@ -304,6 +305,22 @@ export default class SystemRegisterPage extends Vue {
       this.$modal.show('서버 통신 에러');
     } else if (userState === USER_STATE.DONE) {
       this.isShowProgress = false;
+    }
+  }
+
+  get basicAuthState() {
+    return this.serviceModule.basicAuthState;
+  }
+
+  @Watch('basicAuthState')
+  onBasicAuthStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      this.isBasicAuthProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isBasicAuthProgress = false;
     }
   }
 

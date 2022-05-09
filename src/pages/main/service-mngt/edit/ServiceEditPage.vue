@@ -36,7 +36,7 @@
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
           :isvalid.sync="authValid"
-          :progress="isShowProgress"
+          :progress="isBasicAuthProgress"
         ></AuthReqGroup>
         <li>
           <label class="label point">{{ $t('service.api_mngt') }}</label>
@@ -140,6 +140,7 @@ export default class SystemRegisterPage extends Vue {
   // router push 로 전달받은 id 는 this.$route.params.id 로 사용하시면 됩니다.
   serviceModule = getModule(ServiceModule, this.$store);
   isShowProgress = false;
+  isBasicAuthProgress = false;
 
   isBtnDisabled = true;
   totalValid: boolean[] = [true, true, true, true, true];
@@ -280,6 +281,23 @@ export default class SystemRegisterPage extends Vue {
       this.isShowProgress = false;
     }
   }
+
+  get basicAuthState() {
+    return this.serviceModule.basicAuthState;
+  }
+
+  @Watch('basicAuthState')
+  onBasicAuthStateChange(userState: USER_STATE) {
+    console.log('userState : ', userState);
+    if (userState === USER_STATE.LOADING) {
+      this.isBasicAuthProgress = true;
+    } else if (userState === USER_STATE.ERROR) {
+      this.$modal.show('서버 통신 에러');
+    } else if (userState === USER_STATE.DONE) {
+      this.isBasicAuthProgress = false;
+    }
+  }
+
   get JWTAlg(): JWTAlgResponse {
     return this.serviceModule.JWTAlg;
   }
