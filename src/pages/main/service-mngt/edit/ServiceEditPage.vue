@@ -9,41 +9,11 @@
       <ul>
         <InputGroup
           type="text"
-          :inputNm="$t('service.name')"
-          :placeholder="$t('service.nameEx')"
-          inputClass="input-box lg check-ok"
-          :disabled="true"
-          :value.sync="formData.nm"
-        />
-        <InputGroup
-          type="text"
           :inputNm="$t('service.id')"
           :placeholder="$t('service.idEx')"
           inputClass="input-box lg check-ok"
           :disabled="true"
           :value.sync="formData.id"
-        />
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.tkcgrNm')"
-          :placeholder="$t('service.tkcgrNmEx')"
-          :value.sync="formData.tkcgr_nm"
-          :isvalid.sync="tkcgrNmValid"
-        />
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.tkcgrPos')"
-          :placeholder="$t('service.tkcgrPosEx')"
-          :value.sync="formData.tkcgr_pos"
-          :isvalid.sync="tkcgrPosValid"
-        />
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.tkcgrEml')"
-          :placeholder="$t('service.tkcgrEmlEx')"
-          inputClass="input-box lg check-ok"
-          :value.sync="formData.tkcgr_eml"
-          :isvalid.sync="tkcgrEmlValid"
         />
         <DateGroup
           :inputNm="$t('service.date')"
@@ -53,6 +23,7 @@
           :endDt.sync="formData.svc_end_dt"
           :isvalid.sync="dateValid"
         />
+
         <AuthReqGroup
           @basicAuthClicked="basicAuthClicked"
           :inputNm="$t('service.authentication_method')"
@@ -80,6 +51,28 @@
           :type.sync="formData.sla_type"
           :totalCnt.sync="formData.sla_cnt"
           :TPSCnt.sync="formData.sla_cnt"
+        />
+        <InputGroup
+          type="text"
+          :inputNm="$t('service.tkcgrNm')"
+          :placeholder="$t('service.tkcgrNmEx')"
+          :value.sync="formData.tkcgr_nm"
+          :isvalid.sync="tkcgrNmValid"
+        />
+        <InputGroup
+          type="text"
+          :inputNm="$t('service.tkcgrPos')"
+          :placeholder="$t('service.tkcgrPosEx')"
+          :value.sync="formData.tkcgr_pos"
+          :isvalid.sync="tkcgrPosValid"
+        />
+        <InputGroup
+          type="text"
+          :inputNm="$t('service.tkcgrEml')"
+          :placeholder="$t('service.tkcgrEmlEx')"
+          inputClass="input-box lg check-ok"
+          :value.sync="formData.tkcgr_eml"
+          :isvalid.sync="tkcgrEmlValid"
         />
         <SysExGroup :inputNm="$t('service.desc')" v-model="formData.desc" />
         <ModalLayout size="m" v-if="modal">

@@ -41,6 +41,7 @@ import HandlerModal from '@/components/api-mngt/register/HandlerModal.vue';
 })
 export default class HandlerGroupForm extends Vue {
   @Prop() groupNm!: string | null;
+  @Prop() groupKindNm!: string | null;
   @Prop({ default: () => [] }) handlerGroupList!: HandlerGroupDetail[];
 
   clickCheck = 0;
@@ -50,12 +51,23 @@ export default class HandlerGroupForm extends Vue {
     // this.clickCheck++;
     const insideClick = e.target.classList as object;
     // console.log('inside click: ' + Object.values(insideClick).includes('inside-click'));
-    // if (!Object.values(insideClick).includes('inside-click') && this.isSelectOpen) {
-    //   console.log('외부클릭함');
-    //   console.log(this.isSelectOpen);
-    //   console.log(this.clickCheck);
-    //   // this.test();
+    // if (Object.values(insideClick).includes('select-row')) {
+    //   console.log('@@@@');
+    //   this.isSelectOpen = true;
     // }
+    console.log(this.groupKindNm);
+
+    if (!Object.values(insideClick).includes('inside-click') && this.isSelectOpen) {
+      console.log('외부클릭함');
+      console.log(this.isSelectOpen);
+      console.log(this.clickCheck);
+      this.handleOnClickGroup();
+      this.showModal = false;
+      if (Object.values(insideClick).includes('select-row')) {
+        console.log('say hi');
+      }
+      // this.test();
+    }
     console.log('========');
   }
   test() {
@@ -119,7 +131,7 @@ export default class HandlerGroupForm extends Vue {
       this.clickCheck++;
     }
 
-    // this.isSelectOpen = !this.isSelectOpen;
+    this.isSelectOpen = !this.isSelectOpen;
   }
   handleOnClickGroupDetail(): void {
     console.log('modal open');
