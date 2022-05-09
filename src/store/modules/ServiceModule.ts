@@ -102,10 +102,10 @@ export default class ServiceModule extends GateWayModule {
   public basicAuthState = USER_STATE.IDLE;
 
   @Action
-  reset() {
+  serviceReset() {
     this.context.commit('setServiceList', []);
     this.context.commit('setService', {} as ServiceResponse);
-    this.context.commit('setServicePagination', {});
+    this.context.commit('setServicePagination', {} as Pagination);
   }
 
   //서비스 리스트 요청
