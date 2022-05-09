@@ -117,7 +117,6 @@ export default class ApiEditPage extends Vue {
 
   requestBody: ApiCreateRequestBody = {
     sysId: '',
-    sysNm: '',
     id: '',
     nm: '',
     ifNo: '',
@@ -136,7 +135,6 @@ export default class ApiEditPage extends Vue {
     if (this.apiDetail) {
       this.requestBody = {
         sysId: this.apiDetail.sysId,
-        sysNm: this.apiDetail.sysNm,
         id: this.apiDetail.id,
         nm: this.apiDetail.nm,
         ifNo: this.apiDetail.ifNo,

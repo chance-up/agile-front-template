@@ -20,7 +20,7 @@
   },
   "api": {
     "apiId": "API ID",
-    "apiNm": "API 명",
+    "sysId": "시스템ID",
     "apiRegister": "API 등록",
     "basicInformationRegister": "기본 정보 등록",
     "sysNm": "시스템명",

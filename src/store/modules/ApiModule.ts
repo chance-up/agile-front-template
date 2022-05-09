@@ -52,8 +52,6 @@ export default class ApiModule extends GateWayModule {
             return item.nm.indexOf(searchQuery.nm) > -1;
           } else if (searchQuery.id) {
             return item.id.indexOf(searchQuery.id) > -1;
-          } else if (searchQuery.sysNm) {
-            return item.sysNm.indexOf(searchQuery.sysNm) > -1;
           } else if (searchQuery.uri) {
             return item.uriIn.indexOf(searchQuery.uri) > -1;
           } else {

@@ -11,26 +11,9 @@ export const dummyPagination: Pagination = {
   sort_by: 'DESC',
   limit: 10,
 };
-export interface DummyApiResponse {
-  sysNm: string;
-  apiId: string;
-  apiNm: string;
-  itfNum: number;
-  methods: string[];
-  uriSer: string;
-  uriSys: string;
-  sysSync: string;
-  reqHdlGrp: string;
-  resHdlGrp: string;
-  timeOut: number;
-  apiCmt: string;
-  updateTime: string;
-}
-
 export interface ApiDetailResponse {
   id: string;
   sysId: string;
-  sysNm: string;
   nm: string;
   ifNo: string;
   meth: string[] | string;
@@ -64,7 +47,6 @@ export interface ApiEditRequestBody {
 // [x:string ] => confirm 출력용으로 사용
 export interface ApiCreateRequestBody {
   [x: string]: any;
-  sysNm: string;
   id: string;
   sysId: string;
   nm: string;
@@ -104,7 +86,6 @@ export interface ApiSearchLabel {
 export const apiMockData: ApiDetailResponse = {
   id: 'getCustInfo11',
   sysId: 'id1',
-  sysNm: 'name1',
   nm: '고객 정보 조회',
   ifNo: 'IF_CAPRI_000122',
   meth: ['GET', 'POST'],
@@ -124,7 +105,6 @@ export const apiMockData: ApiDetailResponse = {
 export const apiMockData2: ApiDetailResponse = {
   id: 'getCustInfo22',
   sysId: 'id2',
-  sysNm: 'name2',
   nm: '고객 정보 삭제',
   ifNo: 'IF_CAPRI_000122',
   meth: '["DELETE", "PUT"]',
@@ -161,21 +141,6 @@ export const apiMockList: GateWayResponse<ApiDetailResponse[]> = {
       apiMockData,
     ],
   },
-};
-export const dummyData: DummyApiResponse = {
-  sysNm: '플랫폼 서비스A',
-  apiId: 'API ID_NUMBER',
-  apiNm: 'API NAME_영문한글혼용가능?',
-  itfNum: 123123123,
-  methods: ['DELETE', 'GET', 'POST'],
-  uriSer: '/ccas/v1/getUserInfo',
-  uriSys: '/ccas/v1/getUserInfo',
-  sysSync: 'https://safe2gopass.com:443',
-  reqHdlGrp: 'REQ.API & Login Authentication',
-  resHdlGrp: 'RES.DEFAULT',
-  timeOut: 30,
-  apiCmt: 'API별 분/시/일/월 단위 총량, TPS API별 분/시/일/월 단위 총량, API별 분/시/일/월 단위 총량',
-  updateTime: '2020-01-01 00:00:00',
 };
 
 export interface ApiInfoEdit {

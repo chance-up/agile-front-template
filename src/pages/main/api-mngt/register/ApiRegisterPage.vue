@@ -10,9 +10,9 @@
         <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
         <ul v-if="showPage">
           <SelectForm
-            :groupNm="$t('api.sysNm')"
+            :groupNm="$t('api.sysId')"
             :optionList="sysList.map((item) => item.nm)"
-            v-model="requestBody.sysNm"
+            v-model="requestBody.sysId"
           />
           <TextDebounceForm
             inputNm="API ID"
@@ -156,7 +156,6 @@ export default class ApiRegisterPage extends Vue {
   ifGrpList: IfGrpType[] = [];
   requestBody: ApiCreateRequestBody = {
     sysId: '',
-    sysNm: '',
     id: '',
     nm: '',
     ifNo: '',
