@@ -20,6 +20,7 @@
             :placeholder="$t('api.idEx')"
             type="text"
             :required="true"
+            :isvalid.sync="idValid"
             v-model="requestBody.id"
             @input="duplicateCheckId"
           />
@@ -140,7 +141,6 @@ export default class ApiRegisterPage extends Vue {
       })
       .catch();
   }
-
   ifGrpList: IfGrpType[] = [];
   requestBody: ApiCreateRequestBody = {
     sysId: '',
@@ -193,11 +193,39 @@ export default class ApiRegisterPage extends Vue {
     }, 1000);
   }
 
-  // backend 연결 전 임시 등록
+  // 데이터 확인
+  idValid = false;
+  methodValid = false;
+  ifGrpValid = false;
+  handlerValid = false;
+  timeoutValid = false;
   handleClickSubmitButton() {
     // this.$modal.show(this.convertToString(this.requestBody) + '\n 등록하시겠습니까?');
     confirm(this.convertToString(this.requestBody) + '\n' + this.$t('api.confirm_api_register'));
   }
+
+  // 등록
+  async onSubmit() {
+    // console.log(this.systemItem);
+    // console.log('valid!!!!!');
+    // console.log(this.nmValid);
+    // console.log(this.idValid);
+    // console.log(this.tkcgrNmValid);
+    // console.log(this.tkcgrPosValid);
+    // console.log(this.tkcgrEmlValid);
+    // console.log('ifGrpValid', this.ifGrpValid);
+
+    const val = this.idValid && this.methodValid && this.ifGrpValid && this.handlerValid && this.timeoutValid;
+
+    if (!val) {
+      this.$modal.show(`${this.$t('system.empty_check_message')}`);
+      return;
+    } else {
+      // await this.systemModule.registerSystem(this.systemItem);
+      this.$router.push({ name: 'api' });
+    }
+  }
+
   convertToString(body: ApiCreateRequestBody) {
     let res = '';
     Object.keys(body).forEach((key) => {

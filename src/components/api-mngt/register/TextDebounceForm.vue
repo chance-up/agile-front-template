@@ -30,6 +30,11 @@ export default class TextDebounceForm extends Vue {
   @Prop({ default: '' }) placeholder!: string;
   @Prop({ default: '' }) value!: string;
   @Prop({ default: '' }) active!: string;
+  @Prop({ default: false }) isvalid!: boolean | null;
+  @Watch('notiMessage')
+  messageChanged(val: [boolean | null, string]) {
+    this.$emit('update:isvalid', this.notiMessage[0]);
+  }
   text = '';
   show = false;
   @Watch('text')
