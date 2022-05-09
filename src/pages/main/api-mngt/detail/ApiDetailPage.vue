@@ -1,7 +1,7 @@
 <template lang="html">
   <ContentLayout
     :title="`${$t('api.api')}` + ' ' + `${$t('api.information')}` + ' ' + `${$t('common.ok')}`"
-    :subTitle="`${$t('api.basic')}` + `${$t('api.information')}` + ' ' + `${$t('common.ok')}`"
+    :subTitle="`${$t('api.basicInformation')}` + ' ' + `${$t('common.ok')}`"
     :depth="`${$t('api.api')}` + ' ' + `${$t('api.management')}`"
     :isShowProgress="isShowProgress"
   >

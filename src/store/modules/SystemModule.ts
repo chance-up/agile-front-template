@@ -16,6 +16,8 @@ import {
   // dummyUpdateData,
   dummyDeleteData,
   SystemResponse,
+  SystemIdEdpt,
+  dummySystemIdEdptList,
 } from '@/types/SystemType';
 
 @Module({ name: 'SystemModule' })
@@ -35,6 +37,7 @@ export default class SystemModule extends GateWayModule {
     updated_at: '',
     updated_by: '',
   };
+  public systemIdEdptList: SystemIdEdpt[] = [];
 
   @Mutation
   setSystemList(list: SystemResponse[]): void {
@@ -186,5 +189,27 @@ export default class SystemModule extends GateWayModule {
     const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
     console.log('response : ', response);
     return false;
+  }
+
+  //System ID 리스트 조회
+  @Mutation
+  setSystemIdEdptList(data: SystemIdEdpt[]) {
+    this.systemIdEdptList = data;
+  }
+  @Action
+  async getSystemIdEdptList() {
+    try {
+      addMock('/mngt/v1/getSystemIdList', JSON.stringify(dummySystemIdEdptList));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<SystemIdEdpt[]>>('/mngt/v1/getSystemIdList');
+      this.context.commit('setSystemIdEdptList', response.data.value);
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        // console.log('NetWork not connection');
+        this.showError();
+      } else {
+        // console.log('서버통신에 실패하였습니다.');
+        this.showError();
+      }
+    }
   }
 }

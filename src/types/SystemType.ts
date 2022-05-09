@@ -426,3 +426,30 @@ export interface IfDomainValidMessageType {
   isValid: boolean | null;
   msg: string;
 }
+export interface SystemIdEdpt {
+  id: string;
+  edpt: string[];
+}
+
+export const dummySystemIdEdptList = {
+  common: {
+    code: '200',
+    message: 'Success',
+  },
+  data: {
+    value: [
+      {
+        id: 'sysid1',
+        edpt: ['http://127.0.0.1:8084', 'https://capri.com:8080', 'https://capri.com:8081'],
+      },
+      {
+        id: 'sysid2',
+        edpt: ['http://127.0.0.1:8084', 'https://capri.com:8080', 'https://capri.com:8081'],
+      },
+      {
+        id: 'sysid3',
+        edpt: ['http://127.0.0.1:8084', 'https://capri.com:8080', 'https://capri.com:8081'],
+      },
+    ],
+  },
+};

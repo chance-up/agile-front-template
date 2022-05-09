@@ -50,7 +50,6 @@ export interface ApiCreateRequestBody {
   id: string;
   sysId: string;
   nm: string;
-  ifNo: string;
   meth: string[] | string;
   uriIn: string;
   uriOut: string;
