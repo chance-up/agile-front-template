@@ -8,6 +8,8 @@ import {
   dummyDeleteResData,
   HandlerGroupDetail,
   dummyHandlerGroupList,
+  ApiInfoEdit2,
+  dummyApiInfoEdit,
 } from '@/types/ApiType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { Module, Mutation, Action } from 'vuex-module-decorators';
@@ -97,11 +99,21 @@ export default class ApiModule extends GateWayModule {
     try {
       this.showLoading();
       // param 체크
-      addMock('/api/detail', JSON.stringify(id == apiMockData.id ? apiMockData : apiMockData2));
+      addMock('/api/detail', JSON.stringify(id == dummyApiInfoEdit.id ? apiMockData : apiMockData2));
       const response = await AxiosClient.getInstance().get<ApiDetailResponse>('/api/detail', { id });
       if (typeof response.meth == 'string') response.meth = JSON.parse(response.meth);
       this.context.commit('setApiDetail', response);
       this.dissmissLoading();
+    } catch (error: GateWayError | any) {
+      handleCommonError(error);
+    }
+  }
+
+  // Api 수정 update
+  @Action
+  async updateApi(api: ApiInfoEdit2) {
+    try {
+      addMock(`/api/edit/${api}`, JSON.stringify(dummyApiInfoEdit));
     } catch (error: GateWayError | any) {
       handleCommonError(error);
     }

@@ -48,6 +48,16 @@
         /> -->
         <TextForm :groupNm="$t('api.timeOutMS')" type="number" :required="true" v-model="requestBody.timeOut" />
         <TextForm :groupNm="$t('api.apiDescription')" type="textarea" v-model="requestBody.desc" />
+        <ModalLayout size="m" v-if="showModal">
+          <template v-slot:modalHeader><h1 class="h1-tit">서비스 수정</h1> </template>
+          <template v-slot:modalContainer>
+            <p class="text">서비스를 수정하시겠습니까?</p>
+          </template>
+          <template v-slot:modalFooter>
+            <button class="lg-btn purple-btn" @click="editApi()">{{ $t('common.ok') }}</button>
+            <button class="lg-btn purple-btn" @click="showModal = false">{{ $t('common.cancel') }}</button>
+          </template>
+        </ModalLayout>
       </ul>
     </template>
     <!-- for progress -->
@@ -55,7 +65,8 @@
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="handleClickSubmitButton">수정테스트</button>
-        <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">{{ $t('api.edit') }}</button>
+        <!-- <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">{{ $t('api.edit') }}</button> -->
+        <button class="lg-btn purple-btn" @click="showModal = true">{{ $t('api.edit') }}</button>
         <button class="lg-btn white-btn" @click="$router.go(-1)">{{ $t('common.cancel') }}</button>
       </div>
     </template>
@@ -78,6 +89,7 @@ import { Dictionary } from 'vue-router/types/router';
 import { IfGrpType, SystemResponse } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 // for progress
 import { USER_STATE } from '@/store/UserState';
 
@@ -91,9 +103,21 @@ import { USER_STATE } from '@/store/UserState';
     MethodForm,
     UriForm,
     SelectSysForm,
+    ModalLayout,
   },
 })
 export default class ApiEditPage extends Vue {
+  async editApi(apiId: string) {
+    // await this.serviceModule.deleteServiceAction(ServiceId);
+    await this.apiModule.deleteApi(apiId);
+    this.$router.go(-1);
+    this.showModal = false;
+  }
+  showModal = false;
+  // deleteMsg = '';
+  emitDelApi() {
+    this.showModal = true;
+  }
   apiModule = getModule(ApiModule, this.$store);
   systemModule = getModule(SystemModule, this.$store);
 

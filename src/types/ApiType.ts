@@ -312,3 +312,30 @@ export const dummyDeleteResData = {
   },
   data: null,
 };
+
+export interface ApiInfoEdit2 {
+  id: string;
+  sysId: string;
+  ifNo: string;
+  meth: string[];
+  uriIn: string;
+  uriOut: string;
+  reqHndlrGrpId: string;
+  resHndlrGrpId: string;
+  timeOut: number;
+  desc: string;
+  cretId: string;
+}
+export const dummyApiInfoEdit: ApiInfoEdit2 = {
+  id: 'getApiInfo',
+  sysId: 'id2',
+  ifNo: 'CAPRI-0200',
+  meth: ['GET', 'POST', 'PUT', 'DELETE'],
+  uriIn: '/CAPRI/v1/getApiInfo',
+  uriOut: '/CAPRI/v1/getApiInfo',
+  reqHndlrGrpId: 'REQ.DEFAULT',
+  resHndlrGrpId: 'RES.DEFAULT',
+  timeOut: 3000,
+  desc: 'kt 가입자 고객 정보 제공',
+  cretId: 'ktds',
+};
