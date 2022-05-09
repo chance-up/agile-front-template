@@ -65,6 +65,7 @@
 
     "valid_check_nm": "형식에 맞게 입력 바랍니다.(최대 20자 입력 가능)",
     "valid_check_id": "형식에 맞게 입력 바랍니다.(최대 20자, 영어 대/소문자, 숫자만 입력 가능)",
+    "valid_check_thimeout": "1000ms ~ 30000ms 사이의 값을 입력해주세요.",
     "server_error": "서버 통신 에러",
     "enter_search_data": "검색 데이터를 입력해주세요.",
     "confirm_api_register": "등록하시겠습니까?"
@@ -149,6 +150,20 @@
     "modal_register_message": "시스템을 등록하시겠습니까?",
     "modal_system_edit": "시스템 수정",
     "modal_edit_message": "시스템을 수정하시겠습니까?"
+  },
+  "my": {
+    "modify_top_title": "회원정보 수정",
+    "modify_cont_title": "정보 수정",
+    "modify_depth": "회원정보 수정",
+    "name": "이름",
+    "id": "아이디",
+    "password": "비밀번호",
+    "password_confirm": "비밀번호 확인",
+    "tel": "전화번호",
+    "position": "소속",
+    "email": "이메일",
+    "modal_my_edit": "회원 정보 수정",
+    "modal_edit_message": "회원 정보를 수정하시겠습니까?"
   },
   "error": {
     "server_error": "서버 오류입니다."

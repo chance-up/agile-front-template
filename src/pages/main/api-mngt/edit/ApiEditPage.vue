@@ -36,7 +36,7 @@
           v-model="requestBody.ifGrp"
         />
 
-        <HandlerGroupForm
+        <!-- <HandlerGroupForm
           :groupNm="$t('api.reqHandlrGrp')"
           v-model="requestBody.reqHandlrGrpId"
           :handlerGroupList="handlerGroupList"
@@ -45,7 +45,7 @@
           :groupNm="$t('api.resHandlrGrp')"
           v-model="requestBody.resHandlrGrpId"
           :handlerGroupList="handlerGroupList"
-        />
+        /> -->
         <TextForm :groupNm="$t('api.timeOutMS')" type="number" :required="true" v-model="requestBody.timeOut" />
         <TextForm :groupNm="$t('api.apiDescription')" type="textarea" v-model="requestBody.desc" />
       </ul>
@@ -127,7 +127,7 @@ export default class ApiEditPage extends Vue {
     ifGrp: '',
     reqHandlrGrpId: '',
     resHandlrGrpId: '',
-    timeOut: 0,
+    timeOut: 15000,
     desc: '',
   };
 

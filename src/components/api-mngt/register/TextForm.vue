@@ -31,10 +31,10 @@
         id=""
         class="input-box lg"
         :class="{ 'check-ok': notiMessage[0], 'check-false': !notiMessage[0] && show }"
-        :value="num"
-        @input="$emit('input', $event.target.value)"
+        v-model="num"
         :placeholder="placeholder"
       />
+      <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
 
     <div v-if="type == 'textarea'" class="form-cont">
@@ -69,11 +69,11 @@ export default class TextForm extends Vue {
   }
   notiMessage: [boolean | null, string] = [null, ''];
   text = '';
-  num = 0;
+  num = 15000;
   show = false;
 
   @Watch('text')
-  onValueChange(val: string) {
+  onTextChange(val: string) {
     if (checkLength(val, 1, 20)) {
       this.notiMessage = [true, ''];
     } else if (val == '') {
@@ -82,6 +82,16 @@ export default class TextForm extends Vue {
       this.notiMessage = [false, this.$t('api.valid_check_nm') as string];
     }
     this.$emit('input', val);
+  }
+
+  @Watch('num')
+  onNumberChange(val: number) {
+    if (val >= 1000 && val <= 30000) {
+      this.notiMessage = [true, ''];
+      this.$emit('input', val);
+    } else {
+      this.notiMessage = [false, this.$t('api.valid_check_thimeout') as string];
+    }
   }
   notice() {
     this.show = true;
