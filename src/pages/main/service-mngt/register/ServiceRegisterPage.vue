@@ -286,8 +286,11 @@ export default class SystemRegisterPage extends Vue {
   created() {
     this.serviceModule.getJWTAlg();
   }
+
   destroyed() {
-    this.serviceModule.setBasicAuth({ id: '', pw: '' });
+    this.serviceModule.release();
+    this.serviceModule.reset();
+    this.serviceModule.setBasicAuth({ id: null, pw: null });
   }
 }
 </script>
