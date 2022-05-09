@@ -11,6 +11,11 @@ export const checkEmpty = (value: string) => {
   return value.length !== 0;
 };
 
+export const checkNumber = (value: string) => {
+  const r = /^[0-9]*$/;
+  return r.test(String(value));
+};
+
 export const checkEnglishNumber = (value: string) => {
   const r = /^[a-zA-Z0-9]*$/;
   return r.test(String(value));

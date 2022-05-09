@@ -19,6 +19,7 @@ import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
 import GateWayModule from '../GateWayModule';
+import { USER_STATE } from '../UserState';
 @Module({ name: 'ServiceModule' })
 export default class ServiceModule extends GateWayModule {
   public services: ServiceResponse[] = [];
@@ -97,6 +98,8 @@ export default class ServiceModule extends GateWayModule {
   public JWTAlg: JWTAlgResponse = {
     alg: [],
   };
+
+  public basicAuthState = USER_STATE.IDLE;
 
   //서비스 리스트 요청
   @Mutation
@@ -307,11 +310,11 @@ export default class ServiceModule extends GateWayModule {
   @Action
   async getBasicAuth() {
     addMock('/service/basicauth/', JSON.stringify(getBasicAuth));
-    this.showLoading();
+    this.context.commit('setBasicAuthState', USER_STATE.LOADING);
     const response = await AxiosClient.getInstance().get<GateWayResponse<BasicAuthResponse>>('/service/basicauth/');
     console.log('getBasicAuth' + response.data.value.id);
     this.context.commit('setBasicAuth', response.data.value);
-    this.dissmissLoading();
+    this.context.commit('setBasicAuthState', USER_STATE.DONE);
   }
 
   @Mutation
@@ -325,5 +328,11 @@ export default class ServiceModule extends GateWayModule {
     addMock('/service/jwt/', JSON.stringify(getJWTAlg));
     const response = await AxiosClient.getInstance().get<GateWayResponse<JWTAlgResponse>>('/service/jwt/');
     this.context.commit('setJWTAuth', response.data.value);
+  }
+
+  @Mutation
+  setBasicAuthState(state: USER_STATE) {
+    console.log('fetchCurrAsyncState', state);
+    this.basicAuthState = state;
   }
 }
