@@ -7,11 +7,11 @@
         <ul>
           <li>
             <label class="label">ID :</label>
-            <span>{{ id }}</span>
+            <span class="text">{{ id }}</span>
           </li>
           <li>
             <label class="label">PW :</label>
-            <span>{{ pw }}</span>
+            <span class="text">{{ pw }}</span>
           </li>
         </ul>
       </div>
@@ -23,19 +23,19 @@
         <ul>
           <li>
             <label class="label">알고리즘 :</label>
-            <span>{{ alg }}</span>
+            <span class="text">{{ alg }}</span>
           </li>
           <li>
             <label class="label">발급자 :</label>
-            <span>{{ issuer }}</span>
+            <span class="text">{{ issuer }}</span>
           </li>
           <li>
             <label class="label">대상자 :</label>
-            <span>{{ subject }}</span>
+            <span class="text">{{ subject }}</span>
           </li>
           <li>
             <label class="label">공개key :</label>
-            <span>{{ publickey }}</span>
+            <span class="text">{{ publickey }}</span>
           </li>
         </ul>
       </div>

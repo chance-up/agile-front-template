@@ -8,43 +8,12 @@
       <ul>
         <TextDebounceForm
           type="text"
-          :inputNm="$t('service.name')"
-          :check="isDuplicatedNm"
-          :placeholder="$t('service.nameEx')"
-          v-model="formData.nm"
-          @input="duplicateCheckNm()"
-          :isvalid.sync="nmValid"
-        />
-        <TextDebounceForm
-          type="text"
           :inputNm="$t('service.id')"
           :check="isDuplicatedId"
           :placeholder="$t('service.idEx')"
           v-model="formData.id"
           @input="duplicateCheckId()"
           :isvalid.sync="idValid"
-        />
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.tkcgrNm')"
-          :placeholder="$t('service.tkcgrNmEx')"
-          :value.sync="formData.tkcgr_nm"
-          :isvalid.sync="tkcgrNmValid"
-        />
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.tkcgrPos')"
-          :placeholder="$t('service.tkcgrPosEx')"
-          :value.sync="formData.tkcgr_pos"
-          :isvalid.sync="tkcgrPosValid"
-        />
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.tkcgrEml')"
-          :placeholder="$t('service.tkcgrEmlEx')"
-          inputClass="input-box lg check-ok"
-          :value.sync="formData.tkcgr_eml"
-          :isvalid.sync="tkcgrEmlValid"
         />
         <DateGroup
           :inputNm="$t('service.date')"
@@ -73,6 +42,28 @@
           :type.sync="formData.sla_type"
           :totalCnt.sync="formData.sla_cnt"
           :TPSCnt.sync="formData.sla_cnt"
+        />
+        <InputGroup
+          type="text"
+          :inputNm="$t('service.tkcgrNm')"
+          :placeholder="$t('service.tkcgrNmEx')"
+          :value.sync="formData.tkcgr_nm"
+          :isvalid.sync="tkcgrNmValid"
+        />
+        <InputGroup
+          type="text"
+          :inputNm="$t('service.tkcgrPos')"
+          :placeholder="$t('service.tkcgrPosEx')"
+          :value.sync="formData.tkcgr_pos"
+          :isvalid.sync="tkcgrPosValid"
+        />
+        <InputGroup
+          type="text"
+          :inputNm="$t('service.tkcgrEml')"
+          :placeholder="$t('service.tkcgrEmlEx')"
+          inputClass="input-box lg check-ok"
+          :value.sync="formData.tkcgr_eml"
+          :isvalid.sync="tkcgrEmlValid"
         />
         <SysExGroup :inputNm="$t('service.desc')" v-model="formData.desc" />
 

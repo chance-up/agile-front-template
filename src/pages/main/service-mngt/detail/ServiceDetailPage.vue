@@ -2,11 +2,7 @@
   <ContentLayout :isShowProgress="isShowProgress" title="서비스 정보 확인" subTitle="기본정보 확인" depth="서비스 관리">
     <template v-if="!isShowProgress" v-slot:contents>
       <ul>
-        <InfoGroup :inputNm="$t('service.name')" :value="serviceOption.nm" />
         <InfoGroup :inputNm="$t('service.id')" :value="serviceOption.id" />
-        <InfoGroup :inputNm="$t('service.tkcgrNm')" :value="serviceOption.tkcgr_nm" />
-        <InfoGroup :inputNm="$t('service.tkcgrPos')" :value="serviceOption.tkcgr_pos" />
-        <InfoGroup :inputNm="$t('service.tkcgrEml')" :value="serviceOption.tkcgr_eml" />
         <InfoGroup :inputNm="$t('service.date')" :value="serviceOption.svc_st_dt" />
         <AuthGroup
           :inputNm="$t('service.authentication_method')"
@@ -31,6 +27,9 @@
           :term="serviceOption.sla_type"
           :totalCount="serviceOption.sla_cnt"
         />
+        <InfoGroup :inputNm="$t('service.tkcgrNm')" :value="serviceOption.tkcgr_nm" />
+        <InfoGroup :inputNm="$t('service.tkcgrPos')" :value="serviceOption.tkcgr_pos" />
+        <InfoGroup :inputNm="$t('service.tkcgrEml')" :value="serviceOption.tkcgr_eml" />
         <InfoGroup :inputNm="$t('service.desc')" :value="serviceOption.desc" />
         <ModalLayout size="m" v-if="modal">
           <template v-slot:modalHeader
