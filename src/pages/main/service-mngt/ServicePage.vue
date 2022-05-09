@@ -222,7 +222,7 @@ export default class ServiceManagementPage extends Vue {
   }
 
   get pagination(): Pagination {
-    return this.serviceModule.pagination;
+    return this.serviceModule.servicePagination;
   }
 
   onChangedPage(page: number) {
