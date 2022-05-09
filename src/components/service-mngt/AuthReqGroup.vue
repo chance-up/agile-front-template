@@ -4,7 +4,7 @@
     <div class="form-cont">
       <div class="form-group">
         <select class="select-box" v-model="auth">
-          <option value="BASIC_AUTH" @cli="noticeInput()">Basic Auth</option>
+          <option value="BASIC_AUTH">Basic Auth</option>
           <option value="JWT">JWT</option>
         </select>
       </div>
@@ -37,7 +37,7 @@
           <li>
             <div class="auth-form">
               <label class="label">알고리즘 :</label>
-              <select class="select-box" v-model="algPick" @focus="noticeAlg()">
+              <select class="select-box" v-model="algPick" @focus="noticeInput()">
                 <option value="null">선택해주세요</option>
                 <option v-for="item in JWTalg" :key="item" :value="item">{{ item }}</option>
               </select>
@@ -66,11 +66,11 @@
       <!-- /JWT -->
       <p
         v-if="
-          (showAlg && algPick == 'null') ||
+          (showInput && algPick == 'null') ||
           (showInput && JWTissuer == '') ||
           (showInput && JWTsubject == '') ||
           (showInput && JWTpublicKey == '') ||
-          (showAlg && algPick == null) ||
+          (showInput && algPick == null) ||
           (showInput && JWTissuer == null) ||
           (showInput && JWTsubject == null) ||
           (showInput && JWTpublicKey == null) ||
@@ -124,7 +124,7 @@ export default class AuthReqGroup extends Vue {
   onAlgPickChanged() {
     if (this.auth == 'JWT') {
       if (
-        this.algPick != '' &&
+        this.algPick != 'null' &&
         this.JWTissuer != '' &&
         this.JWTsubject != '' &&
         this.JWTpublicKey != '' &&
@@ -144,7 +144,7 @@ export default class AuthReqGroup extends Vue {
   onJWTissuerChanged() {
     if (this.auth == 'JWT') {
       if (
-        this.algPick != '' &&
+        this.algPick != 'null' &&
         this.JWTissuer != '' &&
         this.JWTsubject != '' &&
         this.JWTpublicKey != '' &&
@@ -163,7 +163,7 @@ export default class AuthReqGroup extends Vue {
   onJWTsubjwctChanged() {
     if (this.auth == 'JWT') {
       if (
-        this.algPick != '' &&
+        this.algPick != 'null' &&
         this.JWTissuer != '' &&
         this.JWTsubject != '' &&
         this.JWTpublicKey != '' &&
@@ -182,7 +182,7 @@ export default class AuthReqGroup extends Vue {
   onJWTpublicKeyChanged() {
     if (this.auth == 'JWT') {
       if (
-        this.algPick != '' &&
+        this.algPick != 'null' &&
         this.JWTissuer != '' &&
         this.JWTsubject != '' &&
         this.JWTpublicKey != '' &&
@@ -208,7 +208,6 @@ export default class AuthReqGroup extends Vue {
     return this.athn;
   }
   set auth(val: string) {
-    this.showAlg = false;
     this.showInput = false;
     this.$emit('update:athn', val);
   }
@@ -238,10 +237,6 @@ export default class AuthReqGroup extends Vue {
   }
   clicked() {
     this.$emit('basicAuthClicked');
-  }
-  showAlg = false;
-  noticeAlg() {
-    this.showAlg = true;
   }
   showInput = false;
   noticeInput() {
