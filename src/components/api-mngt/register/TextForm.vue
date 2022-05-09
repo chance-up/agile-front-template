@@ -86,9 +86,9 @@ export default class TextForm extends Vue {
 
   @Watch('num')
   onNumberChange(val: number) {
-    console.log(this.num);
     if (val >= 1000 && val <= 30000) {
       this.notiMessage = [true, ''];
+      this.$emit('input', val);
     } else {
       this.notiMessage = [false, this.$t('api.valid_check_thimeout') as string];
     }
