@@ -45,13 +45,22 @@
                     @input="domainValidCheck(idx, idx2)"
                   />
                   <span>:</span>
-                  <input type="text" id="" class="input-box sm" placeholder="port" v-model="ifurl.port" />
+                  <input
+                    type="text"
+                    id=""
+                    class="input-box sm"
+                    placeholder="port"
+                    v-model="ifurl.port"
+                    @input="portValidCheck(idx, idx2)"
+                  />
                   <button class="xs-btn" @click="addUrl(idx)" v-if="idx2 === 0">
                     <i class="plus"></i>
                   </button>
                   <button class="xs-btn" @click="deleteUrl(idx, idx2)" v-else><i class="minus"></i></button>
                 </div>
-                <p v-if="notiMessage[idx].domainValid[idx2].isValid == false" class="noti">도메인을 입력해 주세요.</p>
+                <p v-if="notiMessage[idx].domainValid[idx2].isValid == false" class="noti">
+                  {{ notiMessage[idx].domainValid[idx2].msg }}
+                </p>
               </li>
             </ul>
           </div>
@@ -61,9 +70,9 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { IfGrpType, IfGrpValidMessageType } from '@/types/SystemType';
-import { checkLength, checkEnglishNumber, checkEnglishKorean, checkEmpty } from '@/utils/validation';
+import { checkLength, checkEnglishNumber, checkNumber } from '@/utils/validation';
 @Component({
   components: {},
 })
@@ -96,13 +105,6 @@ export default class InterfaceGroup extends Vue {
   }
 
   duplCheck(val: string) {
-    // const ifgrp =
-    //   this.ifgrps.filter((ifgrp) => {
-    //     return ifgrp.if_nm === val;
-    //   }).length > 0;
-    // // const ifgrp = this.ifgrps.find((ifgrp) => ifgrp.if_nm === val);
-    // return ifgrp;
-
     let duplArr: number[] = [];
     this.ifgrps.forEach((ifgrp, idx) => {
       if (ifgrp.if_nm === val) {
@@ -115,45 +117,10 @@ export default class InterfaceGroup extends Vue {
     } else {
       return false;
     }
-    // duplArr.forEach((idx) => {
-    //   console.log('!!!!!!' + idx);
-    //   this.notiMessage[idx].isValid = false;
-    //   this.notiMessage[idx].msg = '이미 존재하는 그룹명입니다.';
-    // });
-    // let duplArr: number[] = [];
-    // this.ifgrps.forEach((ifgrp, idx) => {
-    //   if (ifgrp.if_nm === val) {
-    //     duplArr.push(idx);
-    //   }
-    // });
-    // if (duplArr.length > 0) {
-    // duplArr.forEach((idx) => {
-    //   console.log('!!!!!!' + idx);
-    //   this.notiMessage[idx].isValid = false;
-    //   this.notiMessage[idx].msg = '이미 존재하는 그룹명입니다.';
-    // });
-    // } else {
-    // }
-    // console.log(this.notiMessage);
-    // duplArr.forEach((idx) => {
-    //   this.notiMessage[idx].isValid = false;
-    //   this.notiMessage[idx].msg = '이미 존재하는 그룹명입니다.';
-    // });
-    // console.log('::list :: ' + ifgrpList + '::length :: ' + ifgrpList.length);
-    // console.log(ifgrpList);
-    // if (count > 0) {
-    //   this.notiMessage[this.ifgrps.length - 1].isValid = false;
-    //   this.notiMessage[this.ifgrps.length - 1].msg = '중복된 이름이 있습니다.';
-    // } else {
-    //   this.notiMessage[this.ifgrps.length - 1].isValid = true;
-    //   this.notiMessage[this.ifgrps.length - 1].msg = '';
-    // }
   }
 
   validCheck(idx: number) {
     let val = this.ifgrps[idx].if_nm;
-    // console.log(this.duplCheck(val));
-
     if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
       this.notiMessage[idx].isValid = true;
       this.notiMessage[idx].msg = '';
@@ -172,7 +139,7 @@ export default class InterfaceGroup extends Vue {
     }
   }
 
-  //연동 방식 uri 공백 여부 체크
+  // 도메인 Input의 유효성 체크
   domainValidCheck(idx: number, idx2: number) {
     let val = this.ifgrps[idx].if_url[idx2].domain;
     if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
@@ -183,7 +150,23 @@ export default class InterfaceGroup extends Vue {
       this.notiMessage[idx].domainValid[idx2].msg = this.$t('system.empty_check') as string;
     } else {
       this.notiMessage[idx].domainValid[idx2].isValid = false;
-      this.notiMessage[idx].domainValid[idx2].msg = this.$t('system.valid_check_ifgrp_nm') as string;
+      this.notiMessage[idx].domainValid[idx2].msg = this.$t('system.valid_check_ifgrp_domain') as string;
+    }
+  }
+
+  // port Input의 유효성 체크
+  // Todo : 1~65535 사이의 숫자만 입력 가능하도록 하기
+  portValidCheck(idx: number, idx2: number) {
+    let val = this.ifgrps[idx].if_url[idx2].port;
+    if (checkLength(val, 1, 5) && checkNumber(val)) {
+      this.notiMessage[idx].domainValid[idx2].isValid = true;
+      this.notiMessage[idx].domainValid[idx2].msg = '';
+    } else if (val == '') {
+      this.notiMessage[idx].domainValid[idx2].isValid = false;
+      this.notiMessage[idx].domainValid[idx2].msg = this.$t('system.empty_check') as string;
+    } else {
+      this.notiMessage[idx].domainValid[idx2].isValid = false;
+      this.notiMessage[idx].domainValid[idx2].msg = this.$t('system.valid_check_ifgrp_port') as string;
     }
   }
 
