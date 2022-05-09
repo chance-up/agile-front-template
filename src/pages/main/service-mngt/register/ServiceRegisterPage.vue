@@ -35,6 +35,7 @@
           :subject.sync="formData.athn.JWT.subject"
           :publicKey.sync="formData.athn.JWT.publickey"
           :isvalid.sync="authValid"
+          :progress="isShowProgress"
         ></AuthReqGroup>
         <SlaReqGroup
           :inputNm="$t('service.SLA_mngt')"

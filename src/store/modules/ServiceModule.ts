@@ -307,9 +307,11 @@ export default class ServiceModule extends GateWayModule {
   @Action
   async getBasicAuth() {
     addMock('/service/basicauth/', JSON.stringify(getBasicAuth));
+    this.showLoading();
     const response = await AxiosClient.getInstance().get<GateWayResponse<BasicAuthResponse>>('/service/basicauth/');
     console.log('getBasicAuth' + response.data.value.id);
     this.context.commit('setBasicAuth', response.data.value);
+    this.dissmissLoading();
   }
 
   @Mutation
