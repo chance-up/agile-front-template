@@ -114,7 +114,7 @@ export default class ServiceDetailPage extends Vue {
 
   destroyed() {
     this.serviceModule.release();
-    this.serviceModule.reset();
+    this.serviceModule.serviceReset();
   }
 
   get userState() {

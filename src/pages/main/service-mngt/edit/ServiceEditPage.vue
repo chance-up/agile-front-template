@@ -292,7 +292,7 @@ export default class SystemRegisterPage extends Vue {
 
   destroyed() {
     this.serviceModule.release();
-    this.serviceModule.reset();
+    this.serviceModule.serviceReset();
     this.serviceModule.setBasicAuth({ id: null, pw: null });
   }
 }
