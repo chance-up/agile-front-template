@@ -82,7 +82,7 @@ export default class ServiceModule extends GateWayModule {
     desc: '',
   };
 
-  public pagination: Pagination = {} as Pagination;
+  public servicePagination: Pagination = {} as Pagination;
 
   public basicAuth: BasicAuthResponse = {
     id: '',
@@ -105,7 +105,7 @@ export default class ServiceModule extends GateWayModule {
   reset() {
     this.context.commit('setServiceList', []);
     this.context.commit('setService', {} as ServiceResponse);
-    this.context.commit('pagination', {} as Pagination);
+    this.context.commit('setServicePagination', {});
   }
 
   //서비스 리스트 요청
@@ -120,7 +120,7 @@ export default class ServiceModule extends GateWayModule {
   }
   @Mutation
   setServicePagination(pagination: Pagination) {
-    this.pagination = pagination;
+    this.servicePagination = pagination;
   }
 
   @Action
