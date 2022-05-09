@@ -83,9 +83,9 @@
             </div>
           </template>
           <template v-slot:modalFooter
-            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="submit()">
+            ><button class="lg-btn purple-btn" @click="submit()">
               {{ $t('common.ok') }}</button
-            ><button :disabled="isShowProgress" class="lg-btn purple-btn" @click="modalHide()">
+            ><button class="lg-btn purple-btn" @click="modalHide()">
               {{ $t('common.cancel') }}
             </button>
           </template>
@@ -94,8 +94,8 @@
     </template>
     <template v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isBtnDisabled || isShowProgress">
-          {{ $t('common.register') }}
+        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isShowProgress">
+          {{ $t('common.register') }}<b-spinner v-show="isShowProgress" small></b-spinner>
         </button>
         <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isShowProgress">
           {{ $t('common.cancel') }}
@@ -136,7 +136,6 @@ import { BSpinner } from 'bootstrap-vue';
 export default class SystemRegisterPage extends Vue {
   show = 'BASIC_AUTH';
   isBtnDisabled = true;
-  totalValid: boolean[] = [false, false, false, false, false, false];
   idValid = false;
   tkcgrNmValid = false;
   tkcgrPosValid = false;
@@ -144,47 +143,6 @@ export default class SystemRegisterPage extends Vue {
   dateValid = false;
   authValid = false;
   isBasicAuthProgress = false;
-
-  @Watch('idValid')
-  onIdValidChange(newVal: boolean) {
-    this.totalValid.splice(0, 1, newVal);
-  }
-
-  @Watch('tkcgrNmValid')
-  onTkcgrNmValidChange(newVal: boolean) {
-    this.totalValid.splice(1, 1, newVal);
-  }
-
-  @Watch('tkcgrPosValid')
-  onTkcgrPosValidChange(newVal: boolean) {
-    this.totalValid.splice(2, 1, newVal);
-  }
-
-  @Watch('tkcgrEmlValid')
-  onTkcgrEmlValidChange(newVal: boolean) {
-    this.totalValid.splice(3, 1, newVal);
-  }
-
-  @Watch('dateValid')
-  onDateValidChange(newVal: boolean) {
-    this.totalValid.splice(4, 1, newVal);
-  }
-
-  @Watch('authValid')
-  onAuthValidChange(newVal: boolean) {
-    this.totalValid.splice(5, 1, newVal);
-  }
-
-  // @Watch('isDuplicatedId')
-  // onIsDuplicatedIdValidChange(newVal: boolean) {
-  //   this.totalValid.splice(6, 1, newVal);
-  // }
-
-  @Watch('totalValid')
-  onTotalValidChange(newVal: boolean[]) {
-    if (newVal.every((item) => item === true)) this.isBtnDisabled = false;
-    else this.isBtnDisabled = true;
-  }
 
   @Watch('show')
   onShowChange(val: string) {
@@ -231,13 +189,6 @@ export default class SystemRegisterPage extends Vue {
 
   modal = false;
   modalShow() {
-    this.modal = true;
-  }
-  modalHide() {
-    this.modal = false;
-  }
-
-  async submit() {
     const val =
       this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.dateValid && this.authValid
         ? // &&this.isDuplicatedId
@@ -248,10 +199,18 @@ export default class SystemRegisterPage extends Vue {
       this.$modal.show('빈 항목이 있습니다.');
       return;
     } else {
-      console.log(this.formData);
-      await this.serviceModule.createserviceAction(this.formData);
-      this.$router.back();
+      this.modal = true;
     }
+  }
+  modalHide() {
+    this.modal = false;
+  }
+
+  async submit() {
+    console.log(this.formData);
+    this.modal = false;
+    await this.serviceModule.createserviceAction(this.formData);
+    this.$router.push({ path: '/service' });
   }
 
   timerId = 0;

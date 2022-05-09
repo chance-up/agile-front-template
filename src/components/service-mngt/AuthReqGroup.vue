@@ -66,11 +66,16 @@
       <!-- /JWT -->
       <p
         v-if="
-          (showAlg && algPick == 'init') ||
+          (showAlg && algPick == 'null') ||
           (showInput && JWTissuer == '') ||
           (showInput && JWTsubject == '') ||
           (showInput && JWTpublicKey == '') ||
-          (auth == 'BASIC_AUTH' && basicId == '')
+          (showAlg && algPick == null) ||
+          (showInput && JWTissuer == null) ||
+          (showInput && JWTsubject == null) ||
+          (showInput && JWTpublicKey == null) ||
+          (auth == 'BASIC_AUTH' && basicId == '') ||
+          (auth == 'BASIC_AUTH' && basicId == null)
         "
         class="red-txt noti"
       >
