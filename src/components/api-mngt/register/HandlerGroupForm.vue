@@ -4,8 +4,8 @@
       <label class="label point">{{ groupNm }}</label>
       <div class="form-cont">
         <!--  multi select -->
-        <div class="multi-wrap req-class">
-          <div ref="selectRow" class="select-row inside-click" @click="requestHandleOnClickGroup">
+        <div class="multi-wrap">
+          <div ref="selectRow" class="select-row inside-click req-class" @click="requestHandleOnClickGroup">
             {{ chooseHandlerGroup }}
           </div>
           <!--  dropdown시 active class 추가-->
@@ -45,8 +45,8 @@
       <label class="label point">{{ groupNm }}ss</label>
       <div class="form-cont">
         <!--  multi select -->
-        <div class="multi-wrap res-class">
-          <div ref="selectRow" class="select-row inside-click" @click="responseHandleOnClickGroup">
+        <div class="multi-wrap">
+          <div ref="selectRow" class="select-row inside-click res-class" @click="responseHandleOnClickGroup">
             {{ chooseHandlerGroup }}
           </div>
           <!--  dropdown시 active class 추가-->
@@ -87,12 +87,10 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { HandlerGroupDetail } from '@/types/ApiType';
-import EachHandler from '@/components/api-mngt/register/EachHandler.vue';
 import HandlerModal from '@/components/api-mngt/register/HandlerModal.vue';
 
 @Component({
   components: {
-    EachHandler,
     HandlerModal,
   },
 })
@@ -106,8 +104,11 @@ export default class HandlerGroupForm extends Vue {
     console.log('========: ' + this.groupNm);
     // this.clickCheck++;
     const insideClick = e.target.classList as object;
-    if (Object.values(insideClick).includes('select-row')) {
+    if (Object.values(insideClick).includes('req-class')) {
       console.log('@#@#@#@#');
+      if (this.isSelectOpenResponse) {
+        this.isSelectOpenResponse = false;
+      }
     }
 
     if (!Object.values(insideClick).includes('inside-click') && this.isSelectOpenRequest) {
@@ -115,12 +116,14 @@ export default class HandlerGroupForm extends Vue {
       console.log(this.isSelectOpenRequest);
       this.requestHandleOnClickGroup();
       this.isSelectOpenRequest = false;
+      this.showReqModal = false;
     }
     if (!Object.values(insideClick).includes('inside-click') && this.isSelectOpenResponse) {
       console.log('외부클릭함');
       console.log(this.isSelectOpenResponse);
       this.responseHandleOnClickGroup();
       this.isSelectOpenResponse = false;
+      this.showResModal = false;
     }
     console.log('========');
   }
