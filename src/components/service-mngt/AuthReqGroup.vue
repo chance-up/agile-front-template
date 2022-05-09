@@ -100,7 +100,7 @@ export default class AuthReqGroup extends Vue {
   @Prop({ default: false }) isvalid!: boolean | null;
 
   @Watch('auth')
-  onAuthChanged(val: string) {
+  onAuthChanged() {
     this.$emit('update:isvalid', false);
   }
 
@@ -115,7 +115,7 @@ export default class AuthReqGroup extends Vue {
     }
   }
   @Watch('algPick')
-  onAlgPickChanged(val: string) {
+  onAlgPickChanged() {
     if (this.auth == 'JWT') {
       if (
         this.algPick != '' &&
@@ -135,7 +135,7 @@ export default class AuthReqGroup extends Vue {
   }
 
   @Watch('JWTissuer')
-  onJWTissuerChanged(val: string) {
+  onJWTissuerChanged() {
     if (this.auth == 'JWT') {
       if (
         this.algPick != '' &&
@@ -154,7 +154,7 @@ export default class AuthReqGroup extends Vue {
     }
   }
   @Watch('JWTsubject')
-  onJWTsubjwctChanged(val: string) {
+  onJWTsubjwctChanged() {
     if (this.auth == 'JWT') {
       if (
         this.algPick != '' &&
@@ -173,7 +173,7 @@ export default class AuthReqGroup extends Vue {
     }
   }
   @Watch('JWTpublicKey')
-  onJWTpublicKeyChanged(val: string) {
+  onJWTpublicKeyChanged() {
     if (this.auth == 'JWT') {
       if (
         this.algPick != '' &&
