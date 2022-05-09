@@ -153,7 +153,7 @@ export default class ApiRegisterPage extends Vue {
     ifGrp: '',
     reqHandlrGrpId: '',
     resHandlrGrpId: '',
-    timeOut: 0,
+    timeOut: 15000,
     desc: '',
   };
   //시스템관리 모듈에서 시스템리스트 조회
@@ -168,7 +168,6 @@ export default class ApiRegisterPage extends Vue {
     console.log('sysId changed', val);
     const selectedSystem = this.sysList.filter((item) => item.nm === val)?.[0];
     this.ifGrpList = selectedSystem.if_grp;
-    this.requestBody.ifGrp = this.ifGrpList[0].if_nm;
     this.requestBody.ifNo = this.requestBody.sysId + '-0001';
   }
   apiIdCheck: boolean | null = null;

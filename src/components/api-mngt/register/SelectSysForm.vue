@@ -3,6 +3,7 @@
     <label for="" class="label point">{{ groupNm }}</label>
     <div class="form-cont">
       <select class="select-box" placeholder="선택해주세요" @change="handleOnChange">
+        <option value="" :disabled="clickSelectbox">선택해주세요</option>
         <option v-for="(option, index) in optionList" :key="index" :selected="value === option.if_nm">
           {{ option.if_nm }}
         </option>
@@ -24,5 +25,9 @@ export default class SelectSysForm extends Vue {
     console.log(this.groupNm + ' changed => ' + event.target.value);
     this.$emit('input', event.target.value);
   }
+  mounted() {
+    this.clickSelectbox = true;
+  }
+  clickSelectbox = false;
 }
 </script>
