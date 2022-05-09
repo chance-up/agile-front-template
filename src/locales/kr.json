@@ -150,6 +150,20 @@
     "modal_system_edit": "시스템 수정",
     "modal_edit_message": "시스템을 수정하시겠습니까?"
   },
+  "my": {
+    "modify_top_title": "회원정보 수정",
+    "modify_cont_title": "정보 수정",
+    "modify_depth": "회원정보 수정",
+    "name": "이름",
+    "id": "아이디",
+    "password": "비밀번호",
+    "password_confirm": "비밀번호 확인",
+    "tel": "전화번호",
+    "position": "소속",
+    "email": "이메일",
+    "modal_my_edit": "회원 정보 수정",
+    "modal_edit_message": "회원 정보를 수정하시겠습니까?"
+  },
   "error": {
     "server_error": "서버 오류입니다."
   }
