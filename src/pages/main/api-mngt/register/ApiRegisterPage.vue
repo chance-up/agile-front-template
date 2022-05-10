@@ -32,7 +32,7 @@
             :groupNm="$t('api.systemInterlockInformation')"
             :optionList="edptList"
           /> -->
-
+          <EndPointGroup groupNm="End-point" :edptList="edptList" />
           <HandlerGroupForm
             :groupNm="$t('api.resHandlrGrp')"
             :reqHandlerGroupList="reqHandlerGroupList"
@@ -81,6 +81,7 @@ import TextForm from '@/components/api-mngt/register/TextForm.vue';
 import MethodForm from '@/components/api-mngt/register/MethodForm.vue';
 import UriForm from '@/components/api-mngt/register/UriForm.vue';
 import TextDebounceForm from '@/components/api-mngt/register/TextDebounceForm.vue';
+import EndPointGroup from '@/components/api-mngt/register/EndPointGroup.vue';
 import { apiValidationCheck } from '@/store/modules/ApiModule';
 import { Dictionary } from 'vue-router/types/router';
 import { SystemIdEdpt, SystemResponse } from '@/types/SystemType';
@@ -98,6 +99,7 @@ import axios from 'axios';
     TextDebounceForm,
     MethodForm,
     UriForm,
+    EndPointGroup,
   },
 })
 export default class ApiRegisterPage extends Vue {
@@ -130,14 +132,13 @@ export default class ApiRegisterPage extends Vue {
       })
       .catch();
   }
-  edptList: string[] = [];
+  edptList: string[] | null = null;
   requestBody: ApiCreateRequestBody = {
     sysId: '',
     id: '',
     meth: [],
     uriIn: '',
     uriOut: '',
-    ifGrp: '',
     reqHandlrGrpId: '',
     resHandlrGrpId: '',
     timeOut: 15000,
@@ -187,7 +188,6 @@ export default class ApiRegisterPage extends Vue {
   // 데이터 확인
   idValid = false;
   methodValid = false;
-  ifGrpValid = false;
   handlerValid = false;
   timeoutValid = false;
   handleClickSubmitButton() {
@@ -197,7 +197,7 @@ export default class ApiRegisterPage extends Vue {
 
   // 등록
   async onSubmit() {
-    const val = this.idValid && this.methodValid && this.ifGrpValid && this.handlerValid && this.timeoutValid;
+    const val = this.idValid && this.methodValid && this.handlerValid && this.timeoutValid;
 
     if (!val) {
       this.$modal.show(`${this.$t('system.empty_check_message')}`);

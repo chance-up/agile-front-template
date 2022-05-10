@@ -413,11 +413,11 @@ export const dummySystemIdEdptList = {
       },
       {
         id: 'sysid2',
-        edpt: ['http://127.0.0.1:8084', 'https://capri.com:8080', 'https://capri.com:8081'],
+        edpt: ['http://127.0.0.1:7733', 'https://capri.com:7001', 'https://capri.com:8080'],
       },
       {
         id: 'sysid3',
-        edpt: ['http://127.0.0.1:8084', 'https://capri.com:8080', 'https://capri.com:8081'],
+        edpt: ['http://127.0.0.1:8084', 'https://capri.com:8081'],
       },
     ],
   },

@@ -51,7 +51,6 @@ export interface ApiCreateRequestBody {
   meth: string[] | string;
   uriIn: string;
   uriOut: string;
-  ifGrp: string;
   reqHandlrGrpId: string;
   resHandlrGrpId: string;
   timeOut: number;
