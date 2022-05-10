@@ -14,7 +14,7 @@
         class="input-box lg"
         @focus="notice()"
       />
-      <p v-if="emptyChk && text == ''" class="red-txt noti">해당 항목은 필수 입력값입니다.</p>
+      <p v-if="emptyChk && text == ''" class="red-txt noti">{{ $t('service.empty_check') }}</p>
       <p v-if="notiMessage[0] == false && notiMessage[1] != ''" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
   </li>

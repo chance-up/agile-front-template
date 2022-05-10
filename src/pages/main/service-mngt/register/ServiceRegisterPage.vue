@@ -207,7 +207,7 @@ export default class SystemRegisterPage extends Vue {
         : false;
 
     if (!val) {
-      this.$modal.show('빈 항목이 있습니다.');
+      this.$modal.show(`${this.$t('service.empty_check_message')}`);
       return;
     } else {
       if (
@@ -222,7 +222,7 @@ export default class SystemRegisterPage extends Vue {
         (this.slaDay == true && this.formData.sla.day == 0) ||
         (this.slaMon == true && this.formData.sla.mon == 0)
       ) {
-        this.$modal.show('빈 항목이 있습니다.');
+        this.$modal.show(`${this.$t('service.empty_check_message')}`);
       } else {
         this.modal = true;
       }

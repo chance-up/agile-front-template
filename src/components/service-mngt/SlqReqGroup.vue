@@ -102,7 +102,7 @@
         "
         class="red-txt noti"
       >
-        해당 항목은 필수 입력값입니다.
+        {{ $t('service.empty_check') }}
       </p>
       <p
         v-if="
@@ -114,7 +114,7 @@
         "
         class="red-txt noti"
       >
-        해당 항목은 필수 입력값입니다.
+        {{ $t('service.empty_check') }}
       </p>
     </div>
   </li>
