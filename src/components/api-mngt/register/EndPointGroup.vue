@@ -4,7 +4,7 @@
     <div class="form-cont">
       <!--  end-point list -->
       <div class="tb-wrap">
-        <table class="sm-tb">
+        <table class="sm-tb" v-if="edptList">
           <caption>
             URL 항목 테이블
           </caption>

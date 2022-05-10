@@ -36,13 +36,13 @@ export default class InputGroup extends Vue {
   @Prop({ default: '' }) place!: string;
   @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) value!: string;
-  @Prop({ default: false }) isvalid!: boolean | null;
+  @Prop({ default: false }) isValid!: boolean | null;
 
   notiMessage: [boolean | null, string] = [null, ''];
 
-  @Watch('notiMessage')
+  @Watch('notiMessage', { deep: true })
   messageChanged(val: [boolean | null, string]) {
-    this.$emit('update:isvalid', this.notiMessage[0]);
+    this.$emit('update:isValid', this.notiMessage[0]);
   }
 
   get v() {

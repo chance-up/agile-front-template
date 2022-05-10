@@ -28,3 +28,10 @@ export const checkEnglishNumberKorean = (value: string) => {
   const r = /^[a-zA-Z0-9가-힣]*$/;
   return r.test(String(value));
 };
+
+// 어떻게 만들어야하지?
+// export const checkDomain = (value: string) => {
+//   console.log(value);
+//   const r = /^([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/gi;
+//   return r.test(String(value));
+// };

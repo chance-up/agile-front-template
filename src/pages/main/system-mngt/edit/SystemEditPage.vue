@@ -9,35 +9,37 @@
       <ul>
         <InputGroup
           type="text"
-          :inputNm="$t('system.id')"
           :value.sync="systemItem.id"
-          :place="$t('system.id')"
-          inputClass="input-box lg"
+          :isValid.sync="idValid"
+          :inputNm="$t('system.id')"
+          :place="$t('system.autoCreate')"
           :disabled="true"
         />
+
         <InputGroup
           type="text"
           :value.sync="systemItem.tkcgr_nm"
+          :isValid.sync="tkcgrNmValid"
           :inputNm="$t('system.tkcgrNm')"
           :place="$t('system.tkcgrNm')"
-          inputClass="input-box lg check-false"
         />
-        <!-- validCheck="중복된 API ID 입니다." -->
+
         <InputGroup
           type="text"
-          :inputNm="$t('system.tkcgrPos')"
           :value.sync="systemItem.tkcgr_pos"
+          :inputNm="$t('system.tkcgrPos')"
           :place="$t('system.tkcgrPos')"
-          inputClass="input-box lg check-ok"
+          :isValid.sync="tkcgrPosValid"
         />
         <InputGroup
-          :inputNm="$t('system.tkcgrEml')"
+          type="email"
           :value.sync="systemItem.tkcgr_eml"
+          :inputNm="$t('system.tkcgrEml')"
           :place="$t('system.tkcgrEml')"
-          inputClass="input-box lg check-ok"
-          type="text"
+          :isValid.sync="tkcgrEmlValid"
         />
         <!-- <InterfaceGroup :inputNm="$t('system.ifGrp')" :ifgrps.sync="systemItem.if_grp" /> -->
+        <EdptForm :inputNm="$t('system.edpt')" :strArr.sync="systemItem.edpt" :isValid.sync="edptValid" />
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
     </template>
@@ -59,6 +61,7 @@ import { SystemResponse } from '@/types/SystemType';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/system-mngt/InputGroup.vue';
 import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
+import EdptForm from '@/components/system-mngt/EdptForm.vue';
 import { USER_STATE } from '@/store/UserState';
 
 @Component({
@@ -66,11 +69,18 @@ import { USER_STATE } from '@/store/UserState';
     ContentLayout,
     InputGroup,
     TextAreaGroup,
+    EdptForm,
   },
 })
 export default class SystemEditPage extends Vue {
   systemModule = getModule(SystemModule, this.$store);
   systemItem: SystemResponse = {} as SystemResponse;
+  idValid = false;
+  tkcgrNmValid = false;
+  tkcgrPosValid = false;
+  tkcgrEmlValid = false;
+  edptValid = false;
+
   isShowProgress = false;
 
   get system() {
