@@ -141,6 +141,7 @@ export default class ServiceModule extends GateWayModule {
       this.context.commit('setServiceList', response.data.value);
       this.context.commit('setServicePagination', response.data.pagination);
       this.dissmissLoading();
+      return;
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
         console.log('Cancel');

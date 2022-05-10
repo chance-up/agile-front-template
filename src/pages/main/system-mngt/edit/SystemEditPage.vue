@@ -94,7 +94,17 @@ export default class SystemEditPage extends Vue {
   }
 
   created() {
-    this.systemModule.getSystemDetail(this.$route.params.id as string);
+    this.isShowProgress = true;
+
+    this.systemModule
+      .getSystemDetail(this.$route.params.id as string)
+      .then(() => {
+        this.isShowProgress = false;
+      })
+      .catch((error) => {
+        this.isShowProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
 
   @Watch('system')
@@ -108,7 +118,16 @@ export default class SystemEditPage extends Vue {
   onSubmit(): void {
     if (confirm('서비스를 수정하시겠습니까?') == true) {
       console.log(this.systemItem);
-      this.systemModule.updateSystemDetail(this.systemItem);
+      this.isShowProgress = true;
+      this.systemModule
+        .updateSystemDetail(this.systemItem)
+        .then(() => {
+          this.isShowProgress = false;
+        })
+        .catch((error) => {
+          this.isShowProgress = false;
+          this.$modal.show(`${this.$t('error.server_error')}`);
+        });
     } else {
       return;
     }
