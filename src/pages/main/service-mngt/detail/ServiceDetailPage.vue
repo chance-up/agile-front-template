@@ -21,8 +21,12 @@
         <li>
           <label class="label">{{ $t('service.api_mngt') }}</label>
           <div class="form-cont">
-            <div class="form-group"></div>
-            <div class="form-group"></div>
+            <div class="form-group">
+              <p class="api-more"><span class="bold">6</span>건</p>
+              <button class="more-btn">
+                <i><img src="@/assets/more_ico.svg" alt="더보기" /></i>
+              </button>
+            </div>
           </div>
         </li>
         <SlaGroup
