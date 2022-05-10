@@ -17,11 +17,11 @@
 
         <InfoGroup
           :inputNm="`${$t('api.request')}` + ' ' + `${$t('api.handler')}` + ' ' + `${$t('api.group')}`"
-          :value="apiDetail.reqHandlrGrpId"
+          :value="apiDetail.reqHndlrGrpId"
         />
         <InfoGroup
           :inputNm="`${$t('api.response')}` + ' ' + `${$t('api.handler')}` + ' ' + `${$t('api.group')}`"
-          :value="apiDetail.resHandlrGrpId"
+          :value="apiDetail.resHndlrGrpId"
         />
         <InfoGroup :inputNm="`${$t('api.timeOutMS')}`" :value="apiDetail.timeOut" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.description')}`" :value="apiDetail.desc" />

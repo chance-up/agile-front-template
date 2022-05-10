@@ -34,17 +34,17 @@
           /> -->
           <EndPointGroup groupNm="End-point" :edptList="edptList" />
           <HandlerGroupForm
-            :groupNm="$t('api.resHandlrGrp')"
+            :groupNm="$t('api.resHndlrGrp')"
             :reqHandlerGroupList="reqHandlerGroupList"
             :resHandlerGroupList="resHandlerGroupList"
             @reqInput="
               (msg) => {
-                requestBody.reqHandlrGrpId = msg;
+                requestBody.reqHndlrGrpId = msg;
               }
             "
             @resInput="
               (msg) => {
-                requestBody.resHandlrGrpId = msg;
+                requestBody.resHndlrGrpId = msg;
               }
             "
           />
@@ -74,7 +74,8 @@
 <script lang="ts">
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { ApiCreateRequestBody, HandlerGroupDetail } from '@/types/ApiType';
+import { ApiCreateRequestBody } from '@/types/ApiType';
+import { HandlerGroupDetail } from '@/types/HandlerType';
 import HandlerGroupForm from '@/components/api-mngt/register/HandlerGroupForm.vue';
 import SelectForm from '@/components/api-mngt/register/SelectForm.vue';
 import TextForm from '@/components/api-mngt/register/TextForm.vue';
@@ -145,8 +146,8 @@ export default class ApiRegisterPage extends Vue {
     meth: [],
     uriIn: '',
     uriOut: '',
-    reqHandlrGrpId: '',
-    resHandlrGrpId: '',
+    reqHndlrGrpId: '',
+    resHndlrGrpId: '',
     timeOut: 15000,
     desc: '',
   };
