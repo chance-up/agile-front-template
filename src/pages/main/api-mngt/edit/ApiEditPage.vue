@@ -128,7 +128,6 @@ export default class ApiEditPage extends Vue {
   }
   created() {
     this.apiModule.getApiDetail(this.$route.params.id);
-    this.apiModule.getHandlerGroupList();
     console.log('APiRegisterPage created');
     axios
       .all([
