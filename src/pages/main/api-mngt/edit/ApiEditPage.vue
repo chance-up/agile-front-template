@@ -5,6 +5,7 @@
     :subTitle="$t('api.basicInformation') + $t('api.edit')"
     :depth="$t('api.apiManagement')"
     :isShowProgress="isShowProgress"
+    id="api-register"
   >
     <!-- for progress -->
     <template v-slot:contents v-if="!isShowProgress">
@@ -30,22 +31,21 @@
         <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" />
         <EndPointGroup groupNm="End-point" :edptList="edptList" />
 
-        <!-- <SelectSysForm
-          :groupNm="$t('api.systemInterlockInformation')"
-          :optionList="system.if_grp"
-          v-model="requestBody.ifGrp"
-        /> -->
-
-        <!-- <HandlerGroupForm
-          :groupNm="$t('api.reqHandlrGrp')"
-          v-model="requestBody.reqHandlrGrpId"
-          :handlerGroupList="handlerGroupList"
-        />
         <HandlerGroupForm
           :groupNm="$t('api.resHandlrGrp')"
-          v-model="requestBody.resHandlrGrpId"
-          :handlerGroupList="handlerGroupList"
-        /> -->
+          :reqHandlerGroupList="reqHandlerGroupList"
+          :resHandlerGroupList="resHandlerGroupList"
+          @reqInput="
+            (msg) => {
+              requestBody.reqHandlrGrpId = msg;
+            }
+          "
+          @resInput="
+            (msg) => {
+              requestBody.resHandlrGrpId = msg;
+            }
+          "
+        />
         <TextForm :groupNm="$t('api.timeOutMS')" type="number" :required="true" v-model="requestBody.timeOut" />
         <TextForm :groupNm="$t('api.apiDescription')" type="textarea" v-model="requestBody.desc" />
         <ModalLayout size="m" v-if="showModal">
@@ -185,6 +185,12 @@ export default class ApiEditPage extends Vue {
   };
 
   // handler 로직 관련
+  get reqHandlerGroupList(): HandlerGroupDetail[] {
+    return this.handlerModule.reqHandlerGroupList;
+  }
+  get resHandlerGroupList(): HandlerGroupDetail[] {
+    return this.handlerModule.resHandlerGroupList;
+  }
   // 구현 필요
 
   // =============== 수정이 필요한 로직 ===============
