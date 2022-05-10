@@ -12,7 +12,8 @@
     "list": "목록",
     "register": "등록",
     "search": "검색",
-    "add": "추가"
+    "add": "추가",
+    "placeholder": "입력해주세요."
   },
   "message": {
     "example": "예",

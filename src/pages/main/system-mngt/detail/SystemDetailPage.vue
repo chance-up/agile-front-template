@@ -20,9 +20,19 @@
           <template v-slot:modalContainer>
             <p class="text">{{ $t('system.modal_delete_message') }}</p>
           </template>
-          <template v-slot:modalFooter
-            ><button class="lg-btn purple-btn" @click="onClickDelete">{{ $t('common.ok') }}</button
-            ><button class="lg-btn purple-btn" @click="closeModal">{{ $t('common.cancel') }}</button>
+          <template v-slot:modalFooter>
+            <button
+              class="lg-btn"
+              :class="{ 'purple-btn': !isDisabled, 'white-btn': isDisabled }"
+              @click="onClickDelete"
+              :disabled="isDisabled"
+            >
+              {{ isDisabled ? '' : $t('common.ok') }}
+              <b-spinner v-if="isDisabled" small></b-spinner>
+            </button>
+            <button class="lg-btn white-btn" @click="closeModal" :disabled="isDisabled">
+              {{ $t('common.cancel') }}
+            </button>
           </template>
         </ModalLayout>
       </ul>
@@ -37,7 +47,7 @@
   </ContentLayout>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 
 import { SystemResponse } from '@/types/SystemType';
@@ -47,8 +57,7 @@ import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InfoGroup from '@/components/system-mngt/detail/InfoGroup.vue';
 import IfFormlGroup from '@/components/system-mngt/detail/IfFormlGroup.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
-import { USER_STATE } from '@/store/UserState';
-import { GateWayError } from '@/error/GateWayError';
+// import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
 
 @Component({
@@ -60,29 +69,28 @@ import ErrorCode from '@/error/ErrorCodes';
   },
 })
 export default class SystemDetailPage extends Vue {
-  // router push 로 전달받은 id 는 this.$route.params.id 로 사용하시면 됩니다.
   @Prop({ default: '' }) id!: string;
 
   systemModule = getModule(SystemModule, this.$store);
   systemItem: SystemResponse = {} as SystemResponse;
+
   isShowProgress = false;
   isShowModal = false;
+  isDisabled = false;
 
   get system() {
     return this.systemModule.system;
   }
 
-  get userState() {
-    return this.systemModule.currAsyncState;
-  }
-
   created() {
     this.isShowProgress = true;
+    this.systemModule.systemReset();
 
     this.systemModule
       .getSystemDetail(this.$route.params.id as string)
       .then(() => {
         this.isShowProgress = false;
+        this.systemItem = this.system;
       })
       .catch((error) => {
         if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
@@ -93,21 +101,10 @@ export default class SystemDetailPage extends Vue {
       });
   }
 
-  @Watch('system')
-  onSystemChange() {
-    this.systemItem = this.system;
-  }
-
-  @Watch('userState')
-  onCurrAsyncStateChange(userState: USER_STATE) {
-    if (userState === USER_STATE.LOADING) {
-      this.isShowProgress = true;
-    } else if (userState === USER_STATE.ERROR) {
-      this.$modal.show(`${this.$t('error.server_error')}`);
-    } else if (userState === USER_STATE.DONE) {
-      this.isShowProgress = false;
-    }
-  }
+  // @Watch('system')
+  // onSystemChange() {
+  //   this.systemItem = this.system;
+  // }
 
   onClickPrevious() {
     this.$router.go(-1);
@@ -118,14 +115,17 @@ export default class SystemDetailPage extends Vue {
   }
 
   async onClickDelete() {
+    this.isDisabled = true;
+
     await this.systemModule
       .deleteSystem(this.$route.params.id as string)
       .then(() => {
+        this.isDisabled = false;
         this.$router.push({ name: 'system' });
       })
-      .catch((error) => {
-        // this.isShowProgress = false;
-        // this.$modal.show(`${this.$t('error.server_error')}`);
+      .catch(() => {
+        this.isDisabled = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
       });
   }
 
@@ -134,6 +134,7 @@ export default class SystemDetailPage extends Vue {
   }
 
   closeModal() {
+    console.log('closeModal');
     this.isShowModal = false;
   }
 }
