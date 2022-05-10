@@ -56,8 +56,8 @@
             <p class="text">서비스를 수정하시겠습니까?</p>
           </template>
           <template v-slot:modalFooter>
-            <button class="lg-btn purple-btn" @click="editApi()">{{ $t('common.ok') }}</button>
-            <button class="lg-btn purple-btn" @click="showModal = false">{{ $t('common.cancel') }}</button>
+            <button class="lg-btn purple-btn" @click="onSubmit">{{ $t('common.ok') }}</button>
+            <button class="lg-btn purple-btn" @click="closeModal">{{ $t('common.cancel') }}</button>
           </template>
         </ModalLayout>
       </ul>
@@ -66,7 +66,7 @@
     <template v-slot:buttons v-if="!isShowProgress">
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="handleClickSubmitButton">수정테스트</button>
+        <button class="lg-btn purple-btn" @click="handleClickTestSubmitButton">수정테스트</button>
         <!-- <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">{{ $t('api.edit') }}</button> -->
         <button :disabled="isButtonDisabled" class="lg-btn purple-btn" @click="showModal = true">
           {{ $t('api.edit') }}
@@ -80,7 +80,7 @@
 <script lang="ts">
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { ApiCreateRequestBody } from '@/types/ApiType';
+import { ApiCreateRequestBody, ApiUpdateRequestBody } from '@/types/ApiType';
 import { HandlerGroupDetail } from '@/types/HandlerType';
 import HandlerGroupForm from '@/components/api-mngt/register/HandlerGroupForm.vue';
 import SelectForm from '@/components/api-mngt/register/SelectForm.vue';
@@ -143,8 +143,7 @@ export default class ApiEditPage extends Vue {
         this.handlerModule.getResHandlerGroupList(),
       ])
       .then(() => {
-        this.showPage = true;
-        this.isShowProgress = false;
+        console.log();
       })
       .catch((error) => {
         this.isShowProgress = false;
@@ -167,7 +166,16 @@ export default class ApiEditPage extends Vue {
         timeOut: this.apiDetail.timeOut,
         desc: this.apiDetail.desc,
       };
-      this.systemModule.getSystemDetail(this.apiDetail.sysId);
+      this.systemModule
+        .getSystemDetail(this.apiDetail.sysId)
+        .then(() => {
+          this.isShowProgress = false;
+          this.showPage = true;
+        })
+        .catch((error) => {
+          this.isShowProgress = false;
+          this.$modal.show(`${this.$t('error.server_error')}`);
+        });
     }
   }
 
@@ -180,7 +188,7 @@ export default class ApiEditPage extends Vue {
     }
   }
 
-  requestBody: ApiCreateRequestBody = {
+  requestBody: ApiUpdateRequestBody = {
     sysId: '',
     id: '',
     ifNo: '',
@@ -200,33 +208,55 @@ export default class ApiEditPage extends Vue {
   get resHandlerGroupList(): HandlerGroupDetail[] {
     return this.handlerModule.resHandlerGroupList;
   }
-  // 구현 필요
-
-  // =============== 수정이 필요한 로직 ===============
-  // ==============================
 
   isButtonDisabled = false;
-  async editApi(apiId: string) {
-    // await this.serviceModule.deleteServiceAction(ServiceId);
-    this.isButtonDisabled = true;
-    await this.apiModule.deleteApi(apiId);
-    this.$router.go(-1);
-    this.showModal = false;
-  }
+  methodValid = true;
+  uriValid = true;
+  timeoutValid = true;
   // submit api
-  handleClickSubmitButton() {
-    // this.$modal.show(this.convertToString(this.requestBody) + '\n 등록하시겠습니까?');
-    confirm(this.convertToString(this.requestBody) + '\n 수정하시겠습니까?');
+  handleClickTestSubmitButton() {
+    function convertToString(body: ApiCreateRequestBody) {
+      let res = '';
+      Object.keys(body).forEach((key) => {
+        res += `${key} : ${body[key]}\n`;
+      });
+      return res;
+    }
+    console.log(this.methodValid, this.uriValid, this.timeoutValid);
+    confirm(convertToString({ ...this.requestBody }));
   }
-  convertToString(body: ApiCreateRequestBody) {
-    let res = '';
-    Object.keys(body).forEach((key) => {
-      res += `${key} : ${body[key]}\n`;
-    });
-    return res;
+  onClickSubmitButton() {
+    const val =
+      this.methodValid &&
+      this.uriValid &&
+      this.timeoutValid &&
+      this.requestBody.reqHndlrGrpId &&
+      this.requestBody.resHndlrGrpId;
+    // const val = true;
+    if (!val) {
+      this.$modal.show(`${this.$t('api.empty_check_message')}`);
+      return;
+    } else {
+      this.showModal = true;
+    }
   }
-  // ==============================
-  // ==============================
+  async onSubmit() {
+    this.isButtonDisabled = true;
+    this.showModal = false;
+    const apiUpdateRequestBody = { ...this.requestBody };
+    await this.apiModule
+      .putApi(apiUpdateRequestBody)
+      .then(() => {
+        this.$router.back();
+      })
+      .catch(() => {
+        this.isButtonDisabled = false;
+        this.$modal.show(`${this.$t('api.api_register_fail')}`);
+      });
+  }
+  closeModal() {
+    this.$modal.hide();
+  }
 
   // for progress
   isShowProgress = false;

@@ -70,7 +70,10 @@
     "valid_check_thimeout": "1000ms ~ 30000ms 사이의 값을 입력해주세요.",
     "server_error": "서버 통신 에러",
     "enter_search_data": "검색 데이터를 입력해주세요.",
-    "confirm_api_register": "API를 등록하시겠습니까?"
+    "confirm_api_register": "API를 등록하시겠습니까?",
+    "empty_check_message": "입력 데이터를 모두 입력해주세요.",
+    "api_register_fail": "API 등록 실패",
+    "api_edit_fail": "API 수정 실패"
   },
   "service": {
     "title": "서비스 관리",

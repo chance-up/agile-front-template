@@ -220,14 +220,21 @@ export default class ApiRegisterPage extends Vue {
     }, 1000);
   }
 
-  // 데이터 확인
   idValid = false;
   methodValid = false;
   uriValid = false;
   timeoutValid = true;
+  // 데이터 임시 확인용
   handleClickTestSubmitButton() {
+    function convertToString(body: ApiCreateRequestBody) {
+      let res = '';
+      Object.keys(body).forEach((key) => {
+        res += `${key} : ${body[key]}\n`;
+      });
+      return res;
+    }
     console.log(this.isDuplicatedId, this.idValid, this.methodValid, this.uriValid, this.timeoutValid);
-    confirm(this.convertToString({ ...this.requestBody }));
+    confirm(convertToString({ ...this.requestBody }));
   }
 
   // API등록 로직
@@ -244,7 +251,7 @@ export default class ApiRegisterPage extends Vue {
       this.requestBody.resHndlrGrpId;
     // const val = true;
     if (!val) {
-      this.$modal.show(`${this.$t('system.empty_check_message')}`);
+      this.$modal.show(`${this.$t('api.empty_check_message')}`);
       return;
     } else {
       this.isShowModal = true;
@@ -261,19 +268,12 @@ export default class ApiRegisterPage extends Vue {
       })
       .catch(() => {
         this.isButtonDisabled = false;
-        this.$modal.show(`${this.$t('system.api_register_fail')}`);
+        this.$modal.show(`${this.$t('api.api_edit_fail')}`);
       });
   }
 
   closeModal() {
     this.$modal.hide();
-  }
-  convertToString(body: ApiCreateRequestBody) {
-    let res = '';
-    Object.keys(body).forEach((key) => {
-      res += `${key} : ${body[key]}\n`;
-    });
-    return res;
   }
 
   get reqHandlerGroupList(): HandlerGroupDetail[] {
