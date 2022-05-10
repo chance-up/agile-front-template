@@ -6,13 +6,6 @@
   >
     <template v-slot:contents>
       <ul>
-        <!-- <InputGroup
-          type="text"
-          :value.sync="systemItem.nm"
-          :inputNm="$t('system.name')"
-          :place="$t('system.name')"
-          :isvalid.sync="nmValid"
-        /> -->
         <!-- 시스템 ID 자동생성/수정불가라서 disable 처리해야할 수도 있음 -->
         <InputGroup
           type="text"
@@ -21,15 +14,6 @@
           :inputNm="$t('system.id')"
           :place="$t('system.autoCreate')"
         />
-        <!-- :disabled="true" -->
-        <!-- <TextDebounceForm
-          type="text"
-          :check="isDuplicated"
-          :v-model="systemItem.id"
-          :inputNm="$t('system.id')"
-          :place="$t('system.autoCreate')"
-          @input="duplicateCheck"
-        /> -->
         <InputGroup
           type="text"
           :value.sync="systemItem.tkcgr_nm"
@@ -51,6 +35,7 @@
           :place="$t('system.tkcgrEml')"
           :isvalid.sync="tkcgrEmlValid"
         />
+        <EdptForm :inputNm="$t('system.ifGrp')" :value.sync="systemItem.edpt" />
         <!-- <InterfaceGroup :inputNm="$t('system.ifGrp')" :isvalid.sync="ifGrpValid" :ifgrps.sync="systemItem.if_grp" /> -->
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
@@ -81,15 +66,14 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-
 import SystemModule from '@/store/modules/SystemModule';
-
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/system-mngt/InputGroup.vue';
-import Interface from '@/components/system-mngt/Interface.vue';
 import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import TextDebounceForm from '@/components/system-mngt/TextDebounceForm.vue';
+import EdptForm from '@/components/system-mngt/EdptForm.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
+
 import { SystemResponse } from '@/types/SystemType';
 import { USER_STATE } from '@/store/UserState';
 
@@ -97,14 +81,13 @@ import { USER_STATE } from '@/store/UserState';
   components: {
     ContentLayout,
     InputGroup,
-    Interface,
     TextAreaGroup,
     TextDebounceForm,
     ModalLayout,
+    EdptForm,
   },
 })
 export default class SystemRegisterPage extends Vue {
-  // totalValid: boolean[] = [];
   idValid = false;
   tkcgrNmValid = false;
   tkcgrPosValid = false;
