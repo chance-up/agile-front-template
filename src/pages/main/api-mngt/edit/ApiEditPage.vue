@@ -18,7 +18,6 @@
           :disabled="true"
         />
         <TextForm :groupNm="$t('api.apiId')" type="text" :required="true" v-model="requestBody.id" :disabled="true" />
-        <TextForm :groupNm="$t('api.apiNm')" type="text" :required="true" v-model="requestBody.nm" :disabled="true" />
         <TextForm
           :groupNm="$t('api.interfaceNumber')"
           type="text"
@@ -29,6 +28,7 @@
 
         <MethodForm groupNm="Method" v-model="requestBody.meth" />
         <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" />
+        <EndPointGroup groupNm="End-point" :edptList="edptList" />
 
         <!-- <SelectSysForm
           :groupNm="$t('api.systemInterlockInformation')"
@@ -83,14 +83,17 @@ import TextForm from '@/components/api-mngt/register/TextForm.vue';
 import MethodForm from '@/components/api-mngt/register/MethodForm.vue';
 import UriForm from '@/components/api-mngt/register/UriForm.vue';
 import TextDebounceForm from '@/components/api-mngt/register/TextDebounceForm.vue';
+import EndPointGroup from '@/components/api-mngt/register/EndPointGroup.vue';
 import ApiModule, { apiValidationCheck } from '@/store/modules/ApiModule';
 import { Dictionary } from 'vue-router/types/router';
-import { SystemResponse } from '@/types/SystemType';
+import { SystemIdEdpt, SystemResponse } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 // for progress
 import { USER_STATE } from '@/store/UserState';
+import axios from 'axios';
+import HandlerModule from '@/store/modules/HandlerModule';
 
 @Component({
   components: {
@@ -102,22 +105,16 @@ import { USER_STATE } from '@/store/UserState';
     MethodForm,
     UriForm,
     ModalLayout,
+    EndPointGroup,
   },
 })
 export default class ApiEditPage extends Vue {
-  async editApi(apiId: string) {
-    // await this.serviceModule.deleteServiceAction(ServiceId);
-    await this.apiModule.deleteApi(apiId);
-    this.$router.go(-1);
-    this.showModal = false;
-  }
   showModal = false;
-  // deleteMsg = '';
-  emitDelApi() {
-    this.showModal = true;
-  }
+  showPage = false;
+
   apiModule = getModule(ApiModule, this.$store);
   systemModule = getModule(SystemModule, this.$store);
+  handlerModule = getModule(HandlerModule, this.$store);
 
   get params(): Dictionary<string> | null {
     console.log(this.$route.params);
@@ -132,38 +129,30 @@ export default class ApiEditPage extends Vue {
   created() {
     this.apiModule.getApiDetail(this.$route.params.id);
     this.apiModule.getHandlerGroupList();
+    console.log('APiRegisterPage created');
+    axios
+      .all([
+        // this.systemModule.getSystemDetail(), api detail 꺼내고 sysId로 sysDetail 콜
+        this.apiModule.getApiDetail(this.$route.params.id),
+        this.handlerModule.getReqHandlerGroupList(),
+        this.handlerModule.getResHandlerGroupList(),
+      ])
+      .then(() => {
+        this.showPage = true;
+      })
+      .catch();
   }
-  get handlerGroupList(): HandlerGroupDetail[] {
-    return this.apiModule.handlerGroupList;
-  }
-
-  requestBody: ApiCreateRequestBody = {
-    sysId: '',
-    id: '',
-    nm: '',
-    ifNo: '',
-    meth: '',
-    uriIn: '',
-    uriOut: '',
-    ifGrp: '',
-    reqHandlrGrpId: '',
-    resHandlrGrpId: '',
-    timeOut: 15000,
-    desc: '',
-  };
-
+  // apiDetail 저장소 업데이트시 컴포넌트 초기값 업데이트 및 system detail 콜
   @Watch('apiDetail')
   onApiDetailChange() {
     if (this.apiDetail) {
       this.requestBody = {
         sysId: this.apiDetail.sysId,
         id: this.apiDetail.id,
-        nm: this.apiDetail.nm,
         ifNo: this.apiDetail.ifNo,
         meth: this.apiDetail.meth,
         uriIn: this.apiDetail.uriIn,
         uriOut: this.apiDetail.uriOut,
-        ifGrp: this.apiDetail.ifGrp,
         reqHandlrGrpId: this.apiDetail.reqHandlrGrpId,
         resHandlrGrpId: this.apiDetail.resHandlrGrpId,
         timeOut: this.apiDetail.timeOut,
@@ -173,6 +162,41 @@ export default class ApiEditPage extends Vue {
     }
   }
 
+  // system detail 이 저장소에서 업데이트시 edptList 값 업데이트
+  edptList: string[] | null = null;
+  @Watch('system')
+  onSystemChange() {
+    if (this.system) {
+      this.edptList = this.system.edpt;
+    }
+  }
+
+  requestBody: ApiCreateRequestBody = {
+    sysId: '',
+    id: '',
+    ifNo: '',
+    meth: '',
+    uriIn: '',
+    uriOut: '',
+    reqHandlrGrpId: '',
+    resHandlrGrpId: '',
+    timeOut: 15000,
+    desc: '',
+  };
+
+  // handler 로직 관련
+  // 구현 필요
+
+  // =============== 수정이 필요한 로직 ===============
+  // ==============================
+
+  async editApi(apiId: string) {
+    // await this.serviceModule.deleteServiceAction(ServiceId);
+    await this.apiModule.deleteApi(apiId);
+    this.$router.go(-1);
+    this.showModal = false;
+  }
+  // submit api
   handleClickSubmitButton() {
     // this.$modal.show(this.convertToString(this.requestBody) + '\n 등록하시겠습니까?');
     confirm(this.convertToString(this.requestBody) + '\n 수정하시겠습니까?');
@@ -184,6 +208,8 @@ export default class ApiEditPage extends Vue {
     });
     return res;
   }
+  // ==============================
+  // ==============================
 
   // for progress
   isShowProgress = false;
