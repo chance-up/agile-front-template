@@ -7,12 +7,11 @@
   >
     <template v-if="!isShowProgress" v-slot:contents>
       <ul>
-        <!-- <InfoGroup :inputNm="$t('system.name')" :value="systemItem.nm" /> -->
         <InfoGroup :inputNm="$t('system.id')" :value="systemItem.id" />
         <InfoGroup :inputNm="$t('system.tkcgrNm')" :value="systemItem.tkcgr_nm" />
         <InfoGroup :inputNm="$t('system.tkcgrPos')" :value="systemItem.tkcgr_pos" />
         <InfoGroup :inputNm="$t('system.tkcgrEml')" :value="systemItem.tkcgr_eml" />
-        <IfFormlGroup :inputNm="$t('system.ifGrp')" :ifGrps="systemItem.if_grp" />
+        <IfFormlGroup :inputNm="$t('system.ifGrp')" :endPoints="systemItem.if_grp" />
         <InfoGroup :inputNm="$t('system.desc')" :value="systemItem.desc" />
         <ModalLayout size="m" v-if="isShowModal">
           <template v-slot:modalHeader
