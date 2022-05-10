@@ -121,6 +121,7 @@ export default class ApiModule extends GateWayModule {
   }
 
   // API 생성
+  @Action
   async postApi(api: ApiCreateRequestBody) {
     try {
       addMock(`/mngt/v1/api`, JSON.stringify(apiMockData));
