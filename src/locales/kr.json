@@ -143,7 +143,7 @@
     "valid_check_ifgrp_nm": "형식에 맞게 입력하세요.(최대 20자, 영문, 숫자만 입력 가능)",
     "valid_check_ifgrp_domain": "도메인 형식에 맞게 입력하세요.(최대 20자, 영문, 숫자만 입력 가능)",
     "valid_check_ifgrp_port": "포트 형식에 맞게 입력하세요.(최대 5자, 숫자만 입력 가능)",
-    "dupl_check_ifgrp_nm": "이미 존재하는 그룹명입니다.",
+    "dupl_check_ifgrp_nm": "이미 존재하는 EndPoint입니다.",
     "enter_search_data": "검색 데이터를 입력해주세요.",
     "empty_check_message": "빈 항목이 있습니다.",
     "modal_system_delete": "시스템 삭제",

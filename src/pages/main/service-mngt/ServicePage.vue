@@ -179,6 +179,9 @@ export default class ServiceManagementPage extends Vue {
     }
   }
   created() {
+    this.serviceModule.serviceReset();
+
+    this.isShowProgress = true;
     this.serviceModule.setServicePagination({} as Pagination);
     if (Object.keys(this.$route.query).length > 0) {
       if (Object.keys(this.$route.query).includes('nm')) this.searchData.nm = this.$route.query.nm as string;
@@ -193,32 +196,30 @@ export default class ServiceManagementPage extends Vue {
 
       const param = { ...this.searchData, ...this.pagingData };
 
-      this.serviceModule.getServiceList(param);
+      this.serviceModule
+        .getServiceList(param)
+        .then(() => {
+          this.isShowProgress = false;
+        })
+        .catch((error) => {
+          this.isShowProgress = false;
+          this.$modal.show(error);
+        });
     } else {
-      this.serviceModule.getServiceList();
-    }
-  }
-
-  get userState() {
-    return this.serviceModule.currAsyncState;
-  }
-
-  @Watch('userState')
-  onCurrAsyncStateChange(userState: USER_STATE) {
-    console.log('userState : ', userState);
-    if (userState === USER_STATE.LOADING) {
-      this.isShowProgress = true;
-    } else if (userState === USER_STATE.ERROR) {
-      this.isShowProgress = false;
-      this.$modal.show('서버 통신 에러');
-    } else if (userState === USER_STATE.DONE) {
-      this.isShowProgress = false;
+      this.serviceModule
+        .getServiceList()
+        .then(() => {
+          this.isShowProgress = false;
+        })
+        .catch((error) => {
+          this.isShowProgress = false;
+          this.$modal.show(error);
+        });
     }
   }
 
   destroyed() {
     this.serviceModule.release();
-    this.serviceModule.serviceReset();
   }
 
   get pagination(): Pagination {

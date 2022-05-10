@@ -28,7 +28,7 @@ const axios = Axios.create({
   headers: {
     Accept: 'application/json',
     Authorization: 'Basic QU5EOnNhZmUyZ29fYW5k',
-    'svc-ln-cd': 'ko',
+    sseiontoken: '',
   },
   withCredentials: false,
 });

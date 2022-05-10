@@ -109,28 +109,21 @@ export default class ServiceDetailPage extends Vue {
   }
 
   created() {
-    this.serviceModule.getService(this.$route.params.serviceId);
+    this.isShowProgress = true;
+    this.serviceModule
+      .getService(this.$route.params.serviceId)
+      .then(() => {
+        this.isShowProgress = false;
+      })
+      .catch((error) => {
+        this.$modal.show('서버 통신 에러');
+        this.isShowProgress = false;
+      });
   }
 
   destroyed() {
     this.serviceModule.release();
     this.serviceModule.serviceReset();
-  }
-
-  get userState() {
-    return this.serviceModule.currAsyncState;
-  }
-
-  @Watch('userState')
-  onCurrAsyncStateChange(userState: USER_STATE) {
-    console.log('userState : ', userState);
-    if (userState === USER_STATE.LOADING) {
-      this.isShowProgress = true;
-    } else if (userState === USER_STATE.ERROR) {
-      this.$modal.show('서버 통신 에러');
-    } else if (userState === USER_STATE.DONE) {
-      this.isShowProgress = false;
-    }
   }
 
   modal = false;
