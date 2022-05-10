@@ -16,7 +16,7 @@ export interface SystemResponse {
   tkcgr_nm: string; // 담당자 이름
   tkcgr_pos: string; //담당자 소속
   tkcgr_eml: string; //담당자 이메일
-  edpt: string[]; //연동 그룹
+  edpt: string[]; //엔드포인트
   desc: string; //설명
   created_at: string;
   created_by: string;
@@ -50,16 +50,7 @@ export const dummyListData = {
         tkcgr_nm: '박재원',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
         tkcgr_eml: 'jwpark@kt.com',
-        if_grp: [
-          {
-            if_nm: 'authentication',
-            if_url: ['https://capri.com:443', 'https://capri.com:443'],
-          },
-          {
-            if_nm: 'service',
-            if_url: ['https://capri.com:443', 'https://capri.com:8080', 'https://capri.com:8081'],
-          },
-        ],
+        edpt: ['https://capri.com:443', 'https://capri.com:443'],
         desc: 'desc',
         created_at: '2022-04-20 17:44:23',
         created_by: 'updatedByAdmin',
@@ -72,16 +63,7 @@ export const dummyListData = {
         tkcgr_nm: '최찬섭',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
         tkcgr_eml: 'cschoi@kt.com',
-        if_grp: [
-          {
-            if_nm: 'authentication',
-            if_url: ['https://capri.com:443', 'https://capri.com:443'],
-          },
-          {
-            if_nm: 'service',
-            if_url: ['https://capri.com:443', 'https://capri.com:8080', 'https://capri.com:8081'],
-          },
-        ],
+        edpt: ['https://capri.com:443', 'https://capri.com:443'],
         desc: 'desc',
         created_at: '2022-04-20 17:44:23',
         created_by: 'updatedByAdmin',
@@ -94,16 +76,7 @@ export const dummyListData = {
         tkcgr_nm: '김형창',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
         tkcgr_eml: 'hckim@kt.com',
-        if_grp: [
-          {
-            if_nm: 'authentication',
-            if_url: ['https://capri.com:443', 'https://capri.com:443'],
-          },
-          {
-            if_nm: 'service',
-            if_url: ['https://capri.com:443', 'https://capri.com:8080', 'https://capri.com:8081'],
-          },
-        ],
+        edpt: ['https://capri.com:443', 'https://capri.com:443'],
         desc: 'desc',
         created_at: '2022-04-20 17:44:23',
         created_by: 'updatedByAdmin',
@@ -116,16 +89,7 @@ export const dummyListData = {
         tkcgr_nm: '정혜림',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
         tkcgr_eml: 'hrjeong@kt.com',
-        if_grp: [
-          {
-            if_nm: 'authentication',
-            if_url: ['https://capri.com:443', 'https://capri.com:443'],
-          },
-          {
-            if_nm: 'service',
-            if_url: ['https://capri.com:443', 'https://capri.com:8080', 'https://capri.com:8081'],
-          },
-        ],
+        edpt: ['https://capri.com:443', 'https://capri.com:443'],
         desc: 'desc',
         created_at: '2022-04-20 17:44:23',
         created_by: 'updatedByAdmin',
@@ -138,16 +102,7 @@ export const dummyListData = {
         tkcgr_nm: '이정필',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Digico 사업수행팀',
         tkcgr_eml: 'jplee@kt.com',
-        if_grp: [
-          {
-            if_nm: 'authentication',
-            if_url: ['https://capri.com:443', 'https://capri.com:443'],
-          },
-          {
-            if_nm: 'service',
-            if_url: ['https://capri.com:443', 'https://capri.com:8080', 'https://capri.com:8081'],
-          },
-        ],
+        edpt: ['https://capri.com:443', 'https://capri.com:443'],
         desc: 'desc',
         created_at: '2022-04-20 17:44:23',
         created_by: 'updatedByAdmin',
@@ -160,16 +115,7 @@ export const dummyListData = {
         tkcgr_nm: '이진솔',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Digico 사업수행팀',
         tkcgr_eml: 'jslee@kt.com',
-        if_grp: [
-          {
-            if_nm: 'authentication',
-            if_url: ['https://capri.com:443', 'https://capri.com:443'],
-          },
-          {
-            if_nm: 'service',
-            if_url: ['https://capri.com:443', 'https://capri.com:8080', 'https://capri.com:8081'],
-          },
-        ],
+        edpt: ['https://capri.com:443', 'https://capri.com:443'],
         desc: 'desc',
         created_at: '2022-04-20 17:44:23',
         created_by: 'updatedByAdmin',
@@ -313,11 +259,7 @@ export const dummyDetailData = {
       tkcgr_nm: '최찬섭',
       tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
       tkcgr_eml: 'cschoi@kt.com',
-      if_grp: [
-        { protocol: 'https', domain: 'capri.com', port: '443' },
-        { protocol: 'https', domain: 'capri.com', port: '8080' },
-        { protocol: 'http', domain: 'naver.com', port: '8081' },
-      ],
+      edpt: ['https://capri.com:443', 'http://capri.com:8080'],
       desc: '시스템 KT_COM2 설명입니다.',
       created_at: '2022-04-20 17:44:23',
       created_by: 'updatedByAdmin',

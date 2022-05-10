@@ -64,6 +64,11 @@ button {
     line-height: 1;
 	outline: none;
 }
+button:disabled{
+    pointer-events: none;
+    background-color: #C6AAFA !important;
+    border:1px #C6AAFA !important;
+}
 a:link, a:visited, a:hover, a:active, a:focus {
     text-decoration: none;
     cursor: pointer;

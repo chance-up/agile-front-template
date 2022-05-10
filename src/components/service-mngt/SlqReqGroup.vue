@@ -9,7 +9,7 @@
             on: showSec,
             '': !showSec,
           }"
-          @click="onSec()"
+          @click="clickSec()"
         >
           Sec
         </button>
@@ -19,7 +19,7 @@
             on: showMin,
             '': !showMin,
           }"
-          @click="onMin()"
+          @click="clickMin()"
         >
           Min
         </button>
@@ -29,7 +29,7 @@
             on: showHour,
             '': !showHour,
           }"
-          @click="onHour()"
+          @click="clickHour()"
         >
           Hour
         </button>
@@ -39,7 +39,7 @@
             on: showDay,
             '': !showDay,
           }"
-          @click="onDay()"
+          @click="clickDay()"
         >
           Day
         </button>
@@ -49,7 +49,7 @@
             on: showMonth,
             '': !showMonth,
           }"
-          @click="onMonth()"
+          @click="clickMonth()"
         >
           Month
         </button>
@@ -59,7 +59,7 @@
             on: none,
             '': !none,
           }"
-          @click="onNone()"
+          @click="clickNone()"
         >
           None
         </button>
@@ -68,27 +68,27 @@
       <div class="sla-group">
         <div class="sla-form" v-if="showMonth">
           <label class="label">Month : </label>
-          <input type="text" id="" class="input-box" placeholder="입력해주세요" v-model="month" />
-          <span>{{ month }}건</span>
+          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="month" min="1" />
+          <span>건</span>
         </div>
         <div class="sla-form" v-if="showDay">
           <label class="label">Day : </label>
-          <input type="text" id="" class="input-box" placeholder="입력해주세요" v-model="day" />
+          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="day" min="1" />
           <span>건</span>
         </div>
         <div class="sla-form" v-if="showHour">
           <label class="label">Hour : </label>
-          <input type="text" id="" class="input-box" placeholder="입력해주세요" v-model="hour" />
+          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="hour" min="1" />
           <span>건</span>
         </div>
         <div class="sla-form" v-if="showMin">
           <label class="label">Min : </label>
-          <input type="text" id="" class="input-box" placeholder="입력해주세요" v-model="min" />
+          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="min" min="1" />
           <span>건</span>
         </div>
         <div class="sla-form" v-if="showSec">
           <label class="label">Sec : </label>
-          <input type="text" id="" class="input-box" placeholder="입력해주세요" v-model="sec" />
+          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="sec" min="1" />
           <span>건</span>
         </div>
       </div>
@@ -102,25 +102,26 @@
         "
         class="red-txt noti"
       >
-        해당 항목은 필수 입력값입니다.
+        {{ $t('service.empty_check') }}
       </p>
       <p
         v-if="
-          (showSec && sec == 0) ||
-          (showSec && min == 0) ||
-          (showHour && hour == 0) ||
-          (showDay && day == 0) ||
-          (showMonth && month == 0)
+          (showSec && sec == '') ||
+          (showMin && min == '') ||
+          (showHour && hour == '') ||
+          (showDay && day == '') ||
+          (showMonth && month == '')
         "
         class="red-txt noti"
       >
-        1 이상의 값을 입력해주세요.
+        {{ $t('service.empty_check') }}
       </p>
     </div>
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+
 @Component
 export default class SlaReqGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
@@ -129,21 +130,55 @@ export default class SlaReqGroup extends Vue {
   @Prop({ default: null }) hourVal!: number | null;
   @Prop({ default: null }) dayVal!: number | null;
   @Prop({ default: null }) monthVal!: number | null;
+  @Prop({ default: false }) onSec!: boolean;
+  @Prop({ default: false }) onMin!: boolean;
+  @Prop({ default: false }) onHour!: boolean;
+  @Prop({ default: false }) onDay!: boolean;
+  @Prop({ default: false }) onMonth!: boolean;
 
-  showSec = false;
-  showMin = false;
-  showHour = false;
-  showDay = false;
-  showMonth = false;
   none = false;
 
+  get showSec() {
+    return this.onSec;
+  }
+  set showSec(val: boolean) {
+    this.$emit('update:onSec', val);
+  }
+
+  get showMin() {
+    return this.onMin;
+  }
+  set showMin(val: boolean) {
+    this.$emit('update:onMin', val);
+  }
+
+  get showHour() {
+    return this.onHour;
+  }
+  set showHour(val: boolean) {
+    this.$emit('update:onHour', val);
+  }
+
+  get showDay() {
+    return this.onDay;
+  }
+  set showDay(val: boolean) {
+    this.$emit('update:onDay', val);
+  }
+
+  get showMonth() {
+    return this.onMonth;
+  }
+  set showMonth(val: boolean) {
+    this.$emit('update:onMonth', val);
+  }
+
   get sec() {
-    if (this.secVal != null) {
-      this.showSec = true;
-    }
     return this.secVal;
   }
   set sec(val: number | null) {
+    console.log(val);
+
     this.$emit('update:secVal', val);
   }
 
@@ -188,6 +223,21 @@ export default class SlaReqGroup extends Vue {
   }
 
   created() {
+    if (this.sec != null) {
+      this.showSec = true;
+    }
+    if (this.min != null) {
+      this.showSec = true;
+    }
+    if (this.hour != null) {
+      this.showSec = true;
+    }
+    if (this.day != null) {
+      this.showSec = true;
+    }
+    if (this.month != null) {
+      this.showSec = true;
+    }
     if (
       this.monthVal == null &&
       this.dayVal == null &&
@@ -201,7 +251,7 @@ export default class SlaReqGroup extends Vue {
     }
   }
 
-  onSec() {
+  clickSec() {
     this.showSec = !this.showSec;
     this.sec = null;
     if (
@@ -217,7 +267,7 @@ export default class SlaReqGroup extends Vue {
     }
   }
 
-  onMin() {
+  clickMin() {
     this.showMin = !this.showMin;
     this.min = null;
     if (
@@ -233,7 +283,7 @@ export default class SlaReqGroup extends Vue {
     }
   }
 
-  onHour() {
+  clickHour() {
     this.showHour = !this.showHour;
     this.hour = null;
     if (
@@ -249,7 +299,7 @@ export default class SlaReqGroup extends Vue {
     }
   }
 
-  onDay() {
+  clickDay() {
     this.showDay = !this.showDay;
     this.day = null;
     if (
@@ -265,7 +315,7 @@ export default class SlaReqGroup extends Vue {
     }
   }
 
-  onMonth() {
+  clickMonth() {
     this.showMonth = !this.showMonth;
     this.month = null;
     if (
@@ -281,9 +331,10 @@ export default class SlaReqGroup extends Vue {
     }
   }
 
-  onNone() {
+  clickNone() {
     this.none = !this.none;
     if (this.none) {
+      this.$emit('update:isvalid', true);
       this.showSec = false;
       this.showMin = false;
       this.showHour = false;

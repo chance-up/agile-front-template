@@ -23,11 +23,11 @@
         </li>
         <SlaGroup
           :inputNm="$t('service.SLA_mngt')"
-          :secVal.sync="serviceOption.sla.sec"
-          :minVal.sync="serviceOption.sla.min"
-          :hourVal.sync="serviceOption.sla.hr"
-          :dayVal.sync="serviceOption.sla.day"
-          :monthVal.sync="serviceOption.sla.mon"
+          :secVal="serviceOption.sla.sec"
+          :minVal="serviceOption.sla.min"
+          :hourVal="serviceOption.sla.hr"
+          :dayVal="serviceOption.sla.day"
+          :monthVal="serviceOption.sla.mon"
         />
         <InfoGroup :inputNm="$t('service.tkcgrNm')" :value="serviceOption.tkcgr_nm" />
         <InfoGroup :inputNm="$t('service.tkcgrPos')" :value="serviceOption.tkcgr_pos" />
@@ -73,7 +73,6 @@ import { ServiceResponse } from '@/types/ServiceType';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { Watch } from 'vue-property-decorator';
-import { USER_STATE } from '@/store/UserState';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 
 @Component({
@@ -112,13 +111,14 @@ export default class ServiceDetailPage extends Vue {
 
   created() {
     this.isShowProgress = true;
+
     this.serviceModule
       .getService(this.$route.params.serviceId)
       .then(() => {
         this.isShowProgress = false;
       })
       .catch((error) => {
-        this.$modal.show('서버 통신 에러');
+        this.$modal.show(`${this.$t('api.server_error')}`);
         this.isShowProgress = false;
       });
   }

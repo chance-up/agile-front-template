@@ -66,7 +66,9 @@
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="handleClickSubmitButton">수정테스트</button>
         <!-- <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">{{ $t('api.edit') }}</button> -->
-        <button class="lg-btn purple-btn" @click="showModal = true">{{ $t('api.edit') }}</button>
+        <button :disabled="isButtonDisabled" class="lg-btn purple-btn" @click="showModal = true">
+          {{ $t('api.edit') }}
+        </button>
         <button class="lg-btn white-btn" @click="$router.go(-1)">{{ $t('common.cancel') }}</button>
       </div>
     </template>
@@ -128,6 +130,7 @@ export default class ApiEditPage extends Vue {
     return this.systemModule.system;
   }
   created() {
+    this.isShowProgress = true;
     this.apiModule.getApiDetail(this.$route.params.id);
     console.log('APiRegisterPage created');
     axios
@@ -139,8 +142,12 @@ export default class ApiEditPage extends Vue {
       ])
       .then(() => {
         this.showPage = true;
+        this.isShowProgress = false;
       })
-      .catch();
+      .catch((error) => {
+        this.isShowProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
   // apiDetail 저장소 업데이트시 컴포넌트 초기값 업데이트 및 system detail 콜
   @Watch('apiDetail')
@@ -196,8 +203,10 @@ export default class ApiEditPage extends Vue {
   // =============== 수정이 필요한 로직 ===============
   // ==============================
 
+  isButtonDisabled = false;
   async editApi(apiId: string) {
     // await this.serviceModule.deleteServiceAction(ServiceId);
+    this.isButtonDisabled = true;
     await this.apiModule.deleteApi(apiId);
     this.$router.go(-1);
     this.showModal = false;

@@ -3,8 +3,9 @@
     :title="$t('service.register')"
     :subTitle="$t('service.register_sub_title')"
     :depth="$t('service.title')"
+    :isShowProgress="isShowProgress"
   >
-    <template v-slot:contents>
+    <template v-if="!isShowProgress" v-slot:contents>
       <ul>
         <TextDebounceForm
           type="text"
@@ -44,6 +45,11 @@
           :hourVal.sync="formData.sla.hr"
           :dayVal.sync="formData.sla.day"
           :monthVal.sync="formData.sla.mon"
+          :onSec.sync="slaSec"
+          :onMin.sync="slaMin"
+          :onHour.sync="slaHr"
+          :onDay.sync="slaDay"
+          :onMonth.sync="slaMon"
         />
         <InputGroup
           type="text"
@@ -74,10 +80,10 @@
             ><h2 class="h1-tit">{{ $t('service.register') }}</h2>
           </template>
           <template v-slot:modalContainer>
-            <p v-if="!isShowProgress" class="text">{{ $t('service.register_message') }}</p>
-            <div v-if="isShowProgress" style="width: 100%; text-align: center">
+            <p v-if="!isRegisterProgress" class="text">{{ $t('service.register_message') }}</p>
+            <div v-if="isRegisterProgress" style="width: 100%; text-align: center">
               <b-spinner
-                v-show="isShowProgress"
+                v-show="isRegisterProgress"
                 style="width: 2.5rem; height: 2.5rem"
                 label="Large Spinner"
               ></b-spinner>
@@ -93,12 +99,12 @@
         </ModalLayout>
       </ul>
     </template>
-    <template v-slot:buttons>
+    <template v-if="!isShowProgress" v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isShowProgress">
-          {{ $t('common.register') }}<b-spinner v-show="isShowProgress" small></b-spinner>
+        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isRegisterProgress">
+          {{ $t('common.register') }}<b-spinner v-show="isRegisterProgress" small></b-spinner>
         </button>
-        <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isShowProgress">
+        <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isRegisterProgress">
           {{ $t('common.cancel') }}
         </button>
       </div>
@@ -118,7 +124,6 @@ import ServiceModule from '@/store/modules/ServiceModule';
 import { BasicAuthResponse, JWTAlgResponse, ServiceRegisterRequest } from '@/types/ServiceType';
 import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
-import { USER_STATE } from '@/store/UserState';
 import { BSpinner } from 'bootstrap-vue';
 
 @Component({
@@ -143,7 +148,14 @@ export default class SystemRegisterPage extends Vue {
   tkcgrEmlValid = false;
   dateValid = false;
   authValid = false;
+  slaSec = false;
+  slaMin = false;
+  slaHr = false;
+  slaDay = false;
+  slaMon = false;
   isBasicAuthProgress = false;
+  isRegisterProgress = false;
+  isShowProgress = false;
 
   @Watch('show')
   onShowChange(val: string) {
@@ -195,21 +207,44 @@ export default class SystemRegisterPage extends Vue {
         : false;
 
     if (!val) {
-      this.$modal.show('빈 항목이 있습니다.');
+      this.$modal.show(`${this.$t('service.empty_check_message')}`);
       return;
     } else {
-      this.modal = true;
+      if (
+        (this.slaSec == true && this.formData.sla.sec == null) ||
+        (this.slaMin == true && this.formData.sla.min == null) ||
+        (this.slaHr == true && this.formData.sla.hr == null) ||
+        (this.slaDay == true && this.formData.sla.day == null) ||
+        (this.slaMon == true && this.formData.sla.mon == null) ||
+        (this.slaSec == true && this.formData.sla.sec == 0) ||
+        (this.slaMin == true && this.formData.sla.min == 0) ||
+        (this.slaHr == true && this.formData.sla.hr == 0) ||
+        (this.slaDay == true && this.formData.sla.day == 0) ||
+        (this.slaMon == true && this.formData.sla.mon == 0)
+      ) {
+        this.$modal.show(`${this.$t('service.empty_check_message')}`);
+      } else {
+        this.modal = true;
+      }
     }
   }
   modalHide() {
     this.modal = false;
   }
 
-  async submit() {
+  submit() {
     console.log(this.formData);
     this.modal = false;
-    await this.serviceModule.createServiceAction(this.formData);
-    this.$router.push({ path: '/service' });
+    this.isRegisterProgress = true;
+    this.serviceModule
+      .createServiceAction(this.formData)
+      .then(() => {
+        this.$router.push({ path: '/service' });
+      })
+      .catch((error) => {
+        this.isRegisterProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
 
   timerId = 0;
@@ -256,10 +291,17 @@ export default class SystemRegisterPage extends Vue {
     return this.serviceModule.JWTAlg;
   }
 
-  isShowProgress = false;
-
   created() {
-    this.serviceModule.getJWTAlg();
+    this.isShowProgress = true;
+    this.serviceModule
+      .getJWTAlg()
+      .then(() => {
+        this.isShowProgress = false;
+      })
+      .catch((error) => {
+        this.isShowProgress = false;
+        this.$modal.show(`${this.$t('api.server_error')}`);
+      });
   }
 
   destroyed() {
