@@ -1,17 +1,12 @@
 //연동방식
-export interface IfUrlType {
+export interface SystemEdptType {
   protocol: string;
-  port: string;
   domain: string;
+  port: string;
 }
-export interface IfGrpType {
-  if_nm: string;
-  if_url: IfUrlType[];
-}
-
-export interface IfDomainEmptyChkType {
-  isFocus: boolean;
-  isEmpty: boolean;
+export interface SystemIdEdpt {
+  id: string;
+  edpt: string[];
 }
 
 //시스템 관리
@@ -21,7 +16,7 @@ export interface SystemResponse {
   tkcgr_nm: string; // 담당자 이름
   tkcgr_pos: string; //담당자 소속
   tkcgr_eml: string; //담당자 이메일
-  if_grp: IfGrpType[]; //연동 그룹
+  edpt: string[]; //연동 그룹
   desc: string; //설명
   created_at: string;
   created_by: string;
@@ -416,20 +411,6 @@ export const dummyDeleteData = {
   },
   data: null,
 };
-
-export interface IfGrpValidMessageType {
-  isValid: boolean | null;
-  msg: string;
-  domainValid: IfDomainValidMessageType[];
-}
-export interface IfDomainValidMessageType {
-  isValid: boolean | null;
-  msg: string;
-}
-export interface SystemIdEdpt {
-  id: string;
-  edpt: string[];
-}
 
 export const dummySystemIdEdptList = {
   common: {

@@ -51,7 +51,7 @@
           :place="$t('system.tkcgrEml')"
           :isvalid.sync="tkcgrEmlValid"
         />
-        <InterfaceGroup :inputNm="$t('system.ifGrp')" :isvalid.sync="ifGrpValid" :ifgrps.sync="systemItem.if_grp" />
+        <!-- <InterfaceGroup :inputNm="$t('system.ifGrp')" :isvalid.sync="ifGrpValid" :ifgrps.sync="systemItem.if_grp" /> -->
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
       <ModalLayout size="m" v-if="isShowModal">
@@ -69,7 +69,7 @@
     </template>
     <template v-slot:buttons v-if="!isShowProgress">
       <div class="btn-wrap">
-        <button id="submitBtn" class="lg-btn purple-btn" @click="showModal">
+        <button id="submitBtn" class="lg-btn purple-btn" @click="showModal" :disabled="isShowModal">
           {{ $t('common.register') }}
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="isShowModal"></span>
         </button>
@@ -86,7 +86,6 @@ import SystemModule from '@/store/modules/SystemModule';
 
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/system-mngt/InputGroup.vue';
-import InterfaceGroup from '@/components/system-mngt/InterfaceGroup.vue';
 import Interface from '@/components/system-mngt/Interface.vue';
 import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import TextDebounceForm from '@/components/system-mngt/TextDebounceForm.vue';
@@ -98,7 +97,6 @@ import { USER_STATE } from '@/store/UserState';
   components: {
     ContentLayout,
     InputGroup,
-    InterfaceGroup,
     Interface,
     TextAreaGroup,
     TextDebounceForm,
@@ -106,7 +104,7 @@ import { USER_STATE } from '@/store/UserState';
   },
 })
 export default class SystemRegisterPage extends Vue {
-  totalValid: boolean[] = [];
+  // totalValid: boolean[] = [];
   idValid = false;
   tkcgrNmValid = false;
   tkcgrPosValid = false;
@@ -125,18 +123,7 @@ export default class SystemRegisterPage extends Vue {
     tkcgr_nm: '',
     tkcgr_pos: '',
     tkcgr_eml: '',
-    if_grp: [
-      {
-        if_nm: '',
-        if_url: [
-          {
-            protocol: 'http',
-            domain: '',
-            port: '',
-          },
-        ],
-      },
-    ],
+    edpt: [],
     desc: '',
     created_at: '',
     created_by: '',
@@ -160,56 +147,15 @@ export default class SystemRegisterPage extends Vue {
     }
   }
 
-  @Watch('tkcgrNmValid')
-  onTkcgrNmValidChange(newVal: boolean) {
-    this.totalValid.splice(0, 1, newVal);
-  }
-
-  @Watch('tkcgrPosValid')
-  onTkcgrPosValidChange(newVal: boolean) {
-    this.totalValid.splice(1, 1, newVal);
-  }
-
-  @Watch('tkcgrEmlValid')
-  onTkcgrEmlValidChange(newVal: boolean) {
-    this.totalValid.splice(2, 1, newVal);
-  }
-
-  @Watch('ifGrpValid')
-  onIfGrpValidChange(newVal: boolean[]) {
-    if (newVal[0] && newVal[1]) this.totalValid.splice(4, 1, true);
-    else this.totalValid.splice(4, 1, false);
-    console.log('ifGrpValid', newVal);
-  }
-
-  @Watch('totalValid')
-  onTotalValidChange(newVal: boolean[]) {
-    if (newVal.every((item) => item === true)) this.isBtnDisabled = false;
-    else this.isBtnDisabled = true;
-  }
-
   async onSubmit() {
-    // console.log(this.systemItem);
-    // console.log('valid!!!!!');
-    // console.log(this.nmValid);
-    // console.log(this.idValid);
-    // console.log(this.tkcgrNmValid);
-    // console.log(this.tkcgrPosValid);
-    // console.log(this.tkcgrEmlValid);
-    // console.log('ifGrpValid', this.ifGrpValid);
+    console.log('idValid', this.idValid);
+    console.log('tkcgrNmValid', this.tkcgrNmValid);
+    console.log('tkcgrPosValid', this.tkcgrPosValid);
+    console.log('tkcgrEmlValid', this.tkcgrEmlValid);
+    console.log('ifGrpValid', this.ifGrpValid);
 
-    // const val =
-    //   this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.ifGrpValid[0] && this.ifGrpValid[1]
-    //     ? true
-    //     : false;
-
-    // if (!val) {
-    //   this.$modal.show(`${this.$t('system.empty_check_message')}`);
-    //   return;
-    // } else {
     await this.systemModule.registerSystem(this.systemItem);
     this.$router.push({ name: 'system' });
-    // }
   }
 
   cancelOnClickEvent() {
@@ -222,9 +168,19 @@ export default class SystemRegisterPage extends Vue {
   }
 
   showModal() {
-    const val = this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid ? true : false;
+    // TODO : Show Modal 을 띄웠을 떄 등록 버튼 비활성화 해야함.
+
+    // console.log('idValid', this.idValid);
+    // console.log('tkcgrNmValid', this.tkcgrNmValid);
+    // console.log('tkcgrPosValid', this.tkcgrPosValid);
+    // console.log('tkcgrEmlValid', this.tkcgrEmlValid);
+    // console.log('ifGrpValid', this.ifGrpValid);
+
+    const val =
+      this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.ifGrpValid ? true : false;
 
     if (!val) {
+      // TODO : 비어있거나 비정상적인 값이 있다 라고 멘트 수정....
       this.$modal.show(`${this.$t('system.empty_check_message')}`);
       return;
     } else {

@@ -37,7 +37,7 @@
           inputClass="input-box lg check-ok"
           type="text"
         />
-        <InterfaceGroup :inputNm="$t('system.ifGrp')" :ifgrps.sync="systemItem.if_grp" />
+        <!-- <InterfaceGroup :inputNm="$t('system.ifGrp')" :ifgrps.sync="systemItem.if_grp" /> -->
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
     </template>
@@ -58,7 +58,6 @@ import { SystemResponse } from '@/types/SystemType';
 
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/system-mngt/InputGroup.vue';
-import InterfaceGroup from '@/components/system-mngt/InterfaceGroup.vue';
 import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import { USER_STATE } from '@/store/UserState';
 
@@ -66,7 +65,6 @@ import { USER_STATE } from '@/store/UserState';
   components: {
     ContentLayout,
     InputGroup,
-    InterfaceGroup,
     TextAreaGroup,
   },
 })
@@ -105,7 +103,6 @@ export default class SystemEditPage extends Vue {
     console.log(this.systemItem);
     this.systemItem = this.system as SystemResponse;
     console.log(this.systemItem.tkcgr_nm);
-    console.log(this.systemItem.if_grp);
   }
 
   onSubmit(): void {
