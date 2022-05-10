@@ -18,7 +18,7 @@
                   @click="
                     [
                       handleSelectReqHandlerGroup(handlerGroup.apiGroupId),
-                      (chooseReqHandlerGroup = handlerGroup.apiGroupNm),
+                      (chooseReqHandlerGroup = handlerGroup.apiGroupId),
                     ]
                   "
                   >{{ handlerGroup.apiGroupNm }}</span
@@ -59,7 +59,7 @@
                   @click="
                     [
                       handleSelectResHandlerGroup(handlerGroup.apiGroupId),
-                      (chooseResHandlerGroup = handlerGroup.apiGroupNm),
+                      (chooseResHandlerGroup = handlerGroup.apiGroupId),
                     ]
                   "
                   >{{ handlerGroup.apiGroupNm }}</span
