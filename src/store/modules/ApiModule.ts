@@ -6,10 +6,10 @@ import {
   apiMockData,
   apiMockData2,
   dummyDeleteResData,
-  HandlerGroupDetail,
-  dummyHandlerGroupList,
-  ApiInfoEdit2,
-  dummyApiInfoEdit,
+  dummyApiIdValidCheck,
+  ResponseApiIdValidCheck,
+  ApiUpdateRequestBody,
+  ApiCreateRequestBody,
 } from '@/types/ApiType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { Module, Mutation, Action } from 'vuex-module-decorators';
@@ -17,6 +17,7 @@ import { AxiosClient } from '@/axios/AxiosClient';
 import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
 import GateWayModule from '../GateWayModule';
+import { dummyListData } from '@/types/SystemType';
 
 function handleCommonError(error: GateWayError | any) {
   try {
@@ -35,9 +36,19 @@ export default class ApiModule extends GateWayModule {
 
   public apiList: ApiDetailResponse[] = [];
   public apiDetail: ApiDetailResponse | null = null;
-  public handlerGroupList: HandlerGroupDetail[] = [];
   public apiPagination: Pagination | null = null;
 
+  // 초기화
+  @Action
+  apiReset() {
+    // release시 에러 발생 (동작은 정상동작)
+    this.release();
+    this.context.commit('setApiPagination', null);
+    this.context.commit('setApiList', []);
+    this.context.commit('setApiDetail', null);
+  }
+
+  // api 리스트 요청
   @Mutation
   setApiList(list: ApiDetailResponse[]): void {
     console.log('set API list', list);
@@ -62,7 +73,6 @@ export default class ApiModule extends GateWayModule {
         }
       });
       // ============================
-      console.log(mockList);
       (mockList.data.pagination as Pagination).total_elements = mockList.data.value.length;
       (mockList.data.pagination as Pagination).total_pages = parseInt(mockList.data.value.length / 10 + 1 + '');
       addMock('/api/list', JSON.stringify(mockList));
@@ -70,10 +80,11 @@ export default class ApiModule extends GateWayModule {
         '/api/list',
         searchQuery
       );
-      console.log(response);
+      // 아래 map 조건문은 meth 속성 타입이 string[]로 변경될 시 삭제해야 함
       response.data.value.map((item: ApiDetailResponse) => {
         if (typeof item.meth == 'string') item.meth = JSON.parse(item.meth);
       });
+
       this.context.commit('setApiList', response.data.value);
       this.context.commit('setApiPagination', response.data.pagination);
     } catch (error: GateWayError | any) {
@@ -84,7 +95,6 @@ export default class ApiModule extends GateWayModule {
   }
 
   //api 상세 요청
-
   @Mutation
   setApiDetail(api: ApiDetailResponse | null) {
     console.log('set API detail', api);
@@ -94,32 +104,28 @@ export default class ApiModule extends GateWayModule {
   async getApiDetail(id: string) {
     try {
       // param 체크
-      addMock('/api/detail', JSON.stringify(id == dummyApiInfoEdit.id ? apiMockData : apiMockData2));
-      const response = await AxiosClient.getInstance().get<ApiDetailResponse>('/api/detail', { id });
-      if (typeof response.meth == 'string') response.meth = JSON.parse(response.meth);
-      this.context.commit('setApiDetail', response);
+      const dummyDetail = JSON.parse(JSON.stringify(apiMockData));
+      dummyDetail.data.value = apiMockList.data.value.filter((item: ApiDetailResponse) => item.id === id)[0];
+      addMock('/mngt/v1/getApiByIdAndSysId', JSON.stringify(dummyDetail));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<ApiDetailResponse>>(
+        '/mngt/v1/getApiByIdAndSysId',
+        { id }
+      );
+      // 아래 조건문은 meth 속성 타입이 string[]로 변경될 시 삭제해야 함
+      if (typeof response.data.value.meth == 'string') response.data.value.meth = JSON.parse(response.data.value.meth);
+      console.log('get API detail', response.data.value);
+      this.context.commit('setApiDetail', response.data.value);
     } catch (error: GateWayError | any) {
       handleCommonError(error);
     }
   }
 
-  // Api 수정 update
-  @Action
-  async updateApi(api: ApiInfoEdit2) {
+  // API 생성
+  async postApi(api: ApiCreateRequestBody) {
     try {
-      addMock(`/api/edit/${api}`, JSON.stringify(dummyApiInfoEdit));
-    } catch (error: GateWayError | any) {
-      handleCommonError(error);
-    }
-  }
-
-  // Api 삭제
-  @Action
-  async deleteApi(id: string) {
-    try {
-      addMock(`/api/deleteApi/${id}`, JSON.stringify(dummyDeleteResData));
-      const response = await AxiosClient.getInstance().get<ApiDetailResponse[]>(`/api/deleteApi/${id}`);
-      console.log('api delete response: ', response);
+      addMock(`/mngt/v1/api`, JSON.stringify(apiMockData));
+      const response = await AxiosClient.getInstance().post<GateWayResponse<ApiDetailResponse>>('/mngt/v1/api', api);
+      console.log('postApi response: ', response);
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
         console.log('NetWork not connection');
@@ -129,29 +135,38 @@ export default class ApiModule extends GateWayModule {
     }
   }
 
-  // 핸들러그룹리스트
-  @Mutation
-  setHandlerGroupList(list: HandlerGroupDetail[]): void {
-    this.handlerGroupList = list;
-  }
+  // Api 수정
   @Action
-  async getHandlerGroupList() {
+  async putApi(api: ApiUpdateRequestBody) {
     try {
-      addMock('/api/handlerGroupList', JSON.stringify(dummyHandlerGroupList));
-      const response = await AxiosClient.getInstance().get<HandlerGroupDetail[]>('/api/handlerGroupList');
-      this.context.commit('setHandlerGroupList', response);
+      addMock(`/mngt/v1/api`, JSON.stringify(apiMockData));
+      const response = await AxiosClient.getInstance().put<GateWayResponse<ApiDetailResponse>>('/mngt/v1/api', api);
+      console.log('putApi response: ', response);
     } catch (error: GateWayError | any) {
-      handleCommonError(error);
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
+      } else {
+        console.log('서버통신에 실패하였습니다.');
+      }
     }
   }
-  // 초기화
+
+  // Api 삭제
   @Action
-  apiReset() {
-    // release시 에러 발생 (동작은 정상동작)
-    this.release();
-    this.context.commit('setApiPagination', null);
-    this.context.commit('setApiList', []);
-    this.context.commit('setApiDetail', null);
+  async deleteApi(id: string) {
+    try {
+      addMock(`/api/deleteApi/${id}`, JSON.stringify(dummyDeleteResData));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<ApiDetailResponse[]>>(
+        `/api/deleteApi/${id}`
+      );
+      console.log('api delete response: ', response);
+    } catch (error: GateWayError | any) {
+      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+        console.log('NetWork not connection');
+      } else {
+        console.log('서버통신에 실패하였습니다.');
+      }
+    }
   }
 
   // 페이지네이션
@@ -164,12 +179,17 @@ export default class ApiModule extends GateWayModule {
 
 // 중복 체크
 export const apiValidationCheck = async (id: string) => {
-  addMock(
-    '/api/validation',
-    JSON.stringify(apiMockList.data.value.map((item: ApiDetailResponse) => item.id).includes(id) ? false : true)
-  );
-  const response = await AxiosClient.getInstance().get<boolean>('/api/validation', { id });
-  console.log('apiValidationCheck => ' + response);
+  try {
+    addMock('/mngt/v1/apiCheckApiByIdAndSysId', JSON.stringify(dummyApiIdValidCheck));
 
-  return response;
+    const response = await AxiosClient.getInstance().get<GateWayResponse<ResponseApiIdValidCheck>>(
+      '/mngt/v1/apiCheckApiByIdAndSysId',
+      { id }
+    );
+    console.log('apiValidationCheck => ' + response);
+    return response.data.value.isPkDuplicated as boolean;
+  } catch (error: GateWayError | any) {
+    handleCommonError(error);
+    return false;
+  }
 };

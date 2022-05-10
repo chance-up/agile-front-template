@@ -30,9 +30,7 @@ export default class ServiceModule extends GateWayModule {
     tkcgr_nm: '',
     tkcgr_pos: '',
     tkcgr_eml: '',
-    sla_yn: '',
-    sla_type: '',
-    sla_cnt: 0,
+    sla: { sec: null, min: null, hr: null, day: null, mon: null },
     svc_st_dt: '',
     svc_end_dt: '',
     athn: {
@@ -61,9 +59,7 @@ export default class ServiceModule extends GateWayModule {
     tkcgr_nm: '',
     tkcgr_pos: '',
     tkcgr_eml: '',
-    sla_yn: '',
-    sla_type: '',
-    sla_cnt: 0,
+    sla: { sec: null, min: null, hr: null, day: null, mon: null },
     svc_st_dt: '',
     svc_end_dt: '',
     athn: {
