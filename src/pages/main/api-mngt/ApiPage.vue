@@ -144,7 +144,7 @@ export default class ApiPage extends Vue {
     placeholder: `${this.$t('api.placeholder')}`,
     selectOptions: [
       { label: 'id', value: `${this.$t('api.apiId')}` },
-      { label: 'nm', value: `${this.$t('api.apiNm')}` },
+      { label: 'sysId', value: `${this.$t('api.sysId')}` },
       { label: 'uri', value: `${this.$t('api.uri')}` },
     ],
   };
