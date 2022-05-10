@@ -4,7 +4,6 @@ import { AxiosClient } from '@/axios/AxiosClient';
 import { addMock } from '@/axios/AxiosIntercept';
 
 import { GateWayError } from '@/error/GateWayError';
-import ErrorCode from '@/error/ErrorCodes';
 
 import { GateWayResponse, Pagination } from '@/types/GateWayResponse';
 import GateWayModule from '../GateWayModule';

@@ -169,13 +169,10 @@ export default class ServiceModule extends GateWayModule {
   @Action({ rawError: true })
   async createServiceAction(data: ServiceRegisterRequest) {
     addMock('/api/service/registerService', JSON.stringify(getServiceId));
-
     try {
       const response = await AxiosClient.getInstance().post<GateWayResponse<ServiceResponse>>(
         '/api/service/registerService',
-        {
-          data,
-        }
+        data
       );
       console.log(response.data.value);
       // TODO:: 성공 or 실패 팝업으로 변경
@@ -297,8 +294,13 @@ export default class ServiceModule extends GateWayModule {
 
   @Action
   async getJWTAlg() {
-    addMock('/service/jwt/', JSON.stringify(getJWTAlg));
-    const response = await AxiosClient.getInstance().get<GateWayResponse<JWTAlgResponse>>('/service/jwt/');
-    this.context.commit('setJWTAuth', response.data.value);
+    try {
+      addMock('/service/jwt/', JSON.stringify(getJWTAlg));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<JWTAlgResponse>>('/service/jwt/');
+      this.context.commit('setJWTAuth', response.data.value);
+    } catch (error: GateWayError | any) {
+      console.log(error);
+      return Promise.reject(error);
+    }
   }
 }
