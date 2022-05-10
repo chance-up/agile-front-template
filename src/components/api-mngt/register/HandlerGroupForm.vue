@@ -6,7 +6,7 @@
         <!--  multi select -->
         <div class="multi-wrap">
           <div ref="selectRow" class="select-row inside-click req-class" @click="requestHandleOnClickGroup">
-            {{ chooseReqHandlerGroup }}
+            {{ reqHandlerGroupId ? reqHandlerGroupId : chooseReqHandlerGroup }}
           </div>
           <!--  dropdown시 active class 추가-->
           <div ref="selectFrom" class="select-form inside-click" :class="{ none: !isSelectOpenRequest }">
@@ -18,7 +18,7 @@
                   @click="
                     [
                       handleSelectReqHandlerGroup(handlerGroup.apiGroupId),
-                      (chooseReqHandlerGroup = handlerGroup.apiGroupNm),
+                      (chooseReqHandlerGroup = handlerGroup.apiGroupId),
                     ]
                   "
                   >{{ handlerGroup.apiGroupNm }}</span
@@ -47,7 +47,7 @@
         <!--  multi select -->
         <div class="multi-wrap">
           <div ref="selectRow" class="select-row inside-click res-class" @click="responseHandleOnClickGroup">
-            {{ chooseResHandlerGroup }}
+            {{ resHandlerGroupId ? resHandlerGroupId : chooseResHandlerGroup }}
           </div>
           <!--  dropdown시 active class 추가-->
           <div ref="selectFrom" class="select-form inside-click" :class="{ none: !isSelectOpenResponse }">
@@ -59,7 +59,7 @@
                   @click="
                     [
                       handleSelectResHandlerGroup(handlerGroup.apiGroupId),
-                      (chooseResHandlerGroup = handlerGroup.apiGroupNm),
+                      (chooseResHandlerGroup = handlerGroup.apiGroupId),
                     ]
                   "
                   >{{ handlerGroup.apiGroupNm }}</span
@@ -98,6 +98,8 @@ export default class HandlerGroupForm extends Vue {
   @Prop() groupNm!: string | null;
   @Prop({ default: () => [] }) reqHandlerGroupList!: HandlerGroupDetail[];
   @Prop({ default: () => [] }) resHandlerGroupList!: HandlerGroupDetail[];
+  @Prop() reqHandlerGroupId!: string | null;
+  @Prop() resHandlerGroupId!: string | null;
 
   onClick(e: any): void {
     const insideClick = e.target.classList as object;

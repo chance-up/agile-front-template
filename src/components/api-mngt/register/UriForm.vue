@@ -14,7 +14,7 @@
           class="input-box uri-input"
           placeholder="자동생성/변경불가"
           :disabled="!this.isEdit"
-          @input="$emit('input', $event.target.value)"
+          @input="handleChangeUri"
         />
         <button class="sm-btn" @click="handleClickEdit">
           <i><img src="@/assets/edit.svg" alt="수정" /></i>
@@ -36,6 +36,11 @@ export default class UriForm extends Vue {
   handleClickEdit() {
     console.log(this.isEdit);
     this.isEdit = !this.isEdit;
+  }
+
+  handleChangeUri(event: any) {
+    this.$emit('input', event.target.value);
+    this.$emit('update:isvalid', Boolean(event.target.value));
   }
 }
 </script>

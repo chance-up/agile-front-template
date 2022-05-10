@@ -76,12 +76,13 @@ export default class TextForm extends Vue {
   onTextChange(val: string) {
     if (checkLength(val, 1, 20)) {
       this.notiMessage = [true, ''];
+      this.$emit('input', val);
     } else if (val == '') {
       this.notiMessage = [null, ''];
     } else {
       this.notiMessage = [false, this.$t('api.valid_check_nm') as string];
     }
-    this.$emit('input', val);
+    this.$emit('update:isvalid', this.notiMessage[0]);
   }
 
   @Watch('num')
@@ -92,6 +93,7 @@ export default class TextForm extends Vue {
     } else {
       this.notiMessage = [false, this.$t('api.valid_check_thimeout') as string];
     }
+    this.$emit('update:isvalid', this.notiMessage[0]);
   }
   notice() {
     this.show = true;

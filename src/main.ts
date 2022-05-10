@@ -5,9 +5,9 @@ import store from './store';
 import i18n from '@/plugins/Locale';
 import { BootstrapVue } from 'bootstrap-vue';
 
-import '@/style/admin.css';
-import '@/style/common.css';
 import '@/style/reset.css';
+import '@/style/common.css';
+import '@/style/admin.css';
 // Modal 삭제 금지($modal 사용)
 import Modal from '@/plugins/modal/Modal';
 import ModalPlugin from '@/plugins/modal/ModalPlugin';

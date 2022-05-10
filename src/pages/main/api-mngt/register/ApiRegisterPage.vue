@@ -25,8 +25,8 @@
             @input="duplicateCheckId"
           />
 
-          <MethodForm groupNm="Method" v-model="requestBody.meth" />
-          <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" />
+          <MethodForm groupNm="Method" v-model="requestBody.meth" :isvalid.sync="methodValid" />
+          <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" :isvalid.sync="uriValid" />
 
           <!-- <SelectSysForm
             :groupNm="$t('api.systemInterlockInformation')"
@@ -48,9 +48,27 @@
               }
             "
           />
-          <TextForm :groupNm="$t('api.timeOutMS')" type="number" :required="true" v-model="requestBody.timeOut" />
+          <TextForm
+            :groupNm="$t('api.timeOutMS')"
+            type="number"
+            :required="true"
+            v-model="requestBody.timeOut"
+            :isvalid.sync="timeoutValid"
+          />
           <TextForm :groupNm="$t('api.apiDescription')" type="textarea" v-model="requestBody.desc" />
         </ul>
+        <ModalLayout size="m" v-if="isShowModal">
+          <template v-slot:modalHeader
+            ><h1 class="h1-tit">{{ $t('api.apiRegister') }}</h1>
+          </template>
+          <template v-slot:modalContainer>
+            <p class="text">{{ $t('api.confirm_api_register') }}</p>
+          </template>
+          <template v-slot:modalFooter
+            ><button class="lg-btn purple-btn" @click="onSubmit">{{ $t('common.ok') }}</button
+            ><button class="lg-btn purple-btn" @click="closeModal">{{ $t('common.cancel') }}</button>
+          </template>
+        </ModalLayout>
         <div class="text-center" v-if="!showPage">
           <b-spinner
             v-show="!showPage"
@@ -63,9 +81,15 @@
     <template v-slot:buttons>
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="handleClickSubmitButton">등록테스트</button>
-        <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">{{ $t('common.register') }}</button>
-        <button class="lg-btn white-btn" @click="$router.go(-1)">{{ $t('common.cancel') }}</button>
+        <button class="lg-btn purple-btn" @click="handleClickTestSubmitButton" :disabled="isButtonDisabled">
+          등록테스트
+        </button>
+        <button class="lg-btn purple-btn" @click="onClickSubmitButton" :disabled="isButtonDisabled">
+          {{ $t('common.register') }}
+        </button>
+        <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isButtonDisabled">
+          {{ $t('common.cancel') }}
+        </button>
       </div>
     </template>
   </ContentLayout>
@@ -83,9 +107,10 @@ import MethodForm from '@/components/api-mngt/register/MethodForm.vue';
 import UriForm from '@/components/api-mngt/register/UriForm.vue';
 import TextDebounceForm from '@/components/api-mngt/register/TextDebounceForm.vue';
 import EndPointGroup from '@/components/api-mngt/register/EndPointGroup.vue';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { apiValidationCheck } from '@/store/modules/ApiModule';
 import { Dictionary } from 'vue-router/types/router';
-import { SystemIdEdpt, SystemResponse } from '@/types/SystemType';
+import { SystemIdEdpt } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
 import ApiModule from '@/store/modules/ApiModule';
@@ -101,6 +126,7 @@ import axios from 'axios';
     MethodForm,
     UriForm,
     EndPointGroup,
+    ModalLayout,
   },
 })
 export default class ApiRegisterPage extends Vue {
@@ -166,6 +192,7 @@ export default class ApiRegisterPage extends Vue {
     this.requestBody.id = '';
     this.requestBody.uriIn = '';
     this.requestBody.uriOut = '';
+    this.idValid = false;
   }
   apiIdCheck: boolean | null = null;
 
@@ -175,6 +202,7 @@ export default class ApiRegisterPage extends Vue {
     if (this.isDuplicatedId) {
       this.requestBody.uriIn = this.requestBody.sysId + '/v1/' + this.requestBody.id;
       this.requestBody.uriOut = this.requestBody.sysId + '/v1/' + this.requestBody.id;
+      this.uriValid = true;
     }
   }
 
@@ -195,26 +223,51 @@ export default class ApiRegisterPage extends Vue {
   // 데이터 확인
   idValid = false;
   methodValid = false;
-  handlerValid = false;
-  timeoutValid = false;
-  handleClickSubmitButton() {
-    // this.$modal.show(this.convertToString(this.requestBody) + '\n 등록하시겠습니까?');
-    confirm(this.convertToString(this.requestBody) + '\n' + this.$t('api.confirm_api_register'));
+  uriValid = false;
+  timeoutValid = true;
+  handleClickTestSubmitButton() {
+    console.log(this.isDuplicatedId, this.idValid, this.methodValid, this.uriValid, this.timeoutValid);
+    confirm(this.convertToString({ ...this.requestBody }));
   }
 
-  // 등록
-  async onSubmit() {
-    const val = this.idValid && this.methodValid && this.handlerValid && this.timeoutValid;
-
+  // API등록 로직
+  isShowModal = false;
+  isButtonDisabled = false;
+  onClickSubmitButton() {
+    const val =
+      this.isDuplicatedId &&
+      this.idValid &&
+      this.methodValid &&
+      this.uriValid &&
+      this.timeoutValid &&
+      this.requestBody.reqHndlrGrpId &&
+      this.requestBody.resHndlrGrpId;
+    // const val = true;
     if (!val) {
       this.$modal.show(`${this.$t('system.empty_check_message')}`);
       return;
     } else {
-      // await this.systemModule.registerSystem(this.systemItem);
-      this.$router.push({ name: 'api' });
+      this.isShowModal = true;
     }
   }
+  async onSubmit() {
+    this.isButtonDisabled = true;
+    this.isShowModal = false;
+    const apiCreateRequestBody = { ...this.requestBody };
+    await this.apiModule
+      .postApi(apiCreateRequestBody)
+      .then(() => {
+        this.$router.push('/api');
+      })
+      .catch(() => {
+        this.isButtonDisabled = false;
+        this.$modal.show(`${this.$t('system.api_register_fail')}`);
+      });
+  }
 
+  closeModal() {
+    this.$modal.hide();
+  }
   convertToString(body: ApiCreateRequestBody) {
     let res = '';
     Object.keys(body).forEach((key) => {
