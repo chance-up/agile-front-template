@@ -71,10 +71,11 @@ export default class MethodForm extends Vue {
   @Watch('value')
   onValueChange(val: string[]) {
     this.methList = val;
+    this.$emit('update:isvalid', Boolean(this.methList.length));
   }
   created() {
     this.methList = this.value;
-    console.log(this.methList);
+    this.$emit('update:isvalid', Boolean(this.methList.length));
   }
 
   handleOnClickMeth(event: any) {
@@ -85,6 +86,7 @@ export default class MethodForm extends Vue {
       this.methList.push(value);
     }
     this.$emit('input', this.methList);
+    this.$emit('update:isvalid', Boolean(this.methList.length));
   }
 }
 </script>

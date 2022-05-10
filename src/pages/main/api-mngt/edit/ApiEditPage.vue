@@ -35,6 +35,8 @@
           :groupNm="$t('api.resHndlrGrp')"
           :reqHandlerGroupList="reqHandlerGroupList"
           :resHandlerGroupList="resHandlerGroupList"
+          :resHandlerGroupId="requestBody.resHndlrGrpId"
+          :reqHandlerGroupId="requestBody.reqHndlrGrpId"
           @reqInput="
             (msg) => {
               requestBody.reqHndlrGrpId = msg;
@@ -87,9 +89,9 @@ import MethodForm from '@/components/api-mngt/register/MethodForm.vue';
 import UriForm from '@/components/api-mngt/register/UriForm.vue';
 import TextDebounceForm from '@/components/api-mngt/register/TextDebounceForm.vue';
 import EndPointGroup from '@/components/api-mngt/register/EndPointGroup.vue';
-import ApiModule, { apiValidationCheck } from '@/store/modules/ApiModule';
+import ApiModule from '@/store/modules/ApiModule';
 import { Dictionary } from 'vue-router/types/router';
-import { SystemIdEdpt, SystemResponse } from '@/types/SystemType';
+import { SystemResponse } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';

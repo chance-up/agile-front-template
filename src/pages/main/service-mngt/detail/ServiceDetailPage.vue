@@ -3,7 +3,11 @@
     <template v-if="!isShowProgress" v-slot:contents>
       <ul>
         <InfoGroup :inputNm="$t('service.id')" :value="serviceOption.id" />
-        <InfoGroup :inputNm="$t('service.date')" :value="serviceOption.svc_st_dt" />
+        <DateInfoGroup
+          :inputNm="$t('service.date')"
+          :startDt="serviceOption.svc_st_dt.slice(0, 10)"
+          :endDt="serviceOption.svc_end_dt.slice(0, 10)"
+        />
         <AuthGroup
           :inputNm="$t('service.authentication_method')"
           :athn="auth"
@@ -64,6 +68,7 @@
 </template>
 <script lang="ts">
 import InfoGroup from '@/components/service-mngt/InfoGroup.vue';
+import DateInfoGroup from '@/components/service-mngt/DateInfoGroup.vue';
 import AuthGroup from '@/components/service-mngt/AuthGroup.vue';
 import SlaGroup from '@/components/service-mngt/SlaGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
@@ -82,6 +87,7 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
     SlaGroup,
     ContentLayout,
     ModalLayout,
+    DateInfoGroup,
   },
 })
 export default class ServiceDetailPage extends Vue {
