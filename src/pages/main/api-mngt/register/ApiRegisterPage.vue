@@ -103,9 +103,6 @@ import axios from 'axios';
   },
 })
 export default class ApiRegisterPage extends Vue {
-  clickHandlerGroup(input: string) {
-    console.log('click Handler group, input: ' + input);
-  }
   systemModule = getModule(SystemModule, this.$store);
   apiModule = getModule(ApiModule, this.$store);
   handlerModule = getModule(HandlerModule, this.$store);
@@ -120,6 +117,10 @@ export default class ApiRegisterPage extends Vue {
   showPage = false;
 
   created() {
+    this.apiModule.apiReset();
+    this.handlerModule.handlerReset();
+    this.systemModule.systemReset();
+
     console.log('APiRegisterPage created');
     axios
       .all([
@@ -131,6 +132,11 @@ export default class ApiRegisterPage extends Vue {
         this.showPage = true;
       })
       .catch();
+  }
+  destroyed() {
+    this.apiModule.release();
+    this.systemModule.release();
+    this.handlerModule.release();
   }
   edptList: string[] | null = null;
   requestBody: ApiCreateRequestBody = {

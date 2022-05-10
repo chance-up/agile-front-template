@@ -53,4 +53,10 @@ export default class HandlerModule extends GateWayModule {
       handleCommonError(error);
     }
   }
+
+  @Action
+  handlerReset() {
+    this.context.commit('setResHandlerGroupList', []);
+    this.context.commit('setReqHandlerGroupList', []);
+  }
 }
