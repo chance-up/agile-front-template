@@ -16,7 +16,7 @@
         <URIGroup :inputNm="`${$t('api.uri')}`" :uriSer="apiDetail.uriIn" :uriSys="apiDetail.uriOut" />
         <InfoGroup
           :inputNm="`${$t('api.system')}` + ' ' + `${$t('api.interlock')}` + ' ' + `${$t('api.information')}`"
-          :value="apiDetail.ifGrp"
+          :value="apiDetail.edpt"
         />
         <InfoGroup
           :inputNm="`${$t('api.request')}` + ' ' + `${$t('api.handler')}` + ' ' + `${$t('api.group')}`"
