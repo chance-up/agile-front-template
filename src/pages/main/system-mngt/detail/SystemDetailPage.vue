@@ -11,7 +11,7 @@
         <InfoGroup :inputNm="$t('system.tkcgrNm')" :value="systemItem.tkcgr_nm" />
         <InfoGroup :inputNm="$t('system.tkcgrPos')" :value="systemItem.tkcgr_pos" />
         <InfoGroup :inputNm="$t('system.tkcgrEml')" :value="systemItem.tkcgr_eml" />
-        <IfFormlGroup :inputNm="$t('system.ifGrp')" :endPoints="systemItem.if_grp" />
+        <IfFormlGroup :inputNm="$t('system.edpt')" :endPoints="systemItem.edpt" />
         <InfoGroup :inputNm="$t('system.desc')" :value="systemItem.desc" />
         <ModalLayout size="m" v-if="isShowModal">
           <template v-slot:modalHeader

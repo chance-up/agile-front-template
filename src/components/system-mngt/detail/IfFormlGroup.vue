@@ -20,7 +20,7 @@
           <tbody>
             <tr v-for="(endPoint, index) in endPoints" :key="index">
               <td>{{ index + 1 }}</td>
-              <td class="tl">{{ endPoint.protocol }}://{{ endPoint.domain }}:{{ endPoint.port }}</td>
+              <td class="tl">{{ endPoint }}</td>
             </tr>
           </tbody>
         </table>
