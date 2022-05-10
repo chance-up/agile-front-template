@@ -319,23 +319,11 @@ export const dummyDetailData = {
       tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
       tkcgr_eml: 'cschoi@kt.com',
       if_grp: [
-        {
-          if_nm: 'authentication',
-          if_url: [
-            { protocol: 'https', domain: 'capri.com', port: '443' },
-            { protocol: 'https', domain: 'capri.com', port: '8080' },
-          ],
-        },
-        {
-          if_nm: 'service',
-          if_url: [
-            { protocol: 'https', domain: 'capri.com', port: '443' },
-            { protocol: 'https', domain: 'test.com', port: '8080' },
-            { protocol: 'http', domain: 'naver.com', port: '8081' },
-          ],
-        },
+        { protocol: 'https', domain: 'capri.com', port: '443' },
+        { protocol: 'https', domain: 'capri.com', port: '8080' },
+        { protocol: 'http', domain: 'naver.com', port: '8081' },
       ],
-      desc: 'desc',
+      desc: '시스템 KT_COM2 설명입니다.',
       created_at: '2022-04-20 17:44:23',
       created_by: 'updatedByAdmin',
       updated_at: '2022-04-25 09:50:59',

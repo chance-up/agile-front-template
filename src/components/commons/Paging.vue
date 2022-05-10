@@ -1,21 +1,23 @@
 <template>
-  <ul>
-    <li class="page-btn" v-show="isShowFirstBtn == true">
-      <a @click="onChangedPage(1)"><img src="@/assets/page_first.svg" alt="처음" /></a>
-    </li>
-    <li class="page-btn" v-show="isShowPrevBtn == true">
-      <a @click="onChangedPage(pagingOption.current_page - 1)"><img src="@/assets/page_before.svg" alt="이전" /></a>
-    </li>
-    <li v-for="(page, index) in pageList" :key="index" :class="page === pagingOption.current_page ? 'active' : ''">
-      <a @click="onChangedPage(page)">{{ page }}</a>
-    </li>
-    <li class="page-btn" v-show="isShowNextBtn == true">
-      <a @click="onChangedPage(pagingOption.current_page + 1)"><img src="@/assets/page_after.svg" alt="다음" /></a>
-    </li>
-    <li class="page-btn" v-show="isShowLastBtn == true">
-      <a @click="onChangedPage(pagingOption.total_pages)"><img src="@/assets/page_last.svg" alt="마지막" /></a>
-    </li>
-  </ul>
+  <div class="page-wrap">
+    <ul>
+      <li class="page-btn" v-show="isShowFirstBtn == true">
+        <a @click="onChangedPage(1)"><img src="@/assets/page_first.svg" alt="처음" /></a>
+      </li>
+      <li class="page-btn" v-show="isShowPrevBtn == true">
+        <a @click="onChangedPage(pagingOption.current_page - 1)"><img src="@/assets/page_before.svg" alt="이전" /></a>
+      </li>
+      <li v-for="(page, index) in pageList" :key="index" :class="page === pagingOption.current_page ? 'active' : ''">
+        <a @click="onChangedPage(page)">{{ page }}</a>
+      </li>
+      <li class="page-btn" v-show="isShowNextBtn == true">
+        <a @click="onChangedPage(pagingOption.current_page + 1)"><img src="@/assets/page_after.svg" alt="다음" /></a>
+      </li>
+      <li class="page-btn" v-show="isShowLastBtn == true">
+        <a @click="onChangedPage(pagingOption.total_pages)"><img src="@/assets/page_last.svg" alt="마지막" /></a>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script lang="ts">
