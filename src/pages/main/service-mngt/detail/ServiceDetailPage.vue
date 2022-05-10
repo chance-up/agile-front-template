@@ -73,7 +73,6 @@ import { ServiceResponse } from '@/types/ServiceType';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { Watch } from 'vue-property-decorator';
-import { USER_STATE } from '@/store/UserState';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 
 @Component({
@@ -112,13 +111,14 @@ export default class ServiceDetailPage extends Vue {
 
   created() {
     this.isShowProgress = true;
+
     this.serviceModule
       .getService(this.$route.params.serviceId)
       .then(() => {
         this.isShowProgress = false;
       })
       .catch((error) => {
-        this.$modal.show('서버 통신 에러');
+        this.$modal.show(`${this.$t('api.server_error')}`);
         this.isShowProgress = false;
       });
   }
