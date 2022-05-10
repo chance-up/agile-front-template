@@ -128,6 +128,7 @@ export default class ApiEditPage extends Vue {
     return this.systemModule.system;
   }
   created() {
+    this.isShowProgress = true;
     this.apiModule.getApiDetail(this.$route.params.id);
     console.log('APiRegisterPage created');
     axios
@@ -139,8 +140,12 @@ export default class ApiEditPage extends Vue {
       ])
       .then(() => {
         this.showPage = true;
+        this.isShowProgress = false;
       })
-      .catch();
+      .catch((error) => {
+        this.isShowProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
   // apiDetail 저장소 업데이트시 컴포넌트 초기값 업데이트 및 system detail 콜
   @Watch('apiDetail')
