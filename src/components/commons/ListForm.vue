@@ -2,14 +2,11 @@
   <div class="comp">
     <div class="tb-tit">
       <h2 class="h2-tit">{{ title }}</h2>
-
       <div class="btn-wrap">
         <slot name="list-btn-area" />
       </div>
     </div>
     <slot name="list-table" />
-    <!-- </table>
-    </div> -->
     <div class="page-wrap">
       <slot name="pagination" />
     </div>

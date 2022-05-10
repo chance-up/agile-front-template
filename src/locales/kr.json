@@ -126,7 +126,7 @@
     "name": "시스템명",
     "id": "시스템 ID",
     "tkcgr": "담당자",
-    "tkcgrNm": "담당자 이름",
+    "tkcgrNm": "담당자명",
     "tkcgrPos": "소속",
     "tkcgrEml": "E-mail",
     "ifGrp": "End-point",
