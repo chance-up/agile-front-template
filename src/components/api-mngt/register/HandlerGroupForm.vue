@@ -86,7 +86,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { HandlerGroupDetail } from '@/types/ApiType';
+import { HandlerGroupDetail } from '@/types/HandlerType';
 import HandlerModal from '@/components/api-mngt/register/HandlerModal.vue';
 
 @Component({

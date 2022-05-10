@@ -32,17 +32,17 @@
         <EndPointGroup groupNm="End-point" :edptList="edptList" />
 
         <HandlerGroupForm
-          :groupNm="$t('api.resHandlrGrp')"
+          :groupNm="$t('api.resHndlrGrp')"
           :reqHandlerGroupList="reqHandlerGroupList"
           :resHandlerGroupList="resHandlerGroupList"
           @reqInput="
             (msg) => {
-              requestBody.reqHandlrGrpId = msg;
+              requestBody.reqHndlrGrpId = msg;
             }
           "
           @resInput="
             (msg) => {
-              requestBody.resHandlrGrpId = msg;
+              requestBody.resHndlrGrpId = msg;
             }
           "
         />
@@ -76,7 +76,8 @@
 <script lang="ts">
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { ApiCreateRequestBody, HandlerGroupDetail } from '@/types/ApiType';
+import { ApiCreateRequestBody } from '@/types/ApiType';
+import { HandlerGroupDetail } from '@/types/HandlerType';
 import HandlerGroupForm from '@/components/api-mngt/register/HandlerGroupForm.vue';
 import SelectForm from '@/components/api-mngt/register/SelectForm.vue';
 import TextForm from '@/components/api-mngt/register/TextForm.vue';
@@ -128,7 +129,6 @@ export default class ApiEditPage extends Vue {
   }
   created() {
     this.apiModule.getApiDetail(this.$route.params.id);
-    this.apiModule.getHandlerGroupList();
     console.log('APiRegisterPage created');
     axios
       .all([
@@ -153,8 +153,8 @@ export default class ApiEditPage extends Vue {
         meth: this.apiDetail.meth,
         uriIn: this.apiDetail.uriIn,
         uriOut: this.apiDetail.uriOut,
-        reqHandlrGrpId: this.apiDetail.reqHandlrGrpId,
-        resHandlrGrpId: this.apiDetail.resHandlrGrpId,
+        reqHndlrGrpId: this.apiDetail.reqHndlrGrpId,
+        resHndlrGrpId: this.apiDetail.resHndlrGrpId,
         timeOut: this.apiDetail.timeOut,
         desc: this.apiDetail.desc,
       };
@@ -178,8 +178,8 @@ export default class ApiEditPage extends Vue {
     meth: '',
     uriIn: '',
     uriOut: '',
-    reqHandlrGrpId: '',
-    resHandlrGrpId: '',
+    reqHndlrGrpId: '',
+    resHndlrGrpId: '',
     timeOut: 15000,
     desc: '',
   };

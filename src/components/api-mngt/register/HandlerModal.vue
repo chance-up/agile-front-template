@@ -39,7 +39,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import HoverModal from '@/components/api-mngt/register/HoverModal.vue';
-import { HandlerGroupDetail } from '@/types/ApiType';
+import { HandlerGroupDetail } from '@/types/HandlerType';
 
 import HoverLayout from '@/components/commons/modal/HoverLayout.vue';
 

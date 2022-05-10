@@ -10,21 +10,18 @@
       <ul>
         <InfoGroup :inputNm="`${$t('api.sysId')}`" :value="apiDetail.sysId" />
         <InfoGroup :inputNm="`${$t('api.apiId')}`" :value="apiDetail.id" />
-        <InfoGroup :inputNm="`${$t('api.apiNm')}`" :value="apiDetail.nm" />
         <InfoGroup :inputNm="`${$t('api.interface')}` + ' ' + `${$t('api.number')}`" :value="apiDetail.ifNo" />
         <MethodGroup :inputNm="`${$t('api.method')}`" :methods="apiDetail.meth" />
         <URIGroup :inputNm="`${$t('api.uri')}`" :uriSer="apiDetail.uriIn" :uriSys="apiDetail.uriOut" />
-        <InfoGroup
-          :inputNm="`${$t('api.system')}` + ' ' + `${$t('api.interlock')}` + ' ' + `${$t('api.information')}`"
-          :value="apiDetail.edpt"
-        />
+        <EndPointGroup groupNm="End-point" :edptList="edptList" />
+
         <InfoGroup
           :inputNm="`${$t('api.request')}` + ' ' + `${$t('api.handler')}` + ' ' + `${$t('api.group')}`"
-          :value="apiDetail.reqHandlrGrpId"
+          :value="apiDetail.reqHndlrGrpId"
         />
         <InfoGroup
           :inputNm="`${$t('api.response')}` + ' ' + `${$t('api.handler')}` + ' ' + `${$t('api.group')}`"
-          :value="apiDetail.resHandlrGrpId"
+          :value="apiDetail.resHndlrGrpId"
         />
         <InfoGroup :inputNm="`${$t('api.timeOutMS')}`" :value="apiDetail.timeOut" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.description')}`" :value="apiDetail.desc" />
@@ -48,6 +45,7 @@
 import InfoGroup from '@/components/api-mngt/detail/InfoGroup.vue';
 import MethodGroup from '@/components/api-mngt/detail/MethodGroup.vue';
 import URIGroup from '@/components/api-mngt/detail/URIGroup.vue';
+import EndPointGroup from '@/components/api-mngt/register/EndPointGroup.vue';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { ApiDetailResponse } from '@/types/ApiType';
@@ -55,26 +53,52 @@ import ApiModule from '@/store/modules/ApiModule';
 import { getModule } from 'vuex-module-decorators';
 
 import { USER_STATE } from '@/store/UserState';
+import SystemModule from '@/store/modules/SystemModule';
+import { SystemResponse } from '@/types/SystemType';
 @Component({
   components: {
     InfoGroup,
     MethodGroup,
     URIGroup,
     ContentLayout,
+    EndPointGroup,
   },
 })
 export default class ApiDetailPage extends Vue {
   apiModule = getModule(ApiModule, this.$store);
+  systemModule = getModule(SystemModule, this.$store);
 
+  edptList: string[] | null = null;
   get apiDetail(): ApiDetailResponse | null {
     return this.apiModule.apiDetail;
   }
+  get system(): SystemResponse | null {
+    return this.systemModule.system;
+  }
+
   created() {
+    this.apiModule.apiReset();
+    this.systemModule.systemReset();
     this.apiModule.getApiDetail(this.$route.params.id);
   }
   destroyed() {
-    this.apiModule.apiReset();
+    this.apiModule.release();
+    this.systemModule.release();
   }
+
+  @Watch('apiDetail')
+  onApiDetailChange() {
+    if (this.apiDetail) {
+      this.systemModule.getSystemDetail(this.apiDetail.sysId);
+    }
+  }
+  @Watch('system')
+  onSystemChange() {
+    if (this.system) {
+      this.edptList = this.system.edpt;
+    }
+  }
+
   // for progress
   isShowProgress = false;
   get userState() {

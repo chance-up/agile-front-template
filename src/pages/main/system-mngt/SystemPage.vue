@@ -6,10 +6,14 @@
 
         <!-- Input Box 옵션 -->
         <div class="search-cont">
-          <InputBox v-model="searchData['id']" :label="$t('system.id')" placeholder="입력해주세요." />
+          <InputBox v-model="searchData['id']" :label="$t('system.id')" :placeholder="$t('common.placeholder')" />
         </div>
         <div class="search-cont">
-          <InputBox v-model="searchData['tkcgr_nm']" :label="$t('system.tkcgrNm')" placeholder="입력해주세요." />
+          <InputBox
+            v-model="searchData['tkcgr_nm']"
+            :label="$t('system.tkcgrNm')"
+            :placeholder="$t('common.placeholder')"
+          />
         </div>
         <button class="mid-btn" @click="searchOnClieckEvent">
           <i><img src="@/assets/search_ico.svg" :alt="$t('common.search')" /></i>{{ $t('common.search') }}
@@ -83,11 +87,21 @@
           ><h1 class="h1-tit">{{ $t('system.modal_system_delete') }}</h1>
         </template>
         <template v-slot:modalContainer>
-          <p class="text">{{ $t('system.modal_delete_message') }}</p>
+          <p class="text">{{ currId }} &nbsp; {{ $t('system.modal_delete_message') }}</p>
         </template>
-        <template v-slot:modalFooter
-          ><button class="lg-btn purple-btn" @click="deleteSystem">{{ $t('common.ok') }}</button
-          ><button class="lg-btn purple-btn" @click="closeModal">{{ $t('common.cancel') }}</button>
+        <template v-slot:modalFooter>
+          <button
+            class="lg-btn"
+            :class="{ 'purple-btn': !isDisabled, 'white-btn': isDisabled }"
+            @click="deleteSystem"
+            :disabled="isDisabled"
+          >
+            {{ isDisabled ? '' : $t('common.ok') }}
+            <b-spinner v-if="isDisabled" small></b-spinner>
+          </button>
+          <button class="lg-btn white-btn" @click="closeModal" :disabled="isDisabled">
+            {{ $t('common.cancel') }}
+          </button>
         </template>
       </ModalLayout>
     </template>
@@ -128,8 +142,11 @@ export default class SystemPage extends Vue {
   searchData: SearchCondition = {};
   pagingData: SearchCondition = {};
   DateList: string[][] = [];
+
   isShowProgress = true;
   isShowModal = false;
+  isDisabled = false;
+
   currId = '';
 
   get listOption(): SystemResponse[] {
@@ -225,13 +242,18 @@ export default class SystemPage extends Vue {
   }
 
   async deleteSystem() {
+    console.log('currId : ', this.currId);
+    this.isDisabled = true;
+
     await this.systemModule
       .deleteSystem(this.currId)
       .then(() => {
-        this.$router.go(0);
         this.closeModal();
+        this.isDisabled = false;
+        this.$router.go(0);
       })
       .catch(() => {
+        this.isDisabled = false;
         // this.isShowProgress = false;
         // this.$modal.show(`${this.$t('error.server_error')}`);
       });
@@ -253,6 +275,7 @@ export default class SystemPage extends Vue {
   }
 
   closeModal() {
+    console.log('closeModal');
     this.isShowModal = false;
   }
 

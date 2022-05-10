@@ -144,7 +144,7 @@ export default class ApiPage extends Vue {
     placeholder: `${this.$t('api.placeholder')}`,
     selectOptions: [
       { label: 'id', value: `${this.$t('api.apiId')}` },
-      { label: 'nm', value: `${this.$t('api.apiNm')}` },
+      { label: 'sysId', value: `${this.$t('api.sysId')}` },
       { label: 'uri', value: `${this.$t('api.uri')}` },
     ],
   };
@@ -155,7 +155,8 @@ export default class ApiPage extends Vue {
   };
   pagingData: SearchCondition = {};
 
-  mounted() {
+  created() {
+    this.apiModule.apiReset();
     const query = this.$route.query;
     console.log('query : ', query);
     if (Object.keys(query).length > 0) {
@@ -166,7 +167,7 @@ export default class ApiPage extends Vue {
   }
 
   destroyed() {
-    this.apiModule.apiReset();
+    this.apiModule.release();
   }
 
   get apiList(): ApiDetailResponse[] {
