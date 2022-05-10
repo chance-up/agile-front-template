@@ -79,7 +79,6 @@ import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { Watch } from 'vue-property-decorator';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
-import DateInfoGroup from '../../../../components/service-mngt/DateInfoGroup.vue';
 
 @Component({
   components: {
