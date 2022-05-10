@@ -23,11 +23,11 @@
         </li>
         <SlaGroup
           :inputNm="$t('service.SLA_mngt')"
-          :secVal.sync="serviceOption.sla.sec"
-          :minVal.sync="serviceOption.sla.min"
-          :hourVal.sync="serviceOption.sla.hr"
-          :dayVal.sync="serviceOption.sla.day"
-          :monthVal.sync="serviceOption.sla.mon"
+          :secVal="serviceOption.sla.sec"
+          :minVal="serviceOption.sla.min"
+          :hourVal="serviceOption.sla.hr"
+          :dayVal="serviceOption.sla.day"
+          :monthVal="serviceOption.sla.mon"
         />
         <InfoGroup :inputNm="$t('service.tkcgrNm')" :value="serviceOption.tkcgr_nm" />
         <InfoGroup :inputNm="$t('service.tkcgrPos')" :value="serviceOption.tkcgr_pos" />
