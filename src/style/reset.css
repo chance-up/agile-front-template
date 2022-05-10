@@ -90,6 +90,8 @@ input::placeholder{color: #aaa;}
 input:focus, input:active{outline:1px #8041F7 solid; background-color: #fff;}
 input:disabled{background-color:#e5e5e5 !important; border: 1px #e5e5e5 solid !important;}
 
+input.check-false:focus, input.check-false:active{outline:1px #FF4E63 solid; background-color: #fff;}
+
 
 /**** select  ****/
 select {
