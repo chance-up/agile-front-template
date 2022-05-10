@@ -14,7 +14,7 @@
         </div>
       </template>
       <template v-slot:list-form>
-        <ListForm title="API List" :isShowProgress="isShowProgress">
+        <ListForm title="API List">
           <template v-slot:list-btn-area>
             <button class="mid-btn" @click="$router.push({ name: 'api-register' })">
               <i><img src="@/assets/check_ico.svg" :alt="$t('common.register')" /></i>{{ $t('common.register') }}
@@ -73,7 +73,7 @@
               </table>
             </div>
           </template>
-          <template v-slot:pagination>
+          <template v-slot:pagination v-if="!isShowProgress">
             <Paging v-if="pagination" :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
             <ModalLayout size="m" v-if="showModal">
               <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
@@ -156,6 +156,7 @@ export default class ApiPage extends Vue {
   pagingData: SearchCondition = {};
 
   created() {
+    this.isShowProgress = true;
     this.apiModule.apiReset();
     const query = this.$route.query;
     console.log('query : ', query);
@@ -163,7 +164,15 @@ export default class ApiPage extends Vue {
       this.searchData.label = Object.keys(query)[0];
       this.searchData.value = query[Object.keys(query)[0]] as string;
     }
-    this.apiModule.getApiList(query);
+    this.apiModule
+      .getApiList(query)
+      .then(() => {
+        this.isShowProgress = false;
+      })
+      .catch((error) => {
+        this.isShowProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
 
   destroyed() {
@@ -177,20 +186,20 @@ export default class ApiPage extends Vue {
 
   // for progress
   isShowProgress = false;
-  get userState() {
-    return this.apiModule.currAsyncState;
-  }
-  @Watch('userState')
-  onCurrAsyncStateChange(userState: USER_STATE) {
-    console.log('userState : ', userState);
-    if (userState === USER_STATE.LOADING) {
-      this.isShowProgress = true;
-    } else if (userState === USER_STATE.ERROR) {
-      this.$modal.show(`${this.$t('api.server_error')}`);
-    } else if (userState === USER_STATE.DONE) {
-      this.isShowProgress = false;
-    }
-  }
+  // get userState() {
+  //   return this.apiModule.currAsyncState;
+  // }
+  // @Watch('userState')
+  // onCurrAsyncStateChange(userState: USER_STATE) {
+  //   console.log('userState : ', userState);
+  //   if (userState === USER_STATE.LOADING) {
+  //     this.isShowProgress = true;
+  //   } else if (userState === USER_STATE.ERROR) {
+  //     this.$modal.show(`${this.$t('api.server_error')}`);
+  //   } else if (userState === USER_STATE.DONE) {
+  //     this.isShowProgress = false;
+  //   }
+  // }
 
   // for searching
   searchOnClieckEvent() {

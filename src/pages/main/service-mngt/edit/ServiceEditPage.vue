@@ -117,8 +117,8 @@ import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { BasicAuthResponse, JWTAlgResponse, ServiceRegisterRequest } from '@/types/ServiceType';
-import { USER_STATE } from '@/store/UserState';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
+import axios from 'axios';
 
 @Component({
   components: {
@@ -211,16 +211,14 @@ export default class SystemRegisterPage extends Vue {
 
   created() {
     this.isShowProgress = true;
-    this.serviceModule
-      .getService(this.$route.params.id)
+    Promise.all([this.serviceModule.getService(this.$route.params.id), this.serviceModule.getJWTAlg()])
       .then(() => {
         this.isShowProgress = false;
       })
       .catch((error) => {
         this.isShowProgress = false;
-        this.$modal.show('서버 통신 에러');
+        this.$modal.show(`${this.$t('api.server_error')}`);
       });
-    this.serviceModule.getJWTAlg();
   }
 
   get JWTAlg(): JWTAlgResponse {

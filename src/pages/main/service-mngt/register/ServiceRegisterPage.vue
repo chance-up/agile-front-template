@@ -3,8 +3,9 @@
     :title="$t('service.register')"
     :subTitle="$t('service.register_sub_title')"
     :depth="$t('service.title')"
+    :isShowProgress="isShowProgress"
   >
-    <template v-slot:contents>
+    <template v-if="!isShowProgress" v-slot:contents>
       <ul>
         <TextDebounceForm
           type="text"
@@ -74,10 +75,10 @@
             ><h2 class="h1-tit">{{ $t('service.register') }}</h2>
           </template>
           <template v-slot:modalContainer>
-            <p v-if="!isShowProgress" class="text">{{ $t('service.register_message') }}</p>
-            <div v-if="isShowProgress" style="width: 100%; text-align: center">
+            <p v-if="!isRegisterProgress" class="text">{{ $t('service.register_message') }}</p>
+            <div v-if="isRegisterProgress" style="width: 100%; text-align: center">
               <b-spinner
-                v-show="isShowProgress"
+                v-show="isRegisterProgress"
                 style="width: 2.5rem; height: 2.5rem"
                 label="Large Spinner"
               ></b-spinner>
@@ -93,12 +94,12 @@
         </ModalLayout>
       </ul>
     </template>
-    <template v-slot:buttons>
+    <template v-if="!isShowProgress" v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isShowProgress">
-          {{ $t('common.register') }}<b-spinner v-show="isShowProgress" small></b-spinner>
+        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isRegisterProgress">
+          {{ $t('common.register') }}<b-spinner v-show="isRegisterProgress" small></b-spinner>
         </button>
-        <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isShowProgress">
+        <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isRegisterProgress">
           {{ $t('common.cancel') }}
         </button>
       </div>
@@ -144,6 +145,8 @@ export default class SystemRegisterPage extends Vue {
   dateValid = false;
   authValid = false;
   isBasicAuthProgress = false;
+  isRegisterProgress = false;
+  isShowProgress = false;
 
   @Watch('show')
   onShowChange(val: string) {
@@ -205,11 +208,19 @@ export default class SystemRegisterPage extends Vue {
     this.modal = false;
   }
 
-  async submit() {
+  submit() {
     console.log(this.formData);
     this.modal = false;
-    await this.serviceModule.createServiceAction(this.formData);
-    this.$router.push({ path: '/service' });
+    this.isRegisterProgress = true;
+    this.serviceModule
+      .createServiceAction(this.formData)
+      .then(() => {
+        this.$router.push({ path: '/service' });
+      })
+      .catch((error) => {
+        this.isRegisterProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
 
   timerId = 0;
@@ -256,10 +267,17 @@ export default class SystemRegisterPage extends Vue {
     return this.serviceModule.JWTAlg;
   }
 
-  isShowProgress = false;
-
   created() {
-    this.serviceModule.getJWTAlg();
+    this.isShowProgress = true;
+    this.serviceModule
+      .getJWTAlg()
+      .then(() => {
+        this.isShowProgress = false;
+      })
+      .catch((error) => {
+        this.isShowProgress = false;
+        this.$modal.show(`${this.$t('api.server_error')}`);
+      });
   }
 
   destroyed() {
