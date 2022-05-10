@@ -59,6 +59,7 @@
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="showModal" :disabled="isBtnDisabled">
           {{ $t('common.modify') }}
+          <b-spinner variant="light" label="Spinning" v-if="isBtnDisabled" small></b-spinner>
         </button>
         <button class="lg-btn white-btn" @click="cancelOnClickEvent">{{ $t('common.cancel') }}</button>
       </div>
@@ -147,27 +148,18 @@ export default class SystemEditPage extends Vue {
     this.isShowModal = false;
   }
 
-  onSubmit(): void {
-    if (confirm('서비스를 수정하시겠습니까?') == true) {
-      console.log(this.systemItem);
-      this.isShowProgress = true;
-      this.systemModule
-        .updateSystemDetail(this.systemItem)
-        .then(() => {
-          this.isShowProgress = false;
-        })
-        .catch((error) => {
-          this.isShowProgress = false;
-          this.$modal.show(`${this.$t('error.server_error')}`);
-        });
-    } else {
-      return;
-    }
-
-    // this.isBtnDisabled = true;
-
-    //   await this.systemModule.registerSystem(this.systemItem);
-    //   this.$router.push({ name: 'system' });
+  async onSubmit() {
+    this.isBtnDisabled = true;
+    this.systemModule
+      .updateSystemDetail(this.systemItem)
+      .then(() => {
+        this.isShowProgress = false;
+        this.$router.back();
+      })
+      .catch((error) => {
+        this.isShowProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
 
   cancelOnClickEvent() {

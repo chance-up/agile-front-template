@@ -144,9 +144,16 @@ export default class SystemRegisterPage extends Vue {
 
   async onSubmit() {
     this.isBtnDisabled = true;
-
-    await this.systemModule.registerSystem(this.systemItem);
-    this.$router.push({ name: 'system' });
+    await this.systemModule
+      .registerSystem(this.systemItem)
+      .then(() => {
+        this.isShowProgress = false;
+        this.$router.push({ name: 'system' });
+      })
+      .catch(() => {
+        this.isShowProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
 }
 </script>

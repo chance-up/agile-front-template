@@ -61,16 +61,23 @@ export default class EdptForm extends Vue {
   notiMessagePort: [boolean | null, string][] = [];
 
   created() {
-    this.strArr.forEach((str) => {
+    let isEmpty = true;
+    this.strArr.forEach((str, idx) => {
       this.edpts.push(stringToEdpt(str));
+      if (this.edpts[idx].domain !== '') {
+        isEmpty = false;
+      }
       this.notiMessageDomain.push([null, '']);
       this.notiMessagePort.push([null, '']);
     });
 
-    this.edpts.forEach((edpt, idx) => {
-      this.validCheckDomain(idx);
-      this.validCheckPort(idx);
-    });
+    // 도메인이 비어있지 않으면 유효성 검사를 수행한다.
+    if (!isEmpty) {
+      this.edpts.forEach((edpt, idx) => {
+        this.validCheckDomain(idx);
+        this.validCheckPort(idx);
+      });
+    }
   }
 
   @Watch('edpts', { deep: true })
@@ -167,32 +174,6 @@ export default class EdptForm extends Vue {
       this.notiMessagePort[idx][1] = this.$t('system.valid_check_edpt_port') as string;
     }
   }
-
-  // allValidCheck(idx: number) {
-  //   let domain = this.edpts[idx].domain;
-  //   if (checkLength(domain, 1, 30) && checkDomain(domain)) {
-  //     this.notiMessage[idx][0] = true;
-  //     this.notiMessage[idx][1] = '';
-  //   } else if (domain == '') {
-  //     this.notiMessage[idx][0] = false;
-  //     this.notiMessage[idx][1] = this.$t('system.empty_check') as string;
-  //   } else {
-  //     this.notiMessage[idx][0] = false;
-  //     this.notiMessage[idx][1] = this.$t('system.valid_check_edpt_domain') as string;
-  //   }
-
-  //   let port = this.edpts[idx].port;
-  //   if (checkLength(port, 1, 5) && checkDomain(port)) {
-  //     this.notiMessage[idx][0] = true;
-  //     this.notiMessage[idx][1] = '';
-  //   } else if (port == '') {
-  //     this.notiMessage[idx][0] = false;
-  //     this.notiMessage[idx][1] = this.$t('system.empty_check') as string;
-  //   } else {
-  //     this.notiMessage[idx][0] = false;
-  //     this.notiMessage[idx][1] = this.$t('system.valid_check_edpt_port') as string;
-  //   }
-  // }
 }
 </script>
 <style lang=""></style>
