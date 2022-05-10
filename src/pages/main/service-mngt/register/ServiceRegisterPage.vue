@@ -1,115 +1,277 @@
 <template>
-  <ContentLayout
-    :title="$t('service.register')"
-    :subTitle="$t('service.register_sub_title')"
-    :depth="$t('service.title')"
-    :isShowProgress="isShowProgress"
-  >
-    <template v-if="!isShowProgress" v-slot:contents>
-      <ul>
-        <TextDebounceForm
-          type="text"
-          :inputNm="$t('service.id')"
-          :check="isDuplicatedId"
-          :placeholder="$t('service.idEx')"
-          v-model="formData.id"
-          @input="duplicateCheckId()"
-          :isvalid.sync="idValid"
-        />
-        <DateGroup
-          :inputNm="$t('service.date')"
-          placeholderStart="YYYY-MM-DD"
-          placeholderENd="YYYY-MM-DD"
-          :startDt.sync="formData.svc_st_dt"
-          :endDt.sync="formData.svc_end_dt"
-          :isvalid.sync="dateValid"
-        />
-        <AuthReqGroup
-          @basicAuthClicked="basicAuthClicked"
-          :inputNm="$t('service.authentication_method')"
-          :basicId="basicAuth.id"
-          :basicPw="basicAuth.pw"
-          :athn.sync="show"
-          :alg.sync="JWTAlg.alg"
-          :pickedAlg.sync="formData.athn.JWT.alg"
-          :issuer.sync="formData.athn.JWT.issuer"
-          :subject.sync="formData.athn.JWT.subject"
-          :publicKey.sync="formData.athn.JWT.publickey"
-          :isvalid.sync="authValid"
-          :progress="isBasicAuthProgress"
-        ></AuthReqGroup>
-        <SlaReqGroup
-          :inputNm="$t('service.SLA_mngt')"
-          :secVal.sync="formData.sla.sec"
-          :minVal.sync="formData.sla.min"
-          :hourVal.sync="formData.sla.hr"
-          :dayVal.sync="formData.sla.day"
-          :monthVal.sync="formData.sla.mon"
-          :onSec.sync="slaSec"
-          :onMin.sync="slaMin"
-          :onHour.sync="slaHr"
-          :onDay.sync="slaDay"
-          :onMonth.sync="slaMon"
-        />
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.tkcgrNm')"
-          :placeholder="$t('service.tkcgrNmEx')"
-          :value.sync="formData.tkcgr_nm"
-          :isvalid.sync="tkcgrNmValid"
-        />
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.tkcgrPos')"
-          :placeholder="$t('service.tkcgrPosEx')"
-          :value.sync="formData.tkcgr_pos"
-          :isvalid.sync="tkcgrPosValid"
-        />
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.tkcgrEml')"
-          :placeholder="$t('service.tkcgrEmlEx')"
-          inputClass="input-box lg check-ok"
-          :value.sync="formData.tkcgr_eml"
-          :isvalid.sync="tkcgrEmlValid"
-        />
-        <SysExGroup :inputNm="$t('service.desc')" v-model="formData.desc" />
-
-        <ModalLayout size="m" v-if="modal">
-          <template v-slot:modalHeader
-            ><h2 class="h1-tit">{{ $t('service.register') }}</h2>
-          </template>
-          <template v-slot:modalContainer>
-            <p v-if="!isRegisterProgress" class="text">{{ $t('service.register_message') }}</p>
-            <div v-if="isRegisterProgress" style="width: 100%; text-align: center">
-              <b-spinner
-                v-show="isRegisterProgress"
-                style="width: 2.5rem; height: 2.5rem"
-                label="Large Spinner"
-              ></b-spinner>
+  <div>
+    <ContentLayout
+      :title="$t('service.register')"
+      :subTitle="$t('service.register_sub_title')"
+      :depth="$t('service.title')"
+      :isShowProgress="isShowProgress"
+    >
+      <template v-if="!isShowProgress" v-slot:contents>
+        <ul>
+          <TextDebounceForm
+            type="text"
+            :inputNm="$t('service.id')"
+            :check="isDuplicatedId"
+            :placeholder="$t('service.idEx')"
+            v-model="formData.id"
+            @input="duplicateCheckId()"
+            :isvalid.sync="idValid"
+          />
+          <DateGroup
+            :inputNm="$t('service.date')"
+            placeholderStart="YYYY-MM-DD"
+            placeholderENd="YYYY-MM-DD"
+            :startDt.sync="formData.svc_st_dt"
+            :endDt.sync="formData.svc_end_dt"
+            :isvalid.sync="dateValid"
+          />
+          <AuthReqGroup
+            @basicAuthClicked="basicAuthClicked"
+            :inputNm="$t('service.authentication_method')"
+            :basicId="basicAuth.id"
+            :basicPw="basicAuth.pw"
+            :athn.sync="show"
+            :alg.sync="JWTAlg.alg"
+            :pickedAlg.sync="formData.athn.JWT.alg"
+            :issuer.sync="formData.athn.JWT.issuer"
+            :subject.sync="formData.athn.JWT.subject"
+            :publicKey.sync="formData.athn.JWT.publickey"
+            :isvalid.sync="authValid"
+            :progress="isBasicAuthProgress"
+          ></AuthReqGroup>
+          <li>
+            <label class="label point">{{ $t('service.api_mngt') }}</label>
+            <div class="form-cont">
+              <button class="sm-btn" @click="showApiMngt()">권한설정</button>
             </div>
-          </template>
-          <template v-slot:modalFooter
-            ><button class="lg-btn purple-btn" @click="submit()">
-              {{ $t('common.ok') }}</button
-            ><button class="lg-btn purple-btn" @click="modalHide()">
-              {{ $t('common.cancel') }}
-            </button>
-          </template>
-        </ModalLayout>
-      </ul>
-    </template>
-    <template v-if="!isShowProgress" v-slot:buttons>
-      <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isRegisterProgress">
-          {{ $t('common.register') }}<b-spinner v-show="isRegisterProgress" small></b-spinner>
-        </button>
-        <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isRegisterProgress">
-          {{ $t('common.cancel') }}
-        </button>
+          </li>
+
+          <SlaReqGroup
+            :inputNm="$t('service.SLA_mngt')"
+            :secVal.sync="formData.sla.sec"
+            :minVal.sync="formData.sla.min"
+            :hourVal.sync="formData.sla.hr"
+            :dayVal.sync="formData.sla.day"
+            :monthVal.sync="formData.sla.mon"
+            :onSec.sync="slaSec"
+            :onMin.sync="slaMin"
+            :onHour.sync="slaHr"
+            :onDay.sync="slaDay"
+            :onMonth.sync="slaMon"
+          />
+          <InputGroup
+            type="text"
+            :inputNm="$t('service.tkcgrNm')"
+            :placeholder="$t('service.tkcgrNmEx')"
+            :value.sync="formData.tkcgr_nm"
+            :isvalid.sync="tkcgrNmValid"
+          />
+          <InputGroup
+            type="text"
+            :inputNm="$t('service.tkcgrPos')"
+            :placeholder="$t('service.tkcgrPosEx')"
+            :value.sync="formData.tkcgr_pos"
+            :isvalid.sync="tkcgrPosValid"
+          />
+          <InputGroup
+            type="text"
+            :inputNm="$t('service.tkcgrEml')"
+            :placeholder="$t('service.tkcgrEmlEx')"
+            inputClass="input-box lg check-ok"
+            :value.sync="formData.tkcgr_eml"
+            :isvalid.sync="tkcgrEmlValid"
+          />
+          <SysExGroup :inputNm="$t('service.desc')" v-model="formData.desc" />
+          <ModalLayout size="m" v-if="modal">
+            <template v-slot:modalHeader
+              ><h2 class="h1-tit">{{ $t('service.register') }}</h2>
+            </template>
+            <template v-slot:modalContainer>
+              <p v-if="!isRegisterProgress" class="text">{{ $t('service.register_message') }}</p>
+              <div v-if="isRegisterProgress" style="width: 100%; text-align: center">
+                <b-spinner
+                  v-show="isRegisterProgress"
+                  style="width: 2.5rem; height: 2.5rem"
+                  label="Large Spinner"
+                ></b-spinner>
+              </div>
+            </template>
+            <template v-slot:modalFooter
+              ><button class="lg-btn purple-btn" @click="submit()">
+                {{ $t('common.ok') }}</button
+              ><button class="lg-btn purple-btn" @click="modalHide()">
+                {{ $t('common.cancel') }}
+              </button>
+            </template>
+          </ModalLayout>
+        </ul>
+      </template>
+      <template v-if="!isShowProgress" v-slot:buttons>
+        <div class="btn-wrap">
+          <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isRegisterProgress">
+            {{ $t('common.register') }}<b-spinner v-show="isRegisterProgress" small></b-spinner>
+          </button>
+          <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isRegisterProgress">
+            {{ $t('common.cancel') }}
+          </button>
+        </div>
+      </template>
+    </ContentLayout>
+    <div v-if="showApiMngtModal" id="app" class="body-wrap">
+      <!------- handler pop -------->
+      <div class="pop-wrap lg-pop">
+        <div class="pop-header">
+          <h1 class="h1-tit">API 권한관리</h1>
+          <button>
+            <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
+          </button>
+        </div>
+
+        <div class="pop-container">
+          <div class="api-wrap">
+            <div class="comp">
+              <div class="search-form">
+                <input class="input-box" type="text" placeholder="API 검색" />
+              </div>
+              <ul class="api-list">
+                <li>
+                  <a class="stick">시스템_A</a>
+                  <div class="api-group">
+                    <div class="check-all">
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="checkAll" /><span class="checkmark"></span></div>
+                        <label for="checkAll">전체 선택</label>
+                      </div>
+                    </div>
+                    <div class="check-group">
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
+                        <label for="checkGet">시스템_A_API _01</label>
+                      </div>
+
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
+                        <label for="checkGet">시스템_A_API _02</label>
+                      </div>
+
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
+                        <label for="checkGet">시스템_A_API _03</label>
+                      </div>
+
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
+                        <label for="checkGet">시스템_A_API _04</label>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <a class="stick">시스템_B</a>
+                  <div class="api-group">
+                    <div class="check-all">
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="checkAll" /><span class="checkmark"></span></div>
+                        <label for="checkAll">전체 선택</label>
+                      </div>
+                    </div>
+                    <div class="check-group">
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
+                        <label for="checkGet">시스템_B_API _01</label>
+                      </div>
+
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
+                        <label for="checkGet">시스템_B_API _02</label>
+                      </div>
+
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
+                        <label for="checkGet">시스템_B_API _03</label>
+                      </div>
+
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
+                        <label for="checkGet">시스템_B_API _04</label>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <a class="stick">시스템_C</a>
+                  <div class="api-group">
+                    <div class="check-all">
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="checkAll" /><span class="checkmark"></span></div>
+                        <label for="checkAll">전체 선택</label>
+                      </div>
+                    </div>
+
+                    <div class="check-group">
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
+                        <label for="checkGet">시스템_C_API _01</label>
+                      </div>
+
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
+                        <label for="checkGet">시스템_C_API _02</label>
+                      </div>
+
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
+                        <label for="checkGet">시스템_C_API _03</label>
+                      </div>
+
+                      <div class="check-box">
+                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
+                        <label for="checkGet">시스템_C_API _04</label>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="comp gray">
+              <div class="box-tit">
+                <h3 class="h3-tit">권한 부여 된 API</h3>
+                <p class="total">total : <span>6</span></p>
+              </div>
+
+              <div class="api-cont">
+                <div class="api-stick">
+                  <span>시스템_A_API_01</span>
+                  <button>
+                    <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
+                  </button>
+                </div>
+                <div class="api-stick">
+                  <span>시스템_A_API_02</span>
+                  <button>
+                    <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
+                  </button>
+                </div>
+                <div class="api-stick">
+                  <span>시스템_A_API길어지면 _03</span>
+                  <button>
+                    <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  // pop-container   -->
+
+        <div class="pop-footer">
+          <button class="lg-btn purple-btn">저장</button>
+          <button class="lg-btn white-btn" @click="hideApiMngt()">취소</button>
+        </div>
       </div>
-    </template>
-  </ContentLayout>
+      <!------- handler pop -------->
+    </div>
+  </div>
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
@@ -125,6 +287,7 @@ import { BasicAuthResponse, JWTAlgResponse, ServiceRegisterRequest } from '@/typ
 import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { BSpinner } from 'bootstrap-vue';
+import ApiMngtModal from '@/components/service-mngt/ApiMngtModal.vue';
 
 @Component({
   components: {
@@ -137,6 +300,7 @@ import { BSpinner } from 'bootstrap-vue';
     TextDebounceForm,
     ModalLayout,
     BSpinner,
+    ApiMngtModal,
   },
 })
 export default class SystemRegisterPage extends Vue {
@@ -156,6 +320,7 @@ export default class SystemRegisterPage extends Vue {
   isBasicAuthProgress = false;
   isRegisterProgress = false;
   isShowProgress = false;
+  showApiMngtModal = false;
 
   @Watch('show')
   onShowChange(val: string) {
@@ -289,6 +454,13 @@ export default class SystemRegisterPage extends Vue {
 
   get JWTAlg(): JWTAlgResponse {
     return this.serviceModule.JWTAlg;
+  }
+
+  showApiMngt() {
+    this.showApiMngtModal = true;
+  }
+  hideApiMngt() {
+    this.showApiMngtModal = false;
   }
 
   created() {
