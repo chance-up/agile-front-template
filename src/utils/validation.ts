@@ -30,8 +30,8 @@ export const checkEnglishNumberKorean = (value: string) => {
 };
 
 // 어떻게 만들어야하지?
-// export const checkDomain = (value: string) => {
-//   console.log(value);
-//   const r = /^([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/gi;
-//   return r.test(String(value));
-// };
+export const checkDomain = (value: string) => {
+  console.log(value);
+  const r = /^(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,5})/gi;
+  return r.test(String(value));
+};

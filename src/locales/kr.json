@@ -141,10 +141,10 @@
     "valid_check_tkcgrNm": "형식에 맞게 입력하세요.(최대 20자, 영문/한글만 입력 가능)",
     "valid_check_tkcgrPos": "형식에 맞게 입력하세요.(최대 50자)",
     "valid_check_tkcgrEml": "형식에 맞게 입력하세요.(최대 20자, 이메일 형식에 맞게 입력)",
-    "valid_check_ifgrp_nm": "형식에 맞게 입력하세요.(최대 20자, 영문, 숫자만 입력 가능)",
-    "valid_check_ifgrp_domain": "도메인 형식에 맞게 입력하세요.(최대 20자, 영문, 숫자만 입력 가능)",
-    "valid_check_ifgrp_port": "포트 형식에 맞게 입력하세요.(최대 5자, 숫자만 입력 가능)",
-    "dupl_check_ifgrp_nm": "이미 존재하는 EndPoint입니다.",
+    "valid_check_edpt_nm": "형식에 맞게 입력하세요.(최대 30자, 도메인 형식에 맞게 입력)",
+    "valid_check_edpt_domain": "도메인 형식에 맞게 입력하세요.(최대 30자)",
+    "valid_check_edpt_port": "포트 형식에 맞게 입력하세요.(최대 5자)",
+    "dupl_check_edpt_nm": "이미 존재하는 EndPoint입니다.",
     "enter_search_data": "검색 데이터를 입력해주세요.",
     "empty_check_message": "정보를 올바르게 입력하세요.",
     "modal_system_delete": "시스템 삭제",
@@ -153,6 +153,7 @@
     "modal_register_message": "시스템을 등록하시겠습니까?",
     "modal_system_edit": "시스템 수정",
     "modal_edit_message": "시스템을 수정하시겠습니까?"
+    
   },
   "my": {
     "modify_top_title": "회원정보 수정",
