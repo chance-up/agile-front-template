@@ -2,39 +2,119 @@
   <li>
     <label class="label point">{{ inputNm }}</label>
     <div class="form-cont">
-      <div class="form-group">
-        <select v-model="SLA" class="select-box">
-          <option value="none">none</option>
-          <option value="TPS">TPS</option>
-          <option value="total">총량</option>
-        </select>
+      <div class="sla-toggle">
+        <button
+          class="btn-toggle"
+          :class="{
+            on: showSec,
+            '': !showSec,
+          }"
+          @click="onSec()"
+        >
+          Sec
+        </button>
+        <button
+          class="btn-toggle"
+          :class="{
+            on: showMin,
+            '': !showMin,
+          }"
+          @click="onMin()"
+        >
+          Min
+        </button>
+        <button
+          class="btn-toggle"
+          :class="{
+            on: showHour,
+            '': !showHour,
+          }"
+          @click="onHour()"
+        >
+          Hour
+        </button>
+        <button
+          class="btn-toggle"
+          :class="{
+            on: showDay,
+            '': !showDay,
+          }"
+          @click="onDay()"
+        >
+          Day
+        </button>
+        <button
+          class="btn-toggle"
+          :class="{
+            on: showMonth,
+            '': !showMonth,
+          }"
+          @click="onMonth()"
+        >
+          Month
+        </button>
+        <button
+          class="btn-toggle"
+          :class="{
+            on: none,
+            '': !none,
+          }"
+          @click="onNone()"
+        >
+          None
+        </button>
       </div>
 
-      <div v-if="SLA == 'total'" class="form-group sla-form">
-        <!--  총량  -->
-        <select class="select-box mr15" v-model="totalType" @focus="noticeType()">
-          <option value="MINITUE">분</option>
-          <option value="HOUR">시</option>
-          <option value="DAY">일</option>
-          <option value="MONTH">월</option>
-        </select>
-        <input type="text" id="" class="input-box" placeholder="number" v-model="totalCount" @focus="noticeCount()" />
-        <span>건</span>
-      </div>
-
-      <div v-if="SLA == 'TPS'" class="form-group sla-form">
-        <input type="text" id="" class="input-box lg" placeholder="number" v-model="TPSCount" @focus="noticeCount()" />
-        <span>건</span>
+      <div class="sla-group">
+        <div class="sla-form" v-if="showMonth">
+          <label class="label">Month : </label>
+          <input type="text" id="" class="input-box" placeholder="입력해주세요" v-model="month" />
+          <span>건</span>
+        </div>
+        <div class="sla-form" v-if="showDay">
+          <label class="label">Day : </label>
+          <input type="text" id="" class="input-box" placeholder="입력해주세요" v-model="day" />
+          <span>건</span>
+        </div>
+        <div class="sla-form" v-if="showHour">
+          <label class="label">Hour : </label>
+          <input type="text" id="" class="input-box" placeholder="입력해주세요" v-model="hour" />
+          <span>건</span>
+        </div>
+        <div class="sla-form" v-if="showMin">
+          <label class="label">Min : </label>
+          <input type="text" id="" class="input-box" placeholder="입력해주세요" v-model="min" />
+          <span>건</span>
+        </div>
+        <div class="sla-form" v-if="showSec">
+          <label class="label">Sec : </label>
+          <input type="text" id="" class="input-box" placeholder="입력해주세요" v-model="sec" />
+          <span>건</span>
+        </div>
       </div>
       <p
         v-if="
-          (showCount && SLA == 'total' && !totalCount) ||
-          (showType && SLA == 'total' && !totalType) ||
-          (showCount && SLA == 'TPS' && !TPSCount)
+          (showSec && sec == null) ||
+          (showMin && min == null) ||
+          (showHour && hour == null) ||
+          (showDay && day == null) ||
+          (showMonth && month == null)
         "
         class="red-txt noti"
       >
         해당 항목은 필수 입력값입니다.
+      </p>
+      <p
+        v-if="
+          (showSec && sec == 0) ||
+          (showSec && min == 0) ||
+          (showHour && hour == 0) ||
+          (showDay && day == 0) ||
+          (showMonth && month == 0)
+        "
+        class="red-txt noti"
+      >
+        1 이상의 값을 입력해주세요.
       </p>
     </div>
   </li>
@@ -44,50 +124,177 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class SlaReqGroup extends Vue {
   @Prop({ default: '' }) inputNm!: string;
-  @Prop({ default: '' }) SLAn!: string;
-  @Prop({ default: '' }) type!: string;
-  @Prop({ default: 0 }) totalCnt!: number;
-  @Prop({ default: 0 }) TPSCnt!: number;
+  @Prop({ default: null }) secVal!: number | null;
+  @Prop({ default: null }) minVal!: number | null;
+  @Prop({ default: null }) hourVal!: number | null;
+  @Prop({ default: null }) dayVal!: number | null;
+  @Prop({ default: null }) monthVal!: number | null;
 
-  get SLA() {
-    return this.SLAn;
-  }
-  set SLA(val: string) {
-    this.showType = false;
-    this.showCount = false;
-    this.$emit('update:SLAn', val);
-  }
+  showSec = false;
+  showMin = false;
+  showHour = false;
+  showDay = false;
+  showMonth = false;
+  none = false;
 
-  get totalType() {
-    return this.type;
+  get sec() {
+    if (this.secVal != null) {
+      this.showSec = true;
+    }
+    return this.secVal;
   }
-  set totalType(val: string) {
-    this.$emit('update:type', val);
-  }
-
-  get totalCount() {
-    return this.totalCnt;
-  }
-  set totalCount(val: number) {
-    this.$emit('update:totalCnt', val);
+  set sec(val: number | null) {
+    this.$emit('update:secVal', val);
   }
 
-  get TPSCount() {
-    return this.TPSCnt;
+  get min() {
+    if (this.minVal != null) {
+      this.showMin = true;
+    }
+    return this.minVal;
   }
-  set TPSCount(val: number) {
-    this.$emit('update:TPSCnt', val);
+  set min(val: number | null) {
+    this.$emit('update:minVal', val);
   }
 
-  showType = false;
-
-  noticeType() {
-    this.showType = true;
+  get hour() {
+    if (this.hourVal != null) {
+      this.showHour = true;
+    }
+    return this.hourVal;
   }
-  showCount = false;
+  set hour(val: number | null) {
+    this.$emit('update:hourVal', val);
+  }
 
-  noticeCount() {
-    this.showCount = true;
+  get day() {
+    if (this.dayVal != null) {
+      this.showDay = true;
+    }
+    return this.dayVal;
+  }
+  set day(val: number | null) {
+    this.$emit('update:dayVal', val);
+  }
+
+  get month() {
+    if (this.monthVal != null) {
+      this.showMonth = true;
+    }
+    return this.monthVal;
+  }
+  set month(val: number | null) {
+    this.$emit('update:monthVal', val);
+  }
+
+  created() {
+    if (
+      this.monthVal == null &&
+      this.dayVal == null &&
+      this.hourVal == null &&
+      this.minVal == null &&
+      this.secVal == null
+    ) {
+      this.none = true;
+    } else {
+      this.none = false;
+    }
+  }
+
+  onSec() {
+    this.showSec = !this.showSec;
+    this.sec = null;
+    if (
+      this.showMonth == false &&
+      this.showDay == false &&
+      this.showHour == false &&
+      this.showMin == false &&
+      this.showSec == false
+    ) {
+      this.none = true;
+    } else {
+      this.none = false;
+    }
+  }
+
+  onMin() {
+    this.showMin = !this.showMin;
+    this.min = null;
+    if (
+      this.showMonth == false &&
+      this.showDay == false &&
+      this.showHour == false &&
+      this.showMin == false &&
+      this.showSec == false
+    ) {
+      this.none = true;
+    } else {
+      this.none = false;
+    }
+  }
+
+  onHour() {
+    this.showHour = !this.showHour;
+    this.hour = null;
+    if (
+      this.showMonth == false &&
+      this.showDay == false &&
+      this.showHour == false &&
+      this.showMin == false &&
+      this.showSec == false
+    ) {
+      this.none = true;
+    } else {
+      this.none = false;
+    }
+  }
+
+  onDay() {
+    this.showDay = !this.showDay;
+    this.day = null;
+    if (
+      this.showMonth == false &&
+      this.showDay == false &&
+      this.showHour == false &&
+      this.showMin == false &&
+      this.showSec == false
+    ) {
+      this.none = true;
+    } else {
+      this.none = false;
+    }
+  }
+
+  onMonth() {
+    this.showMonth = !this.showMonth;
+    this.month = null;
+    if (
+      this.showMonth == false &&
+      this.showDay == false &&
+      this.showHour == false &&
+      this.showMin == false &&
+      this.showSec == false
+    ) {
+      this.none = true;
+    } else {
+      this.none = false;
+    }
+  }
+
+  onNone() {
+    this.none = !this.none;
+    if (this.none) {
+      this.showSec = false;
+      this.showMin = false;
+      this.showHour = false;
+      this.showDay = false;
+      this.showMonth = false;
+      this.sec = null;
+      this.min = null;
+      this.hour = null;
+      this.day = null;
+      this.month = null;
+    }
   }
 }
 </script>

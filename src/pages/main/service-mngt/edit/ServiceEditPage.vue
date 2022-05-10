@@ -211,40 +211,17 @@ export default class SystemRegisterPage extends Vue {
   }
 
   created() {
-    this.serviceModule.getService(this.$route.params.id);
+    this.isShowProgress = true;
+    this.serviceModule
+      .getService(this.$route.params.id)
+      .then(() => {
+        this.isShowProgress = false;
+      })
+      .catch((error) => {
+        this.isShowProgress = false;
+        this.$modal.show('서버 통신 에러');
+      });
     this.serviceModule.getJWTAlg();
-  }
-
-  get userState() {
-    return this.serviceModule.currAsyncState;
-  }
-
-  @Watch('userState')
-  onCurrAsyncStateChange(userState: USER_STATE) {
-    console.log('userState : ', userState);
-    if (userState === USER_STATE.LOADING) {
-      this.isShowProgress = true;
-    } else if (userState === USER_STATE.ERROR) {
-      this.$modal.show('서버 통신 에러');
-    } else if (userState === USER_STATE.DONE) {
-      this.isShowProgress = false;
-    }
-  }
-
-  get basicAuthState() {
-    return this.serviceModule.basicAuthState;
-  }
-
-  @Watch('basicAuthState')
-  onBasicAuthStateChange(userState: USER_STATE) {
-    console.log('userState : ', userState);
-    if (userState === USER_STATE.LOADING) {
-      this.isBasicAuthProgress = true;
-    } else if (userState === USER_STATE.ERROR) {
-      this.$modal.show('서버 통신 에러');
-    } else if (userState === USER_STATE.DONE) {
-      this.isBasicAuthProgress = false;
-    }
   }
 
   get JWTAlg(): JWTAlgResponse {
@@ -274,7 +251,16 @@ export default class SystemRegisterPage extends Vue {
   }
 
   basicAuthClicked() {
-    this.serviceModule.getBasicAuth();
+    this.isBasicAuthProgress = true;
+
+    this.serviceModule
+      .getBasicAuth()
+      .then(() => {
+        this.isBasicAuthProgress = false;
+      })
+      .catch((error) => {
+        this.isBasicAuthProgress = false;
+      });
   }
 
   get basicAuth(): BasicAuthResponse {

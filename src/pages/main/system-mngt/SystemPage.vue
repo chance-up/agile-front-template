@@ -124,6 +124,7 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { SearchCondition } from '@/types/SearchType';
 import { SystemResponse } from '@/types/SystemType';
 import { Pagination } from '@/types/GateWayResponse';
+import ErrorCode from '@/error/ErrorCodes';
 
 @Component({
   components: {

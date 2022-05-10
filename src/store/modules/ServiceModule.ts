@@ -99,8 +99,6 @@ export default class ServiceModule extends GateWayModule {
     alg: [],
   };
 
-  public basicAuthState = USER_STATE.IDLE;
-
   @Action
   serviceReset() {
     this.context.commit('setServiceList', []);
@@ -123,7 +121,7 @@ export default class ServiceModule extends GateWayModule {
     this.servicePagination = pagination;
   }
 
-  @Action
+  @Action({ rawError: true })
   async getServiceList(searchOption?: object) {
     let data = null;
     if (searchOption == undefined) {
@@ -132,24 +130,14 @@ export default class ServiceModule extends GateWayModule {
       data = JSON.stringify(getSearchServiceInfo);
     }
     try {
-      this.showLoading();
-
       addMock('/api/service/getServiceInfo', data);
       const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
         '/api/service/getServiceInfo'
       );
       this.context.commit('setServiceList', response.data.value);
       this.context.commit('setServicePagination', response.data.pagination);
-      this.dissmissLoading();
-      return;
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
-        console.log('Cancel');
-      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        this.showError();
-      } else {
-        this.showError();
-      }
+      return Promise.reject(error);
     }
   }
 
@@ -159,11 +147,10 @@ export default class ServiceModule extends GateWayModule {
     this.service = data;
   }
 
-  @Action
+  @Action({ rawError: true })
   async getService(id: string) {
     addMock('/api/service/getServiceId', JSON.stringify(getServiceId));
     try {
-      this.showLoading();
       const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>(
         '/api/service/getServiceId',
         {
@@ -172,13 +159,8 @@ export default class ServiceModule extends GateWayModule {
       );
 
       this.context.commit('setService', response.data.value);
-      this.dissmissLoading();
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        this.showError();
-      } else {
-        this.showError();
-      }
+      return Promise.reject(error);
     }
   }
 
@@ -188,12 +170,11 @@ export default class ServiceModule extends GateWayModule {
   //   this.service = data;
   // }
 
-  @Action
-  async createserviceAction(data: ServiceRegisterRequest) {
+  @Action({ rawError: true })
+  async createServiceAction(data: ServiceRegisterRequest) {
     addMock('/api/service/registerService', JSON.stringify(getServiceId));
 
     try {
-      this.showLoading();
       const response = await AxiosClient.getInstance().post<GateWayResponse<ServiceResponse>>(
         '/api/service/registerService',
         {
@@ -201,15 +182,10 @@ export default class ServiceModule extends GateWayModule {
         }
       );
       console.log(response.data.value);
-      this.dissmissLoading();
       // TODO:: 성공 or 실패 팝업으로 변경
       // this.context.commit('createserviceMutation', response.data.value);
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        this.showError();
-      } else {
-        this.showError();
-      }
+      return Promise.reject(error);
     }
   }
 
@@ -231,26 +207,20 @@ export default class ServiceModule extends GateWayModule {
   //     });
   //   }
 
-  @Action
+  @Action({ rawError: true })
   async editServiceAction(data: ServiceRegisterRequest) {
     addMock('/api/service/updateServiceInfo', JSON.stringify(getServiceId));
     try {
-      this.showLoading();
       const response = await AxiosClient.getInstance().put<GateWayResponse<ServiceRegisterRequest>>(
         '/api/service/updateServiceInfo',
         {
           data,
         }
       );
-      this.dissmissLoading();
       // TODO:: 성공 or 실패 팝업으로 변경
       // this.context.commit('editServiceMutation', response.data);
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        this.showError();
-      } else {
-        this.showError();
-      }
+      return Promise.reject(error);
     }
   }
 
@@ -276,11 +246,7 @@ export default class ServiceModule extends GateWayModule {
       // this.getServiceList();
       // }
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        this.showError();
-      } else {
-        this.showError();
-      }
+      return Promise.reject(error);
     }
   }
 
@@ -317,12 +283,14 @@ export default class ServiceModule extends GateWayModule {
 
   @Action
   async getBasicAuth() {
-    addMock('/service/basicauth/', JSON.stringify(getBasicAuth));
-    this.context.commit('setBasicAuthState', USER_STATE.LOADING);
-    const response = await AxiosClient.getInstance().get<GateWayResponse<BasicAuthResponse>>('/service/basicauth/');
-    console.log('getBasicAuth' + response.data.value.id);
-    this.context.commit('setBasicAuth', response.data.value);
-    this.context.commit('setBasicAuthState', USER_STATE.DONE);
+    try {
+      addMock('/service/basicauth/', JSON.stringify(getBasicAuth));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<BasicAuthResponse>>('/service/basicauth/');
+      console.log('getBasicAuth' + response.data.value.id);
+      this.context.commit('setBasicAuth', response.data.value);
+    } catch (error: GateWayError | any) {
+      return Promise.reject(error);
+    }
   }
 
   @Mutation
@@ -336,11 +304,5 @@ export default class ServiceModule extends GateWayModule {
     addMock('/service/jwt/', JSON.stringify(getJWTAlg));
     const response = await AxiosClient.getInstance().get<GateWayResponse<JWTAlgResponse>>('/service/jwt/');
     this.context.commit('setJWTAuth', response.data.value);
-  }
-
-  @Mutation
-  setBasicAuthState(state: USER_STATE) {
-    console.log('fetchCurrAsyncState', state);
-    this.basicAuthState = state;
   }
 }
