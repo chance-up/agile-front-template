@@ -42,7 +42,7 @@
       </div>
     </li>
     <li>
-      <label class="label point">{{ groupNm }}ss</label>
+      <label class="label point">{{ groupNm }}</label>
       <div class="form-cont">
         <!--  multi select -->
         <div class="multi-wrap">
