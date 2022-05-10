@@ -1,16 +1,13 @@
 <template>
   <li>
     <label class="label">{{ inputNm }}</label>
-    <div v-if="SLAn == 'total'" class="form-cont">
-      <div class="form-group sla-form">
-        <span v-if="term == 'MINITUE'">분</span> <span v-if="term == 'HOUR'">시간</span
-        ><span v-if="term == 'DAY'">일</span><span v-if="term == 'MONTH'">월</span>/<span>{{ totalCount }}</span
-        >건
-      </div>
-    </div>
-    <div v-if="SLAn == 'none'" class="form-cont">
-      <div class="form-group sla-form">
-        <span>none</span>
+    <div class="form-cont">
+      <div class="sla-group col-2">
+        <div class="sla-form"><span class="bold">Month : </span><span>100</span><span>건</span></div>
+        <div class="sla-form"><span class="bold">Day : </span><span>30</span><span>건</span></div>
+        <div class="sla-form"><span class="bold">Hour : </span><span>100</span><span>건</span></div>
+        <div class="sla-form"><span class="bold">Min : </span><span>30</span><span>건</span></div>
+        <div class="sla-form"><span class="bold">Sec : </span><span>30</span><span>건</span></div>
       </div>
     </div>
   </li>

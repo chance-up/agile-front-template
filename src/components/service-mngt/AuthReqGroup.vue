@@ -3,13 +3,13 @@
     <label class="label point">{{ inputNm }}</label>
     <div class="form-cont">
       <div class="form-group">
-        <select class="select-box" v-model="auth">
+        <select class="select-box lg" v-model="auth">
           <option value="BASIC_AUTH">Basic Auth</option>
           <option value="JWT">JWT</option>
         </select>
       </div>
 
-      <div v-if="auth == 'BASIC_AUTH'" class="domain-wrap">
+      <div v-if="auth == 'BASIC_AUTH'" class="auth-group">
         <!-- Basic Auth -->
         <ul class="domain-list lg">
           <li>
@@ -32,7 +32,7 @@
       </div>
       <!-- // Basic Auth -->
       <!-- JWT -->
-      <div v-if="auth == 'JWT'" class="domain-wrap">
+      <div v-if="auth == 'JWT'" class="auth-group">
         <ul class="domain-list lg">
           <li>
             <div class="auth-form">
