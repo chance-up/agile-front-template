@@ -12,7 +12,6 @@
           :inputNm="$t('system.id')"
           :value.sync="systemItem.id"
           :place="$t('system.id')"
-          inputClass="input-box lg"
           :disabled="true"
         />
         <InputGroup
@@ -20,7 +19,6 @@
           :value.sync="systemItem.tkcgr_nm"
           :inputNm="$t('system.tkcgrNm')"
           :place="$t('system.tkcgrNm')"
-          inputClass="input-box lg check-false"
         />
         <!-- validCheck="중복된 API ID 입니다." -->
         <InputGroup
@@ -28,13 +26,11 @@
           :inputNm="$t('system.tkcgrPos')"
           :value.sync="systemItem.tkcgr_pos"
           :place="$t('system.tkcgrPos')"
-          inputClass="input-box lg check-ok"
         />
         <InputGroup
           :inputNm="$t('system.tkcgrEml')"
           :value.sync="systemItem.tkcgr_eml"
           :place="$t('system.tkcgrEml')"
-          inputClass="input-box lg check-ok"
           type="text"
         />
         <!-- <InterfaceGroup :inputNm="$t('system.ifGrp')" :ifgrps.sync="systemItem.if_grp" /> -->
