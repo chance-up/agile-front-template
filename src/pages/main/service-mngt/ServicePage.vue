@@ -175,7 +175,7 @@ export default class ServiceManagementPage extends Vue {
         },
       });
     } else {
-      this.$modal.show('검색 데이터를 입력해주세요.');
+      this.$modal.show(`${this.$t('service.enter_search_data')}`);
     }
   }
   created() {

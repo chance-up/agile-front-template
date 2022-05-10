@@ -52,9 +52,9 @@
     </template>
     <template v-slot:buttons v-if="!isShowProgress">
       <div class="btn-wrap">
-        <button id="submitBtn" class="lg-btn purple-btn" @click="showModal" :disabled="isShowModal">
+        <button id="submitBtn" class="lg-btn purple-btn" @click="showModal" :disabled="isBtnDisabled">
           {{ $t('common.register') }}
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="isShowModal"></span>
+          <b-spinner variant="light" label="Spinning" v-if="isBtnDisabled" small></b-spinner>
         </button>
         <button class="lg-btn white-btn" @click="cancelOnClickEvent">{{ $t('common.cancel') }}</button>
       </div>
@@ -71,9 +71,7 @@ import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import TextDebounceForm from '@/components/system-mngt/TextDebounceForm.vue';
 import EdptForm from '@/components/system-mngt/EdptForm.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
-
 import { SystemResponse } from '@/types/SystemType';
-import { USER_STATE } from '@/store/UserState';
 
 @Component({
   components: {
@@ -94,7 +92,7 @@ export default class SystemRegisterPage extends Vue {
 
   isShowProgress = false;
   isShowModal = false;
-  isBtnDisabled = true;
+  isBtnDisabled = false;
 
   systemModule = getModule(SystemModule, this.$store);
 
@@ -112,21 +110,6 @@ export default class SystemRegisterPage extends Vue {
     updated_by: '',
   };
 
-  get userState() {
-    return this.systemModule.currAsyncState;
-  }
-
-  async onSubmit() {
-    console.log('idValid :: ', this.idValid);
-    console.log('tkcgrNmValid :: ', this.tkcgrNmValid);
-    console.log('tkcgrPosValid :: ', this.tkcgrPosValid);
-    console.log('tkcgrEmlValid :: ', this.tkcgrEmlValid);
-    console.log('edptValid :: ', this.edptValid);
-
-    await this.systemModule.registerSystem(this.systemItem);
-    this.$router.push({ name: 'system' });
-  }
-
   cancelOnClickEvent() {
     this.$router.go(-1);
   }
@@ -137,7 +120,6 @@ export default class SystemRegisterPage extends Vue {
   }
 
   showModal() {
-    // TODO : Show Modal 을 띄웠을 떄 등록 버튼 비활성화 해야함.
     console.log('idValid :: ', this.idValid);
     console.log('tkcgrNmValid :: ', this.tkcgrNmValid);
     console.log('tkcgrPosValid :: ', this.tkcgrPosValid);
@@ -158,6 +140,13 @@ export default class SystemRegisterPage extends Vue {
 
   closeModal() {
     this.isShowModal = false;
+  }
+
+  async onSubmit() {
+    this.isBtnDisabled = true;
+
+    await this.systemModule.registerSystem(this.systemItem);
+    this.$router.push({ name: 'system' });
   }
 }
 </script>

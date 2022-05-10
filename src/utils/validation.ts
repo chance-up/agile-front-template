@@ -4,6 +4,11 @@ export const checkEmail = (email: string) => {
   return r.test(String(email));
 };
 
+export const checkTel = (tel: string) => {
+  const r = /^\d{2,3}\d{3,4}\d{4}$/;
+  return r.test(String(tel));
+};
+
 export const checkLength = (value: string, min: number, max: number) => {
   return value.length >= min && value.length <= max;
 };
@@ -20,18 +25,30 @@ export const checkEnglishNumber = (value: string) => {
   const r = /^[a-zA-Z0-9]*$/;
   return r.test(String(value));
 };
+
 export const checkEnglishKorean = (value: string) => {
   const r = /^[A-Za-zㄱ-ㅎ가-힣]+$/;
   return r.test(String(value));
 };
+
 export const checkEnglishNumberKorean = (value: string) => {
   const r = /^[a-zA-Z0-9가-힣]*$/;
   return r.test(String(value));
 };
 
+export const checkOnlyEnglishAndNumber = (value: string) => {
+  const r = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]*$/;
+  return r.test(String(value));
+};
+
+export const checkEnglishNumberKoreanSpacialChar = (value: string) => {
+  const r = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]*$/;
+  return r.test(String(value));
+};
+
 // 어떻게 만들어야하지?
-// export const checkDomain = (value: string) => {
-//   console.log(value);
-//   const r = /^([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/gi;
-//   return r.test(String(value));
-// };
+export const checkDomain = (value: string) => {
+  console.log(value);
+  const r = /^(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,5})/gi;
+  return r.test(String(value));
+};

@@ -52,6 +52,11 @@
           :hourVal.sync="formData.sla.hr"
           :dayVal.sync="formData.sla.day"
           :monthVal.sync="formData.sla.mon"
+          :onSec.sync="slaSec"
+          :onMin.sync="slaMin"
+          :onHour.sync="slaHr"
+          :onDay.sync="slaDay"
+          :onMonth.sync="slaMon"
         />
         <InputGroup
           type="text"
@@ -143,6 +148,11 @@ export default class SystemRegisterPage extends Vue {
   tkcgrPosValid = null;
   tkcgrEmlValid = null;
   authValid = null;
+  slaSec = false;
+  slaMin = false;
+  slaHr = false;
+  slaDay = false;
+  slaMon = false;
 
   get serviceOption(): ServiceRegisterRequest {
     return this.serviceModule.service;
@@ -237,10 +247,25 @@ export default class SystemRegisterPage extends Vue {
         : true;
 
     if (!val) {
-      this.$modal.show('빈 항목이 있습니다.');
+      this.$modal.show(`${this.$t('service.empty_check_message')}`);
       return;
     } else {
-      this.modal = true;
+      if (
+        (this.slaSec == true && this.formData.sla.sec == null) ||
+        (this.slaMin == true && this.formData.sla.min == null) ||
+        (this.slaHr == true && this.formData.sla.hr == null) ||
+        (this.slaDay == true && this.formData.sla.day == null) ||
+        (this.slaMon == true && this.formData.sla.mon == null) ||
+        (this.slaSec == true && this.formData.sla.sec == 0) ||
+        (this.slaMin == true && this.formData.sla.min == 0) ||
+        (this.slaHr == true && this.formData.sla.hr == 0) ||
+        (this.slaDay == true && this.formData.sla.day == 0) ||
+        (this.slaMon == true && this.formData.sla.mon == 0)
+      ) {
+        this.$modal.show(`${this.$t('service.empty_check_message')}`);
+      } else {
+        this.modal = true;
+      }
     }
   }
   modalHide() {

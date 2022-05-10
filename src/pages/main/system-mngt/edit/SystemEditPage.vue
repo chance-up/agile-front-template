@@ -42,10 +42,24 @@
         <EdptForm :inputNm="$t('system.edpt')" :strArr.sync="systemItem.edpt" :isValid.sync="edptValid" />
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
+      <ModalLayout size="m" v-if="isShowModal">
+        <template v-slot:modalHeader
+          ><h1 class="h1-tit">{{ $t('system.modal_system_edit') }}</h1>
+        </template>
+        <template v-slot:modalContainer>
+          <p class="text">{{ $t('system.modal_edit_message') }}</p>
+        </template>
+        <template v-slot:modalFooter
+          ><button class="lg-btn purple-btn" @click="onSubmit">{{ $t('common.ok') }}</button
+          ><button class="lg-btn purple-btn" @click="closeModal">{{ $t('common.cancel') }}</button>
+        </template>
+      </ModalLayout>
     </template>
     <template v-if="!isShowProgress" v-slot:buttons>
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="onSubmit">{{ $t('common.modify') }}</button>
+        <button class="lg-btn purple-btn" @click="showModal" :disabled="isBtnDisabled">
+          {{ $t('common.modify') }}
+        </button>
         <button class="lg-btn white-btn" @click="cancelOnClickEvent">{{ $t('common.cancel') }}</button>
       </div>
     </template>
@@ -55,14 +69,15 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 
-import SystemModule from '@/store/modules/SystemModule';
 import { SystemResponse } from '@/types/SystemType';
+
+import SystemModule from '@/store/modules/SystemModule';
 
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/system-mngt/InputGroup.vue';
 import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import EdptForm from '@/components/system-mngt/EdptForm.vue';
-import { USER_STATE } from '@/store/UserState';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 
 @Component({
   components: {
@@ -70,37 +85,24 @@ import { USER_STATE } from '@/store/UserState';
     InputGroup,
     TextAreaGroup,
     EdptForm,
+    ModalLayout,
   },
 })
 export default class SystemEditPage extends Vue {
   systemModule = getModule(SystemModule, this.$store);
   systemItem: SystemResponse = {} as SystemResponse;
-  idValid = false;
-  tkcgrNmValid = false;
-  tkcgrPosValid = false;
-  tkcgrEmlValid = false;
-  edptValid = false;
+  idValid = true;
+  tkcgrNmValid = true;
+  tkcgrPosValid = true;
+  tkcgrEmlValid = true;
+  edptValid = true;
 
   isShowProgress = false;
+  isShowModal = false;
+  isBtnDisabled = false;
 
   get system() {
     return this.systemModule.system;
-  }
-
-  get userState() {
-    return this.systemModule.currAsyncState;
-  }
-
-  @Watch('userState')
-  onCurrAsyncStateChange(userState: USER_STATE) {
-    if (userState === USER_STATE.LOADING) {
-      this.isShowProgress = true;
-    } else if (userState === USER_STATE.ERROR) {
-      this.isShowProgress = false;
-      this.$modal.show(`${this.$t('error.server_error')}`);
-    } else if (userState === USER_STATE.DONE) {
-      this.isShowProgress = false;
-    }
   }
 
   created() {
@@ -119,10 +121,30 @@ export default class SystemEditPage extends Vue {
 
   @Watch('system')
   onSystemChange() {
-    console.log('!!!!!!!!!!');
-    console.log(this.systemItem);
     this.systemItem = this.system as SystemResponse;
-    console.log(this.systemItem.tkcgr_nm);
+  }
+
+  showModal() {
+    console.log('idValid :: ', this.idValid);
+    console.log('tkcgrNmValid :: ', this.tkcgrNmValid);
+    console.log('tkcgrPosValid :: ', this.tkcgrPosValid);
+    console.log('tkcgrEmlValid :: ', this.tkcgrEmlValid);
+    console.log('edptValid :: ', this.edptValid);
+    console.log('edpt :: ', this.systemItem.edpt);
+
+    const val =
+      this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.edptValid ? true : false;
+
+    if (!val) {
+      this.$modal.show(`${this.$t('system.empty_check_message')}`);
+      return;
+    } else {
+      this.isShowModal = true;
+    }
+  }
+
+  closeModal() {
+    this.isShowModal = false;
   }
 
   onSubmit(): void {
@@ -141,6 +163,11 @@ export default class SystemEditPage extends Vue {
     } else {
       return;
     }
+
+    // this.isBtnDisabled = true;
+
+    //   await this.systemModule.registerSystem(this.systemItem);
+    //   this.$router.push({ name: 'system' });
   }
 
   cancelOnClickEvent() {

@@ -68,7 +68,9 @@
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="handleClickSubmitButton">수정테스트</button>
         <!-- <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">{{ $t('api.edit') }}</button> -->
-        <button class="lg-btn purple-btn" @click="showModal = true">{{ $t('api.edit') }}</button>
+        <button :disabled="isButtonDisabled" class="lg-btn purple-btn" @click="showModal = true">
+          {{ $t('api.edit') }}
+        </button>
         <button class="lg-btn white-btn" @click="$router.go(-1)">{{ $t('common.cancel') }}</button>
       </div>
     </template>
@@ -203,8 +205,10 @@ export default class ApiEditPage extends Vue {
   // =============== 수정이 필요한 로직 ===============
   // ==============================
 
+  isButtonDisabled = false;
   async editApi(apiId: string) {
     // await this.serviceModule.deleteServiceAction(ServiceId);
+    this.isButtonDisabled = true;
     await this.apiModule.deleteApi(apiId);
     this.$router.go(-1);
     this.showModal = false;

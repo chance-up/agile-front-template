@@ -155,14 +155,22 @@ export default class ApiPage extends Vue {
   };
   pagingData: SearchCondition = {};
 
+  searchDataLabel = '';
+  searchDataValue = '';
   created() {
     this.isShowProgress = true;
     this.apiModule.apiReset();
     const query = this.$route.query;
     console.log('query : ', query);
     if (Object.keys(query).length > 0) {
+      console.log('query 추가', query);
       this.searchData.label = Object.keys(query)[0];
       this.searchData.value = query[Object.keys(query)[0]] as string;
+      console.log(this.searchData);
+      // made in jp
+      // this.searchDataLabel = Object.keys(query)[0];
+      // this.searchDataValue = query[Object.keys(query)[0]] as string;
+      // made in jp
     }
     this.apiModule
       .getApiList(query)
@@ -206,7 +214,7 @@ export default class ApiPage extends Vue {
     console.log('searchData : ', this.searchData);
     const query: { [key: string]: string } = {};
     query[this.searchData.label] = this.searchData.value;
-    if (Object.values(this.searchData).some((item) => item != '')) {
+    if (Object.values(this.searchData).some((item) => item.value != '')) {
       this.getList();
     } else {
       this.$modal.show(`${this.$t('api.enter_search_data')}`);
