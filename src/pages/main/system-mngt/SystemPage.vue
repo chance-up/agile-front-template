@@ -248,9 +248,9 @@ export default class SystemPage extends Vue {
     await this.systemModule
       .deleteSystem(this.currId)
       .then(() => {
-        this.$router.go(0);
         this.closeModal();
         this.isDisabled = false;
+        this.$router.go(0);
       })
       .catch(() => {
         this.isDisabled = false;
