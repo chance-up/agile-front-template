@@ -37,7 +37,7 @@
           inputClass="input-box lg check-ok"
           type="text"
         />
-        <InterfaceGroup :inputNm="$t('system.ifGrp')" :ifgrps.sync="systemItem.if_grp" />
+        <!-- <InterfaceGroup :inputNm="$t('system.ifGrp')" :ifgrps.sync="systemItem.if_grp" /> -->
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
     </template>
@@ -58,7 +58,6 @@ import { SystemResponse } from '@/types/SystemType';
 
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/system-mngt/InputGroup.vue';
-import InterfaceGroup from '@/components/system-mngt/InterfaceGroup.vue';
 import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import { USER_STATE } from '@/store/UserState';
 
@@ -66,7 +65,6 @@ import { USER_STATE } from '@/store/UserState';
   components: {
     ContentLayout,
     InputGroup,
-    InterfaceGroup,
     TextAreaGroup,
   },
 })
@@ -96,7 +94,17 @@ export default class SystemEditPage extends Vue {
   }
 
   created() {
-    this.systemModule.getSystemDetail(this.$route.params.id as string);
+    this.isShowProgress = true;
+
+    this.systemModule
+      .getSystemDetail(this.$route.params.id as string)
+      .then(() => {
+        this.isShowProgress = false;
+      })
+      .catch((error) => {
+        this.isShowProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
 
   @Watch('system')
@@ -105,13 +113,21 @@ export default class SystemEditPage extends Vue {
     console.log(this.systemItem);
     this.systemItem = this.system as SystemResponse;
     console.log(this.systemItem.tkcgr_nm);
-    console.log(this.systemItem.if_grp);
   }
 
   onSubmit(): void {
     if (confirm('서비스를 수정하시겠습니까?') == true) {
       console.log(this.systemItem);
-      this.systemModule.updateSystemDetail(this.systemItem);
+      this.isShowProgress = true;
+      this.systemModule
+        .updateSystemDetail(this.systemItem)
+        .then(() => {
+          this.isShowProgress = false;
+        })
+        .catch((error) => {
+          this.isShowProgress = false;
+          this.$modal.show(`${this.$t('error.server_error')}`);
+        });
     } else {
       return;
     }

@@ -77,14 +77,13 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { ApiCreateRequestBody, HandlerGroupDetail } from '@/types/ApiType';
 import HandlerGroupForm from '@/components/api-mngt/register/HandlerGroupForm.vue';
 import SelectForm from '@/components/api-mngt/register/SelectForm.vue';
-import SelectSysForm from '@/components/api-mngt/register/SelectSysForm.vue';
 import TextForm from '@/components/api-mngt/register/TextForm.vue';
 import MethodForm from '@/components/api-mngt/register/MethodForm.vue';
 import UriForm from '@/components/api-mngt/register/UriForm.vue';
 import TextDebounceForm from '@/components/api-mngt/register/TextDebounceForm.vue';
 import { apiValidationCheck } from '@/store/modules/ApiModule';
 import { Dictionary } from 'vue-router/types/router';
-import { IfGrpType, SystemIdEdpt, SystemResponse } from '@/types/SystemType';
+import { SystemIdEdpt, SystemResponse } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
 import ApiModule from '@/store/modules/ApiModule';
@@ -99,7 +98,6 @@ import axios from 'axios';
     TextDebounceForm,
     MethodForm,
     UriForm,
-    SelectSysForm,
   },
 })
 export default class ApiRegisterPage extends Vue {

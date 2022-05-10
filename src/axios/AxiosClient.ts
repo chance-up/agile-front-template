@@ -32,7 +32,6 @@ export class AxiosClient {
         return response.data;
       }
     } catch (error: Error | any) {
-      console.log(error);
       if (Axios.isCancel(error)) {
         return Promise.reject(new GateWayError(ErrorCode.CANCEL_ERROR));
       } else {
@@ -40,6 +39,7 @@ export class AxiosClient {
           throw new GateWayError(ErrorCode.NETWORK_ERROR);
         } else {
           const errorCode: number = error.response.status;
+
           throw new GateWayError(error.response.status);
         }
       }

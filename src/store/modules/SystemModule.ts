@@ -51,7 +51,7 @@ export default class SystemModule extends GateWayModule {
   }
 
   // 시스템 관리 리스트 조회
-  @Action
+  @Action({ rawError: true })
   async getSystemList(searchOption?: object) {
     let url = '';
     if (searchOption == undefined) {
@@ -63,8 +63,6 @@ export default class SystemModule extends GateWayModule {
     }
 
     try {
-      this.showLoading();
-
       const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>(url, {
         ...searchOption,
       });
@@ -72,101 +70,58 @@ export default class SystemModule extends GateWayModule {
       console.log('response.data.pagination : ', response.data.pagination);
       this.context.commit('setSystemList', response.data.value);
       this.context.commit('setSystemPagination', response.data.pagination);
-
-      this.dissmissLoading();
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
-        console.log('get system list cancel');
-      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        // console.log('NetWork not connection');
-        this.showError();
-      } else {
-        // console.log('서버통신에 실패하였습니다.');
-        this.showError();
-      }
+      return Promise.reject(error);
     }
   }
 
   // 시스템 관리 상세 정보
-  @Action
+  @Action({ rawError: true })
   async getSystemDetail(id: string) {
     try {
       addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
-
-      this.showLoading();
       const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
-
       this.context.commit('setSystem', response.data.value);
-      this.dissmissLoading();
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
-        console.log('get system list cancel');
-      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        // console.log('NetWork not connection');
-        this.showError();
-      } else {
-        // console.log('서버통신에 실패하였습니다.');
-        this.showError();
-      }
+      return Promise.reject(error);
     }
   }
 
   // 시스템 관리 등록
-  @Action
+  @Action({ rawError: true })
   async registerSystem(data: SystemResponse) {
-    // console.log(JSON.stringify(data));
     try {
       addMock(`/system/registerSystem/`, JSON.stringify(dummyRegisterData));
 
-      this.showLoading();
       const response = await AxiosClient.getInstance().post<GateWayResponse<SystemResponse>>(
         `/system/registerSystem/`,
         data
       );
       console.log('system register response', response);
-      this.dissmissLoading();
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
-        console.log('get system list cancel');
-      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        // console.log('NetWork not connection');
-        this.showError();
-      } else {
-        // console.log('서버통신에 실패하였습니다.');
-        this.showError();
-      }
+      return Promise.reject(error);
     }
   }
 
   // 시스템 관리 수정
-  @Action
+  @Action({ rawError: true })
   async updateSystemDetail(data: SystemResponse) {
     // console.log('data : ', data);
     try {
       addMock(`/system/updateSystem/`, JSON.stringify(data));
 
-      this.showLoading();
       const response = await AxiosClient.getInstance().post<GateWayResponse<SystemResponse>>(
         `/system/updateSystem/`,
         data
       );
       console.log('system put response', response);
-      this.dissmissLoading();
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
-        console.log('get system list cancel');
-      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        // console.log('NetWork not connection');
-        this.showError();
-      } else {
-        // console.log('서버통신에 실패하였습니다.');
-        this.showError();
-      }
+      return Promise.reject(error);
     }
   }
 
   // 시스템 관리 삭제
-  @Action
+  @Action({ rawError: true })
   async deleteSystem(id: string) {
     try {
       addMock(`/system/deleteSystem/${id}`, JSON.stringify(dummyDeleteData));
@@ -176,15 +131,7 @@ export default class SystemModule extends GateWayModule {
       );
       console.log('system delete response', response);
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
-        console.log('get system list cancel');
-      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        // console.log('NetWork not connection');
-        this.showError();
-      } else {
-        // console.log('서버통신에 실패하였습니다.');
-        this.showError();
-      }
+      return Promise.reject(error);
     }
   }
 
@@ -202,22 +149,15 @@ export default class SystemModule extends GateWayModule {
   setSystemIdEdptList(data: SystemIdEdpt[]) {
     this.systemIdEdptList = data;
   }
-  @Action
+
+  @Action({ rawError: true })
   async getSystemIdEdptList() {
     try {
       addMock('/mngt/v1/getSystemIdList', JSON.stringify(dummySystemIdEdptList));
       const response = await AxiosClient.getInstance().get<GateWayResponse<SystemIdEdpt[]>>('/mngt/v1/getSystemIdList');
       this.context.commit('setSystemIdEdptList', response.data.value);
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.CANCEL_ERROR) {
-        console.log('get system list cancel');
-      } else if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        // console.log('NetWork not connection');
-        this.showError();
-      } else {
-        // console.log('서버통신에 실패하였습니다.');
-        this.showError();
-      }
+      return Promise.reject(error);
     }
   }
 }

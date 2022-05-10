@@ -48,6 +48,8 @@ import InfoGroup from '@/components/system-mngt/detail/InfoGroup.vue';
 import IfFormlGroup from '@/components/system-mngt/detail/IfFormlGroup.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { USER_STATE } from '@/store/UserState';
+import { GateWayError } from '@/error/GateWayError';
+import ErrorCode from '@/error/ErrorCodes';
 
 @Component({
   components: {
@@ -75,7 +77,20 @@ export default class SystemDetailPage extends Vue {
   }
 
   created() {
-    this.systemModule.getSystemDetail(this.$route.params.id as string);
+    this.isShowProgress = true;
+
+    this.systemModule
+      .getSystemDetail(this.$route.params.id as string)
+      .then(() => {
+        this.isShowProgress = false;
+      })
+      .catch((error) => {
+        if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
+          this.$modal.show(`${this.$t('error.server_error')}`);
+        } else {
+          this.$modal.show(`${this.$t('error.server_error')}`);
+        }
+      });
   }
 
   @Watch('system')
@@ -103,8 +118,15 @@ export default class SystemDetailPage extends Vue {
   }
 
   async onClickDelete() {
-    await this.systemModule.deleteSystem(this.$route.params.id as string);
-    this.$router.push({ name: 'system' });
+    await this.systemModule
+      .deleteSystem(this.$route.params.id as string)
+      .then(() => {
+        this.$router.push({ name: 'system' });
+      })
+      .catch((error) => {
+        // this.isShowProgress = false;
+        // this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
 
   showModal() {

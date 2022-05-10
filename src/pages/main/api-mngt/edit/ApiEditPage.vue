@@ -30,11 +30,11 @@
         <MethodForm groupNm="Method" v-model="requestBody.meth" />
         <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" />
 
-        <SelectSysForm
+        <!-- <SelectSysForm
           :groupNm="$t('api.systemInterlockInformation')"
           :optionList="system.if_grp"
           v-model="requestBody.ifGrp"
-        />
+        /> -->
 
         <!-- <HandlerGroupForm
           :groupNm="$t('api.reqHandlrGrp')"
@@ -79,14 +79,13 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { ApiCreateRequestBody, HandlerGroupDetail } from '@/types/ApiType';
 import HandlerGroupForm from '@/components/api-mngt/register/HandlerGroupForm.vue';
 import SelectForm from '@/components/api-mngt/register/SelectForm.vue';
-import SelectSysForm from '@/components/api-mngt/register/SelectSysForm.vue';
 import TextForm from '@/components/api-mngt/register/TextForm.vue';
 import MethodForm from '@/components/api-mngt/register/MethodForm.vue';
 import UriForm from '@/components/api-mngt/register/UriForm.vue';
 import TextDebounceForm from '@/components/api-mngt/register/TextDebounceForm.vue';
 import ApiModule, { apiValidationCheck } from '@/store/modules/ApiModule';
 import { Dictionary } from 'vue-router/types/router';
-import { IfGrpType, SystemResponse } from '@/types/SystemType';
+import { SystemResponse } from '@/types/SystemType';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
@@ -102,7 +101,6 @@ import { USER_STATE } from '@/store/UserState';
     TextDebounceForm,
     MethodForm,
     UriForm,
-    SelectSysForm,
     ModalLayout,
   },
 })

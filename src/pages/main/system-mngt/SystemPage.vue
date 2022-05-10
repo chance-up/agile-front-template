@@ -145,6 +145,8 @@ export default class SystemPage extends Vue {
   }
 
   created() {
+    this.isShowProgress = true;
+
     if (Object.keys(this.$route.query).length > 0) {
       if (Object.keys(this.$route.query).includes('id')) this.searchData.id = this.$route.query.id as string;
       if (Object.keys(this.$route.query).includes('tkcgr_nm'))
@@ -159,9 +161,25 @@ export default class SystemPage extends Vue {
       //store 말고 페이지에서 action 부를 때도 예외처리를 해줘야하는지 물어보기
 
       const param = { ...this.searchData, ...this.pagingData };
-      this.systemModule.getSystemList(param);
+      this.systemModule
+        .getSystemList(param)
+        .then(() => {
+          this.isShowProgress = false;
+        })
+        .catch((error) => {
+          this.isShowProgress = false;
+          this.$modal.show('서버 통신 에러');
+        });
     } else {
-      this.systemModule.getSystemList();
+      this.systemModule
+        .getSystemList()
+        .then(() => {
+          this.isShowProgress = false;
+        })
+        .catch((error) => {
+          this.isShowProgress = false;
+          this.$modal.show('서버 통신 에러');
+        });
     }
   }
 
@@ -224,9 +242,18 @@ export default class SystemPage extends Vue {
   }
 
   async deleteSystem() {
-    await this.systemModule.deleteSystem(this.currId);
-    this.$router.go(0);
-    this.closeModal();
+    await this.systemModule
+      .deleteSystem(this.currId)
+      .then(() => {
+        this.$router.go(0);
+        this.closeModal();
+      })
+      .catch((error) => {
+        // this.isShowProgress = false;
+        // this.$modal.show(`${this.$t('error.server_error')}`);
+      });
+    // this.$router.go(0);
+    // this.closeModal();
   }
 
   getDate(date: string) {
