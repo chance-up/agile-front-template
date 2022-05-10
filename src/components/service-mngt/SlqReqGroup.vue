@@ -69,7 +69,7 @@
         <div class="sla-form" v-if="showMonth">
           <label class="label">Month : </label>
           <input type="text" id="" class="input-box" placeholder="입력해주세요" v-model="month" />
-          <span>건</span>
+          <span>{{ month }}건</span>
         </div>
         <div class="sla-form" v-if="showDay">
           <label class="label">Day : </label>

@@ -39,10 +39,11 @@
         ></AuthReqGroup>
         <SlaReqGroup
           :inputNm="$t('service.SLA_mngt')"
-          :SLAn.sync="formData.sla_yn"
-          :type.sync="formData.sla_type"
-          :totalCnt.sync="formData.sla_cnt"
-          :TPSCnt.sync="formData.sla_cnt"
+          :secVal.sync="formData.sla.sec"
+          :minVal.sync="formData.sla.min"
+          :hourVal.sync="formData.sla.hr"
+          :dayVal.sync="formData.sla.day"
+          :monthVal.sync="formData.sla.mon"
         />
         <InputGroup
           type="text"
@@ -166,9 +167,7 @@ export default class SystemRegisterPage extends Vue {
     tkcgr_nm: '',
     tkcgr_pos: '',
     tkcgr_eml: '',
-    sla_yn: 'none',
-    sla_type: '',
-    sla_cnt: 0,
+    sla: { sec: null, min: null, hr: null, day: null, mon: null },
     svc_st_dt: '',
     svc_end_dt: '',
     athn: {
