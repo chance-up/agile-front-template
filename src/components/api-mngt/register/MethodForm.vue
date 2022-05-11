@@ -55,6 +55,7 @@
           <label for="checkDelete">DELETE</label>
         </div>
       </div>
+      <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
   </li>
 </template>
@@ -67,6 +68,7 @@ export default class MethodForm extends Vue {
   @Prop({ default: () => [] }) value!: string[];
 
   methList: string[] = [];
+  notiMessage: [boolean | null, string] = [null, ''];
 
   @Watch('value')
   onValueChange(val: string[]) {
@@ -85,6 +87,7 @@ export default class MethodForm extends Vue {
     } else {
       this.methList.push(value);
     }
+    this.notiMessage = this.methList.length ? [true, ''] : [false, this.$t('api.valid_check_method') as string];
     this.$emit('input', this.methList);
     this.$emit('update:isvalid', Boolean(this.methList.length));
   }
