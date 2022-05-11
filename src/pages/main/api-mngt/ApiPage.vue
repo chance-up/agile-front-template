@@ -214,6 +214,8 @@ export default class ApiPage extends Vue {
     console.log('searchData : ', this.searchData);
     const query: { [key: string]: string } = {};
     query[this.searchData.label] = this.searchData.value;
+    console.log(query, Boolean(query == this.$route.query));
+    console.log(this.$route.query);
     if (Object.values(this.searchData).some((item) => item.value != '')) {
       this.getList();
     } else {

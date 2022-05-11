@@ -4,11 +4,11 @@
     :subTitle="$t('api.basicInformationRegister')"
     :depth="$t('api.apiManagement')"
     id="api-register"
+    :isShowProgress="!showPage"
   >
     <template v-slot:contents>
-      <div>
-        <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
-        <ul v-if="showPage">
+      <div v-if="showPage">
+        <ul>
           <SelectForm
             :groupNm="$t('api.sysId')"
             :optionList="systemIdEdptList.map((item) => item.id)"
@@ -69,18 +69,11 @@
             ><button class="lg-btn purple-btn" @click="closeModal">{{ $t('common.cancel') }}</button>
           </template>
         </ModalLayout>
-        <div class="text-center" v-if="!showPage">
-          <b-spinner
-            v-show="!showPage"
-            style="width: 2rem; height: 2rem; position: absolute; left: 50%"
-            label="Large Spinner"
-          ></b-spinner>
-        </div>
       </div>
     </template>
     <template v-slot:buttons>
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
-      <div class="btn-wrap">
+      <div class="btn-wrap" v-if="showPage">
         <button class="lg-btn purple-btn" @click="handleClickTestSubmitButton" :disabled="isButtonDisabled">
           등록테스트
         </button>
