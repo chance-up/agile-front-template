@@ -83,8 +83,9 @@
               <template v-slot:modalFooter
                 ><button class="lg-btn purple-btn" @click="deleteApi(deleteMsg)" :disabled="isModalProgress">
                   {{ $t('common.ok')
-                  }}<b-spinner variant="light" label="Spinning" v-if="isModalProgress" small></b-spinner></button
-                ><button class="lg-btn purple-btn" @click="showModal = false" :disabled="isModalProgress">
+                  }}<b-spinner variant="light" label="Spinning" v-if="isModalProgress" small></b-spinner>
+                </button>
+                <button class="lg-btn white-btn" @click="showModal = false" :disabled="isModalProgress">
                   {{ $t('common.cancel') }}
                 </button>
               </template>

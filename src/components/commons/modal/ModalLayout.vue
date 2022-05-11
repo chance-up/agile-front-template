@@ -206,7 +206,7 @@ export default class ModalLayout extends Vue {
 .modal-leave-active,
 .alertLayout-enter-active,
 .alertLayout-leave-active {
-  transition: opacity 0.4s;
+  transition: opacity 0.3s;
 }
 
 .modal-overlay {
