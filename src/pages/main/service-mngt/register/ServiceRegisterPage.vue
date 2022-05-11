@@ -132,7 +132,7 @@
           <div class="api-wrap">
             <div class="comp">
               <div class="search-form">
-                <input class="input-box" type="text" placeholder="API 검색" />
+                <input class="input-box" type="text" placeholder="API 검색" v-model="searchText" @input="searchApi()" />
               </div>
               <ul class="api-list">
                 <li v-for="(system, sysIndex) in ApiList" :key="sysIndex">
@@ -258,7 +258,7 @@ export default class SystemRegisterPage extends Vue {
   showApiMngtModal = false;
   ApiList: ApiAuthResponse[] = [];
   checkedApiList: ApiAuthResponse[] = [];
-
+  searchText = '';
   @Watch('show')
   onShowChange(val: string) {
     if (val == 'BASIC_AUTH') {
@@ -445,6 +445,27 @@ export default class SystemRegisterPage extends Vue {
     } else {
       console.log(apiAll);
       this.checkedApiList.push({ sysId: apiAll.sysId, apiId: apiAll.apiId });
+    }
+  }
+
+  searchApi() {
+    if (this.searchText !== '') {
+      this.ApiList = [];
+      this.ApiAuth.forEach((api) => {
+        console.log(api.sysId);
+        api.apiId.forEach((apiId, idx) => {
+          if (apiId.includes(this.searchText)) {
+            console.log('' + api.apiId[idx] + ':' + idx);
+            if (this.ApiList.find((item) => item.sysId === api.sysId)) {
+              this.ApiList[this.ApiList.findIndex((item) => item.sysId === api.sysId)].apiId.push(api.apiId[idx]);
+            } else {
+              this.ApiList.push({ sysId: api.sysId, apiId: [api.apiId[idx]] });
+            }
+          }
+        });
+      });
+    } else {
+      this.ApiList = this.ApiAuth;
     }
   }
   created() {
