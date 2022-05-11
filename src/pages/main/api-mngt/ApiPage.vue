@@ -76,7 +76,7 @@
           <template v-slot:pagination v-if="!isShowProgress">
             <Paging v-if="pagination" :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
             <ModalLayout size="m" v-if="showModal">
-              <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+              <template v-slot:modalHeader><h1 class="h1-tit">API 삭제</h1> </template>
               <template v-slot:modalContainer>
                 <p class="text">{{ deleteMsg }}를 삭제하시겠습니까?</p>
               </template>
