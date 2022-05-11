@@ -4,6 +4,7 @@
     :title="$t('system.detail_top_title')"
     :subTitle="$t('system.detail_cont_title')"
     :depth="$t('system.detail_depth')"
+    :isEmShow="isEmShow"
   >
     <template v-if="!isShowProgress" v-slot:contents>
       <ul>
@@ -77,6 +78,7 @@ export default class SystemDetailPage extends Vue {
   isShowProgress = false;
   isShowModal = false;
   isDisabled = false;
+  isEmShow = false;
 
   get system() {
     return this.systemModule.system;
