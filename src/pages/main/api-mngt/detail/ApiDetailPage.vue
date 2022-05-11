@@ -34,8 +34,18 @@
         <button class="lg-btn purple-btn" @click="$router.push({ name: 'api-edit', params: { id: apiDetail.id } })">
           {{ $t('api.edit') }}
         </button>
-        <button class="lg-btn white-btn" @click="$router.push({ path: '/api' })">{{ $t('api.delete') }}</button>
+        <button class="lg-btn white-btn" @click="showModal = true">{{ $t('api.delete') }}</button>
         <button class="lg-btn gray-btn" @click="$router.go(-1)">{{ $t('api.list') }}</button>
+        <ModalLayout size="m" v-if="showModal">
+          <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+          <template v-slot:modalContainer>
+            <p class="text">{{ deleteMsg }}를 삭제하시겠습니까?</p>
+          </template>
+          <template v-slot:modalFooter
+            ><button class="lg-btn purple-btn" @click="deleteApi(deleteMsg)">{{ $t('common.ok') }}</button
+            ><button class="lg-btn purple-btn" @click="showModal = false">{{ $t('common.cancel') }}</button>
+          </template>
+        </ModalLayout>
       </div>
     </template>
   </ContentLayout>
@@ -55,6 +65,8 @@ import { getModule } from 'vuex-module-decorators';
 import { USER_STATE } from '@/store/UserState';
 import SystemModule from '@/store/modules/SystemModule';
 import { SystemResponse } from '@/types/SystemType';
+
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 @Component({
   components: {
     InfoGroup,
@@ -62,6 +74,7 @@ import { SystemResponse } from '@/types/SystemType';
     URIGroup,
     ContentLayout,
     EndPointGroup,
+    ModalLayout,
   },
 })
 export default class ApiDetailPage extends Vue {
@@ -77,9 +90,19 @@ export default class ApiDetailPage extends Vue {
   }
 
   created() {
+    this.isShowProgress = true;
     this.apiModule.apiReset();
     this.systemModule.systemReset();
-    this.apiModule.getApiDetail(this.$route.params.id);
+    this.apiModule
+      .getApiDetail(this.$route.params.id)
+      .then(() => {
+        console.log();
+        this.deleteMsg = this.apiDetail?.id;
+      })
+      .catch((error) => {
+        this.isShowProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
   destroyed() {
     this.apiModule.release();
@@ -89,7 +112,15 @@ export default class ApiDetailPage extends Vue {
   @Watch('apiDetail')
   onApiDetailChange() {
     if (this.apiDetail) {
-      this.systemModule.getSystemDetail(this.apiDetail.sysId);
+      this.systemModule
+        .getSystemDetail(this.apiDetail.sysId)
+        .then(() => {
+          this.isShowProgress = false;
+        })
+        .catch((error) => {
+          this.isShowProgress = false;
+          this.$modal.show(`${this.$t('error.server_error')}`);
+        });
     }
   }
   @Watch('system')
@@ -114,6 +145,14 @@ export default class ApiDetailPage extends Vue {
     } else if (userState === USER_STATE.DONE) {
       this.isShowProgress = false;
     }
+  }
+  // modal part
+  showModal = false;
+  deleteMsg: string | undefined = '';
+  deleteApi(id: string) {
+    console.log();
+    this.apiModule.deleteApi(id);
+    this.$router.push({ path: '/api' });
   }
 }
 </script>
