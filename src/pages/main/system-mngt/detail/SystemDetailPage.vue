@@ -22,27 +22,20 @@
             <p class="text">{{ $t('system.modal_delete_message') }}</p>
           </template>
           <template v-slot:modalFooter>
-            <button
-              class="lg-btn"
-              :class="{ 'purple-btn': !isDisabled, 'white-btn': isDisabled }"
-              @click="onClickDelete"
-              :disabled="isDisabled"
-            >
-              {{ isDisabled ? '' : $t('common.ok') }}
-              <b-spinner v-if="isDisabled" small></b-spinner>
-            </button>
-            <button class="lg-btn white-btn" @click="closeModal" :disabled="isDisabled">
-              {{ $t('common.cancel') }}
-            </button>
+            <button class="lg-btn purple-btn" @click="onClickDelete">{{ $t('common.ok') }}</button>
+            <button class="lg-btn white-btn" @click="closeModal">{{ $t('common.cancel') }}</button>
           </template>
         </ModalLayout>
       </ul>
     </template>
     <template v-if="!isShowProgress" v-slot:buttons>
       <div class="btn-wrap" v-if="!isShowProgress">
-        <button class="lg-btn purple-btn" @click="onClickEdit">{{ $t('common.modify') }}</button>
-        <button class="lg-btn white-btn" @click="showModal">{{ $t('common.delete') }}</button>
-        <button class="lg-btn gray-btn" @click="onClickPrevious">{{ $t('common.list') }}</button>
+        <button class="lg-btn purple-btn" @click="onClickEdit" :disabled="isDisabled">{{ $t('common.modify') }}</button>
+        <button class="lg-btn white-btn" @click="showModal" :disabled="isDisabled">
+          {{ $t('common.delete') }}
+          <b-spinner variant="light" label="Spinning" v-if="isDisabled" small></b-spinner>
+        </button>
+        <button class="lg-btn gray-btn" @click="onClickPrevious" :disabled="isDisabled">{{ $t('common.list') }}</button>
       </div>
     </template>
   </ContentLayout>
@@ -118,6 +111,7 @@ export default class SystemDetailPage extends Vue {
 
   async onClickDelete() {
     this.isDisabled = true;
+    this.isShowModal = false;
 
     await this.systemModule
       .deleteSystem(this.$route.params.id as string)
