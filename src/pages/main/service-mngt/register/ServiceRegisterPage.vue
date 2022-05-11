@@ -187,7 +187,7 @@
                 <div v-for="(apiList, index) in checkedApiList" :key="index">
                   <div class="api-stick" v-for="(checkedApi, index) in apiList.apiId" :key="index">
                     <span>{{ checkedApi }}</span>
-                    <button>
+                    <button @click="deleteApi(apiList.sysId, checkedApi)">
                       <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
                     </button>
                   </div>
@@ -433,6 +433,11 @@ export default class SystemRegisterPage extends Vue {
     } else {
       this.checkedApiList.push({ sysId: sys, apiId: [api] });
     }
+  }
+  deleteApi(sys: string, api: string) {
+    this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
+      this.checkedApiList.findIndex((item) => item.sysId === sys)
+    ].apiId.filter((item) => item !== api);
   }
 
   checkApiAll(apiAll: ApiAuthResponse) {
