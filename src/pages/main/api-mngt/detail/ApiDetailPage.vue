@@ -25,6 +25,16 @@
         />
         <InfoGroup :inputNm="`${$t('api.timeOutMS')}`" :value="apiDetail.timeOut" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.description')}`" :value="apiDetail.desc" />
+        <ModalLayout size="m" v-if="showModal">
+          <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+          <template v-slot:modalContainer>
+            <p class="text">{{ deleteMsg }}를 삭제하시겠습니까?</p>
+          </template>
+          <template v-slot:modalFooter
+            ><button class="lg-btn purple-btn" @click="deleteApi(deleteMsg)">{{ $t('common.ok') }}</button
+            ><button class="lg-btn purple-btn" @click="showModal = false">{{ $t('common.cancel') }}</button>
+          </template>
+        </ModalLayout>
       </ul>
     </template>
 
@@ -36,16 +46,6 @@
         </button>
         <button class="lg-btn white-btn" @click="showModal = true">{{ $t('api.delete') }}</button>
         <button class="lg-btn gray-btn" @click="$router.go(-1)">{{ $t('api.list') }}</button>
-        <ModalLayout size="m" v-if="showModal">
-          <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
-          <template v-slot:modalContainer>
-            <p class="text">{{ deleteMsg }}를 삭제하시겠습니까?</p>
-          </template>
-          <template v-slot:modalFooter
-            ><button class="lg-btn purple-btn" @click="deleteApi(deleteMsg)">{{ $t('common.ok') }}</button
-            ><button class="lg-btn purple-btn" @click="showModal = false">{{ $t('common.cancel') }}</button>
-          </template>
-        </ModalLayout>
       </div>
     </template>
   </ContentLayout>
