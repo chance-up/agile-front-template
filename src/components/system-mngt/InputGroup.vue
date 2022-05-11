@@ -41,7 +41,7 @@ export default class InputGroup extends Vue {
   notiMessage: [boolean | null, string] = [null, ''];
 
   @Watch('notiMessage', { deep: true })
-  messageChanged(val: [boolean | null, string]) {
+  messageChanged() {
     this.$emit('update:isValid', this.notiMessage[0]);
   }
 

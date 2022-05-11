@@ -99,20 +99,19 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import ListLayout from '@/components/layout/ListLayout.vue';
 import SearchForm from '@/components/api-mngt/list/SearchForm.vue';
 import ListForm from '@/components/commons/ListForm.vue';
 import ListRow from '@/components/api-mngt/list/ListRow.vue';
-import { ApiDetailResponse, dummyPaginationSetting } from '@/types/ApiType';
+import { ApiDetailResponse } from '@/types/ApiType';
 import ApiModule from '@/store/modules/ApiModule';
 import { getModule } from 'vuex-module-decorators';
 import SelectBox from '@/components/commons/search-option/SelectBox.vue';
 import InputBox from '@/components/commons/search-option/InputBox.vue';
 import { SearchCondition, SelectOptionType } from '@/types/SearchType';
 import Paging from '@/components/commons/Paging.vue';
-import { USER_STATE } from '@/store/UserState';
 import { BSpinner } from 'bootstrap-vue';
 import { Pagination } from '@/types/GateWayResponse';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
@@ -180,7 +179,7 @@ export default class ApiPage extends Vue {
       .then(() => {
         this.isShowProgress = false;
       })
-      .catch((error) => {
+      .catch(() => {
         this.isShowProgress = false;
         this.$modal.show(`${this.$t('error.server_error')}`);
       });

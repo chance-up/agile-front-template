@@ -85,7 +85,7 @@ export default class HandlerModal extends Vue {
       this.showHoverModal = true;
     }
   }
-  changeApiDesc(apiDesc: string, event: MouseEvent) {
+  changeApiDesc(apiDesc: string) {
     if (!this.showHoverModal) {
       this.sendApiDesc = apiDesc;
       console.log(apiDesc);
