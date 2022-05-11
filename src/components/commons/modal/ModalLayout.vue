@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition name="modal" appear>
+    <transition v-if="!alert" name="modal" appear>
       <div class="modal-overlay">
         <!------- handler pop -------->
         <div :class="{ large: l, medium: m, small: s, 'pop-wrap': true }">
@@ -15,26 +15,29 @@
           </div>
         </div>
       </div>
+
       <!------- handler pop -------->
     </transition>
 
-    <transition v-if="alert" name="alertLayout">
-      <!------- handler pop -------->
-      <div :class="{ large: l, medium: m, small: s, 'pop-wrap': true }">
-        <div class="pop-header">
-          <slot name="modalHeader" />
-          <h1 class="h1-tit">{{ errorTitle }}</h1>
-          <button @click="$emit('close')">
-            <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
-          </button>
-        </div>
-        <div class="pop-container">
-          <slot name="modalContainer" />
-          <p class="text">{{ errorDesc }}</p>
-        </div>
-        <div class="pop-footer">
-          <slot name="modalFooter" />
-          <button class="lg-btn purple-btn" @click="$emit('close')">ok</button>
+    <transition v-else name="alertLayout" appear>
+      <div class="modal-overlay">
+        <!------- handler pop -------->
+        <div :class="{ large: l, medium: m, small: s, 'pop-wrap': true }">
+          <div class="pop-header">
+            <slot name="modalHeader" />
+            <h1 class="h1-tit">{{ errorTitle }}</h1>
+            <button @click="$emit('close')">
+              <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
+            </button>
+          </div>
+          <div class="pop-container">
+            <slot name="modalContainer" />
+            <p class="text">{{ errorDesc }}</p>
+          </div>
+          <div class="pop-footer">
+            <slot name="modalFooter" />
+            <button class="lg-btn purple-btn" @click="$emit('close')">ok</button>
+          </div>
         </div>
       </div>
       <!------- handler pop -------->
@@ -193,15 +196,17 @@ export default class ModalLayout extends Vue {
 }
 
 .modal-enter,
-.modal-leave-to {
+.modal-leave-to,
+.alertLayout-enter,
+.alertLayout-leave-to {
   opacity: 0;
+  transform: translateY(-30px);
 }
 .modal-enter-active,
-.modal-leave-active {
+.modal-leave-active,
+.alertLayout-enter-active,
+.alertLayout-leave-active {
   transition: opacity 0.4s;
-}
-.pop-wrap {
-  transition: opacity 0.4s, transform 0.4s;
 }
 
 .modal-overlay {
