@@ -267,7 +267,7 @@ export default class ApiRegisterPage extends Vue {
   }
 
   closeModal() {
-    this.$modal.hide();
+    this.isShowModal = false;
   }
 
   get reqHandlerGroupList(): HandlerGroupDetail[] {
