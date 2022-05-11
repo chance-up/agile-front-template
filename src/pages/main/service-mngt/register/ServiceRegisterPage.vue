@@ -140,16 +140,33 @@
                   <div class="api-group">
                     <div class="check-all">
                       <div class="check-box">
-                        <div class="check"><input type="checkbox" id="checkAll" /><span class="checkmark"></span></div>
+                        <div class="check">
+                          <input
+                            type="checkbox"
+                            id="checkAll"
+                            :checked="
+                              checkedApiList.find((item) => item.sysId === system.sysId) &&
+                              checkedApiList.find((item) => item.sysId === system.sysId).apiId.length ===
+                                system.apiId.length
+                            "
+                            @click="checkApiAll(system)"
+                          /><span class="checkmark"></span>
+                        </div>
                         <label for="checkAll">전체 선택</label>
                       </div>
                     </div>
                     <div class="check-group">
                       <div class="check-box" v-for="(api, apiIndex) in system.apiId" :key="apiIndex">
                         <div class="check">
-                          <input type="checkbox" id="" @click="checkApi(system.sysId, api)" /><span
-                            class="checkmark"
-                          ></span>
+                          <input
+                            type="checkbox"
+                            id=""
+                            :checked="
+                              checkedApiList.find((item) => item.sysId === system.sysId) &&
+                              checkedApiList.find((item) => item.sysId === system.sysId).apiId.includes(api)
+                            "
+                            @click="checkApi(system.sysId, api)"
+                          /><span class="checkmark"></span>
                         </div>
                         <label for="checkGet">{{ api }}</label>
                       </div>
@@ -398,11 +415,7 @@ export default class SystemRegisterPage extends Vue {
 
   checkApi(sys: string, api: string) {
     if (this.checkedApiList.find((item) => item.sysId === sys)) {
-      if (
-        this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.find(
-          (item) => item === api
-        )
-      ) {
+      if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.includes(api)) {
         if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.length === 1) {
           this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== sys);
         } else {
@@ -415,6 +428,18 @@ export default class SystemRegisterPage extends Vue {
       }
     } else {
       this.checkedApiList.push({ sysId: sys, apiId: [api] });
+    }
+  }
+
+  checkApiAll(apiAll: ApiAuthResponse) {
+    if (this.checkedApiList.find((item) => item.sysId === apiAll.sysId)) {
+      if (this.checkedApiList.find((item) => item.sysId === apiAll.sysId)?.apiId.length === apiAll.apiId.length) {
+        this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== apiAll.sysId);
+      } else {
+        this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === apiAll.sysId)].apiId = apiAll.apiId;
+      }
+    } else {
+      this.checkedApiList.push(apiAll);
     }
   }
 
