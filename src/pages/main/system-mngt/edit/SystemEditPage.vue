@@ -127,13 +127,6 @@ export default class SystemEditPage extends Vue {
   }
 
   showModal() {
-    console.log('idValid :: ', this.idValid);
-    console.log('tkcgrNmValid :: ', this.tkcgrNmValid);
-    console.log('tkcgrPosValid :: ', this.tkcgrPosValid);
-    console.log('tkcgrEmlValid :: ', this.tkcgrEmlValid);
-    console.log('edptValid :: ', this.edptValid);
-    console.log('edpt :: ', this.systemItem.edpt);
-
     const val =
       this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.edptValid ? true : false;
 
