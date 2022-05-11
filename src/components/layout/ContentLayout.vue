@@ -13,7 +13,7 @@
     <div class="box comp">
       <div class="box-tit">
         <h2 class="h2-tit">{{ subTitle }}</h2>
-        <em class="script">{{ $t('common.necessary_input') }}</em>
+        <em class="script" v-if="isEmShow && !isShowProgress">{{ $t('common.necessary_input') }}</em>
         <div class="text-center">
           <b-spinner v-show="isShowProgress" label="Large Spinner"></b-spinner>
         </div>
@@ -43,5 +43,6 @@ export default class ContentLayout extends Vue {
   @Prop() depth!: string | null;
   @Prop() isShowProgress!: boolean;
   @Prop() id!: string | null;
+  @Prop({ default: true }) isEmShow!: boolean;
 }
 </script>
