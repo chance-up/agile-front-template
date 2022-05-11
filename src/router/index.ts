@@ -116,7 +116,7 @@ const routes: Array<RouteConfig> = [
         component: () => import('@/pages/main/management/ManagementPage.vue'),
       },
       {
-        path: MY,
+        path: MY + '/:id',
         name: 'my',
         component: () => import('@/pages/main/my/MyPage.vue'),
       },

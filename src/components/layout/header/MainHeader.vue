@@ -52,7 +52,12 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
+
+import UserModule from '@/store/modules/UserModule';
+
 import { SYSTEM, SERVICE, API, MONITORING, MANAGEMENT } from '@/router/Names';
+import { UserResponse } from '@/types/UserType';
 
 interface NavState {
   [key: string]: boolean;
@@ -80,6 +85,13 @@ export default class MainHeader extends Vue {
     monitoringState: false,
     showManagement: false,
   };
+
+  userModule = getModule(UserModule, this.$store);
+
+  get loginUser(): UserResponse {
+    return this.userModule.loginUser;
+  }
+
   changeNavState(state: string) {
     for (const key of Object.keys(this.navState)) {
       this.navState[key] = false;
@@ -94,7 +106,7 @@ export default class MainHeader extends Vue {
   }
 
   goMyPage() {
-    this.$router.push({ name: 'my' });
+    this.$router.push({ name: 'my', params: { id: this.loginUser.id } });
   }
 }
 </script>
