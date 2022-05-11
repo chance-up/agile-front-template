@@ -135,7 +135,7 @@
                 <input class="input-box" type="text" placeholder="API 검색" />
               </div>
               <ul class="api-list">
-                <li v-for="(system, sysIndex) in ApiAuth" :key="sysIndex">
+                <li v-for="(system, sysIndex) in ApiList" :key="sysIndex">
                   <a class="stick">{{ system.sysId }}</a>
                   <div class="api-group">
                     <div class="check-all">
@@ -256,6 +256,7 @@ export default class SystemRegisterPage extends Vue {
   isShowProgress = false;
   isApiAuthProgress = false;
   showApiMngtModal = false;
+  ApiList: ApiAuthResponse[] = [];
   checkedApiList: ApiAuthResponse[] = [];
 
   @Watch('show')
@@ -396,6 +397,10 @@ export default class SystemRegisterPage extends Vue {
   get ApiAuth(): ApiAuthResponse[] {
     return this.serviceModule.ApiAuthList;
   }
+  @Watch('ApiAuth')
+  onApiAuthChange(val: ApiAuthResponse[]) {
+    this.ApiList = val;
+  }
 
   showApiMngt() {
     this.showApiMngtModal = true;
@@ -414,11 +419,14 @@ export default class SystemRegisterPage extends Vue {
   }
 
   checkApi(sys: string, api: string) {
+    console.log(this.checkedApiList);
+    console.log(this.ApiAuth);
     if (this.checkedApiList.find((item) => item.sysId === sys)) {
       if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.includes(api)) {
         if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.length === 1) {
           this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== sys);
         } else {
+          console.log('start');
           this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
             this.checkedApiList.findIndex((item) => item.sysId === sys)
           ].apiId.filter((item) => item !== api);
@@ -441,8 +449,9 @@ export default class SystemRegisterPage extends Vue {
     } else {
       this.checkedApiList.push(apiAll);
     }
+    console.log(this.checkedApiList);
+    console.log(this.ApiAuth);
   }
-
   created() {
     this.isShowProgress = true;
     this.serviceModule
