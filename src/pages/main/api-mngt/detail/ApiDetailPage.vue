@@ -27,7 +27,7 @@
         <InfoGroup :inputNm="`${$t('api.timeOutMS')}`" :value="apiDetail.timeOut" />
         <InfoGroup :inputNm="`${$t('api.api')}` + ' ' + `${$t('api.description')}`" :value="apiDetail.desc" />
         <ModalLayout size="m" v-if="showModal">
-          <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+          <template v-slot:modalHeader><h1 class="h1-tit">API 삭제</h1> </template>
           <template v-slot:modalContainer>
             <p class="text">{{ deleteMsg }}를 삭제하시겠습니까?</p>
           </template>
@@ -42,11 +42,19 @@
     <template v-slot:buttons v-if="!isShowProgress">
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="$router.push({ name: 'api-edit', params: { id: apiDetail.id } })">
+        <button
+          :disabled="isButtonDisabled"
+          class="lg-btn purple-btn"
+          @click="$router.push({ name: 'api-edit', params: { id: apiDetail.id } })"
+        >
           {{ $t('api.edit') }}
         </button>
-        <button class="lg-btn white-btn" @click="showModal = true">{{ $t('api.delete') }}</button>
-        <button class="lg-btn gray-btn" @click="$router.go(-1)">{{ $t('api.list') }}</button>
+        <button :disabled="isButtonDisabled" class="lg-btn white-btn" @click="showModal = true">
+          {{ $t('api.delete') }}<b-spinner label="Spinning" v-if="isButtonDisabled" small></b-spinner>
+        </button>
+        <button :disabled="isButtonDisabled" class="lg-btn gray-btn" @click="$router.go(-1)">
+          {{ $t('api.list') }}
+        </button>
       </div>
     </template>
   </ContentLayout>
@@ -150,10 +158,13 @@ export default class ApiDetailPage extends Vue {
   // modal part
   showModal = false;
   deleteMsg: string | undefined = '';
-  deleteApi(id: string) {
-    console.log();
-    this.apiModule.deleteApi(id);
+  async deleteApi(id: string) {
+    this.showModal = false;
+    this.isButtonDisabled = true;
+    await this.apiModule.deleteApi(id);
     this.$router.push({ path: '/api' });
   }
+  // btn disabled
+  isButtonDisabled = false;
 }
 </script>
