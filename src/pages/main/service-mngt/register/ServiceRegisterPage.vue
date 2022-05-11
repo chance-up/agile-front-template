@@ -397,10 +397,6 @@ export default class SystemRegisterPage extends Vue {
   get ApiAuth(): ApiAuthResponse[] {
     return this.serviceModule.ApiAuthList;
   }
-  @Watch('ApiAuth')
-  onApiAuthChange(val: ApiAuthResponse[]) {
-    this.ApiList = val;
-  }
 
   showApiMngt() {
     this.showApiMngtModal = true;
@@ -409,6 +405,7 @@ export default class SystemRegisterPage extends Vue {
       .getApiAuthList()
       .then(() => {
         this.isApiAuthProgress = false;
+        this.ApiList = this.ApiAuth;
       })
       .catch((error) => {
         this.isApiAuthProgress = false;
@@ -426,7 +423,6 @@ export default class SystemRegisterPage extends Vue {
         if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.length === 1) {
           this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== sys);
         } else {
-          console.log('start');
           this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
             this.checkedApiList.findIndex((item) => item.sysId === sys)
           ].apiId.filter((item) => item !== api);
@@ -447,10 +443,9 @@ export default class SystemRegisterPage extends Vue {
         this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === apiAll.sysId)].apiId = apiAll.apiId;
       }
     } else {
-      this.checkedApiList.push(apiAll);
+      console.log(apiAll);
+      this.checkedApiList.push({ sysId: apiAll.sysId, apiId: apiAll.apiId });
     }
-    console.log(this.checkedApiList);
-    console.log(this.ApiAuth);
   }
   created() {
     this.isShowProgress = true;
