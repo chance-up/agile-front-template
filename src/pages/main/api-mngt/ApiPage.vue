@@ -26,15 +26,17 @@
                 <b-spinner label="Large Spinner"></b-spinner>
               </div>
               <table class="list-tb" v-if="!isShowProgress">
+                <caption>
+                  API ID, Method, URI, Time out, Update, 수정, 삭제 항목 테이블
+                </caption>
                 <colgroup>
-                  <col width="5%" />
-                  <col width="15%" />
+                  <col width="7%" />
+                  <col width="18%" />
+                  <col width="16%" />
                   <col width="*" />
-                  <col width="14%" />
-                  <col width="13%" />
-                  <col width="8%" />
                   <col width="10%" />
-                  <col width="8%" />
+                  <col width="13%" />
+                  <col width="10%" />
                 </colgroup>
                 <thead>
                   <tr>
