@@ -66,8 +66,7 @@ button {
 }
 button:disabled{
     pointer-events: none;
-    background-color: #C6AAFA !important;
-    border:1px #C6AAFA !important;
+    opacity: 0.6;
 }
 a:link, a:visited, a:hover, a:active, a:focus {
     text-decoration: none;

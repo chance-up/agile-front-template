@@ -38,8 +38,6 @@ export class AxiosClient {
         if (!error.response) {
           throw new GateWayError(ErrorCode.NETWORK_ERROR);
         } else {
-          const errorCode: number = error.response.status;
-
           throw new GateWayError(error.response.status);
         }
       }
@@ -61,7 +59,6 @@ export class AxiosClient {
       if (!error.response) {
         throw new GateWayError(ErrorCode.NETWORK_ERROR);
       } else {
-        const errorCode: number = error.response.status;
         throw new GateWayError(error.response.status);
       }
     }
@@ -82,7 +79,6 @@ export class AxiosClient {
       if (!error.response) {
         throw new GateWayError(ErrorCode.NETWORK_ERROR);
       } else {
-        const errorCode: number = error.response.status;
         throw new GateWayError(error.response.status);
       }
     }
@@ -106,7 +102,6 @@ export class AxiosClient {
       if (!error.response) {
         throw new GateWayError(ErrorCode.NETWORK_ERROR);
       } else {
-        const errorCode: number = error.response.status;
         throw new GateWayError(error.response.status);
       }
     }

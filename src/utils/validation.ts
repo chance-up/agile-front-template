@@ -46,7 +46,6 @@ export const checkEnglishNumberKoreanSpacialChar = (value: string) => {
   return r.test(String(value));
 };
 
-// 어떻게 만들어야하지?
 export const checkDomain = (value: string) => {
   console.log(value);
   const r = /^(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,5})/gi;

@@ -38,7 +38,6 @@
           :place="$t('system.tkcgrEml')"
           :isValid.sync="tkcgrEmlValid"
         />
-        <!-- <InterfaceGroup :inputNm="$t('system.ifGrp')" :ifgrps.sync="systemItem.if_grp" /> -->
         <EdptForm :inputNm="$t('system.edpt')" :strArr.sync="systemItem.edpt" :isValid.sync="edptValid" />
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
@@ -61,7 +60,9 @@
           {{ $t('common.modify') }}
           <b-spinner variant="light" label="Spinning" v-if="isBtnDisabled" small></b-spinner>
         </button>
-        <button class="lg-btn white-btn" @click="cancelOnClickEvent">{{ $t('common.cancel') }}</button>
+        <button class="lg-btn white-btn" @click="cancelOnClickEvent" :disabled="isBtnDisabled">
+          {{ $t('common.cancel') }}
+        </button>
       </div>
     </template>
   </ContentLayout>
@@ -156,7 +157,7 @@ export default class SystemEditPage extends Vue {
         this.isShowProgress = false;
         this.$router.back();
       })
-      .catch((error) => {
+      .catch(() => {
         this.isShowProgress = false;
         this.$modal.show(`${this.$t('error.server_error')}`);
       });
