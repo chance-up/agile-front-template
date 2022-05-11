@@ -167,11 +167,13 @@
               </div>
 
               <div class="api-cont">
-                <div class="api-stick" v-for="(checkedApi, index) in checkedApiList" :key="index">
-                  <span>{{ checkedApi.apiId }}</span>
-                  <button>
-                    <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
-                  </button>
+                <div v-for="(apiList, index) in checkedApiList" :key="index">
+                  <div class="api-stick" v-for="(checkedApi, index) in apiList.apiId" :key="index">
+                    <span>{{ checkedApi }}</span>
+                    <button>
+                      <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
