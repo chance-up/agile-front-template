@@ -70,8 +70,11 @@
         <!-- <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">{{ $t('api.edit') }}</button> -->
         <button :disabled="isButtonDisabled" class="lg-btn purple-btn" @click="showModal = true">
           {{ $t('api.edit') }}
+          <b-spinner variant="light" label="Spinning" v-if="isButtonDisabled" small></b-spinner>
         </button>
-        <button class="lg-btn white-btn" @click="$router.go(-1)">{{ $t('common.cancel') }}</button>
+        <button :disabled="isButtonDisabled" class="lg-btn white-btn" @click="$router.go(-1)">
+          {{ $t('common.cancel') }}
+        </button>
       </div>
     </template>
   </ContentLayout>

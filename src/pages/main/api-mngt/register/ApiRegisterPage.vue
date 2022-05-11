@@ -79,6 +79,7 @@
         </button>
         <button class="lg-btn purple-btn" @click="onClickSubmitButton" :disabled="isButtonDisabled">
           {{ $t('common.register') }}
+          <b-spinner variant="light" label="Spinning" v-if="isButtonDisabled" small></b-spinner>
         </button>
         <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isButtonDisabled">
           {{ $t('common.cancel') }}
