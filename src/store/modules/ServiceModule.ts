@@ -14,6 +14,8 @@ import {
   getDuplicatedFalse,
   getJWTAlg,
   JWTAlgResponse,
+  ApiAuthResponse,
+  getApiAuthList,
 } from '@/types/ServiceType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
@@ -34,18 +36,19 @@ export default class ServiceModule extends GateWayModule {
     svc_st_dt: '',
     svc_end_dt: '',
     athn: {
-      BASIC_AUTH: {
-        id: '',
-        pw: '',
+      basic: {
+        id: null,
+        pw: null,
       },
       JWT: {
-        alg: '',
-        issuer: '',
-        subject: '',
-        publickey: '',
+        alg: null,
+        iss: null,
+        aud: null,
+        pubKey: null,
       },
     },
-    api_aut: '',
+    athnType: '',
+    apiAut: [],
     desc: '',
     cret_dt: '',
     upd_dt: '',
@@ -63,18 +66,19 @@ export default class ServiceModule extends GateWayModule {
     svc_st_dt: '',
     svc_end_dt: '',
     athn: {
-      BASIC_AUTH: {
-        id: '',
-        pw: '',
+      basic: {
+        id: null,
+        pw: null,
       },
       JWT: {
-        alg: '',
-        issuer: '',
-        subject: '',
-        publickey: '',
+        alg: null,
+        iss: null,
+        aud: null,
+        pubKey: null,
       },
     },
-    api_aut: '',
+    athnType: '',
+    apiAut: [],
     desc: '',
   };
 
@@ -94,6 +98,8 @@ export default class ServiceModule extends GateWayModule {
   public JWTAlg: JWTAlgResponse = {
     alg: [],
   };
+
+  public ApiAuthList: ApiAuthResponse[] = [];
 
   @Action
   serviceReset() {
@@ -298,6 +304,24 @@ export default class ServiceModule extends GateWayModule {
       addMock('/service/jwt/', JSON.stringify(getJWTAlg));
       const response = await AxiosClient.getInstance().get<GateWayResponse<JWTAlgResponse>>('/service/jwt/');
       this.context.commit('setJWTAuth', response.data.value);
+    } catch (error: GateWayError | any) {
+      console.log(error);
+      return Promise.reject(error);
+    }
+  }
+
+  @Mutation
+  setApiAuth(ApiAuthListResponse: ApiAuthResponse[]) {
+    console.log('set Api Auth');
+    this.ApiAuthList = ApiAuthListResponse;
+  }
+
+  @Action
+  async getApiAuthList() {
+    try {
+      addMock('/service/apiauth/', JSON.stringify(getApiAuthList));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<JWTAlgResponse>>('/service/apiauth/');
+      this.context.commit('setApiAuth', response.data.value);
     } catch (error: GateWayError | any) {
       console.log(error);
       return Promise.reject(error);

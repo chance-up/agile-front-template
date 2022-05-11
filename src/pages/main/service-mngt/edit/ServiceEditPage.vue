@@ -31,9 +31,9 @@
           :athn.sync="showAuth"
           :alg.sync="JWTAlg.alg"
           :pickedAlg.sync="formData.athn.JWT.alg"
-          :issuer.sync="formData.athn.JWT.issuer"
-          :subject.sync="formData.athn.JWT.subject"
-          :publicKey.sync="formData.athn.JWT.publickey"
+          :issuer.sync="formData.athn.JWT.iss"
+          :subject.sync="formData.athn.JWT.aud"
+          :publicKey.sync="formData.athn.JWT.pubKey"
           :isvalid.sync="authValid"
           :progress="isBasicAuthProgress"
         ></AuthReqGroup>
@@ -100,7 +100,8 @@
     <template v-slot:buttons v-if="formData.id != ''">
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isRegisterProgress">
-          {{ $t('common.modify') }}<b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner>
+          {{ $t('common.modify') }}
+          <b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner>
         </button>
         <button class="lg-btn white-btn" @click="$router.back()" :disabled="isRegisterProgress">
           {{ $t('common.cancel') }}
@@ -167,25 +168,26 @@ export default class SystemRegisterPage extends Vue {
     svc_st_dt: '',
     svc_end_dt: '',
     athn: {
-      BASIC_AUTH: {
+      basic: {
         id: null,
         pw: null,
       },
       JWT: {
         alg: null,
-        issuer: null,
-        subject: null,
-        publickey: null,
+        iss: null,
+        aud: null,
+        pubKey: null,
       },
     },
-    api_aut: '',
+    athnType: '',
+    apiAut: [],
     desc: '',
   };
 
   showAuth = '';
   @Watch('serviceOption')
   onServiceOptionChanged() {
-    if (this.serviceOption.athn.BASIC_AUTH?.id != '') {
+    if (this.serviceOption.athn.basic?.id != '') {
       this.showAuth = 'BASIC_AUTH';
     } else {
       this.showAuth = 'JWT';
@@ -199,9 +201,9 @@ export default class SystemRegisterPage extends Vue {
     if (val == 'BASIC_AUTH') {
       this.formData.athn.JWT = {
         alg: null,
-        issuer: null,
-        subject: null,
-        publickey: null,
+        iss: null,
+        aud: null,
+        pubKey: null,
       };
     } else if (val == 'JWT') {
       this.serviceModule.setBasicAuth({ id: null, pw: null });
@@ -298,11 +300,11 @@ export default class SystemRegisterPage extends Vue {
 
   @Watch('basicAuth.id')
   onIdChange(val: string) {
-    this.formData.athn.BASIC_AUTH.id = val;
+    this.formData.athn.basic.id = val;
   }
   @Watch('basicAuth.pw')
   onPwChange(val: string) {
-    this.formData.athn.BASIC_AUTH.pw = val;
+    this.formData.athn.basic.pw = val;
   }
 
   destroyed() {

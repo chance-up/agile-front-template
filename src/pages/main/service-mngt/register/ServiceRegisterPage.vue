@@ -33,9 +33,9 @@
             :athn.sync="show"
             :alg.sync="JWTAlg.alg"
             :pickedAlg.sync="formData.athn.JWT.alg"
-            :issuer.sync="formData.athn.JWT.issuer"
-            :subject.sync="formData.athn.JWT.subject"
-            :publicKey.sync="formData.athn.JWT.publickey"
+            :issuer.sync="formData.athn.JWT.iss"
+            :subject.sync="formData.athn.JWT.aud"
+            :publicKey.sync="formData.athn.JWT.pubKey"
             :isvalid.sync="authValid"
             :progress="isBasicAuthProgress"
           ></AuthReqGroup>
@@ -109,7 +109,8 @@
       <template v-if="!isShowProgress" v-slot:buttons>
         <div class="btn-wrap">
           <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isRegisterProgress">
-            {{ $t('common.register') }}<b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner>
+            {{ $t('common.register') }}
+            <b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner>
           </button>
           <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isRegisterProgress">
             {{ $t('common.cancel') }}
@@ -122,20 +123,20 @@
       <div class="pop-wrap lg-pop">
         <div class="pop-header">
           <h1 class="h1-tit">API 권한관리</h1>
-          <button>
+          <button @click="hideApiMngt()">
             <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
           </button>
         </div>
-
-        <div class="pop-container">
+        <b-spinner v-if="isApiAuthProgress" large></b-spinner>
+        <div class="pop-container" v-if="!isApiAuthProgress">
           <div class="api-wrap">
             <div class="comp">
               <div class="search-form">
                 <input class="input-box" type="text" placeholder="API 검색" />
               </div>
               <ul class="api-list">
-                <li v-for="(list, index) in ['A', 'B', 'C']" :key="index">
-                  <a class="stick">시스템_{{ list }}</a>
+                <li v-for="(system, sysIndex) in ApiAuth" :key="sysIndex">
+                  <a class="stick">{{ system.sysId }}</a>
                   <div class="api-group">
                     <div class="check-all">
                       <div class="check-box">
@@ -144,9 +145,13 @@
                       </div>
                     </div>
                     <div class="check-group">
-                      <div class="check-box" v-for="(list, index) in 4" :key="index">
-                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_A_API _{{ index + 1 }}</label>
+                      <div class="check-box" v-for="(api, apiIndex) in system.apiId" :key="apiIndex">
+                        <div class="check">
+                          <input type="checkbox" id="" @click="checkApi(system.sysId, api)" /><span
+                            class="checkmark"
+                          ></span>
+                        </div>
+                        <label for="checkGet">{{ api }}</label>
                       </div>
                     </div>
                   </div>
@@ -156,15 +161,19 @@
             <div class="comp gray">
               <div class="box-tit">
                 <h3 class="h3-tit">권한 부여 된 API</h3>
-                <p class="total">total : <span>6</span></p>
+                <p class="total">
+                  total : <span>{{ checkedApiList.length }}</span>
+                </p>
               </div>
 
               <div class="api-cont">
-                <div class="api-stick" v-for="(list, index) in 3" :key="index">
-                  <span>시스템_A_API_{{ index + 1 }}</span>
-                  <button>
-                    <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
-                  </button>
+                <div v-for="(apiList, index) in checkedApiList" :key="index">
+                  <div class="api-stick" v-for="(checkedApi, index) in apiList.apiId" :key="index">
+                    <span>{{ checkedApi }}</span>
+                    <button>
+                      <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -172,7 +181,7 @@
         </div>
         <!--  // pop-container   -->
 
-        <div class="pop-footer">
+        <div class="pop-footer" v-if="!isApiAuthProgress">
           <button class="lg-btn purple-btn">저장</button>
           <button class="lg-btn white-btn" @click="hideApiMngt()">취소</button>
         </div>
@@ -191,7 +200,7 @@ import SlaReqGroup from '@/components/service-mngt/SlqReqGroup.vue';
 import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
-import { BasicAuthResponse, JWTAlgResponse, ServiceRegisterRequest } from '@/types/ServiceType';
+import { BasicAuthResponse, JWTAlgResponse, ServiceRegisterRequest, ApiAuthResponse } from '@/types/ServiceType';
 import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { BSpinner } from 'bootstrap-vue';
@@ -228,16 +237,18 @@ export default class SystemRegisterPage extends Vue {
   isBasicAuthProgress = false;
   isRegisterProgress = false;
   isShowProgress = false;
+  isApiAuthProgress = false;
   showApiMngtModal = false;
+  checkedApiList: ApiAuthResponse[] = [];
 
   @Watch('show')
   onShowChange(val: string) {
     if (val == 'BASIC_AUTH') {
       this.formData.athn.JWT = {
         alg: null,
-        issuer: null,
-        subject: null,
-        publickey: null,
+        iss: null,
+        aud: null,
+        pubKey: null,
       };
     } else {
       this.serviceModule.setBasicAuth({ id: null, pw: null });
@@ -256,18 +267,19 @@ export default class SystemRegisterPage extends Vue {
     svc_st_dt: '',
     svc_end_dt: '',
     athn: {
-      BASIC_AUTH: {
+      basic: {
         id: null,
         pw: null,
       },
       JWT: {
         alg: null,
-        issuer: null,
-        subject: null,
-        publickey: null,
+        iss: null,
+        aud: null,
+        pubKey: null,
       },
     },
-    api_aut: '',
+    athnType: '',
+    apiAut: this.checkedApiList,
     desc: '',
   };
 
@@ -353,22 +365,57 @@ export default class SystemRegisterPage extends Vue {
 
   @Watch('basicAuth.id')
   onIdChange(val: string) {
-    this.formData.athn.BASIC_AUTH.id = val;
+    this.formData.athn.basic.id = val;
   }
   @Watch('basicAuth.pw')
   onPwChange(val: string) {
-    this.formData.athn.BASIC_AUTH.pw = val;
+    this.formData.athn.basic.pw = val;
   }
 
   get JWTAlg(): JWTAlgResponse {
     return this.serviceModule.JWTAlg;
   }
 
+  get ApiAuth(): ApiAuthResponse[] {
+    return this.serviceModule.ApiAuthList;
+  }
+
   showApiMngt() {
     this.showApiMngtModal = true;
+    this.isApiAuthProgress = true;
+    this.serviceModule
+      .getApiAuthList()
+      .then(() => {
+        this.isApiAuthProgress = false;
+      })
+      .catch((error) => {
+        this.isApiAuthProgress = false;
+      });
   }
   hideApiMngt() {
     this.showApiMngtModal = false;
+  }
+
+  checkApi(sys: string, api: string) {
+    if (this.checkedApiList.find((item) => item.sysId === sys)) {
+      if (
+        this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.find(
+          (item) => item === api
+        )
+      ) {
+        if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.length === 1) {
+          this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== sys);
+        } else {
+          this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
+            this.checkedApiList.findIndex((item) => item.sysId === sys)
+          ].apiId.filter((item) => item !== api);
+        }
+      } else {
+        this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.push(api);
+      }
+    } else {
+      this.checkedApiList.push({ sysId: sys, apiId: [api] });
+    }
   }
 
   created() {

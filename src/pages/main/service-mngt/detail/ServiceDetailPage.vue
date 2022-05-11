@@ -17,12 +17,12 @@
         <AuthGroup
           :inputNm="$t('service.authentication_method')"
           :athn="auth"
-          :id="serviceOption.athn.BASIC_AUTH.id"
-          :pw="serviceOption.athn.BASIC_AUTH.pw"
+          :id="serviceOption.athn.basic.id"
+          :pw="serviceOption.athn.basic.pw"
           :alg="serviceOption.athn.JWT.alg"
-          :issuer="serviceOption.athn.JWT.issuer"
-          :subject="serviceOption.athn.JWT.subject"
-          :publickey="serviceOption.athn.JWT.publickey"
+          :issuer="serviceOption.athn.JWT.iss"
+          :subject="serviceOption.athn.JWT.aud"
+          :publickey="serviceOption.athn.JWT.pubKey"
         />
         <li>
           <label class="label">{{ $t('service.api_mngt') }}</label>
@@ -72,7 +72,8 @@
           {{ $t('common.modify') }}
         </button>
         <button class="lg-btn white-btn" @click="modalShow(serviceOption.id)" :disabled="isRegisterProgress">
-          {{ $t('common.delete') }}<b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner>
+          {{ $t('common.delete') }}
+          <b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner>
         </button>
         <button class="lg-btn gray-btn" @click="$router.back()" :disabled="isRegisterProgress">
           {{ $t('common.list') }}
@@ -112,7 +113,7 @@ export default class ServiceDetailPage extends Vue {
 
   @Watch('serviceOption')
   onServiceOptionChange(val: ServiceResponse) {
-    if (val.athn.BASIC_AUTH.id === '') {
+    if (val.athn.basic.id === '') {
       this.auth = 'JWT';
     } else if (val.athn.JWT.alg === '') {
       this.auth = 'Basic Auth';

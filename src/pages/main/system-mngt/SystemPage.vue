@@ -90,14 +90,8 @@
           <p class="text">{{ currId }} &nbsp; {{ $t('system.modal_delete_message') }}</p>
         </template>
         <template v-slot:modalFooter>
-          <button
-            class="lg-btn"
-            :class="{ 'purple-btn': !isDisabled, 'white-btn': isDisabled }"
-            @click="deleteSystem"
-            :disabled="isDisabled"
-          >
-            {{ isDisabled ? '' : $t('common.ok') }}
-            <b-spinner v-if="isDisabled" small></b-spinner>
+          <button class="purple-btn lg-btn" @click="deleteSystem" :disabled="isDisabled">
+            {{ $t('common.ok') }}<b-spinner variant="light" v-if="isDisabled" small></b-spinner>
           </button>
           <button class="lg-btn white-btn" @click="closeModal" :disabled="isDisabled">
             {{ $t('common.cancel') }}

@@ -1,7 +1,12 @@
 import { Data, GateWayResponse, Pagination } from './GateWayResponse';
 
+export interface ApiAuthResponse {
+  sysId: string;
+  apiId: string[];
+}
+
 interface AuthResponse {
-  BASIC_AUTH: BasicAuthDetail;
+  basic: BasicAuthDetail;
   JWT: JWTDetail;
 }
 interface BasicAuthDetail {
@@ -11,9 +16,9 @@ interface BasicAuthDetail {
 
 interface JWTDetail {
   alg: string | null;
-  issuer: string | null;
-  subject: string | null;
-  publickey: string | null;
+  iss: string | null;
+  aud: string | null;
+  pubKey: string | null;
 }
 export interface ServiceResponse {
   id: string;
@@ -25,14 +30,14 @@ export interface ServiceResponse {
   svc_st_dt: string;
   svc_end_dt: string;
   athn: AuthResponse;
-  api_aut: string;
+  athnType: string;
+  apiAut: ApiAuthResponse[];
   desc: string;
   cret_dt: string;
   upd_dt: string;
   cret_id: string;
   upd_id: string;
 }
-
 export interface BasicAuthResponse {
   id: string | null;
   pw: string | null;
@@ -65,7 +70,8 @@ export interface ServiceRegisterRequest {
   svc_st_dt: string;
   svc_end_dt: string;
   athn: AuthResponse;
-  api_aut: string;
+  athnType: string;
+  apiAut: ApiAuthResponse[];
   desc: string;
 }
 
@@ -92,10 +98,14 @@ export const searchServiceListResponse: ServiceResponse[] = [
     svc_st_dt: '2022-04-13 00:00:00',
     svc_end_dt: '9999-12-31 00:00:00',
     athn: {
-      BASIC_AUTH: { id: '', pw: '' },
-      JWT: { alg: 'ABC216', issuer: '임꺽정', subject: '홍길등', publickey: 'testKey' },
+      basic: { id: '', pw: '' },
+      JWT: { alg: 'ABC216', iss: '임꺽정', aud: '홍길등', pubKey: 'testKey' },
     },
-    api_aut: 'admin',
+    athnType: 'JWT',
+    apiAut: [
+      { sysId: 'SYSTEM_A', apiId: ['API_1', 'API_2'] },
+      { sysId: 'SYSTEM_C', apiId: ['API_5', 'API_6'] },
+    ],
     desc: 'test',
     cret_dt: '2022-04-20 17:44:23',
     upd_dt: '2022-04-20 17:44:23',
@@ -112,10 +122,14 @@ export const searchServiceListResponse: ServiceResponse[] = [
     svc_st_dt: '2022-04-13 00:00:00',
     svc_end_dt: '9999-12-31 00:00:00',
     athn: {
-      BASIC_AUTH: { id: 'admin', pw: '123123' },
-      JWT: { alg: '', issuer: '', subject: '', publickey: '' },
+      basic: { id: 'admin', pw: '123123' },
+      JWT: { alg: '', iss: '', aud: '', pubKey: '' },
     },
-    api_aut: 'admin',
+    athnType: 'JWT',
+    apiAut: [
+      { sysId: 'SYSTEM_A', apiId: ['API_1', 'API_2'] },
+      { sysId: 'SYSTEM_C', apiId: ['API_5', 'API_6'] },
+    ],
     desc: 'test',
     cret_dt: '2022-04-20 17:44:23',
     upd_dt: '2022-04-20 17:44:23',
@@ -132,10 +146,14 @@ export const searchServiceListResponse: ServiceResponse[] = [
     svc_st_dt: '2022-04-13 00:00:00',
     svc_end_dt: '9999-12-31 00:00:00',
     athn: {
-      BASIC_AUTH: { id: 'admin', pw: '123123' },
-      JWT: { alg: '', issuer: '', subject: '', publickey: '' },
+      basic: { id: 'admin', pw: '123123' },
+      JWT: { alg: '', iss: '', aud: '', pubKey: '' },
     },
-    api_aut: 'admin',
+    athnType: 'JWT',
+    apiAut: [
+      { sysId: 'SYSTEM_A', apiId: ['API_1', 'API_2'] },
+      { sysId: 'SYSTEM_C', apiId: ['API_5', 'API_6'] },
+    ],
     desc: 'test',
     cret_dt: '2022-04-20 17:44:23',
     upd_dt: '2022-04-20 17:44:23',
@@ -155,10 +173,14 @@ export const serviceListResponse: ServiceResponse[] = [
     svc_st_dt: '2022-04-13 00:00:00',
     svc_end_dt: '9999-12-31 00:00:00',
     athn: {
-      BASIC_AUTH: { id: '', pw: '' },
-      JWT: { alg: 'ABC216', issuer: '임꺽정', subject: '홍길등', publickey: 'testKey' },
+      basic: { id: '', pw: '' },
+      JWT: { alg: 'ABC216', iss: '임꺽정', aud: '홍길등', pubKey: 'testKey' },
     },
-    api_aut: 'admin',
+    athnType: 'JWT',
+    apiAut: [
+      { sysId: 'SYSTEM_A', apiId: ['API_1', 'API_2'] },
+      { sysId: 'SYSTEM_C', apiId: ['API_5', 'API_6'] },
+    ],
     desc: 'test',
     cret_dt: '2022-04-20 17:44:23',
     upd_dt: '2022-04-20 17:44:23',
@@ -175,10 +197,14 @@ export const serviceListResponse: ServiceResponse[] = [
     svc_st_dt: '2022-04-13 00:00:00',
     svc_end_dt: '9999-12-31 00:00:00',
     athn: {
-      BASIC_AUTH: { id: 'admin', pw: '123123' },
-      JWT: { alg: '', issuer: '', subject: '', publickey: '' },
+      basic: { id: 'admin', pw: '123123' },
+      JWT: { alg: '', iss: '', aud: '', pubKey: '' },
     },
-    api_aut: 'admin',
+    athnType: 'JWT',
+    apiAut: [
+      { sysId: 'SYSTEM_A', apiId: ['API_1', 'API_2'] },
+      { sysId: 'SYSTEM_C', apiId: ['API_5', 'API_6'] },
+    ],
     desc: 'test',
     cret_dt: '2022-04-20 17:44:23',
     upd_dt: '2022-04-20 17:44:23',
@@ -197,10 +223,14 @@ export const serviceResponse: ServiceResponse = {
   svc_st_dt: '2022-04-13 00:00:00',
   svc_end_dt: '9999-12-31 00:00:00',
   athn: {
-    BASIC_AUTH: { id: '', pw: '' },
-    JWT: { alg: 'ABC111', issuer: '임꺽정', subject: '홍길등', publickey: 'testKey' },
+    basic: { id: '', pw: '' },
+    JWT: { alg: 'ABC111', iss: '임꺽정', aud: '홍길등', pubKey: 'testKey' },
   },
-  api_aut: 'admin',
+  athnType: 'JWT',
+  apiAut: [
+    { sysId: 'SYSTEM_A', apiId: ['API_1', 'API_2'] },
+    { sysId: 'SYSTEM_C', apiId: ['API_5', 'API_6'] },
+  ],
   desc: 'test',
   cret_dt: '2022-04-20 17:44:23',
   upd_dt: '2022-04-20 17:44:23',
@@ -283,5 +313,21 @@ export const JWTAlgData: Data<JWTAlgResponse> = {
 
 export const getJWTAlg: GateWayResponse<JWTAlgResponse> = {
   data: JWTAlgData,
+  status: 0,
+};
+
+export const ApiAuthListMock: ApiAuthResponse[] = [
+  { sysId: 'SYSTEM_A', apiId: ['API_1', 'API_2'] },
+  { sysId: 'SYSTEM_B', apiId: ['API_3', 'API_4'] },
+  { sysId: 'SYSTEM_C', apiId: ['API_5', 'API_6'] },
+];
+
+export const ApiAuthListData: Data<ApiAuthResponse[]> = {
+  pagination: pagination,
+  value: ApiAuthListMock,
+};
+
+export const getApiAuthList: GateWayResponse<ApiAuthResponse[]> = {
+  data: ApiAuthListData,
   status: 0,
 };

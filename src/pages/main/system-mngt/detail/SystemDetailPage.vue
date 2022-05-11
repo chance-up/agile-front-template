@@ -33,7 +33,7 @@
         <button class="lg-btn purple-btn" @click="onClickEdit" :disabled="isDisabled">{{ $t('common.modify') }}</button>
         <button class="lg-btn white-btn" @click="showModal" :disabled="isDisabled">
           {{ $t('common.delete') }}
-          <b-spinner variant="light" label="Spinning" v-if="isDisabled" small></b-spinner>
+          <b-spinner label="Spinning" v-if="isDisabled" small></b-spinner>
         </button>
         <button class="lg-btn gray-btn" @click="onClickPrevious" :disabled="isDisabled">{{ $t('common.list') }}</button>
       </div>
