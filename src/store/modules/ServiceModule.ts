@@ -97,7 +97,7 @@ export default class ServiceModule extends GateWayModule {
     alg: [],
   };
 
-  public ApiAuthList: ApiAuthResponse[] = [];
+  public apiAuthList: ApiAuthResponse[] = [];
 
   @Action
   serviceReset() {
@@ -308,7 +308,7 @@ export default class ServiceModule extends GateWayModule {
   @Mutation
   setApiAuth(ApiAuthListResponse: ApiAuthResponse[]) {
     console.log('set Api Auth');
-    this.ApiAuthList = ApiAuthListResponse;
+    this.apiAuthList = ApiAuthListResponse;
   }
 
   @Action

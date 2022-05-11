@@ -317,9 +317,9 @@ export const getJWTAlg: GateWayResponse<JWTAlgResponse> = {
 };
 
 export const ApiAuthListMock: ApiAuthResponse[] = [
-  { sysId: 'SYSTEM_A', apiId: ['API_1', 'API_2'] },
-  { sysId: 'SYSTEM_B', apiId: ['API_1', 'API_4'] },
-  { sysId: 'SYSTEM_C', apiId: ['API_11', 'API_6'] },
+  { sysId: 'SYSTEM_A', apiId: ['API_1', 'API_2', 'API_112', 'API_4'] },
+  { sysId: 'SYSTEM_B', apiId: ['API_11', 'API_3', 'API_5'] },
+  { sysId: 'SYSTEM_C', apiId: ['API_12', 'API_4', 'API_55'] },
   { sysId: 'SYSTEM_D', apiId: ['API_111', 'API_2'] },
 ];
 
