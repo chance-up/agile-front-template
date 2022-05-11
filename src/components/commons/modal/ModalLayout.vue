@@ -112,35 +112,34 @@ export default class ModalLayout extends Vue {
   /* background: #fff;
   width: 600px; */
   padding: 30px 30px;
-  margin: 0 auto;
-  box-shadow: 1px 1px 5px #ccc;
+  /* margin: 0 auto; */
+  /* box-shadow: 1px 1px 5px #ccc; */
 }
 
-.pop-header {
+/* .pop-header {
   display: flex;
   justify-content: space-between;
   position: relative;
-}
+} */
 .pop-footer {
-  position: relative;
-  text-align: center;
+  /* position: relative;
+  text-align: center; */
   padding: 20px 20px 0px 20px;
   border-top: 1px #ddd solid;
 }
 .pop-footer .lg-btn {
   padding: 12px 20px;
-  margin-right: 10px;
+  /* margin-right: 10px; */
 }
 
 .pop-container {
-  width: auto;
+  /* width: auto; */
   padding: 30px 0px;
-  overflow-y: auto;
-  position: relative;
-  max-height: 320px;
+  /* overflow-y: auto;
+  position: relative; */
 }
 
-.handler-list {
+/* .handler-list {
   position: relative;
   margin-top: 20px;
 }
@@ -193,7 +192,7 @@ export default class ModalLayout extends Vue {
   background: #777777;
   border-radius: 8px;
   color: #ffffff;
-}
+} */
 
 .modal-enter,
 .modal-leave-to,
