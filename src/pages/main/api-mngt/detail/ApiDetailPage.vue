@@ -4,6 +4,7 @@
     :subTitle="`${$t('api.basicInformation')}` + ' ' + `${$t('common.ok')}`"
     :depth="`${$t('api.api')}` + ' ' + `${$t('api.management')}`"
     :isShowProgress="isShowProgress"
+    :isEmShow="false"
   >
     <template v-slot:contents v-if="!isShowProgress && apiDetail">
       <!-- 레이아웃을 제외한 실제 컨텐츠 부분을 넣어주세요 -->
