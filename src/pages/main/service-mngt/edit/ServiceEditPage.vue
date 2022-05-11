@@ -43,68 +43,66 @@
             <button class="sm-btn">권한설정 변경</button>
           </div>
         </li>
-        <li>
-          <SlaReqGroup
-            :inputNm="$t('service.SLA_mngt')"
-            :secVal.sync="formData.sla.sec"
-            :minVal.sync="formData.sla.min"
-            :hourVal.sync="formData.sla.hr"
-            :dayVal.sync="formData.sla.day"
-            :monthVal.sync="formData.sla.mon"
-            :onSec.sync="slaSec"
-            :onMin.sync="slaMin"
-            :onHour.sync="slaHr"
-            :onDay.sync="slaDay"
-            :onMonth.sync="slaMon"
-          />
-          <InputGroup
-            type="text"
-            :inputNm="$t('service.tkcgrNm')"
-            :placeholder="$t('service.tkcgrNmEx')"
-            :value.sync="formData.tkcgr_nm"
-            :isvalid.sync="tkcgrNmValid"
-          />
-          <InputGroup
-            type="text"
-            :inputNm="$t('service.tkcgrPos')"
-            :placeholder="$t('service.tkcgrPosEx')"
-            :value.sync="formData.tkcgr_pos"
-            :isvalid.sync="tkcgrPosValid"
-          />
-          <InputGroup
-            type="text"
-            :inputNm="$t('service.tkcgrEml')"
-            :placeholder="$t('service.tkcgrEmlEx')"
-            inputClass="input-box lg check-ok"
-            :value.sync="formData.tkcgr_eml"
-            :isvalid.sync="tkcgrEmlValid"
-          />
-          <SysExGroup :inputNm="$t('service.desc')" v-model="formData.desc" />
-          <ModalLayout size="m" v-if="modal">
-            <template v-slot:modalHeader
-              ><h1 class="h1-tit">{{ $t('service.modify') }}</h1>
-            </template>
-            <template v-slot:modalContainer>
-              <p v-if="!isShowProgress" class="text">{{ $t('service.modify_message') }}</p>
-              <div v-if="isShowProgress" style="width: 100%; text-align: center"></div
-            ></template>
-            <template v-slot:modalFooter
-              ><button class="lg-btn purple-btn" @click="editService()">
-                {{ $t('common.ok') }}</button
-              ><button class="lg-btn purple-btn" @click="modalHide()">
-                {{ $t('common.cancel') }}
-              </button>
-            </template>
-          </ModalLayout>
-        </li>
+        <SlaReqGroup
+          :inputNm="$t('service.SLA_mngt')"
+          :secVal.sync="formData.sla.sec"
+          :minVal.sync="formData.sla.min"
+          :hourVal.sync="formData.sla.hr"
+          :dayVal.sync="formData.sla.day"
+          :monthVal.sync="formData.sla.mon"
+          :onSec.sync="slaSec"
+          :onMin.sync="slaMin"
+          :onHour.sync="slaHr"
+          :onDay.sync="slaDay"
+          :onMonth.sync="slaMon"
+        />
+        <InputGroup
+          type="text"
+          :inputNm="$t('service.tkcgrNm')"
+          :placeholder="$t('service.tkcgrNmEx')"
+          :value.sync="formData.tkcgr_nm"
+          :isvalid.sync="tkcgrNmValid"
+        />
+        <InputGroup
+          type="text"
+          :inputNm="$t('service.tkcgrPos')"
+          :placeholder="$t('service.tkcgrPosEx')"
+          :value.sync="formData.tkcgr_pos"
+          :isvalid.sync="tkcgrPosValid"
+        />
+        <InputGroup
+          type="text"
+          :inputNm="$t('service.tkcgrEml')"
+          :placeholder="$t('service.tkcgrEmlEx')"
+          inputClass="input-box lg check-ok"
+          :value.sync="formData.tkcgr_eml"
+          :isvalid.sync="tkcgrEmlValid"
+        />
+        <SysExGroup :inputNm="$t('service.desc')" v-model="formData.desc" />
+        <ModalLayout size="m" v-if="modal">
+          <template v-slot:modalHeader
+            ><h1 class="h1-tit">{{ $t('service.modify') }}</h1>
+          </template>
+          <template v-slot:modalContainer>
+            <p v-if="!isShowProgress" class="text">{{ $t('service.modify_message') }}</p>
+            <div v-if="isShowProgress" style="width: 100%; text-align: center"></div
+          ></template>
+          <template v-slot:modalFooter
+            ><button class="lg-btn purple-btn" @click="editService()">
+              {{ $t('common.ok') }}</button
+            ><button class="lg-btn purple-btn" @click="modalHide()">
+              {{ $t('common.cancel') }}
+            </button>
+          </template>
+        </ModalLayout>
       </ul>
     </template>
     <template v-slot:buttons v-if="formData.id != ''">
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isShowProgress">
-          {{ $t('common.modify') }}<b-spinner v-show="isShowProgress" small></b-spinner>
+        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isRegisterProgress">
+          {{ $t('common.modify') }}<b-spinner v-show="isRegisterProgress" small></b-spinner>
         </button>
-        <button class="lg-btn white-btn" @click="$router.back()" :disabled="isShowProgress">
+        <button class="lg-btn white-btn" @click="$router.back()" :disabled="isRegisterProgress">
           {{ $t('common.cancel') }}
         </button>
       </div>
@@ -141,6 +139,7 @@ export default class SystemRegisterPage extends Vue {
   serviceModule = getModule(ServiceModule, this.$store);
   isShowProgress = false;
   isBasicAuthProgress = false;
+  isRegisterProgress = false;
 
   isBtnDisabled = true;
   tkcgrNmValid = null;
@@ -211,8 +210,16 @@ export default class SystemRegisterPage extends Vue {
 
   async editService() {
     this.modal = false;
-    await this.serviceModule.editServiceAction(this.serviceOption);
-    this.$router.back();
+    this.isRegisterProgress = true;
+    this.serviceModule
+      .createServiceAction(this.formData)
+      .then(() => {
+        this.$router.back();
+      })
+      .catch((error) => {
+        this.isRegisterProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
 
   createAuthId() {

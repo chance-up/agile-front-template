@@ -134,8 +134,8 @@
                 <input class="input-box" type="text" placeholder="API 검색" />
               </div>
               <ul class="api-list">
-                <li>
-                  <a class="stick">시스템_A</a>
+                <li v-for="(list, index) in ['A', 'B', 'C']" :key="index">
+                  <a class="stick">시스템_{{ list }}</a>
                   <div class="api-group">
                     <div class="check-all">
                       <div class="check-box">
@@ -144,89 +144,9 @@
                       </div>
                     </div>
                     <div class="check-group">
-                      <div class="check-box">
+                      <div class="check-box" v-for="(list, index) in 4" :key="index">
                         <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_A_API _01</label>
-                      </div>
-
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_A_API _02</label>
-                      </div>
-
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_A_API _03</label>
-                      </div>
-
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_A_API _04</label>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <a class="stick">시스템_B</a>
-                  <div class="api-group">
-                    <div class="check-all">
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="checkAll" /><span class="checkmark"></span></div>
-                        <label for="checkAll">전체 선택</label>
-                      </div>
-                    </div>
-                    <div class="check-group">
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_B_API _01</label>
-                      </div>
-
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_B_API _02</label>
-                      </div>
-
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_B_API _03</label>
-                      </div>
-
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_B_API _04</label>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <a class="stick">시스템_C</a>
-                  <div class="api-group">
-                    <div class="check-all">
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="checkAll" /><span class="checkmark"></span></div>
-                        <label for="checkAll">전체 선택</label>
-                      </div>
-                    </div>
-
-                    <div class="check-group">
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_C_API _01</label>
-                      </div>
-
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_C_API _02</label>
-                      </div>
-
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_C_API _03</label>
-                      </div>
-
-                      <div class="check-box">
-                        <div class="check"><input type="checkbox" id="" /><span class="checkmark"></span></div>
-                        <label for="checkGet">시스템_C_API _04</label>
+                        <label for="checkGet">시스템_A_API _{{ index + 1 }}</label>
                       </div>
                     </div>
                   </div>
@@ -240,20 +160,8 @@
               </div>
 
               <div class="api-cont">
-                <div class="api-stick">
-                  <span>시스템_A_API_01</span>
-                  <button>
-                    <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
-                  </button>
-                </div>
-                <div class="api-stick">
-                  <span>시스템_A_API_02</span>
-                  <button>
-                    <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
-                  </button>
-                </div>
-                <div class="api-stick">
-                  <span>시스템_A_API길어지면 _03</span>
+                <div class="api-stick" v-for="(list, index) in 3" :key="index">
+                  <span>시스템_A_API_{{ index + 1 }}</span>
                   <button>
                     <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
                   </button>
