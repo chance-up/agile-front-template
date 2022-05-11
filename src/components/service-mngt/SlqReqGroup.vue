@@ -68,27 +68,27 @@
       <div class="sla-group">
         <div class="sla-form" v-if="showMonth">
           <label class="label">Month : </label>
-          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="month" min="1" />
+          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="month" min="1" step="1" />
           <span>건</span>
         </div>
         <div class="sla-form" v-if="showDay">
           <label class="label">Day : </label>
-          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="day" min="1" />
+          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="day" min="1" step="1" />
           <span>건</span>
         </div>
         <div class="sla-form" v-if="showHour">
           <label class="label">Hour : </label>
-          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="hour" min="1" />
+          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="hour" min="1" step="1" />
           <span>건</span>
         </div>
         <div class="sla-form" v-if="showMin">
           <label class="label">Min : </label>
-          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="min" min="1" />
+          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="min" min="1" step="1" />
           <span>건</span>
         </div>
         <div class="sla-form" v-if="showSec">
           <label class="label">Sec : </label>
-          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="sec" min="1" />
+          <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="sec" min="1" step="1" />
           <span>건</span>
         </div>
       </div>
@@ -105,7 +105,7 @@
         {{ $t('service.empty_check') }}
       </p>
       <p
-        v-if="
+        v-else-if="
           (showSec && sec == '') ||
           (showMin && min == '') ||
           (showHour && hour == '') ||
@@ -115,6 +115,18 @@
         class="red-txt noti"
       >
         {{ $t('service.empty_check') }}
+      </p>
+      <p
+        v-else-if="
+          (showSec && sec == 0) ||
+          (showMin && min == 0) ||
+          (showHour && hour == 0) ||
+          (showDay && day == 0) ||
+          (showMonth && month == 0)
+        "
+        class="red-txt noti"
+      >
+        1 이상의 값을 입력해주세요.
       </p>
     </div>
   </li>
@@ -177,8 +189,6 @@ export default class SlaReqGroup extends Vue {
     return this.secVal;
   }
   set sec(val: number | null) {
-    console.log(val);
-
     this.$emit('update:secVal', val);
   }
 

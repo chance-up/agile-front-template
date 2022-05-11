@@ -81,7 +81,7 @@
                     {{ list.id }}
                   </td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                    {{ list.athn.BASIC_AUTH.id == '' ? 'JWT' : 'Basic Auth' }}
+                    {{ list.athn.basic.id == '' ? 'JWT' : 'Basic Auth' }}
                   </td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                     <span>{{ list.svc_st_dt.slice(0, 10) }}</span> ~ <span>{{ list.svc_end_dt.slice(0, 10) }}</span>
@@ -114,7 +114,8 @@
             </template>
             <template v-slot:modalFooter
               ><button class="lg-btn purple-btn" @click="deleteService(deleteId)" :disabled="isRegisterProgress">
-                {{ $t('common.ok') }}<b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner></button
+                {{ $t('common.ok') }}
+                <b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner></button
               ><button class="lg-btn white-btn" @click="modalHide()" :disabled="isRegisterProgress">
                 {{ $t('common.cancel') }}
               </button>
@@ -134,7 +135,6 @@ import ListForm from '@/components/commons/ListForm.vue';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { ServiceResponse } from '@/types/ServiceType';
 import { SearchCondition } from '@/types/SearchType';
-import { USER_STATE } from '@/store/UserState';
 import { BSpinner } from 'bootstrap-vue';
 import Paging from '@/components/commons/Paging.vue';
 import { Pagination } from '@/types/GateWayResponse';
