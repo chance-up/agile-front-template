@@ -51,13 +51,13 @@
         <TextForm :groupNm="$t('api.timeOutMS')" type="number" :required="true" v-model="requestBody.timeOut" />
         <TextForm :groupNm="$t('api.apiDescription')" type="textarea" v-model="requestBody.desc" />
         <ModalLayout size="m" v-if="showModal">
-          <template v-slot:modalHeader><h1 class="h1-tit">서비스 수정</h1> </template>
+          <template v-slot:modalHeader><h1 class="h1-tit">API 수정</h1> </template>
           <template v-slot:modalContainer>
-            <p class="text">서비스를 수정하시겠습니까?</p>
+            <p class="text">API를 수정하시겠습니까?</p>
           </template>
           <template v-slot:modalFooter>
             <button class="lg-btn purple-btn" @click="onSubmit">{{ $t('common.ok') }}</button>
-            <button class="lg-btn purple-btn" @click="closeModal">{{ $t('common.cancel') }}</button>
+            <button class="lg-btn purple-btn" @click="showModal = false">{{ $t('common.cancel') }}</button>
           </template>
         </ModalLayout>
       </ul>
@@ -70,8 +70,11 @@
         <!-- <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">{{ $t('api.edit') }}</button> -->
         <button :disabled="isButtonDisabled" class="lg-btn purple-btn" @click="showModal = true">
           {{ $t('api.edit') }}
+          <b-spinner variant="light" label="Spinning" v-if="isButtonDisabled" small></b-spinner>
         </button>
-        <button class="lg-btn white-btn" @click="$router.go(-1)">{{ $t('common.cancel') }}</button>
+        <button :disabled="isButtonDisabled" class="lg-btn white-btn" @click="$router.go(-1)">
+          {{ $t('common.cancel') }}
+        </button>
       </div>
     </template>
   </ContentLayout>

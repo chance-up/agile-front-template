@@ -76,13 +76,17 @@
           <template v-slot:pagination v-if="!isShowProgress">
             <Paging v-if="pagination" :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
             <ModalLayout size="m" v-if="showModal">
-              <template v-slot:modalHeader><h1 class="h1-tit">서비스 삭제</h1> </template>
+              <template v-slot:modalHeader><h1 class="h1-tit">API 삭제</h1> </template>
               <template v-slot:modalContainer>
                 <p class="text">{{ deleteMsg }}를 삭제하시겠습니까?</p>
               </template>
               <template v-slot:modalFooter
-                ><button class="lg-btn purple-btn" @click="deleteApi(deleteMsg)">{{ $t('common.ok') }}</button
-                ><button class="lg-btn purple-btn" @click="showModal = false">{{ $t('common.cancel') }}</button>
+                ><button class="lg-btn purple-btn" @click="deleteApi(deleteMsg)" :disabled="isModalProgress">
+                  {{ $t('common.ok')
+                  }}<b-spinner variant="light" label="Spinning" v-if="isModalProgress" small></b-spinner></button
+                ><button class="lg-btn purple-btn" @click="showModal = false" :disabled="isModalProgress">
+                  {{ $t('common.cancel') }}
+                </button>
               </template>
             </ModalLayout>
           </template>
@@ -125,13 +129,9 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
   },
 })
 export default class ApiPage extends Vue {
-  async deleteApi(apiId: string) {
-    // await this.serviceModule.deleteServiceAction(ServiceId);
-    await this.apiModule.deleteApi(apiId);
-    this.$router.go(0);
-    this.showModal = false;
-  }
   showModal = false;
+  isModalProgress = false;
+  isShowProgress = false;
   deleteMsg = '';
   emitDelApi(msg: string) {
     this.deleteMsg = msg;
@@ -192,22 +192,14 @@ export default class ApiPage extends Vue {
     return this.apiModule.apiList;
   }
 
-  // for progress
-  isShowProgress = false;
-  // get userState() {
-  //   return this.apiModule.currAsyncState;
-  // }
-  // @Watch('userState')
-  // onCurrAsyncStateChange(userState: USER_STATE) {
-  //   console.log('userState : ', userState);
-  //   if (userState === USER_STATE.LOADING) {
-  //     this.isShowProgress = true;
-  //   } else if (userState === USER_STATE.ERROR) {
-  //     this.$modal.show(`${this.$t('api.server_error')}`);
-  //   } else if (userState === USER_STATE.DONE) {
-  //     this.isShowProgress = false;
-  //   }
-  // }
+  async deleteApi(apiId: string) {
+    // await this.serviceModule.deleteServiceAction(ServiceId);
+    this.isModalProgress = true;
+    await this.apiModule.deleteApi(apiId);
+    this.showModal = false;
+    this.isModalProgress = false;
+    this.$router.go(0);
+  }
 
   // for searching
   searchOnClieckEvent() {
