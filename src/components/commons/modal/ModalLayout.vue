@@ -1,16 +1,18 @@
 <template>
   <div>
-    <transition name="modalLayout">
-      <!------- handler pop -------->
-      <div :class="{ large: l, medium: m, small: s, 'pop-wrap': true }">
-        <div class="pop-header">
-          <slot name="modalHeader" />
-        </div>
-        <div class="pop-container">
-          <slot name="modalContainer" />
-        </div>
-        <div class="pop-footer">
-          <slot name="modalFooter" />
+    <transition name="modal" appear>
+      <div class="modal-overlay">
+        <!------- handler pop -------->
+        <div :class="{ large: l, medium: m, small: s, 'pop-wrap': true }">
+          <div class="pop-header">
+            <slot name="modalHeader" />
+          </div>
+          <div class="pop-container">
+            <slot name="modalContainer" />
+          </div>
+          <div class="pop-footer">
+            <slot name="modalFooter" />
+          </div>
         </div>
       </div>
       <!------- handler pop -------->
@@ -41,6 +43,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { disableScrolling, enableScrolling } from '@/utils/screen';
 
 @Component({
   components: {},
@@ -54,6 +57,7 @@ export default class ModalLayout extends Vue {
   m = false;
   s = false;
   created() {
+    disableScrolling();
     if (this.size == 'l') {
       this.l = true;
       this.m = false;
@@ -67,6 +71,9 @@ export default class ModalLayout extends Vue {
       this.m = false;
       this.s = true;
     }
+  }
+  destroyed() {
+    enableScrolling();
   }
 }
 </script>
@@ -183,5 +190,30 @@ export default class ModalLayout extends Vue {
   background: #777777;
   border-radius: 8px;
   color: #ffffff;
+}
+
+.modal-enter,
+.modal-leave-to {
+  opacity: 0;
+}
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.4s;
+}
+.pop-wrap {
+  transition: opacity 0.4s, transform 0.4s;
+}
+
+.modal-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 30;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
 }
 </style>
