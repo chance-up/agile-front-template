@@ -6,6 +6,7 @@ import SystemModule from '@/store/modules/SystemModule';
 import ServiceModule from '@/store/modules/ServiceModule';
 import ApiModule from '@/store/modules/ApiModule';
 import HandlerModule from '@/store/modules/HandlerModule';
+import UserModule from '@/store/modules/UserModule';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -15,5 +16,6 @@ export default new Vuex.Store({
     ServiceModule,
     ApiModule,
     HandlerModule,
+    UserModule,
   },
 });

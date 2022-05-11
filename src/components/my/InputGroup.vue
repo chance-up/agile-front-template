@@ -5,8 +5,8 @@
       <input
         :type="type"
         :class="{
-          'check-ok': notiMessage[0] === true,
-          'check-false': notiMessage[0] === false,
+          'check-ok': notiMessage[0] === true && !disabled,
+          'check-false': notiMessage[0] === false && !disabled,
         }"
         class="input-box lg"
         :placeholder="place"
@@ -23,11 +23,9 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import {
   checkEmail,
   checkLength,
-  checkEnglishNumber,
   checkOnlyEnglishAndNumber,
   checkEnglishKorean,
   checkEmpty,
-  checkEnglishNumberKorean,
   checkEnglishNumberKoreanSpacialChar,
   checkTel,
 } from '@/utils/validation';
@@ -40,7 +38,7 @@ export default class InputGroup extends Vue {
   @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) value!: string;
   @Prop({ default: false }) isvalid!: boolean | null;
-  @Prop({ default: '' }) confirm!: string;
+  @Prop({ default: '' }) pwdConfirm!: boolean;
 
   notiMessage: [boolean | null, string] = [null, ''];
 
@@ -49,16 +47,30 @@ export default class InputGroup extends Vue {
     this.$emit('update:isvalid', this.notiMessage[0]);
   }
 
+  @Watch('pwdConfirm')
+  pwdConfirmChanged(val: boolean) {
+    if (val) {
+      this.notiMessage = [true, ''];
+    } else {
+      this.notiMessage = [false, this.$t('my.valid_check_password_confirm') as string];
+    }
+  }
+
+  created() {
+    this.v = this.value;
+  }
+
   get v() {
     return this.value;
   }
+
   set v(val: string) {
     switch (this.inputNm) {
       case this.$t('my.name'):
         if (checkLength(val, 1, 20) && checkEnglishKorean(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, this.$t('my.empty_check') as string];
         } else {
           this.notiMessage = [false, this.$t('my.valid_check_nm') as string];
           console.log(this.notiMessage);
@@ -70,7 +82,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 6, 10) && checkOnlyEnglishAndNumber(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, this.$t('my.empty_check') as string];
         } else {
           this.notiMessage = [false, this.$t('my.valid_check_id') as string];
           console.log(this.notiMessage);
@@ -80,16 +92,16 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 8, 20) && checkEnglishNumberKoreanSpacialChar(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, this.$t('my.empty_check') as string];
         } else {
           this.notiMessage = [false, this.$t('my.valid_check_password') as string];
         }
         break;
       case this.$t('my.password_confirm'):
-        if (val == this.confirm) {
+        if (this.pwdConfirm) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, this.$t('my.empty_check') as string];
         } else {
           this.notiMessage = [false, this.$t('my.valid_check_password_confirm') as string];
         }
@@ -98,7 +110,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 20) && checkTel(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, this.$t('my.empty_check') as string];
         } else {
           this.notiMessage = [false, this.$t('my.valid_check_tel') as string];
         }
@@ -107,7 +119,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 20)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, this.$t('my.empty_check') as string];
         } else {
           this.notiMessage = [false, this.$t('my.valid_check_position') as string];
         }
@@ -116,7 +128,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 20) && checkEmail(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, this.$t('my.empty_check') as string];
         } else {
           this.notiMessage = [false, this.$t('my.valid_check_email') as string];
         }
@@ -124,7 +136,6 @@ export default class InputGroup extends Vue {
       default:
         this.notiMessage = [null, ''];
     }
-
     this.$emit('update:value', val);
   }
 

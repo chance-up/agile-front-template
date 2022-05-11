@@ -45,7 +45,7 @@
       <div class="member-wrap">
         <p><span class="bold">홍길동</span>님</p>
         <p><a class="link" href="javascript:void(0)">로그아웃</a></p>
-        <i><img src="@/assets/member_ico.svg" alt="멤버 아이콘" /></i>
+        <i @click="goMyPage"><img src="@/assets/member_ico.svg" alt="멤버 아이콘" /></i>
       </div>
     </header>
   </div>
@@ -91,6 +91,10 @@ export default class MainHeader extends Vue {
     const path = this.$route.path;
     const paths = path.split('/');
     this.changeNavState(paths[1] + 'State');
+  }
+
+  goMyPage() {
+    this.$router.push({ name: 'my' });
   }
 }
 </script>
