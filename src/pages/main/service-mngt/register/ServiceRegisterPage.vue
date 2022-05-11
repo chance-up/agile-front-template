@@ -99,7 +99,7 @@
             <template v-slot:modalFooter
               ><button class="lg-btn purple-btn" @click="submit()">
                 {{ $t('common.ok') }}</button
-              ><button class="lg-btn purple-btn" @click="modalHide()">
+              ><button class="lg-btn white-btn" @click="modalHide()">
                 {{ $t('common.cancel') }}
               </button>
             </template>
@@ -109,7 +109,7 @@
       <template v-if="!isShowProgress" v-slot:buttons>
         <div class="btn-wrap">
           <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isRegisterProgress">
-            {{ $t('common.register') }}<b-spinner v-show="isRegisterProgress" small></b-spinner>
+            {{ $t('common.register') }}<b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner>
           </button>
           <button class="lg-btn white-btn" @click="$router.go(-1)" :disabled="isRegisterProgress">
             {{ $t('common.cancel') }}

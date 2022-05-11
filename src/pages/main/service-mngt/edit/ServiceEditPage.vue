@@ -90,7 +90,7 @@
           <template v-slot:modalFooter
             ><button class="lg-btn purple-btn" @click="editService()">
               {{ $t('common.ok') }}</button
-            ><button class="lg-btn purple-btn" @click="modalHide()">
+            ><button class="lg-btn white-btn" @click="modalHide()">
               {{ $t('common.cancel') }}
             </button>
           </template>
@@ -100,7 +100,7 @@
     <template v-slot:buttons v-if="formData.id != ''">
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isRegisterProgress">
-          {{ $t('common.modify') }}<b-spinner v-show="isRegisterProgress" small></b-spinner>
+          {{ $t('common.modify') }}<b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner>
         </button>
         <button class="lg-btn white-btn" @click="$router.back()" :disabled="isRegisterProgress">
           {{ $t('common.cancel') }}
@@ -208,7 +208,7 @@ export default class SystemRegisterPage extends Vue {
     }
   }
 
-  async editService() {
+  editService() {
     this.modal = false;
     this.isRegisterProgress = true;
     this.serviceModule

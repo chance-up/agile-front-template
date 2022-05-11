@@ -113,8 +113,11 @@
               <p class="text">{{ $t('service.delete_message') }}</p>
             </template>
             <template v-slot:modalFooter
-              ><button class="lg-btn purple-btn" @click="deleteService(deleteId)">{{ $t('common.ok') }}</button
-              ><button class="lg-btn purple-btn" @click="modalHide()">{{ $t('common.cancel') }}</button>
+              ><button class="lg-btn purple-btn" @click="deleteService(deleteId)" :disabled="isRegisterProgress">
+                {{ $t('common.ok') }}<b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner></button
+              ><button class="lg-btn white-btn" @click="modalHide()" :disabled="isRegisterProgress">
+                {{ $t('common.cancel') }}
+              </button>
             </template>
           </ModalLayout>
         </template>
@@ -151,17 +154,25 @@ export default class ServiceManagementPage extends Vue {
   searchData: SearchCondition = {};
   pagingData: SearchCondition = {};
   isShowProgress = true;
-
+  isRegisterProgress = false;
   serviceModule = getModule(ServiceModule, this.$store);
 
   get listOption(): ServiceResponse[] {
     return this.serviceModule.services;
   }
 
-  async deleteService(ServiceId: string) {
-    await this.serviceModule.deleteServiceAction(ServiceId);
-    this.$router.go(0);
-    this.modal = false;
+  deleteService(ServiceId: string) {
+    this.isRegisterProgress = true;
+    this.serviceModule
+      .deleteServiceAction(ServiceId)
+      .then(() => {
+        this.$router.go(0);
+        this.modal = false;
+      })
+      .catch((error) => {
+        this.isRegisterProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
   searchOnClieckEvent() {
     console.log('searchData : ', this.searchData);

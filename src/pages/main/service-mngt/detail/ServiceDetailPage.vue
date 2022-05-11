@@ -1,5 +1,11 @@
 <template>
-  <ContentLayout :isShowProgress="isShowProgress" title="서비스 정보 확인" subTitle="기본정보 확인" depth="서비스 관리">
+  <ContentLayout
+    :isShowProgress="isShowProgress"
+    title="서비스 정보 확인"
+    subTitle="기본정보 확인"
+    depth="서비스 관리"
+    :isEmShow="false"
+  >
     <template v-if="!isShowProgress" v-slot:contents>
       <ul>
         <InfoGroup :inputNm="$t('service.id')" :value="serviceOption.id" />
@@ -50,7 +56,7 @@
           </template>
           <template v-slot:modalFooter
             ><button class="lg-btn purple-btn" @click="deleteService(deleteId)">{{ $t('common.ok') }}</button
-            ><button class="lg-btn purple-btn" @click="modalHide()">{{ $t('common.cancel') }}</button>
+            ><button class="lg-btn white-btn" @click="modalHide()">{{ $t('common.cancel') }}</button>
           </template>
         </ModalLayout>
       </ul>
@@ -61,11 +67,16 @@
         <button
           class="lg-btn purple-btn"
           @click="$router.push({ name: 'service-edit', params: { id: $route.params.id } })"
+          :disabled="isRegisterProgress"
         >
           {{ $t('common.modify') }}
         </button>
-        <button class="lg-btn white-btn" @click="modalShow(serviceOption.id)">{{ $t('common.delete') }}</button>
-        <button class="lg-btn gray-btn" @click="$router.go(-1)">{{ $t('common.list') }}</button>
+        <button class="lg-btn white-btn" @click="modalShow(serviceOption.id)" :disabled="isRegisterProgress">
+          {{ $t('common.delete') }}<b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner>
+        </button>
+        <button class="lg-btn gray-btn" @click="$router.back()" :disabled="isRegisterProgress">
+          {{ $t('common.list') }}
+        </button>
       </div>
     </template>
   </ContentLayout>
@@ -97,6 +108,7 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 export default class ServiceDetailPage extends Vue {
   auth = '';
   isShowProgress = false;
+  isRegisterProgress = false;
 
   @Watch('serviceOption')
   onServiceOptionChange(val: ServiceResponse) {
@@ -113,10 +125,18 @@ export default class ServiceDetailPage extends Vue {
     return this.serviceModule.service;
   }
 
-  async deleteService(ServiceId: string) {
-    await this.serviceModule.deleteServiceAction(ServiceId);
-    this.$router.back();
-    this.modal = false;
+  deleteService(ServiceId: string) {
+    this.isRegisterProgress = true;
+    this.serviceModule
+      .deleteServiceAction(ServiceId)
+      .then(() => {
+        this.$router.back();
+        this.modal = false;
+      })
+      .catch((error) => {
+        this.isRegisterProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
   }
 
   created() {
