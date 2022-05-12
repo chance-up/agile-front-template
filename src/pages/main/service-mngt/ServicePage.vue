@@ -50,17 +50,15 @@
             <table class="list-tb" v-if="!isShowProgress">
               <colgroup>
                 <col width="7%" />
-                <col width="18%" />
-                <col width="15%" />
-                <col width="12%" />
+                <col width="20%" />
+                <col width="13%" />
                 <col width="*" />
-                <col width="18%" />
+                <col width="17%" />
                 <col width="10%" />
               </colgroup>
               <thead>
                 <tr>
                   <th>{{ $t('service.no') }}</th>
-                  <th>{{ $t('service.name') }}</th>
                   <th>{{ $t('service.id') }}</th>
                   <th>{{ $t('service.authentication_method') }}</th>
                   <th>{{ $t('service.validity') }}</th>
@@ -79,20 +77,16 @@
                 <tr v-for="(list, index) in listOption" :key="index">
                   <td>{{ index + 1 }}</td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                    <span class="bold">{{ list.nm }}</span>
-                  </td>
-                  <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                     {{ list.id }}
                   </td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                    {{ list.athn.basic.id == '' ? 'JWT' : 'Basic Auth' }}
+                    {{ list.athnType }}
                   </td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                    <span>{{ list.svc_st_dt.slice(0, 10) }}</span> ~ <span>{{ list.svc_end_dt.slice(0, 10) }}</span>
+                    <span>10</span> ~ <span>10</span>
                   </td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                    <span>{{ list.upd_dt.slice(0, 10) }}</span
-                    ><span>{{ list.upd_dt.slice(11, 19) }}</span>
+                    <span>10</span><span>10</span>
                   </td>
                   <td>
                     <button class="mod-btn" @click="$router.push({ name: 'service-edit', params: { id: list.id } })">
