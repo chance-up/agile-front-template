@@ -343,9 +343,9 @@ export default class SystemRegisterPage extends Vue {
   hideApiAuth() {
     this.showApiAuthModal = false;
     if (this.checkedApiList.length == 0) {
-      this.apiAuthValid == false;
+      this.apiAuthValid = false;
     } else {
-      this.apiAuthValid == true;
+      this.apiAuthValid = true;
     }
   }
 
@@ -409,11 +409,11 @@ export default class SystemRegisterPage extends Vue {
     this.showApiAuthModal = false;
     if (api.length == 0) {
       console.log('test');
-      this.apiAuthValid == false;
+      this.apiAuthValid = false;
     } else {
       console.log(api);
       console.log('test22');
-      this.apiAuthValid == true;
+      this.apiAuthValid = true;
     }
   }
 

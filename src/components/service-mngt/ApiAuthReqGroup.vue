@@ -3,8 +3,8 @@
     <label class="label point">{{ $t('service.api_mngt') }}</label>
     <div class="form-cont">
       <button class="sm-btn" @click="showApiAuth">{{ inputNm }}</button>
+      <p v-if="!check" class="red-txt noti">{{ $t('service.valid_check_tkcgrNm') }}</p>
     </div>
-    <p v-if="!check" class="red-txt noti">{{ $t('service.valid_check_tkcgrNm') }}</p>
   </li>
 </template>
 <script lang="ts">

@@ -352,9 +352,9 @@ export default class SystemRegisterPage extends Vue {
   hideApiAuth() {
     this.showApiAuthModal = false;
     if (this.checkedApiList.length == 0) {
-      this.apiAuthValid == false;
+      this.apiAuthValid = false;
     } else {
-      this.apiAuthValid == true;
+      this.apiAuthValid = true;
     }
   }
 
@@ -377,9 +377,13 @@ export default class SystemRegisterPage extends Vue {
   }
 
   deleteApi(sys: string, api: string) {
-    this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
-      this.checkedApiList.findIndex((item) => item.sysId === sys)
-    ].apiId.filter((item) => item !== api);
+    if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.length !== 1) {
+      this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
+        this.checkedApiList.findIndex((item) => item.sysId === sys)
+      ].apiId.filter((item) => item !== api);
+    } else {
+      this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== sys);
+    }
   }
 
   checkApiAll(apiAll: ApiAuthResponse) {
@@ -417,12 +421,9 @@ export default class SystemRegisterPage extends Vue {
     this.formData.apiAut = api;
     this.showApiAuthModal = false;
     if (api.length == 0) {
-      console.log('test');
-      this.apiAuthValid == false;
+      this.apiAuthValid = false;
     } else {
-      console.log(api);
-      console.log('test22');
-      this.apiAuthValid == true;
+      this.apiAuthValid = true;
     }
   }
 
