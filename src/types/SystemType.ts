@@ -13,15 +13,15 @@ export interface SystemIdEdpt {
 export interface SystemResponse {
   id: string; // system id(PK)
   nm: string; // system name
-  tkcgr_nm: string; // 담당자 이름
-  tkcgr_pos: string; //담당자 소속
-  tkcgr_eml: string; //담당자 이메일
+  tkcgrNm: string; // 담당자 이름
+  tkcgrPos: string; //담당자 소속
+  tkcgrEml: string; //담당자 이메일
   edpt: string[]; //엔드포인트
   desc: string; //설명
-  created_at: string;
-  created_by: string;
-  updated_at: string;
-  updated_by: string;
+  cretDt: string;
+  cretId: string;
+  updDt: string;
+  updId: string;
 }
 
 //pagination
@@ -47,7 +47,7 @@ export const dummyListData = {
       {
         id: 'KT_COM1',
         nm: 'KT닷컴1',
-        tkcgr_nm: '박재원',
+        tkcgrNm: '박재원',
         tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
         tkcgr_eml: 'jwpark@kt.com',
         edpt: ['https://capri.com:443', 'https://capri.com:443'],

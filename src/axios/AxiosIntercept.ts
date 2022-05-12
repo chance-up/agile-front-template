@@ -23,14 +23,12 @@ class ErrorIntercept extends Error {
 }
 
 const axios = Axios.create({
-  baseURL: 'https://reqres.in/api',
-  // baseURL: 'http://localhost:8081/api',
+  //baseURL: 'https://reqres.in/api',
+  baseURL: 'http://localhost:8080/mngt/v1/',
   headers: {
     Accept: 'application/json',
     Authorization: 'Basic QU5EOnNhZmUyZ29fYW5k',
-    sseiontoken: '',
   },
-  withCredentials: false,
 });
 
 const isMockError = (error: ErrorIntercept) => Boolean(error.mockData);

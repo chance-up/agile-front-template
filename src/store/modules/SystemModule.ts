@@ -53,13 +53,15 @@ export default class SystemModule extends GateWayModule {
   @Action({ rawError: true })
   async getSystemList(searchOption?: object) {
     let url = '';
-    if (searchOption == undefined) {
-      addMock('/system/list', JSON.stringify(dummyListData));
-      url = '/system/list';
-    } else {
-      addMock('/system/getSystemSearch', JSON.stringify(dummySearchData));
-      url = '/system/getSystemSearch';
-    }
+    // if (searchOption == undefined) {
+    //   addMock('/system/list', JSON.stringify(dummyListData));
+    //   url = '/system/list';
+    // } else {
+    //   addMock('/system/getSystemSearch', JSON.stringify(dummySearchData));
+    //   url = '/system/getSystemSearch';
+    // }
+
+    url = '/getSystemList';
 
     try {
       const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>(url, {
