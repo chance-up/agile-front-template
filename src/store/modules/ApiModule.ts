@@ -144,7 +144,10 @@ export default class ApiModule extends GateWayModule {
   async putApi(api: ApiUpdateRequestBody) {
     try {
       // addMock(`/mngt/v1/api`, JSON.stringify(apiMockData));
-      const response = await AxiosClient.getInstance().put<GateWayResponse<ApiDetailResponse>>('/mngt/v1/api', api);
+      const response = await AxiosClient.getInstance().put<GateWayResponse<ApiDetailResponse>>(
+        'http://localhost:8080/mngt/v1/api',
+        api
+      );
       console.log('putApi response: ', response);
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {

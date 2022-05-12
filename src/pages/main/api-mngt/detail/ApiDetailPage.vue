@@ -45,7 +45,7 @@
         <button
           :disabled="isButtonDisabled"
           class="lg-btn purple-btn"
-          @click="$router.push({ name: 'api-edit', params: { id: apiDetail.id } })"
+          @click="$router.push({ name: 'api-edit', query: { id: apiDetail.id, sysId: apiDetail.sysId } })"
         >
           {{ $t('api.edit') }}
         </button>
