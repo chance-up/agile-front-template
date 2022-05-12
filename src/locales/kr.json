@@ -20,6 +20,17 @@
     "example": "예",
     "hello": "안녕 {name}"
   },
+  "login": {
+    "login": "로그인",
+    "join": "회원가입",
+    "id": "ID",
+    "pwd": "Password",
+    "id_placeholder": "아이디를 입력해주세요.",
+    "pwd_placeholder": "비밀번호를 입력해주세요.",
+    "is_forgot_password": "비밀번호를 잊으셨나요?",
+    "find_password": "비밀번호 찾기",
+    "invalid_login": "아이디 또는 비밀번호를 입력해주세요."
+  },
   "api": {
     "apiId": "API ID",
     "sysId": "시스템ID",

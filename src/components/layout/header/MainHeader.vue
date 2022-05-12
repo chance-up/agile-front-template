@@ -44,7 +44,7 @@
 
       <div class="member-wrap">
         <p><span class="bold">홍길동</span>님</p>
-        <p><a class="link" href="javascript:void(0)">로그아웃</a></p>
+        <p><a class="link" @click="logOut">로그아웃</a></p>
         <i @click="goMyPage"><img src="@/assets/member_ico.svg" alt="멤버 아이콘" /></i>
       </div>
     </header>
@@ -107,6 +107,11 @@ export default class MainHeader extends Vue {
 
   goMyPage() {
     this.$router.push({ name: 'my', params: { id: this.loginUser.id } });
+  }
+
+  logOut() {
+    this.userModule.logout();
+    this.$router.push({ name: 'login' });
   }
 }
 </script>

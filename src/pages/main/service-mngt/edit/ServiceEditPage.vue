@@ -1,114 +1,123 @@
 <template>
-  <ContentLayout
-    :isShowProgress="isShowProgress"
-    :title="$t('service.modify_title')"
-    :subTitle="$t('service.modify_sub_title')"
-    :depth="$t('service.title')"
-  >
-    <template v-slot:contents v-if="formData.id != ''">
-      <ul>
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.id')"
-          :placeholder="$t('service.idEx')"
-          inputClass="input-box lg check-ok"
-          :disabled="true"
-          :value.sync="formData.id"
-        />
-        <DateGroup
-          :inputNm="$t('service.date')"
-          placeholderStart="YYYY-MM-DD"
-          placeholderENd="YYYY-MM-DD"
-          :startDt.sync="formData.svc_st_dt"
-          :endDt.sync="formData.svc_end_dt"
-          :isvalid.sync="dateValid"
-        />
-        <AuthReqGroup
-          @basicAuthClicked="basicAuthClicked"
-          :inputNm="$t('service.authentication_method')"
-          :basicId="basicAuth.id"
-          :basicPw="basicAuth.pw"
-          :athn.sync="showAuth"
-          :alg.sync="JWTAlg.alg"
-          :pickedAlg.sync="formData.athn.JWT.alg"
-          :issuer.sync="formData.athn.JWT.iss"
-          :subject.sync="formData.athn.JWT.aud"
-          :publicKey.sync="formData.athn.JWT.pubKey"
-          :isvalid.sync="authValid"
-          :progress="isBasicAuthProgress"
-        ></AuthReqGroup>
-        <li>
-          <label class="label point">{{ $t('service.api_mngt') }}</label>
-          <div class="form-cont">
-            <button class="sm-btn">권한설정 변경</button>
-          </div>
-        </li>
-        <SlaReqGroup
-          :inputNm="$t('service.SLA_mngt')"
-          :secVal.sync="formData.sla.sec"
-          :minVal.sync="formData.sla.min"
-          :hourVal.sync="formData.sla.hr"
-          :dayVal.sync="formData.sla.day"
-          :monthVal.sync="formData.sla.mon"
-          :onSec.sync="slaSec"
-          :onMin.sync="slaMin"
-          :onHour.sync="slaHr"
-          :onDay.sync="slaDay"
-          :onMonth.sync="slaMon"
-        />
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.tkcgrNm')"
-          :placeholder="$t('service.tkcgrNmEx')"
-          :value.sync="formData.tkcgr_nm"
-          :isvalid.sync="tkcgrNmValid"
-        />
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.tkcgrPos')"
-          :placeholder="$t('service.tkcgrPosEx')"
-          :value.sync="formData.tkcgr_pos"
-          :isvalid.sync="tkcgrPosValid"
-        />
-        <InputGroup
-          type="text"
-          :inputNm="$t('service.tkcgrEml')"
-          :placeholder="$t('service.tkcgrEmlEx')"
-          inputClass="input-box lg check-ok"
-          :value.sync="formData.tkcgr_eml"
-          :isvalid.sync="tkcgrEmlValid"
-        />
-        <SysExGroup :inputNm="$t('service.desc')" v-model="formData.desc" />
-        <ModalLayout size="m" v-if="modal">
-          <template v-slot:modalHeader
-            ><h1 class="h1-tit">{{ $t('service.modify') }}</h1>
-          </template>
-          <template v-slot:modalContainer>
-            <p v-if="!isShowProgress" class="text">{{ $t('service.modify_message') }}</p>
-            <div v-if="isShowProgress" style="width: 100%; text-align: center"></div
-          ></template>
-          <template v-slot:modalFooter
-            ><button class="lg-btn purple-btn" @click="editService()">
-              {{ $t('common.ok') }}</button
-            ><button class="lg-btn white-btn" @click="modalHide()">
-              {{ $t('common.cancel') }}
-            </button>
-          </template>
-        </ModalLayout>
-      </ul>
-    </template>
-    <template v-slot:buttons v-if="formData.id != ''">
-      <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isRegisterProgress">
-          {{ $t('common.modify') }}
-          <b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner>
-        </button>
-        <button class="lg-btn white-btn" @click="$router.back()" :disabled="isRegisterProgress">
-          {{ $t('common.cancel') }}
-        </button>
-      </div>
-    </template>
-  </ContentLayout>
+  <div>
+    <ContentLayout
+      :isShowProgress="isShowProgress"
+      :title="$t('service.modify_title')"
+      :subTitle="$t('service.modify_sub_title')"
+      :depth="$t('service.title')"
+    >
+      <template v-slot:contents v-if="formData.id != ''">
+        <ul>
+          <InputGroup
+            type="text"
+            :inputNm="$t('service.id')"
+            :placeholder="$t('service.idEx')"
+            inputClass="input-box lg check-ok"
+            :disabled="true"
+            :value.sync="formData.id"
+          />
+          <DateGroup
+            :inputNm="$t('service.date')"
+            placeholderStart="YYYY-MM-DD"
+            placeholderENd="YYYY-MM-DD"
+            :startDt.sync="formData.svc_st_dt"
+            :endDt.sync="formData.svc_end_dt"
+            :isvalid.sync="dateValid"
+          />
+          <AuthReqGroup
+            @basicAuthClicked="basicAuthClicked"
+            :inputNm="$t('service.authentication_method')"
+            :basicId="basicAuth.id"
+            :basicPw="basicAuth.pw"
+            :athn.sync="showAuth"
+            :alg.sync="JWTAlg.alg"
+            :pickedAlg.sync="formData.athn.JWT.alg"
+            :issuer.sync="formData.athn.JWT.iss"
+            :subject.sync="formData.athn.JWT.aud"
+            :publicKey.sync="formData.athn.JWT.pubKey"
+            :isvalid.sync="authValid"
+            :progress="isBasicAuthProgress"
+          />
+          <ApiAuthReqGroup inputNm="권한설정" @showApiAuth="showApiAuth" :setCheck="apiAuthValid" />
+          <SlaReqGroup
+            :inputNm="$t('service.SLA_mngt')"
+            :secVal.sync="formData.sla.sec"
+            :minVal.sync="formData.sla.min"
+            :hourVal.sync="formData.sla.hr"
+            :dayVal.sync="formData.sla.day"
+            :monthVal.sync="formData.sla.mon"
+            :onSec.sync="slaSec"
+            :onMin.sync="slaMin"
+            :onHour.sync="slaHr"
+            :onDay.sync="slaDay"
+            :onMonth.sync="slaMon"
+          />
+          <InputGroup
+            type="text"
+            :inputNm="$t('service.tkcgrNm')"
+            :placeholder="$t('service.tkcgrNmEx')"
+            :value.sync="formData.tkcgr_nm"
+            :isvalid.sync="tkcgrNmValid"
+          />
+          <InputGroup
+            type="text"
+            :inputNm="$t('service.tkcgrPos')"
+            :placeholder="$t('service.tkcgrPosEx')"
+            :value.sync="formData.tkcgr_pos"
+            :isvalid.sync="tkcgrPosValid"
+          />
+          <InputGroup
+            type="text"
+            :inputNm="$t('service.tkcgrEml')"
+            :placeholder="$t('service.tkcgrEmlEx')"
+            inputClass="input-box lg check-ok"
+            :value.sync="formData.tkcgr_eml"
+            :isvalid.sync="tkcgrEmlValid"
+          />
+          <SysExGroup :inputNm="$t('service.desc')" v-model="formData.desc" />
+          <ModalLayout size="m" v-if="modal">
+            <template v-slot:modalHeader
+              ><h1 class="h1-tit">{{ $t('service.modify') }}</h1>
+            </template>
+            <template v-slot:modalContainer>
+              <p v-if="!isShowProgress" class="text">{{ $t('service.modify_message') }}</p>
+              <div v-if="isShowProgress" style="width: 100%; text-align: center"></div
+            ></template>
+            <template v-slot:modalFooter
+              ><button class="lg-btn purple-btn" @click="editService()">
+                {{ $t('common.ok') }}</button
+              ><button class="lg-btn white-btn" @click="modalHide()">
+                {{ $t('common.cancel') }}
+              </button>
+            </template>
+          </ModalLayout>
+        </ul>
+      </template>
+      <template v-slot:buttons v-if="formData.id != ''">
+        <div class="btn-wrap">
+          <button class="lg-btn purple-btn" @click="modalShow()" :disabled="isRegisterProgress">
+            {{ $t('common.modify') }}
+            <b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner>
+          </button>
+          <button class="lg-btn white-btn" @click="$router.back()" :disabled="isRegisterProgress">
+            {{ $t('common.cancel') }}
+          </button>
+        </div>
+      </template>
+    </ContentLayout>
+    <ApiAuthModal
+      :setApiList="apiList"
+      :setCheckedApiList="checkedApiList"
+      :setIsApiAuthProgress="isApiAuthProgress"
+      :setShowApiAuthModal="showApiAuthModal"
+      @checkApiAll="checkApiAll"
+      @checkApi="checkApi"
+      @deleteApi="deleteApi"
+      @searchApi="searchApi"
+      @registerApi="registerApi"
+      @hideApiAuth="hideApiAuth"
+    />
+  </div>
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
@@ -120,8 +129,10 @@ import SlaReqGroup from '@/components/service-mngt/SlqReqGroup.vue';
 import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
-import { BasicAuthResponse, JWTAlgResponse, ServiceRegisterRequest } from '@/types/ServiceType';
+import { BasicAuthResponse, JWTAlgResponse, ServiceRegisterRequest, ApiAuthResponse } from '@/types/ServiceType';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
+import ApiAuthModal from '@/components/service-mngt/ApiAuthModal.vue';
+import ApiAuthReqGroup from '@/components/service-mngt/ApiAuthReqGroup.vue';
 
 @Component({
   components: {
@@ -132,6 +143,8 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
     SlaReqGroup,
     SysExGroup,
     ModalLayout,
+    ApiAuthModal,
+    ApiAuthReqGroup,
   },
 })
 export default class SystemRegisterPage extends Vue {
@@ -152,6 +165,12 @@ export default class SystemRegisterPage extends Vue {
   slaHr = false;
   slaDay = false;
   slaMon = false;
+  apiAuthValid = true;
+
+  isApiAuthProgress = false;
+  showApiAuthModal = false;
+  apiList: ApiAuthResponse[] = [];
+  checkedApiList: ApiAuthResponse[] = [];
 
   get serviceOption(): ServiceRegisterRequest {
     return this.serviceModule.service;
@@ -268,7 +287,8 @@ export default class SystemRegisterPage extends Vue {
         (this.slaMin == true && this.formData.sla.min == 0) ||
         (this.slaHr == true && this.formData.sla.hr == 0) ||
         (this.slaDay == true && this.formData.sla.day == 0) ||
-        (this.slaMon == true && this.formData.sla.mon == 0)
+        (this.slaMon == true && this.formData.sla.mon == 0) ||
+        this.formData.apiAut == []
       ) {
         this.$modal.show(`${this.$t('service.empty_check_message')}`);
       } else {
@@ -304,6 +324,107 @@ export default class SystemRegisterPage extends Vue {
   @Watch('basicAuth.pw')
   onPwChange(val: string) {
     this.formData.athn.basic.pw = val;
+  }
+
+  get apiAuthList(): ApiAuthResponse[] {
+    return this.serviceModule.apiAuthList;
+  }
+
+  showApiAuth() {
+    this.showApiAuthModal = true;
+    this.isApiAuthProgress = true;
+    this.serviceModule
+      .getApiAuthList()
+      .then(() => {
+        this.isApiAuthProgress = false;
+        this.apiList = this.apiAuthList.map((item) => {
+          return { ...item };
+        });
+        this.checkedApiList = this.formData.apiAut.map((item) => {
+          return { ...item };
+        });
+      })
+      .catch(() => {
+        this.isApiAuthProgress = false;
+      });
+  }
+
+  hideApiAuth() {
+    this.showApiAuthModal = false;
+    if (this.checkedApiList.length == 0) {
+      this.apiAuthValid = false;
+    } else {
+      this.apiAuthValid = true;
+    }
+  }
+
+  checkApi(sys: string, api: string) {
+    if (this.checkedApiList.find((item) => item.sysId === sys)) {
+      if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.includes(api)) {
+        if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.length === 1) {
+          this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== sys);
+        } else {
+          this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
+            this.checkedApiList.findIndex((item) => item.sysId === sys)
+          ].apiId.filter((item) => item !== api);
+        }
+      } else {
+        this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.push(api);
+      }
+    } else {
+      this.checkedApiList.push({ sysId: sys, apiId: [api] });
+    }
+  }
+
+  deleteApi(sys: string, api: string) {
+    if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.length !== 1) {
+      this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
+        this.checkedApiList.findIndex((item) => item.sysId === sys)
+      ].apiId.filter((item) => item !== api);
+    } else {
+      this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== sys);
+    }
+  }
+
+  checkApiAll(apiAll: ApiAuthResponse) {
+    if (this.checkedApiList.find((item) => item.sysId === apiAll.sysId)) {
+      if (this.checkedApiList.find((item) => item.sysId === apiAll.sysId)?.apiId.length === apiAll.apiId.length) {
+        this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== apiAll.sysId);
+      } else {
+        this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === apiAll.sysId)].apiId = apiAll.apiId;
+      }
+    } else {
+      console.log(apiAll);
+      this.checkedApiList.push({ sysId: apiAll.sysId, apiId: apiAll.apiId });
+    }
+  }
+
+  searchApi(searchText: string) {
+    if (searchText !== '') {
+      console.log('공백 아닐 때 apiAuthList : ', this.apiAuthList);
+      this.apiList = this.apiAuthList.map((item) => {
+        return { ...item };
+      });
+      this.apiList.forEach((api, index) => {
+        this.apiList[index].apiId = this.apiList[index].apiId.filter((item) => item.includes(searchText));
+      });
+      this.apiList = this.apiList.filter((item) => item.apiId.length !== 0);
+    } else {
+      console.log('공백일 때 apiAuthList : ', this.apiAuthList);
+      this.apiList = this.apiAuthList.map((item) => {
+        return { ...item };
+      });
+    }
+  }
+
+  registerApi(api: ApiAuthResponse[]) {
+    this.formData.apiAut = api;
+    this.showApiAuthModal = false;
+    if (api.length == 0) {
+      this.apiAuthValid = false;
+    } else {
+      this.apiAuthValid = true;
+    }
   }
 
   destroyed() {

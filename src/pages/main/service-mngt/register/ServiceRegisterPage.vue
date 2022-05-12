@@ -38,14 +38,8 @@
             :publicKey.sync="formData.athn.JWT.pubKey"
             :isvalid.sync="authValid"
             :progress="isBasicAuthProgress"
-          ></AuthReqGroup>
-          <li>
-            <label class="label point">{{ $t('service.api_mngt') }}</label>
-            <div class="form-cont">
-              <button class="sm-btn" @click="showApiMngt()">권한설정</button>
-            </div>
-          </li>
-
+          />
+          <ApiAuthReqGroup inputNm="권한설정" @showApiAuth="showApiAuth" :setCheck="apiAuthValid" />
           <SlaReqGroup
             :inputNm="$t('service.SLA_mngt')"
             :secVal.sync="formData.sla.sec"
@@ -128,7 +122,8 @@
       @checkApi="checkApi"
       @deleteApi="deleteApi"
       @searchApi="searchApi"
-      @hideApiMngt="hideApiMngt"
+      @registerApi="registerApi"
+      @hideApiAuth="hideApiAuth"
     />
   </div>
 </template>
@@ -147,6 +142,7 @@ import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { BSpinner } from 'bootstrap-vue';
 import ApiAuthModal from '@/components/service-mngt/ApiAuthModal.vue';
+import ApiAuthReqGroup from '@/components/service-mngt/ApiAuthReqGroup.vue';
 
 @Component({
   components: {
@@ -160,6 +156,7 @@ import ApiAuthModal from '@/components/service-mngt/ApiAuthModal.vue';
     ModalLayout,
     BSpinner,
     ApiAuthModal,
+    ApiAuthReqGroup,
   },
 })
 export default class SystemRegisterPage extends Vue {
@@ -171,6 +168,7 @@ export default class SystemRegisterPage extends Vue {
   tkcgrEmlValid = false;
   dateValid = false;
   authValid = false;
+  apiAuthValid = true;
   slaSec = false;
   slaMin = false;
   slaHr = false;
@@ -221,7 +219,7 @@ export default class SystemRegisterPage extends Vue {
       },
     },
     athnType: '',
-    apiAut: this.checkedApiList,
+    apiAut: [],
     desc: '',
   };
 
@@ -247,7 +245,8 @@ export default class SystemRegisterPage extends Vue {
         (this.slaMin == true && this.formData.sla.min == 0) ||
         (this.slaHr == true && this.formData.sla.hr == 0) ||
         (this.slaDay == true && this.formData.sla.day == 0) ||
-        (this.slaMon == true && this.formData.sla.mon == 0)
+        (this.slaMon == true && this.formData.sla.mon == 0) ||
+        this.formData.apiAut == []
       ) {
         this.$modal.show(`${this.$t('service.empty_check_message')}`);
       } else {
@@ -322,7 +321,7 @@ export default class SystemRegisterPage extends Vue {
     return this.serviceModule.apiAuthList;
   }
 
-  showApiMngt() {
+  showApiAuth() {
     this.showApiAuthModal = true;
     this.isApiAuthProgress = true;
     this.serviceModule
@@ -332,14 +331,22 @@ export default class SystemRegisterPage extends Vue {
         this.apiList = this.apiAuthList.map((item) => {
           return { ...item };
         });
+        this.checkedApiList = this.formData.apiAut.map((item) => {
+          return { ...item };
+        });
       })
       .catch(() => {
         this.isApiAuthProgress = false;
       });
   }
 
-  hideApiMngt() {
+  hideApiAuth() {
     this.showApiAuthModal = false;
+    if (this.checkedApiList.length == 0) {
+      this.apiAuthValid = false;
+    } else {
+      this.apiAuthValid = true;
+    }
   }
 
   checkApi(sys: string, api: string) {
@@ -394,6 +401,19 @@ export default class SystemRegisterPage extends Vue {
       this.apiList = this.apiAuthList.map((item) => {
         return { ...item };
       });
+    }
+  }
+
+  registerApi(api: ApiAuthResponse[]) {
+    this.formData.apiAut = api;
+    this.showApiAuthModal = false;
+    if (api.length == 0) {
+      console.log('test');
+      this.apiAuthValid = false;
+    } else {
+      console.log(api);
+      console.log('test22');
+      this.apiAuthValid = true;
     }
   }
 
