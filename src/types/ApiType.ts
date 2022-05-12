@@ -3,12 +3,12 @@ import { GateWayResponse, Pagination } from './GateWayResponse';
 export const dummyPagination: Pagination = {
   page: 1,
   size: 10,
-  total_elements: 13,
-  total_pages: 2,
-  current_elements: 10,
-  current_page: 1,
-  order_by: 'ID',
-  sort_by: 'DESC',
+  totalElements: 13,
+  totalPages: 2,
+  currentElements: 10,
+  currentPage: 1,
+  orderBy: 'ID',
+  sortBy: 'DESC',
   limit: 10,
 };
 export interface ApiDetailResponse {

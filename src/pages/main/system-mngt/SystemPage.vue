@@ -159,6 +159,9 @@ export default class SystemPage extends Vue {
   }
 
   created() {
+    //this._getSystemList();
+  }
+  mounted() {
     this._getSystemList();
   }
 
