@@ -38,7 +38,12 @@
           :place="$t('system.tkcgrEml')"
           :isValid.sync="tkcgrEmlValid"
         />
-        <EdptForm :inputNm="$t('system.edpt')" :strArr.sync="systemItem.edpt" :isValid.sync="edptValid" />
+        <EdptForm
+          :inputNm="$t('system.edpt')"
+          :strArr.sync="systemItem.edpt"
+          :isValid.sync="edptValid"
+          editPage="true"
+        />
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
       <ModalLayout size="m" v-if="isShowModal">
@@ -54,7 +59,7 @@
         </template>
       </ModalLayout>
     </template>
-    <template v-if="!isShowProgress" v-slot:buttons>
+    <template v-slot:buttons v-if="!isShowProgress">
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="showModal" :disabled="isBtnDisabled">
           {{ $t('common.modify') }}
@@ -144,6 +149,7 @@ export default class SystemEditPage extends Vue {
 
   async onSubmit() {
     this.isBtnDisabled = true;
+    this.isShowModal = false;
     this.systemModule
       .updateSystemDetail(this.systemItem)
       .then(() => {

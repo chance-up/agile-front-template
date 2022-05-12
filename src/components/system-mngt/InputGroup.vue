@@ -54,7 +54,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 20) && checkEnglishNumberKorean(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, this.$t('system.empty_check') as string];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_nm') as string];
           console.log(this.notiMessage);
@@ -64,7 +64,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, this.$t('system.empty_check') as string];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_id') as string];
           console.log(this.notiMessage);
@@ -74,7 +74,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 20) && checkEnglishKorean(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, this.$t('system.empty_check') as string];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrNm') as string];
         }
@@ -83,7 +83,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 50)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, this.$t('system.empty_check') as string];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrPos') as string];
         }
@@ -92,7 +92,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 20) && checkEmail(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [null, ''];
+          this.notiMessage = [false, this.$t('system.empty_check') as string];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrEml') as string];
         }

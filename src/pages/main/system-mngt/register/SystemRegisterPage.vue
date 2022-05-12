@@ -52,11 +52,13 @@
     </template>
     <template v-slot:buttons v-if="!isShowProgress">
       <div class="btn-wrap">
-        <button id="submitBtn" class="lg-btn purple-btn" @click="showModal" :disabled="isBtnDisabled">
+        <button class="lg-btn purple-btn" @click="showModal" :disabled="isBtnDisabled">
           {{ $t('common.register') }}
           <b-spinner variant="light" label="Spinning" v-if="isBtnDisabled" small></b-spinner>
         </button>
-        <button class="lg-btn white-btn" @click="cancelOnClickEvent">{{ $t('common.cancel') }}</button>
+        <button class="lg-btn white-btn" @click="cancelOnClickEvent" :disabled="isBtnDisabled">
+          {{ $t('common.cancel') }}
+        </button>
       </div>
     </template>
   </ContentLayout>
@@ -120,12 +122,12 @@ export default class SystemRegisterPage extends Vue {
   }
 
   showModal() {
-    console.log('idValid :: ', this.idValid);
-    console.log('tkcgrNmValid :: ', this.tkcgrNmValid);
-    console.log('tkcgrPosValid :: ', this.tkcgrPosValid);
-    console.log('tkcgrEmlValid :: ', this.tkcgrEmlValid);
-    console.log('edptValid :: ', this.edptValid);
-    console.log('edpt :: ', this.systemItem.edpt);
+    // console.log('idValid :: ', this.idValid);
+    // console.log('tkcgrNmValid :: ', this.tkcgrNmValid);
+    // console.log('tkcgrPosValid :: ', this.tkcgrPosValid);
+    // console.log('tkcgrEmlValid :: ', this.tkcgrEmlValid);
+    // console.log('edptValid :: ', this.edptValid);
+    // console.log('edpt :: ', this.systemItem.edpt);
 
     const val =
       this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.edptValid ? true : false;
@@ -144,6 +146,7 @@ export default class SystemRegisterPage extends Vue {
 
   async onSubmit() {
     this.isBtnDisabled = true;
+    this.isShowModal = false;
     await this.systemModule
       .registerSystem(this.systemItem)
       .then(() => {
