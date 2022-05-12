@@ -175,20 +175,13 @@ export default class ServiceManagementPage extends Vue {
       });
   }
   searchOnClieckEvent() {
-    console.log('searchData : ', this.searchData);
     if (Object.values(this.searchData).some((item) => item != '')) {
-      this.$router.push({
-        name: 'service',
-        query: {
-          nm: this.searchData.nm,
-          id: this.searchData.id,
-          athnType: this.searchData.athnType,
-        },
-      });
+      this.getList();
     } else {
       this.$modal.show(`${this.$t('service.enter_search_data')}`);
     }
   }
+
   created() {
     this.serviceModule.serviceReset();
 
