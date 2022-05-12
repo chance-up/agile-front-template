@@ -4,7 +4,7 @@
     <div class="pop-wrap lg-pop">
       <div class="pop-header">
         <h1 class="h1-tit">API 권한관리</h1>
-        <button @click="hideApiMngt()">
+        <button @click="hideApiAuth">
           <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
         </button>
       </div>
@@ -80,8 +80,8 @@
       <!--  // pop-container   -->
 
       <div class="pop-footer" v-if="!isApiAuthProgress">
-        <button class="lg-btn purple-btn">저장</button>
-        <button class="lg-btn white-btn" @click="hideApiMngt()">취소</button>
+        <button class="lg-btn purple-btn" @click="registerApi">저장</button>
+        <button class="lg-btn white-btn" @click="hideApiAuth">취소</button>
       </div>
     </div>
     <!------- handler pop -------->
@@ -139,11 +139,15 @@ export default class ApiAuthModal extends Vue {
   checkApi(sysId: string, checkedApi: string) {
     this.$emit('checkApi', sysId, checkedApi);
   }
-  hideApiMngt() {
-    this.$emit('hideApiMngt');
+  hideApiAuth() {
+    this.$emit('hideApiAuth');
   }
   searchApi() {
     this.$emit('searchApi', this.searchText);
+  }
+
+  registerApi() {
+    this.$emit('registerApi', this.checkedApiList);
   }
 }
 </script>
