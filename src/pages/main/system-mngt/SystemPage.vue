@@ -6,13 +6,19 @@
 
         <!-- Input Box 옵션 -->
         <div class="search-cont">
-          <InputBox v-model="searchData['id']" :label="$t('system.id')" :placeholder="$t('common.placeholder')" />
+          <InputBox
+            v-model="searchData['id']"
+            :label="$t('system.id')"
+            :placeholder="$t('common.placeholder')"
+            @submit="searchOnClieckEvent"
+          />
         </div>
         <div class="search-cont">
           <InputBox
             v-model="searchData['tkcgr_nm']"
             :label="$t('system.tkcgrNm')"
             :placeholder="$t('common.placeholder')"
+            @submit="searchOnClieckEvent"
           />
         </div>
         <button class="mid-btn" @click="searchOnClieckEvent">
@@ -118,7 +124,6 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { SearchCondition } from '@/types/SearchType';
 import { SystemResponse } from '@/types/SystemType';
 import { Pagination } from '@/types/GateWayResponse';
-import ErrorCode from '@/error/ErrorCodes';
 
 @Component({
   components: {
@@ -152,19 +157,17 @@ export default class SystemPage extends Vue {
   }
 
   created() {
+    this._getSystemList();
+  }
+
+  _getSystemList() {
     this.isShowProgress = true;
     this.systemModule.systemReset();
-
     if (Object.keys(this.$route.query).length > 0) {
       if (Object.keys(this.$route.query).includes('id')) this.searchData.id = this.$route.query.id as string;
       if (Object.keys(this.$route.query).includes('tkcgr_nm'))
         this.searchData.tkcgr_nm = this.$route.query.tkcgr_nm as string;
       if (Object.keys(this.$route.query).includes('page')) this.pagingData.page = this.$route.query.page as string;
-      // if (Object.keys(this.$route.query).includes('size')) this.searchData.size = Number(this.$route.query.size);
-      // if (Object.keys(this.$route.query).includes('sort_by'))
-      //   this.searchData.sort_by = this.$route.query.sort_by as string;
-      // if (Object.keys(this.$route.query).includes('ordeer_by'))
-      //   this.searchData.order_by = this.$route.query.order_by as string;
 
       const param = { ...this.searchData, ...this.pagingData };
       this.systemModule
@@ -207,7 +210,7 @@ export default class SystemPage extends Vue {
     if (Object.keys(this.pagingData).includes('ordeer_by')) query.order_by = this.pagingData.order_by as string;
 
     if (Object.is(JSON.stringify(this.$router.currentRoute.query), JSON.stringify(query))) {
-      this.$router.go(0);
+      this._getSystemList();
     } else {
       this.$router.push({
         name: 'system',
@@ -244,15 +247,11 @@ export default class SystemPage extends Vue {
       .then(() => {
         this.closeModal();
         this.isDisabled = false;
-        this.$router.go(0);
+        this._getSystemList();
       })
       .catch(() => {
         this.isDisabled = false;
-        // this.isShowProgress = false;
-        // this.$modal.show(`${this.$t('error.server_error')}`);
       });
-    // this.$router.go(0);
-    // this.closeModal();
   }
 
   getDate(date: string) {

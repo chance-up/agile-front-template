@@ -6,7 +6,8 @@
         {{ item.value }}
       </option>
     </select>
-    <input type="text" class="input-box" :value="value.value" @change="handleChangeSearchData" />
+    <input type="text" class="input-box" :value="value.value" @change="handleChangeSearchData" @keyup="handleKeyup" />
+    <!-- @keyup="if (window.event.keyCode == 13) this.$emit('submit');" -->
   </div>
 </template>
 
@@ -32,6 +33,11 @@ export default class SelectBox extends Vue {
   //   URI: 'uri',
   // };
   // made in jp
+  handleKeyup(event: any) {
+    if (event.keyCode === 13) {
+      this.$emit('submit');
+    }
+  }
   searchData: SelectOptionType = {
     label: '',
     value: '',

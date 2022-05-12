@@ -69,11 +69,8 @@ export default class EdptForm extends Vue {
   notiMessagePort: [boolean | null, string][] = [];
   isDomainEmpty = true;
   created() {
-    this.strArr.forEach((str, idx) => {
+    this.strArr.forEach((str) => {
       this.edpts.push(stringToEdpt(str));
-      // if (this.edpts[idx].domain !== '') {
-      //   this.isDomainEmpty = false;
-      // }
       this.notiMessageDomain.push([null, '']);
       this.notiMessagePort.push([null, '']);
     });
@@ -84,23 +81,27 @@ export default class EdptForm extends Vue {
         this.validCheckPort(idx);
       });
     }
-    // 도메인이 비어있지 않으면 유효성 검사를 수행한다.
-    // if (!this.isDomainEmpty) {
-    //   this.edpts.forEach((edpt, idx) => {
-    //     this.validCheckDomain(idx);
-    //     this.validCheckPort(idx);
-    //   });
-    // }
   }
 
   @Watch('edpts', { deep: true })
   edptsChanged() {
-    console.log('edptsChanged!!!');
-    // this.edpts.forEach((edpt, idx) => {
-    //   this.validCheckDomain(idx);
-    //   this.validCheckPort(idx);
-    // });
+    // 중복 검사를 수행한다.
+    let idxArr: number[] = [];
+    this.edpts.forEach((edpt, idx) => {
+      if (!this.duplCheck(edptToString(this.edpts[idx]))) {
+        Vue.set(this.notiMessageDomain[idx], 0, true);
+        Vue.set(this.notiMessageDomain[idx], 1, '');
+      } else {
+        idxArr.push(idx);
+      }
+    });
 
+    // 중복된 값이 하나라도 있으면,
+    // 마지막에 입력한 엔드포인트에 경고문구를 출력한다.
+    if (idxArr.length !== 0) {
+      Vue.set(this.notiMessageDomain[idxArr[idxArr.length - 1]], 0, false);
+      Vue.set(this.notiMessageDomain[idxArr[idxArr.length - 1]], 1, this.$t('system.dupl_check_edpt_nm') as string);
+    }
     // 모든 값이 유효성 check를 통과했다면, isValid를 true로 변경한다.
     // * isValid? => SystemRegister/SystemEdit 페이지에서 태그들의 유효성 검사를 위해 사용한다.
     let valid: boolean | null = true;
@@ -175,13 +176,8 @@ export default class EdptForm extends Vue {
     if (checkLength(domain, 1, 30) && checkDomain(domain)) {
       // 중복 체크 수행
       // edpt 구조로 저장되어있던 값들을 String 값으로 변환한다.
-      if (!this.duplCheck(edptToString(this.edpts[idx]))) {
-        Vue.set(this.notiMessageDomain[idx], 0, true);
-        Vue.set(this.notiMessageDomain[idx], 1, '');
-      } else {
-        Vue.set(this.notiMessageDomain[idx], 0, false);
-        Vue.set(this.notiMessageDomain[idx], 1, this.$t('system.dupl_check_edpt_nm') as string);
-      }
+      Vue.set(this.notiMessageDomain[idx], 0, true);
+      Vue.set(this.notiMessageDomain[idx], 1, '');
     } else if (domain == '') {
       Vue.set(this.notiMessageDomain[idx], 0, false);
       Vue.set(this.notiMessageDomain[idx], 1, this.$t('system.empty_check_edpt_domain') as string);
@@ -196,13 +192,8 @@ export default class EdptForm extends Vue {
     if (checkLength(port, 1, 30) && checkNumber(port)) {
       // 중복 체크 수행
       // edpt 구조로 저장되어있던 값들을 String 값으로 변환한다.
-      if (!this.duplCheck(edptToString(this.edpts[idx]))) {
-        Vue.set(this.notiMessagePort[idx], 0, true);
-        Vue.set(this.notiMessagePort[idx], 1, '');
-      } else {
-        Vue.set(this.notiMessageDomain[idx], 0, false);
-        Vue.set(this.notiMessageDomain[idx], 1, this.$t('system.dupl_check_edpt_nm') as string);
-      }
+      Vue.set(this.notiMessagePort[idx], 0, true);
+      Vue.set(this.notiMessagePort[idx], 1, '');
     } else if (port == '') {
       Vue.set(this.notiMessagePort[idx], 0, false);
       Vue.set(this.notiMessagePort[idx], 1, this.$t('system.empty_check_edpt_port') as string);

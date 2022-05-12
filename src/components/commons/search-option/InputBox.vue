@@ -8,6 +8,7 @@
       :placeholder="placeholder"
       :value="value"
       @input="inputTxt($event)"
+      @keyup="handleKeyup"
     />
   </div>
 </template>
@@ -23,6 +24,11 @@ export default class InputBox extends Vue {
 
   inputTxt(event: any) {
     this.$emit('input', event.target.value);
+  }
+  handleKeyup(event: any) {
+    if (event.keyCode === 13) {
+      this.$emit('submit');
+    }
   }
 }
 </script>

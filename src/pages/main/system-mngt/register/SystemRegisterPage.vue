@@ -35,7 +35,7 @@
           :isValid.sync="tkcgrEmlValid"
         />
         <EdptForm :inputNm="$t('system.edpt')" :strArr.sync="systemItem.edpt" :isValid.sync="edptValid" />
-        <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
+        <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" :isValid.sync="descValid" />
       </ul>
       <ModalLayout size="m" v-if="isShowModal">
         <template v-slot:modalHeader
@@ -91,6 +91,7 @@ export default class SystemRegisterPage extends Vue {
   tkcgrPosValid = false;
   tkcgrEmlValid = false;
   edptValid = false;
+  descValid = true;
 
   isShowProgress = false;
   isShowModal = false;
@@ -122,15 +123,19 @@ export default class SystemRegisterPage extends Vue {
   }
 
   showModal() {
-    // console.log('idValid :: ', this.idValid);
-    // console.log('tkcgrNmValid :: ', this.tkcgrNmValid);
-    // console.log('tkcgrPosValid :: ', this.tkcgrPosValid);
-    // console.log('tkcgrEmlValid :: ', this.tkcgrEmlValid);
-    // console.log('edptValid :: ', this.edptValid);
-    // console.log('edpt :: ', this.systemItem.edpt);
+    console.log('idValid :: ', this.idValid);
+    console.log('tkcgrNmValid :: ', this.tkcgrNmValid);
+    console.log('tkcgrPosValid :: ', this.tkcgrPosValid);
+    console.log('tkcgrEmlValid :: ', this.tkcgrEmlValid);
+    console.log('edptValid :: ', this.edptValid);
+    console.log('descValid :: ', this.descValid);
+    console.log('edpt :: ', this.systemItem.edpt);
+    console.log('edpt :: ', this.systemItem.edpt);
 
     const val =
-      this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.edptValid ? true : false;
+      this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.edptValid && this.descValid
+        ? true
+        : false;
 
     if (!val) {
       this.$modal.show(`${this.$t('system.empty_check_message')}`);
