@@ -83,10 +83,11 @@
                     {{ list.athnType }}
                   </td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                    <span>10</span> ~ <span>10</span>
+                    <span>{{ list.svcStDt.slice(0, 10) }}</span> ~ <span>{{ list.svcEndDt.slice(0, 10) }}</span>
                   </td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                    <span>10</span><span>10</span>
+                    <span>{{ list.updDt.slice(0, 10) }}</span
+                    ><span>{{ list.updDt.slice(0, 10) }}</span>
                   </td>
                   <td>
                     <button class="mod-btn" @click="$router.push({ name: 'service-edit', params: { id: list.id } })">

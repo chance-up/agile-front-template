@@ -43,7 +43,6 @@ export default class InputGroup extends Vue {
     return this.value;
   }
   set text(val: string) {
-    console.log('test');
     switch (this.inputNm) {
       case this.$t('service.tkcgrNm'):
         if (checkLength(val, 1, 20) && checkEnglishNumberKorean(val)) {

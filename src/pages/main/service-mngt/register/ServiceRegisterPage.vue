@@ -30,7 +30,7 @@
             :inputNm="$t('service.authentication_method')"
             :basicId="basicAuth.id"
             :basicPw="basicAuth.pw"
-            :athn.sync="show"
+            :athn.sync="formData.athnType"
             :alg.sync="JWTAlg.alg"
             :pickedAlg.sync="formData.athn.jwt.alg"
             :issuer.sync="formData.athn.jwt.iss"
@@ -226,9 +226,14 @@ export default class SystemRegisterPage extends Vue {
   modal = false;
   modalShow() {
     const val =
-      this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.dateValid && this.authValid
-        ? // &&this.isDuplicatedId
-          true
+      this.idValid &&
+      this.tkcgrNmValid &&
+      this.tkcgrPosValid &&
+      this.tkcgrEmlValid &&
+      this.dateValid &&
+      this.authValid &&
+      this.isDuplicatedId
+        ? true
         : false;
 
     if (!val) {
@@ -408,11 +413,9 @@ export default class SystemRegisterPage extends Vue {
     this.formData.apiAut = api;
     this.showApiAuthModal = false;
     if (api.length == 0) {
-      console.log('test');
       this.apiAuthValid = false;
     } else {
       console.log(api);
-      console.log('test22');
       this.apiAuthValid = true;
     }
   }

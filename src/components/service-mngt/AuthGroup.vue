@@ -1,7 +1,7 @@
 <template>
   <li>
     <label class="label">{{ inputNm }}</label>
-    <div v-if="athn == 'BASIC_AUTH'" class="form-cont">
+    <div v-if="athn == 'basic'" class="form-cont">
       <p class="bold">{{ athn }}</p>
       <div class="sub-group">
         <ul>
@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div v-else-if="athn == 'JWT'" class="form-cont">
+    <div v-else-if="athn == 'jwt'" class="form-cont">
       <p class="bold">{{ athn }}</p>
       <div class="sub-group">
         <ul>

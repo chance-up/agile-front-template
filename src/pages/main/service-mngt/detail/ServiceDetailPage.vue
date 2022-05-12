@@ -9,7 +9,11 @@
     <template v-if="!isShowProgress" v-slot:contents>
       <ul>
         <InfoGroup :inputNm="$t('service.id')" :value="serviceOption.id" />
-        <DateInfoGroup :inputNm="$t('service.date')" :startDt="serviceOption.svcStDt" :endDt="serviceOption.svcEndDt" />
+        <DateInfoGroup
+          :inputNm="$t('service.date')"
+          :startDt="serviceOption.svcStDt.slice(0, 10)"
+          :endDt="serviceOption.svcEndDt.slice(0, 10)"
+        />
         <AuthGroup
           :inputNm="$t('service.authentication_method')"
           :athn="serviceOption.athnType"

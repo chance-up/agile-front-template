@@ -12,9 +12,8 @@ import {
   // getServiceId,
   // getSearchServiceInfo,
   // getBasicAuth,
-  // getDuplicatedTrue,
-  // getDuplicatedFalse,
-  // getJWTAlg,
+  getDuplicatedTrue,
+  getJWTAlg,
   // getApiAuthList,
 } from '@/types/ServiceType';
 import { addMock } from '@/axios/AxiosIntercept';
@@ -240,26 +239,26 @@ export default class ServiceModule extends GateWayModule {
   }
 
   // Service ID 중복 체크
-  @Mutation
-  setDuplicatedCheckNm(duplicatedResponse: duplicatedCheck) {
-    console.log('중복되지 않은 서비스명 입니다.');
-    this.duplicatedNm = duplicatedResponse;
-  }
-  @Action
-  async getDuplicatedCheckNm(nm: string) {
-    // addMock(`/service/detail/${nm}`, JSON.stringify(getDuplicatedTrue));
-    const response = await AxiosClient.getInstance().get<GateWayResponse<duplicatedCheck>>(`/service/detail/${nm}`);
-    this.context.commit('setDuplicatedCheckNm', response.data.value);
-  }
+  // @Mutation
+  // setDuplicatedCheckNm(duplicatedResponse: duplicatedCheck) {
+  //   console.log('중복되지 않은 서비스명 입니다.');
+  //   this.duplicatedNm = duplicatedResponse;
+  // }
+  // @Action
+  // async getDuplicatedCheckNm(nm: string) {
+  //   addMock(`/service/detail/${nm}`, JSON.stringify(getDuplicatedTrue));
+  //   const response = await AxiosClient.getInstance().get<GateWayResponse<duplicatedCheck>>(`/service/detail/${nm}`);
+  //   this.context.commit('setDuplicatedCheckNm', response.data.value);
+  // }
 
   @Mutation
   setDuplicatedCheckId(duplicatedResponse: duplicatedCheck) {
-    console.log('중복된 서비스ID 입니다.');
+    console.log('중복되지 않은 서비스ID 입니다.');
     this.duplicatedId = duplicatedResponse;
   }
   @Action
   async getDuplicatedCheckId(id: string) {
-    // addMock(`/service/detail/${id}`, JSON.stringify(getDuplicatedFalse));
+    addMock(`/service/detail/${id}`, JSON.stringify(getDuplicatedTrue));
     const response = await AxiosClient.getInstance().get<GateWayResponse<duplicatedCheck>>(`/service/detail/${id}`);
     this.context.commit('setDuplicatedCheckId', response.data.value);
   }
@@ -274,7 +273,9 @@ export default class ServiceModule extends GateWayModule {
   async getBasicAuth() {
     try {
       // addMock('/service/basicauth/', JSON.stringify(getBasicAuth));
-      const response = await AxiosClient.getInstance().get<GateWayResponse<BasicAuthResponse>>('/service/basicauth/');
+      const response = await AxiosClient.getInstance().get<GateWayResponse<BasicAuthResponse>>(
+        '/createAuthIdAndPwd?id=API8'
+      );
       console.log('getBasicAuth' + response.data.value.id);
       this.context.commit('setBasicAuth', response.data.value);
     } catch (error: GateWayError | any) {
@@ -291,7 +292,7 @@ export default class ServiceModule extends GateWayModule {
   @Action
   async getJWTAlg() {
     try {
-      // addMock('/service/jwt/', JSON.stringify(getJWTAlg));
+      addMock('/service/jwt/', JSON.stringify(getJWTAlg));
       const response = await AxiosClient.getInstance().get<GateWayResponse<JWTAlgResponse>>('/service/jwt/');
       this.context.commit('setJWTAuth', response.data.value);
     } catch (error: GateWayError | any) {
@@ -310,7 +311,7 @@ export default class ServiceModule extends GateWayModule {
   async getApiAuthList() {
     try {
       // addMock('/service/apiauth/', JSON.stringify(getApiAuthList));
-      const response = await AxiosClient.getInstance().get<GateWayResponse<JWTAlgResponse>>('/service/apiauth/');
+      const response = await AxiosClient.getInstance().get<GateWayResponse<JWTAlgResponse>>('/getApiAuthList');
       this.context.commit('setApiAuth', response.data.value);
     } catch (error: GateWayError | any) {
       console.log(error);
