@@ -55,7 +55,12 @@
           v-model="requestBody.timeOut"
           :isvalid.sync="timeoutValid"
         />
-        <TextForm :groupNm="$t('api.apiDescription')" type="textarea" v-model="requestBody.desc" />
+        <TextForm
+          :groupNm="$t('api.apiDescription')"
+          type="textarea"
+          v-model="requestBody.desc"
+          :isvalid.sync="descValid"
+        />
         <ModalLayout size="m" v-if="showModal">
           <template v-slot:modalHeader><h1 class="h1-tit">API 수정</h1> </template>
           <template v-slot:modalContainer>
@@ -222,6 +227,7 @@ export default class ApiEditPage extends Vue {
   methodValid = true;
   uriValid = true;
   timeoutValid = true;
+  descValid = true;
   // submit api
   handleClickTestSubmitButton() {
     function convertToString(body: ApiCreateRequestBody) {
@@ -239,6 +245,7 @@ export default class ApiEditPage extends Vue {
       this.methodValid &&
       this.uriValid &&
       this.timeoutValid &&
+      this.descValid &&
       this.requestBody.reqHndlrGrpId &&
       this.requestBody.resHndlrGrpId;
     // const val = true;
