@@ -215,7 +215,7 @@ export default class ApiRegisterPage extends Vue {
     this.timerId = setTimeout(async () => {
       console.log('id 입력 1초 경과');
       console.log(this.requestBody.id);
-      this.isDuplicatedId = await apiValidationCheck(this.requestBody.id);
+      this.isDuplicatedId = await apiValidationCheck(this.requestBody.id, this.requestBody.sysId);
     }, 1000);
   }
 

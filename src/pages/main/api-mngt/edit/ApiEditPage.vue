@@ -147,12 +147,12 @@ export default class ApiEditPage extends Vue {
   }
   created() {
     this.isShowProgress = true;
-    this.apiModule.getApiDetail(this.$route.params.id);
+    const query = this.$route.query as { id: string; sysId: string };
     console.log('APiRegisterPage created');
     axios
       .all([
         // this.systemModule.getSystemDetail(), api detail 꺼내고 sysId로 sysDetail 콜
-        this.apiModule.getApiDetail(this.$route.params.id),
+        this.apiModule.getApiDetail(query),
         this.handlerModule.getReqHandlerGroupList(),
         this.handlerModule.getResHandlerGroupList(),
       ])

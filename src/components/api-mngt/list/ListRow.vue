@@ -1,11 +1,11 @@
 <template>
   <tr>
-    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">{{ index + 1 }}</td>
-    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">
+    <td @click="routeDetail(apiData.id, apiData.sysId)">{{ index + 1 }}</td>
+    <td @click="routeDetail(apiData.id, apiData.sysId)">
       <span class="bold">{{ apiData.sysId }}</span>
     </td>
-    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">{{ apiData.id }}</td>
-    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">
+    <td @click="routeDetail(apiData.id, apiData.sysId)">{{ apiData.id }}</td>
+    <td @click="routeDetail(apiData.id, apiData.sysId)">
       <span
         v-for="(method, idx) in apiData.meth"
         :key="idx"
@@ -20,17 +20,17 @@
         {{ method }}
       </span>
     </td>
-    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })" class="tl">{{ apiData.uriIn }}</td>
-    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">{{ apiData.timeOut }}</td>
-    <td @click="$router.push({ name: 'api-detail', params: { id: apiData.id } })">
+    <td @click="routeDetail(apiData.id, apiData.sysId)" class="tl">{{ apiData.uriIn }}</td>
+    <td @click="routeDetail(apiData.id, apiData.sysId)">{{ apiData.timeOut }}</td>
+    <td @click="routeDetail(apiData.id, apiData.sysId)">
       <span>{{ apiData.cretDt.slice(0, 10) }}</span
       ><span>{{ apiData.updDt.slice(11, 19) }}</span>
     </td>
     <td>
-      <button class="mod-btn" @click="$router.push({ name: 'api-edit', params: { id: apiData.id } })">
+      <button class="mod-btn" @click="routeEdit(apiData.id, apiData.sysId)">
         <i>{{ $t('api.edit') }}</i>
       </button>
-      <button class="del-btn" @click="deleteApi(apiData.id)">
+      <button class="del-btn" @click="deleteApi(apiData.id, apiData.sysId)">
         <i>{{ $t('api.delete') }}</i>
       </button>
     </td>
@@ -55,11 +55,17 @@ export default class ListRow extends Vue {
   @Prop() public index!: number;
 
   apiModule = getModule(ApiModule, this.$store);
-  deleteApi(id: string) {
-    console.log('delete Id: ' + id);
+  deleteApi(id: string, sysId: string) {
+    // console.log('delete Id: ' + id);
     // this.$modal.show('삭제하시겠습니까?');
     // this.apiModule.deleteApi(id);
-    this.$emit('deleteApi', id);
+    this.$emit('deleteApi', { id, sysId });
+  }
+  routeDetail(id: string, sysId: string) {
+    this.$router.push({ name: 'api-detail', query: { id, sysId } });
+  }
+  routeEdit(id: string, sysId: string) {
+    this.$router.push({ name: 'api-edit', query: { id, sysId } });
   }
 }
 </script>

@@ -85,10 +85,10 @@
             <ModalLayout size="m" v-if="showModal">
               <template v-slot:modalHeader><h1 class="h1-tit">API 삭제</h1> </template>
               <template v-slot:modalContainer>
-                <p class="text">{{ deleteMsg }}를 삭제하시겠습니까?</p>
+                <p class="text">{{ deleteMsg.id }}를 삭제하시겠습니까?</p>
               </template>
               <template v-slot:modalFooter
-                ><button class="lg-btn purple-btn" @click="deleteApi(deleteMsg)" :disabled="isModalProgress">
+                ><button class="lg-btn purple-btn" @click="deleteApi" :disabled="isModalProgress">
                   {{ $t('common.ok')
                   }}<b-spinner variant="light" label="Spinning" v-if="isModalProgress" small></b-spinner>
                 </button>
@@ -139,8 +139,8 @@ export default class ApiPage extends Vue {
   showModal = false;
   isModalProgress = false;
   isShowProgress = false;
-  deleteMsg = '';
-  emitDelApi(msg: string) {
+  deleteMsg = { id: '', sysId: '' };
+  emitDelApi(msg: { id: string; sysId: string }) {
     this.deleteMsg = msg;
     // console.log(msg + ' 를 삭제하시겠습니까?');
     this.showModal = true;
@@ -208,10 +208,11 @@ export default class ApiPage extends Vue {
     return this.apiModule.apiList;
   }
 
-  async deleteApi(apiId: string) {
+  async deleteApi() {
     // await this.serviceModule.deleteServiceAction(ServiceId);
+    const query = { id: this.deleteMsg.id, sysId: this.deleteMsg.sysId };
     this.isModalProgress = true;
-    await this.apiModule.deleteApi(apiId);
+    await this.apiModule.deleteApi(query);
     this.showModal = false;
     this.isModalProgress = false;
     this.fetchApiList();
