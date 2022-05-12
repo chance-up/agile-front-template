@@ -58,24 +58,24 @@ export default class ApiModule extends GateWayModule {
       console.log('searchQuery: ', searchQuery);
       // 목 검색작업 시작(api연결후 삭제필요)
       // ============================
-      const mockList: GateWayResponse<ApiDetailResponse[]> = JSON.parse(JSON.stringify(apiMockList));
-      mockList.data.value = mockList.data.value.filter((item: ApiDetailResponse) => {
-        if (searchQuery) {
-          if (searchQuery.id) {
-            return item.id.indexOf(searchQuery.id) > -1;
-          } else if (searchQuery.uri) {
-            return item.uriIn.indexOf(searchQuery.uri) > -1;
-          } else {
-            return mockList.data.value;
-          }
-        }
-      });
+      // const mockList: GateWayResponse<ApiDetailResponse[]> = JSON.parse(JSON.stringify(apiMockList));
+      // mockList.data.value = mockList.data.value.filter((item: ApiDetailResponse) => {
+      //   if (searchQuery) {
+      //     if (searchQuery.id) {
+      //       return item.id.indexOf(searchQuery.id) > -1;
+      //     } else if (searchQuery.uri) {
+      //       return item.uriIn.indexOf(searchQuery.uri) > -1;
+      //     } else {
+      //       return mockList.data.value;
+      //     }
+      //   }
+      // });
+      // (mockList.data.pagination as Pagination).total_elements = mockList.data.value.length;
+      // (mockList.data.pagination as Pagination).total_pages = parseInt(mockList.data.value.length / 10 + 1 + '');
+      // addMock('/api/list', JSON.stringify(mockList));
       // ============================
-      (mockList.data.pagination as Pagination).totalElements = mockList.data.value.length;
-      (mockList.data.pagination as Pagination).totalPages = parseInt(mockList.data.value.length / 10 + 1 + '');
-      addMock('/api/list', JSON.stringify(mockList));
       const response = await AxiosClient.getInstance().get<GateWayResponse<ApiDetailResponse[]>>(
-        '/api/list',
+        'http://localhost:8080/mngt/v1/getApiList',
         searchQuery
       );
       // 아래 map 조건문은 meth 속성 타입이 string[]로 변경될 시 삭제해야 함
@@ -102,12 +102,13 @@ export default class ApiModule extends GateWayModule {
   async getApiDetail(id: string) {
     try {
       // param 체크
-      const dummyDetail = JSON.parse(JSON.stringify(apiMockData));
-      dummyDetail.data.value = apiMockList.data.value.filter((item: ApiDetailResponse) => item.id === id)[0];
-      addMock('/mngt/v1/getApiByIdAndSysId', JSON.stringify(dummyDetail));
+      // const dummyDetail = JSON.parse(JSON.stringify(apiMockData));
+      // dummyDetail.data.value = apiMockList.data.value.filter((item: ApiDetailResponse) => item.id === id)[0];
+      // addMock('/mngt/v1/getApiByIdAndSysId', JSON.stringify(dummyDetail));
       const response = await AxiosClient.getInstance().get<GateWayResponse<ApiDetailResponse>>(
-        '/mngt/v1/getApiByIdAndSysId',
-        { id }
+        'http://localhost:8080/mngt/v1/getApiByIdAndSysId',
+        { id, sysId: 'id1' }
+        // 수정 필요 !!!!!!!!!!!
       );
       // 아래 조건문은 meth 속성 타입이 string[]로 변경될 시 삭제해야 함
       if (typeof response.data.value.meth == 'string') response.data.value.meth = JSON.parse(response.data.value.meth);
@@ -122,8 +123,11 @@ export default class ApiModule extends GateWayModule {
   @Action
   async postApi(api: ApiCreateRequestBody) {
     try {
-      addMock(`/mngt/v1/api`, JSON.stringify(apiMockData));
-      const response = await AxiosClient.getInstance().post<GateWayResponse<ApiDetailResponse>>('/mngt/v1/api', api);
+      // addMock(`/mngt/v1/api`, JSON.stringify(apiMockData));
+      const response = await AxiosClient.getInstance().post<GateWayResponse<ApiDetailResponse>>(
+        'http://localhost:8080/mngt/v1/createApi',
+        api
+      );
       console.log('postApi response: ', response);
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
@@ -138,7 +142,7 @@ export default class ApiModule extends GateWayModule {
   @Action
   async putApi(api: ApiUpdateRequestBody) {
     try {
-      addMock(`/mngt/v1/api`, JSON.stringify(apiMockData));
+      // addMock(`/mngt/v1/api`, JSON.stringify(apiMockData));
       const response = await AxiosClient.getInstance().put<GateWayResponse<ApiDetailResponse>>('/mngt/v1/api', api);
       console.log('putApi response: ', response);
     } catch (error: GateWayError | any) {
