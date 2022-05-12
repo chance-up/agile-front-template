@@ -118,93 +118,18 @@
         </div>
       </template>
     </ContentLayout>
-    <div v-if="showApiMngtModal" id="app" class="body-wrap">
-      <!------- handler pop -------->
-      <div class="pop-wrap lg-pop">
-        <div class="pop-header">
-          <h1 class="h1-tit">API 권한관리</h1>
-          <button @click="hideApiMngt()">
-            <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
-          </button>
-        </div>
-        <b-spinner v-if="isApiAuthProgress" large></b-spinner>
-        <div class="pop-container" v-if="!isApiAuthProgress">
-          <div class="api-wrap">
-            <div class="comp">
-              <div class="search-form">
-                <input class="input-box" type="text" placeholder="API 검색" />
-              </div>
-              <ul class="api-list">
-                <li v-for="(system, sysIndex) in ApiAuth" :key="sysIndex">
-                  <a class="stick">{{ system.sysId }}</a>
-                  <div class="api-group">
-                    <div class="check-all">
-                      <div class="check-box">
-                        <div class="check">
-                          <input
-                            type="checkbox"
-                            id="checkAll"
-                            :checked="
-                              checkedApiList.find((item) => item.sysId === system.sysId) &&
-                              checkedApiList.find((item) => item.sysId === system.sysId).apiId.length ===
-                                system.apiId.length
-                            "
-                            @click="checkApiAll(system)"
-                          /><span class="checkmark"></span>
-                        </div>
-                        <label for="checkAll">전체 선택</label>
-                      </div>
-                    </div>
-                    <div class="check-group">
-                      <div class="check-box" v-for="(api, apiIndex) in system.apiId" :key="apiIndex">
-                        <div class="check">
-                          <input
-                            type="checkbox"
-                            id=""
-                            :checked="
-                              checkedApiList.find((item) => item.sysId === system.sysId) &&
-                              checkedApiList.find((item) => item.sysId === system.sysId).apiId.includes(api)
-                            "
-                            @click="checkApi(system.sysId, api)"
-                          /><span class="checkmark"></span>
-                        </div>
-                        <label for="checkGet">{{ api }}</label>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="comp gray">
-              <div class="box-tit">
-                <h3 class="h3-tit">권한 부여 된 API</h3>
-                <p class="total">
-                  total : <span>{{ checkedApiList.length }}</span>
-                </p>
-              </div>
 
-              <div class="api-cont">
-                <div v-for="(apiList, index) in checkedApiList" :key="index">
-                  <div class="api-stick" v-for="(checkedApi, index) in apiList.apiId" :key="index">
-                    <span>{{ checkedApi }}</span>
-                    <button>
-                      <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--  // pop-container   -->
-
-        <div class="pop-footer" v-if="!isApiAuthProgress">
-          <button class="lg-btn purple-btn">저장</button>
-          <button class="lg-btn white-btn" @click="hideApiMngt()">취소</button>
-        </div>
-      </div>
-      <!------- handler pop -------->
-    </div>
+    <ApiAuthModal
+      :setApiList="apiList"
+      :setCheckedApiList="checkedApiList"
+      :setIsApiAuthProgress="isApiAuthProgress"
+      :setShowApiAuthModal="showApiAuthModal"
+      @checkApiAll="checkApiAll"
+      @checkApi="checkApi"
+      @deleteApi="deleteApi"
+      @searchApi="searchApi"
+      @hideApiMngt="hideApiMngt"
+    />
   </div>
 </template>
 <script lang="ts">
@@ -221,7 +146,7 @@ import { BasicAuthResponse, JWTAlgResponse, ServiceRegisterRequest, ApiAuthRespo
 import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { BSpinner } from 'bootstrap-vue';
-import ApiMngtModal from '@/components/service-mngt/ApiMngtModal.vue';
+import ApiAuthModal from '@/components/service-mngt/ApiAuthModal.vue';
 
 @Component({
   components: {
@@ -234,7 +159,7 @@ import ApiMngtModal from '@/components/service-mngt/ApiMngtModal.vue';
     TextDebounceForm,
     ModalLayout,
     BSpinner,
-    ApiMngtModal,
+    ApiAuthModal,
   },
 })
 export default class SystemRegisterPage extends Vue {
@@ -255,9 +180,9 @@ export default class SystemRegisterPage extends Vue {
   isRegisterProgress = false;
   isShowProgress = false;
   isApiAuthProgress = false;
-  showApiMngtModal = false;
+  showApiAuthModal = false;
+  apiList: ApiAuthResponse[] = [];
   checkedApiList: ApiAuthResponse[] = [];
-
   @Watch('show')
   onShowChange(val: string) {
     if (val == 'BASIC_AUTH') {
@@ -393,24 +318,26 @@ export default class SystemRegisterPage extends Vue {
     return this.serviceModule.JWTAlg;
   }
 
-  get ApiAuth(): ApiAuthResponse[] {
-    return this.serviceModule.ApiAuthList;
+  get apiAuthList(): ApiAuthResponse[] {
+    return this.serviceModule.apiAuthList;
   }
 
   showApiMngt() {
-    this.showApiMngtModal = true;
+    this.showApiAuthModal = true;
     this.isApiAuthProgress = true;
     this.serviceModule
       .getApiAuthList()
       .then(() => {
         this.isApiAuthProgress = false;
+        this.apiList = this.apiAuthList;
       })
       .catch((error) => {
         this.isApiAuthProgress = false;
       });
   }
+
   hideApiMngt() {
-    this.showApiMngtModal = false;
+    this.showApiAuthModal = false;
   }
 
   checkApi(sys: string, api: string) {
@@ -431,6 +358,12 @@ export default class SystemRegisterPage extends Vue {
     }
   }
 
+  deleteApi(sys: string, api: string) {
+    this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
+      this.checkedApiList.findIndex((item) => item.sysId === sys)
+    ].apiId.filter((item) => item !== api);
+  }
+
   checkApiAll(apiAll: ApiAuthResponse) {
     if (this.checkedApiList.find((item) => item.sysId === apiAll.sysId)) {
       if (this.checkedApiList.find((item) => item.sysId === apiAll.sysId)?.apiId.length === apiAll.apiId.length) {
@@ -439,7 +372,29 @@ export default class SystemRegisterPage extends Vue {
         this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === apiAll.sysId)].apiId = apiAll.apiId;
       }
     } else {
-      this.checkedApiList.push(apiAll);
+      console.log(apiAll);
+      this.checkedApiList.push({ sysId: apiAll.sysId, apiId: apiAll.apiId });
+    }
+  }
+
+  searchApi(searchText: string) {
+    if (searchText !== '') {
+      this.apiList = [];
+      this.apiList.forEach((api) => {
+        console.log(api.sysId);
+        api.apiId.forEach((apiId, idx) => {
+          if (apiId.includes(searchText)) {
+            console.log('' + api.apiId[idx] + ':' + idx);
+            if (this.apiList.find((item) => item.sysId === api.sysId)) {
+              this.apiList[this.apiList.findIndex((item) => item.sysId === api.sysId)].apiId.push(api.apiId[idx]);
+            } else {
+              this.apiList.push({ sysId: api.sysId, apiId: [api.apiId[idx]] });
+            }
+          }
+        });
+      });
+    } else {
+      this.apiList = this.apiAuthList;
     }
   }
 

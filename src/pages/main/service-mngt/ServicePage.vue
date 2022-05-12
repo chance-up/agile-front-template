@@ -12,7 +12,7 @@
           <InputBox v-model="searchData['id']" :label="$t('service.id')" placeholder="입력해주세요." />
         </div>
         <div class="search-cont">
-          <InputBox v-model="searchData['tkcgr_nm']" :label="$t('service.auth')" placeholder="입력해주세요." />
+          <InputBox v-model="searchData['athnType']" :label="$t('service.auth')" placeholder="입력해주세요." />
         </div>
         <button class="mid-btn" @click="searchOnClieckEvent">
           <i><img src="@/assets/search_ico.svg" :alt="$t('common.search')" /></i>{{ $t('common.search') }}
@@ -182,7 +182,7 @@ export default class ServiceManagementPage extends Vue {
         query: {
           nm: this.searchData.nm,
           id: this.searchData.id,
-          athn: this.searchData.tkcgr_nm,
+          athnType: this.searchData.athnType,
         },
       });
     } else {
@@ -197,7 +197,8 @@ export default class ServiceManagementPage extends Vue {
     if (Object.keys(this.$route.query).length > 0) {
       if (Object.keys(this.$route.query).includes('nm')) this.searchData.nm = this.$route.query.nm as string;
       if (Object.keys(this.$route.query).includes('id')) this.searchData.id = this.$route.query.id as string;
-      if (Object.keys(this.$route.query).includes('athn')) this.searchData.athn = this.$route.query.athn as string;
+      if (Object.keys(this.$route.query).includes('athnType'))
+        this.searchData.athnType = this.$route.query.athnType as string;
       if (Object.keys(this.$route.query).includes('page')) this.pagingData.page = this.$route.query.page as string;
       // if (Object.keys(this.$route.query).includes('size')) this.searchData.size = Number(this.$route.query.size);
       // if (Object.keys(this.$route.query).includes('sort_by'))
@@ -246,18 +247,22 @@ export default class ServiceManagementPage extends Vue {
     const query = {} as SearchCondition;
     if (Object.keys(this.searchData).includes('nm')) query.nm = this.searchData.nm as string;
     if (Object.keys(this.searchData).includes('id')) query.id = this.searchData.id as string;
-    if (Object.keys(this.searchData).includes('tkcgr_nm')) query.athn = this.searchData.athn as string;
+    if (Object.keys(this.searchData).includes('athnType')) query.athnType = this.searchData.athnType as string;
     if (Object.keys(this.pagingData).includes('page')) query.page = this.pagingData.page;
     if (Object.keys(this.pagingData).includes('size')) query.size = this.pagingData.size;
     if (Object.keys(this.pagingData).includes('sort_by')) query.sort_by = this.pagingData.sort_by as string;
     if (Object.keys(this.pagingData).includes('ordeer_by')) query.order_by = this.pagingData.order_by as string;
 
-    this.$router.push({
-      name: 'service',
-      query: {
-        ...query,
-      },
-    });
+    if (Object.is(JSON.stringify(this.$router.currentRoute.query), JSON.stringify(query))) {
+      this.$router.go(0);
+    } else {
+      this.$router.push({
+        name: 'service',
+        query: {
+          ...query,
+        },
+      });
+    }
   }
 
   modal = false;

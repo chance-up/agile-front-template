@@ -4,7 +4,6 @@ import {
   apiMockList,
   ApiDetailResponse,
   apiMockData,
-  apiMockData2,
   dummyDeleteResData,
   dummyApiIdValidCheck,
   ResponseApiIdValidCheck,
@@ -17,7 +16,6 @@ import { AxiosClient } from '@/axios/AxiosClient';
 import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
 import GateWayModule from '../GateWayModule';
-import { dummyListData } from '@/types/SystemType';
 
 function handleCommonError(error: GateWayError | any) {
   try {

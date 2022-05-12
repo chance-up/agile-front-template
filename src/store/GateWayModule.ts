@@ -1,4 +1,4 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
+import { VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import { USER_STATE } from '@/store/UserState';
 import { AxiosClient } from '@/axios/AxiosClient';
 

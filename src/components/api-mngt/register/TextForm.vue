@@ -48,7 +48,7 @@
   </li>
 </template>
 <script lang="ts">
-import { checkEnglishNumber, checkLength } from '@/utils/validation';
+import { checkLength } from '@/utils/validation';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component

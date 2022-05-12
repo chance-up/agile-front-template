@@ -18,7 +18,7 @@
                   'check-false': notiMessageDomain[idx][0] === false,
                 }"
                 class="input-box mid"
-                placeholder="도메인"
+                placeholder="domain"
                 v-model="edpt.domain"
                 @input="validCheckDomain(idx)"
               />

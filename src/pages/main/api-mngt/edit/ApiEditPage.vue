@@ -148,7 +148,7 @@ export default class ApiEditPage extends Vue {
       .then(() => {
         console.log();
       })
-      .catch((error) => {
+      .catch(() => {
         this.isShowProgress = false;
         this.$modal.show(`${this.$t('error.server_error')}`);
       });
@@ -175,7 +175,7 @@ export default class ApiEditPage extends Vue {
           this.isShowProgress = false;
           this.showPage = true;
         })
-        .catch((error) => {
+        .catch(() => {
           this.isShowProgress = false;
           this.$modal.show(`${this.$t('error.server_error')}`);
         });

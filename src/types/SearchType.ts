@@ -15,7 +15,7 @@ export interface SearchCondition {
   nm?: string;
   id?: string;
   uri?: string;
-  athn?: string;
+  athnType?: string;
   tkcgr_nm?: string;
   page?: string;
   size?: string;

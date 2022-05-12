@@ -108,7 +108,7 @@ export default class ApiDetailPage extends Vue {
         console.log();
         this.deleteMsg = this.apiDetail?.id;
       })
-      .catch((error) => {
+      .catch(() => {
         this.isShowProgress = false;
         this.$modal.show(`${this.$t('error.server_error')}`);
       });
@@ -126,7 +126,7 @@ export default class ApiDetailPage extends Vue {
         .then(() => {
           this.isShowProgress = false;
         })
-        .catch((error) => {
+        .catch(() => {
           this.isShowProgress = false;
           this.$modal.show(`${this.$t('error.server_error')}`);
         });
