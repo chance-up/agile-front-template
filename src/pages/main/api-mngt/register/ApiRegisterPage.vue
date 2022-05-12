@@ -171,8 +171,8 @@ export default class ApiRegisterPage extends Vue {
     meth: [],
     uriIn: '',
     uriOut: '',
-    reqHndlrGrpId: 'REQ.DEFAULT',
-    resHndlrGrpId: 'RES.DEFAULT',
+    reqHndlrGrpId: '',
+    resHndlrGrpId: '',
     timeOut: 15000,
     desc: '',
   };
@@ -242,9 +242,14 @@ export default class ApiRegisterPage extends Vue {
   isButtonDisabled = false;
   onClickSubmitButton() {
     const val =
-      this.isDuplicatedId && this.idValid && this.methodValid && this.uriValid && this.timeoutValid && this.descValid;
-    // this.requestBody.reqHndlrGrpId &&
-    // this.requestBody.resHndlrGrpId;
+      this.isDuplicatedId &&
+      this.idValid &&
+      this.methodValid &&
+      this.uriValid &&
+      this.timeoutValid &&
+      this.descValid &&
+      this.requestBody.reqHndlrGrpId &&
+      this.requestBody.resHndlrGrpId;
     // const val = true;
     if (!val) {
       this.$modal.show(`${this.$t('api.empty_check_message')}`);
