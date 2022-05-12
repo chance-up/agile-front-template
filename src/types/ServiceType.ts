@@ -69,12 +69,12 @@ export interface ServiceRegisterRequest {
 export const pagination: Pagination = {
   page: 1,
   size: 10,
-  total_elements: 57,
-  total_pages: 6,
-  current_elements: 10,
-  current_page: 1,
-  order_by: 'ID',
-  sort_by: 'DESC',
+  totalElements: 57,
+  totalPages: 6,
+  currentElements: 10,
+  currentPage: 1,
+  orderBy: 'ID',
+  sortBy: 'DESC',
   limit: 10,
 };
 

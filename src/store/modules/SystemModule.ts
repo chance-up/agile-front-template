@@ -15,6 +15,7 @@ import {
   // dummyUpdateData,
   dummyDeleteData,
   SystemResponse,
+  SystemRegisterResponse,
   SystemIdEdpt,
   dummySystemIdEdptList,
 } from '@/types/SystemType';
@@ -80,8 +81,12 @@ export default class SystemModule extends GateWayModule {
   @Action({ rawError: true })
   async getSystemDetail(id: string) {
     try {
-      addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
-      const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
+      //addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
+
+      const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(
+        `/getSystemById?systemId=${id}`
+      );
+      console.log('받앗다..!!!!!', response.data.value);
       this.context.commit('setSystem', response.data.value);
     } catch (error: GateWayError | any) {
       return Promise.reject(error);
@@ -90,14 +95,13 @@ export default class SystemModule extends GateWayModule {
 
   // 시스템 관리 등록
   @Action({ rawError: true })
-  async registerSystem(data: SystemResponse) {
+  async registerSystem(data: SystemRegisterResponse) {
     try {
-      addMock(`/system/registerSystem/`, JSON.stringify(dummyRegisterData));
+      //addMock(`/system/registerSystem/`, JSON.stringify(dummyRegisterData));
 
-      const response = await AxiosClient.getInstance().post<GateWayResponse<SystemResponse>>(
-        `/system/registerSystem/`,
-        data
-      );
+      console.log('data : ', JSON.stringify(data));
+
+      const response = await AxiosClient.getInstance().post<GateWayResponse<SystemResponse>>(`/createSystem`, data);
       console.log('system register response', response);
     } catch (error: GateWayError | any) {
       return Promise.reject(error);
@@ -109,13 +113,10 @@ export default class SystemModule extends GateWayModule {
   async updateSystemDetail(data: SystemResponse) {
     // console.log('data : ', data);
     try {
-      addMock(`/system/updateSystem/`, JSON.stringify(data));
+      //addMock(`/system/updateSystem/`, JSON.stringify(data));
 
-      const response = await AxiosClient.getInstance().post<GateWayResponse<SystemResponse>>(
-        `/system/updateSystem/`,
-        data
-      );
-      console.log('system put response', response);
+      const response = await AxiosClient.getInstance().put<GateWayResponse<SystemResponse>>(`/system`, data);
+      console.log('system put response', data);
     } catch (error: GateWayError | any) {
       return Promise.reject(error);
     }
@@ -125,10 +126,10 @@ export default class SystemModule extends GateWayModule {
   @Action({ rawError: true })
   async deleteSystem(id: string) {
     try {
-      addMock(`/system/deleteSystem/${id}`, JSON.stringify(dummyDeleteData));
+      //addMock(`/system/deleteSystem/${id}`, JSON.stringify(dummyDeleteData));
 
-      const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(
-        `/system/deleteSystem/${id}`
+      const response = await AxiosClient.getInstance().delete<GateWayResponse<SystemResponse>>(
+        `/system?systemId=${id}`
       );
       console.log('system delete response', response);
     } catch (error: GateWayError | any) {
@@ -139,10 +140,11 @@ export default class SystemModule extends GateWayModule {
   // System ID 중복 체크
   @Action
   async duplicateCheck(id: string): Promise<boolean> {
-    addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
-    const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(`/system/detail/${id}`);
-    console.log('response : ', response);
-    return false;
+    //addMock(`/system/detail/${id}`, JSON.stringify(dummyDetailData));
+    const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse>>(
+      `/systemCheckById?systemId=${id}`
+    );
+    return response.data.value.isPkDuplicated as boolean;
   }
 
   //System ID 리스트 조회

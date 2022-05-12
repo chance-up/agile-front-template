@@ -12,7 +12,6 @@ export interface SystemIdEdpt {
 //시스템 관리
 export interface SystemResponse {
   id: string; // system id(PK)
-  nm: string; // system name
   tkcgrNm: string; // 담당자 이름
   tkcgrPos: string; //담당자 소속
   tkcgrEml: string; //담당자 이메일
@@ -23,7 +22,17 @@ export interface SystemResponse {
   updDt: string;
   updId: string;
 }
-
+//시스템 관리
+export interface SystemRegisterResponse {
+  id: string; // system id(PK)
+  tkcgrNm: string; // 담당자 이름
+  tkcgrPos: string; //담당자 소속
+  tkcgrEml: string; //담당자 이메일
+  edpt: string[]; //엔드포인트
+  desc: string; //설명
+  cretId: string;
+  updId: string;
+}
 //pagination
 export interface PaginationType {
   page: number;

@@ -5,16 +5,16 @@
         <a @click="onChangedPage(1)"><img src="@/assets/page_first.svg" alt="처음" /></a>
       </li>
       <li class="page-btn" v-show="isShowPrevBtn == true">
-        <a @click="onChangedPage(pagingOption.current_page - 1)"><img src="@/assets/page_before.svg" alt="이전" /></a>
+        <a @click="onChangedPage(pagingOption.currentPage - 1)"><img src="@/assets/page_before.svg" alt="이전" /></a>
       </li>
-      <li v-for="(page, index) in pageList" :key="index" :class="page === pagingOption.current_page ? 'active' : ''">
+      <li v-for="(page, index) in pageList" :key="index" :class="page === pagingOption.currentPage ? 'active' : ''">
         <a @click="onChangedPage(page)">{{ page }}</a>
       </li>
       <li class="page-btn" v-show="isShowNextBtn == true">
-        <a @click="onChangedPage(pagingOption.current_page + 1)"><img src="@/assets/page_after.svg" alt="다음" /></a>
+        <a @click="onChangedPage(pagingOption.currentPage + 1)"><img src="@/assets/page_after.svg" alt="다음" /></a>
       </li>
       <li class="page-btn" v-show="isShowLastBtn == true">
-        <a @click="onChangedPage(pagingOption.total_pages)"><img src="@/assets/page_last.svg" alt="마지막" /></a>
+        <a @click="onChangedPage(pagingOption.totalPages)"><img src="@/assets/page_last.svg" alt="마지막" /></a>
       </li>
     </ul>
   </div>
@@ -27,6 +27,9 @@ import { Pagination } from '@/types/GateWayResponse';
 @Component
 export default class Paging extends Vue {
   @Prop() pagingOption!: Pagination;
+  created() {
+    console.log('pageingOption', this.pagingOption);
+  }
 
   get pageList(): number[] {
     const list = [];
@@ -37,37 +40,37 @@ export default class Paging extends Vue {
   }
 
   get startPage(): number {
-    return Math.floor(this.pagingOption.current_page / this.pagingOption.limit) * this.pagingOption.limit + 1;
+    return Math.floor(this.pagingOption.currentPage + 1 / this.pagingOption.limit) * this.pagingOption.limit + 1;
   }
 
   get endPage(): number {
     const lastPage =
-      Math.floor(this.pagingOption.current_page / this.pagingOption.limit) * this.pagingOption.limit +
+      Math.floor(this.pagingOption.currentPage + 1 / this.pagingOption.limit) * this.pagingOption.limit +
       this.pagingOption.limit;
-    return lastPage <= this.pagingOption.total_pages ? lastPage : this.pagingOption.total_pages;
+    return lastPage <= this.pagingOption.totalPages ? lastPage : this.pagingOption.totalPages;
   }
 
   get isShowFirstBtn(): boolean {
     // 총 페이지 수가 10개를 초과하고, 현재 페이지가 1이 아닌 경우에 true, 그 외에는 false
-    const rule = this.pagingOption.total_pages > 10 && this.pagingOption.current_page > 1;
+    const rule = this.pagingOption.totalPages > 10 && this.pagingOption.currentPage + 1 > 1;
     return rule;
   }
 
   get isShowPrevBtn(): boolean {
     // 현재 페이지가 1이면 false, 그 외에는 true
-    const rule = this.pagingOption.current_page > 1;
+    const rule = this.pagingOption.currentPage + 1 > 1;
     return rule;
   }
 
   get isShowNextBtn(): boolean {
     // 현재 페이지가 마지막 페이지면 false, 그 외에는 true
-    const rule = this.pagingOption.current_page < this.pagingOption.total_pages;
+    const rule = this.pagingOption.currentPage + 1 < this.pagingOption.totalPages;
     return rule;
   }
 
   get isShowLastBtn(): boolean {
     // 총 페이지 수가 10개를 초과하고, 현재 페이지가 마지막 페이지가 아닌 경우에 true, 그 외에는 false
-    const rule = this.pagingOption.total_pages > 10 && this.pagingOption.current_page < this.pagingOption.total_pages;
+    const rule = this.pagingOption.totalPages > 10 && this.pagingOption.currentPage + 1 < this.pagingOption.totalPages;
     return rule;
   }
 
