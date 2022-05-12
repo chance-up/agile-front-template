@@ -180,21 +180,6 @@ export default class SystemRegisterPage extends Vue {
   showApiAuthModal = false;
   apiList: ApiAuthResponse[] = [];
   checkedApiList: ApiAuthResponse[] = [];
-  showAuth = 'basic';
-  @Watch('showAuth')
-  onShowChange(val: string) {
-    this.formData.athnType = val;
-    if (val == 'basic') {
-      this.formData.athn.jwt = {
-        alg: null,
-        iss: null,
-        aud: null,
-        pubKey: null,
-      };
-    } else {
-      this.serviceModule.setBasicAuth({ id: null, pw: null });
-    }
-  }
 
   serviceModule = getModule(ServiceModule, this.$store);
 
@@ -222,6 +207,22 @@ export default class SystemRegisterPage extends Vue {
     apiAut: [],
     desc: '',
   };
+  showAuth = 'basic';
+  @Watch('showAuth')
+  onShowChange(val: string) {
+    this.formData.athnType = val;
+    console.log();
+    if (val == 'basic') {
+      this.formData.athn.jwt = {
+        alg: null,
+        iss: null,
+        aud: null,
+        pubKey: null,
+      };
+    } else {
+      this.serviceModule.setBasicAuth({ id: null, pw: null });
+    }
+  }
 
   modal = false;
   modalShow() {
