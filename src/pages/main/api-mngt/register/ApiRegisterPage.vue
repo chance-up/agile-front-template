@@ -55,7 +55,12 @@
             v-model="requestBody.timeOut"
             :isvalid.sync="timeoutValid"
           />
-          <TextForm :groupNm="$t('api.apiDescription')" type="textarea" v-model="requestBody.desc" />
+          <TextForm
+            :groupNm="$t('api.apiDescription')"
+            type="textarea"
+            v-model="requestBody.desc"
+            :isvalid.sync="descValid"
+          />
         </ul>
         <ModalLayout size="m" v-if="isShowModal">
           <template v-slot:modalHeader
@@ -218,6 +223,7 @@ export default class ApiRegisterPage extends Vue {
   methodValid = false;
   uriValid = false;
   timeoutValid = true;
+  descValid = true;
   // 데이터 임시 확인용
   handleClickTestSubmitButton() {
     function convertToString(body: ApiCreateRequestBody) {
@@ -241,6 +247,7 @@ export default class ApiRegisterPage extends Vue {
       this.methodValid &&
       this.uriValid &&
       this.timeoutValid &&
+      this.descValid &&
       this.requestBody.reqHndlrGrpId &&
       this.requestBody.resHndlrGrpId;
     // const val = true;

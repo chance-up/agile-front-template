@@ -41,9 +41,10 @@
       <textarea
         class="textarea"
         @input="$emit('input', $event.target.value)"
-        :value="value"
+        v-model="longText"
         :placeholder="placeholder"
       />
+      <p v-if="notiMessage[0] == false" class="red-txt noti">{{ notiMessage[1] }}</p>
     </div>
   </li>
 </template>
@@ -61,15 +62,18 @@ export default class TextForm extends Vue {
   @Prop() placeholder!: string | null;
 
   mounted() {
-    if (typeof this.value === 'string') {
+    if (this.type === 'textarea' && typeof this.value === 'string') {
       this.text = this.value;
     } else if (typeof this.value === 'number') {
       this.num = this.value;
+    } else if (typeof this.value === 'string') {
+      this.longText = this.value;
     }
   }
   notiMessage: [boolean | null, string] = [null, ''];
   text = '';
   num = 15000;
+  longText = '';
   show = false;
 
   @Watch('text')
@@ -92,6 +96,16 @@ export default class TextForm extends Vue {
       this.$emit('input', val);
     } else {
       this.notiMessage = [false, this.$t('api.valid_check_thimeout') as string];
+    }
+    this.$emit('update:isvalid', this.notiMessage[0]);
+  }
+
+  @Watch('longText')
+  onLongTextChange(val: string) {
+    if (val.length > 1000) {
+      this.notiMessage = [false, this.$t('api.valid_check_desc') as string];
+    } else {
+      this.notiMessage = [true, ''];
     }
     this.$emit('update:isvalid', this.notiMessage[0]);
   }

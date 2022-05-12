@@ -329,7 +329,9 @@ export default class SystemRegisterPage extends Vue {
       .getApiAuthList()
       .then(() => {
         this.isApiAuthProgress = false;
-        this.apiList = this.apiAuthList;
+        this.apiList = this.apiAuthList.map((item) => {
+          return { ...item };
+        });
       })
       .catch((error) => {
         this.isApiAuthProgress = false;
@@ -379,22 +381,19 @@ export default class SystemRegisterPage extends Vue {
 
   searchApi(searchText: string) {
     if (searchText !== '') {
-      this.apiList = [];
-      this.apiList.forEach((api) => {
-        console.log(api.sysId);
-        api.apiId.forEach((apiId, idx) => {
-          if (apiId.includes(searchText)) {
-            console.log('' + api.apiId[idx] + ':' + idx);
-            if (this.apiList.find((item) => item.sysId === api.sysId)) {
-              this.apiList[this.apiList.findIndex((item) => item.sysId === api.sysId)].apiId.push(api.apiId[idx]);
-            } else {
-              this.apiList.push({ sysId: api.sysId, apiId: [api.apiId[idx]] });
-            }
-          }
-        });
+      console.log('공백 아닐 때 apiAuthList : ', this.apiAuthList);
+      this.apiList = this.apiAuthList.map((item) => {
+        return { ...item };
       });
+      this.apiList.forEach((api, index) => {
+        this.apiList[index].apiId = this.apiList[index].apiId.filter((item) => item.includes(searchText));
+      });
+      this.apiList = this.apiList.filter((item) => item.apiId.length !== 0);
     } else {
-      this.apiList = this.apiAuthList;
+      console.log('공백일 때 apiAuthList : ', this.apiAuthList);
+      this.apiList = this.apiAuthList.map((item) => {
+        return { ...item };
+      });
     }
   }
 
