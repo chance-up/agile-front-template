@@ -168,7 +168,9 @@
     "modal_system_register": "시스템 등록",
     "modal_register_message": "시스템을 등록하시겠습니까?",
     "modal_system_edit": "시스템 수정",
-    "modal_edit_message": "시스템을 수정하시겠습니까?"
+    "modal_edit_message": "시스템을 수정하시겠습니까?",
+    "desc_length_check": "설명은 최대 1000자 까지 입력 가능합니다."
+
   },
   "my": {
     "modify_top_title": "회원정보 수정",
