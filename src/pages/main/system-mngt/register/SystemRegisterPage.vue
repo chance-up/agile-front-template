@@ -11,27 +11,27 @@
           :value.sync="systemItem.id"
           :isValid.sync="idValid"
           :inputNm="$t('system.id')"
-          :place="$t('system.autoCreate')"
+          :place="$t('system.id_placeholder')"
         />
         <InputGroup
           type="text"
           :value.sync="systemItem.tkcgr_nm"
           :isValid.sync="tkcgrNmValid"
           :inputNm="$t('system.tkcgrNm')"
-          :place="$t('system.tkcgrNm')"
+          :place="$t('system.tkcgrNm_placeholder')"
         />
         <InputGroup
           type="text"
           :value.sync="systemItem.tkcgr_pos"
           :inputNm="$t('system.tkcgrPos')"
-          :place="$t('system.tkcgrPos')"
+          :place="$t('system.tkcgrPos_placeholder')"
           :isValid.sync="tkcgrPosValid"
         />
         <InputGroup
           type="email"
           :value.sync="systemItem.tkcgr_eml"
           :inputNm="$t('system.tkcgrEml')"
-          :place="$t('system.tkcgrEml')"
+          :place="$t('system.tkcgrEml_placeholder')"
           :isValid.sync="tkcgrEmlValid"
         />
         <EdptForm :inputNm="$t('system.edpt')" :strArr.sync="systemItem.edpt" :isValid.sync="edptValid" />
@@ -62,7 +62,7 @@
   </ContentLayout>
 </template>
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 import SystemModule from '@/store/modules/SystemModule';
 import ContentLayout from '@/components/layout/ContentLayout.vue';

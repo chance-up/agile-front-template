@@ -19,9 +19,7 @@ import {
 } from '@/types/ServiceType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
-import ErrorCode from '@/error/ErrorCodes';
 import GateWayModule from '../GateWayModule';
-import { USER_STATE } from '../UserState';
 @Module({ name: 'ServiceModule' })
 export default class ServiceModule extends GateWayModule {
   public services: ServiceResponse[] = [];
@@ -99,7 +97,7 @@ export default class ServiceModule extends GateWayModule {
     alg: [],
   };
 
-  public ApiAuthList: ApiAuthResponse[] = [];
+  public apiAuthList: ApiAuthResponse[] = [];
 
   @Action
   serviceReset() {
@@ -210,12 +208,9 @@ export default class ServiceModule extends GateWayModule {
   async editServiceAction(data: ServiceRegisterRequest) {
     addMock('/api/service/updateServiceInfo', JSON.stringify(getServiceId));
     try {
-      const response = await AxiosClient.getInstance().put<GateWayResponse<ServiceRegisterRequest>>(
-        '/api/service/updateServiceInfo',
-        {
-          data,
-        }
-      );
+      await AxiosClient.getInstance().put<GateWayResponse<ServiceRegisterRequest>>('/api/service/updateServiceInfo', {
+        data,
+      });
       // TODO:: 성공 or 실패 팝업으로 변경
       // this.context.commit('editServiceMutation', response.data);
     } catch (error: GateWayError | any) {
@@ -313,7 +308,7 @@ export default class ServiceModule extends GateWayModule {
   @Mutation
   setApiAuth(ApiAuthListResponse: ApiAuthResponse[]) {
     console.log('set Api Auth');
-    this.ApiAuthList = ApiAuthListResponse;
+    this.apiAuthList = ApiAuthListResponse;
   }
 
   @Action

@@ -1,4 +1,3 @@
-import { GateWayResponse, Pagination } from '@/types/GateWayResponse';
 import { HandlerGroupDetail, dummyReqHandlerGroupList, dummyResHandlerGroupList } from '@/types/HandlerType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { Module, Mutation, Action } from 'vuex-module-decorators';

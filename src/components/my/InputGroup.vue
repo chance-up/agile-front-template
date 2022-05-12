@@ -43,7 +43,7 @@ export default class InputGroup extends Vue {
   notiMessage: [boolean | null, string] = [null, ''];
 
   @Watch('notiMessage')
-  messageChanged(val: [boolean | null, string]) {
+  messageChanged() {
     this.$emit('update:isvalid', this.notiMessage[0]);
   }
 
@@ -107,7 +107,7 @@ export default class InputGroup extends Vue {
         }
         break;
       case this.$t('my.tel'):
-        if (checkLength(val, 1, 20) && checkTel(val)) {
+        if (checkTel(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
           this.notiMessage = [false, this.$t('my.empty_check') as string];
@@ -116,7 +116,7 @@ export default class InputGroup extends Vue {
         }
         break;
       case this.$t('my.position'):
-        if (checkLength(val, 1, 20)) {
+        if (checkLength(val, 1, 50)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
           this.notiMessage = [false, this.$t('my.empty_check') as string];

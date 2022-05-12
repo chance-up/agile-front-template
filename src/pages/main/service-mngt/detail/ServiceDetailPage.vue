@@ -73,7 +73,7 @@
         </button>
         <button class="lg-btn white-btn" @click="modalShow(serviceOption.id)" :disabled="isRegisterProgress">
           {{ $t('common.delete') }}
-          <b-spinner variant="light" v-show="isRegisterProgress" small></b-spinner>
+          <b-spinner v-show="isRegisterProgress" small></b-spinner>
         </button>
         <button class="lg-btn gray-btn" @click="$router.back()" :disabled="isRegisterProgress">
           {{ $t('common.list') }}
@@ -127,6 +127,7 @@ export default class ServiceDetailPage extends Vue {
   }
 
   deleteService(ServiceId: string) {
+    this.modal = false;
     this.isRegisterProgress = true;
     this.serviceModule
       .deleteServiceAction(ServiceId)

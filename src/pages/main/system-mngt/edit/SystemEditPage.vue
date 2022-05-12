@@ -12,7 +12,7 @@
           :value.sync="systemItem.id"
           :isValid.sync="idValid"
           :inputNm="$t('system.id')"
-          :place="$t('system.autoCreate')"
+          :place="$t('system.id_placeholder')"
           :disabled="true"
         />
 
@@ -115,7 +115,7 @@ export default class SystemEditPage extends Vue {
       .then(() => {
         this.isShowProgress = false;
       })
-      .catch((error) => {
+      .catch(() => {
         this.isShowProgress = false;
         this.$modal.show(`${this.$t('error.server_error')}`);
       });

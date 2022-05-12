@@ -11,7 +11,6 @@
 </template>
 
 <script lang="ts">
-import { ApiSearchLabel } from '@/types/ApiType';
 import { SelectOptionType } from '@/types/SearchType';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 

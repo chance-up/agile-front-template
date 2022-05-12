@@ -38,7 +38,7 @@
             <div class="auth-form">
               <label class="label">알고리즘 :</label>
               <select class="select-box" v-model="algPick" @focus="noticeInput()">
-                <option value="null">선택해주세요</option>
+                <option disabled value="null">선택해주세요</option>
                 <option v-for="item in JWTalg" :key="item" :value="item">{{ item }}</option>
               </select>
             </div>
