@@ -74,8 +74,8 @@
           (showInput && JWTissuer == null) ||
           (showInput && JWTsubject == null) ||
           (showInput && JWTpublicKey == null) ||
-          (auth == 'BASIC_AUTH' && basicId == '') ||
-          (auth == 'BASIC_AUTH' && basicId == null)
+          (auth == 'basic' && basicId == '') ||
+          (auth == 'basic' && basicId == null)
         "
         class="red-txt noti"
       >
@@ -112,7 +112,7 @@ export default class AuthReqGroup extends Vue {
 
   @Watch('basicId')
   onBasicIdChanged(val: string) {
-    if (this.auth == 'BASIC_AUTH') {
+    if (this.auth == 'basic') {
       if (val == '' || val == null) {
         this.$emit('update:isvalid', false);
       } else {
@@ -122,7 +122,7 @@ export default class AuthReqGroup extends Vue {
   }
   @Watch('algPick')
   onAlgPickChanged() {
-    if (this.auth == 'JWT') {
+    if (this.auth == 'jwt') {
       if (
         this.algPick != 'null' &&
         this.JWTissuer != '' &&
@@ -203,9 +203,10 @@ export default class AuthReqGroup extends Vue {
   }
   set algPick(val: string) {
     this.$emit('update:pickedAlg', val);
+    console.log(this.pickedAlg);
   }
   get auth() {
-    return 'basic';
+    return this.athn;
   }
   set auth(val: string) {
     this.showInput = false;

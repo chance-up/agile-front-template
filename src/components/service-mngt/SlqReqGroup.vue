@@ -26,8 +26,8 @@
         <button
           class="btn-toggle"
           :class="{
-            on: showHour,
-            '': !showHour,
+            on: showHr,
+            '': !showHr,
           }"
           @click="clickHour()"
         >
@@ -46,8 +46,8 @@
         <button
           class="btn-toggle"
           :class="{
-            on: showMonth,
-            '': !showMonth,
+            on: showMon,
+            '': !showMon,
           }"
           @click="clickMonth()"
         >
@@ -66,7 +66,7 @@
       </div>
 
       <div class="sla-group">
-        <div class="sla-form" v-if="showMonth">
+        <div class="sla-form" v-if="showMon">
           <label class="label">Month : </label>
           <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="month" min="1" step="1" />
           <span>건</span>
@@ -76,7 +76,7 @@
           <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="day" min="1" step="1" />
           <span>건</span>
         </div>
-        <div class="sla-form" v-if="showHour">
+        <div class="sla-form" v-if="showHr">
           <label class="label">Hour : </label>
           <input type="number" id="" class="input-box" placeholder="입력해주세요" v-model="hour" min="1" step="1" />
           <span>건</span>
@@ -96,9 +96,9 @@
         v-if="
           (showSec && sec == null) ||
           (showMin && min == null) ||
-          (showHour && hour == null) ||
+          (showHr && hour == null) ||
           (showDay && day == null) ||
-          (showMonth && month == null)
+          (showMon && month == null)
         "
         class="red-txt noti"
       >
@@ -108,9 +108,9 @@
         v-else-if="
           (showSec && sec == '') ||
           (showMin && min == '') ||
-          (showHour && hour == '') ||
+          (showHr && hour == '') ||
           (showDay && day == '') ||
-          (showMonth && month == '')
+          (showMon && month == '')
         "
         class="red-txt noti"
       >
@@ -120,9 +120,9 @@
         v-else-if="
           (showSec && sec == 0) ||
           (showMin && min == 0) ||
-          (showHour && hour == 0) ||
+          (showHr && hour == 0) ||
           (showDay && day == 0) ||
-          (showMonth && month == 0)
+          (showMon && month == 0)
         "
         class="red-txt noti"
       >
@@ -132,7 +132,7 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component
 export default class SlaReqGroup extends Vue {
@@ -149,41 +149,69 @@ export default class SlaReqGroup extends Vue {
   @Prop({ default: false }) onMonth!: boolean;
 
   none = false;
-
-  get showSec() {
-    return this.onSec;
-  }
-  set showSec(val: boolean) {
-    this.$emit('update:onSec', val);
+  showSec = false;
+  @Watch('showSec')
+  showSecChange() {
+    this.$emit('update:onSec', false);
   }
 
-  get showMin() {
-    return this.onMin;
-  }
-  set showMin(val: boolean) {
-    this.$emit('update:onMin', val);
-  }
-
-  get showHour() {
-    return this.onHour;
-  }
-  set showHour(val: boolean) {
-    this.$emit('update:onHour', val);
+  showMin = false;
+  @Watch('showMin')
+  showMinChange() {
+    this.$emit('update:onMin', false);
   }
 
-  get showDay() {
-    return this.onDay;
-  }
-  set showDay(val: boolean) {
-    this.$emit('update:onDay', val);
+  showHr = false;
+  @Watch('showHr')
+  showHrChange() {
+    this.$emit('update:onHr', false);
   }
 
-  get showMonth() {
-    return this.onMonth;
+  showDay = false;
+  @Watch('showDay')
+  showDayChange() {
+    this.$emit('update:onDay', false);
   }
-  set showMonth(val: boolean) {
-    this.$emit('update:onMonth', val);
+
+  showMon = false;
+  @Watch('showMon')
+  showMonChange() {
+    this.$emit('update:onMon', false);
   }
+  // get showSec() {
+  //   return this.onSec;
+  // }
+  // set showSec(val: boolean) {
+  //   this.$emit('update:onSec', val);
+  // }
+
+  // get showMin() {
+  //   return this.onMin;
+  // }
+  // set showMin(val: boolean) {
+  //   this.$emit('update:onMin', val);
+  // }
+
+  // get showHour() {
+  //   return this.onHour;
+  // }
+  // set showHour(val: boolean) {
+  //   this.$emit('update:onHour', val);
+  // }
+
+  // get showDay() {
+  //   return this.onDay;
+  // }
+  // set showDay(val: boolean) {
+  //   this.$emit('update:onDay', val);
+  // }
+
+  // get showMonth() {
+  //   return this.onMonth;
+  // }
+  // set showMonth(val: boolean) {
+  //   this.$emit('update:onMonth', val);
+  // }
 
   get sec() {
     return this.secVal;
@@ -204,7 +232,7 @@ export default class SlaReqGroup extends Vue {
 
   get hour() {
     if (this.hourVal != null) {
-      this.showHour = true;
+      this.showHr = true;
     }
     return this.hourVal;
   }
@@ -224,7 +252,7 @@ export default class SlaReqGroup extends Vue {
 
   get month() {
     if (this.monthVal != null) {
-      this.showMonth = true;
+      this.showMon = true;
     }
     return this.monthVal;
   }
@@ -265,9 +293,9 @@ export default class SlaReqGroup extends Vue {
     this.showSec = !this.showSec;
     this.sec = null;
     if (
-      this.showMonth == false &&
+      this.showMon == false &&
       this.showDay == false &&
-      this.showHour == false &&
+      this.showHr == false &&
       this.showMin == false &&
       this.showSec == false
     ) {
@@ -281,9 +309,9 @@ export default class SlaReqGroup extends Vue {
     this.showMin = !this.showMin;
     this.min = null;
     if (
-      this.showMonth == false &&
+      this.showMon == false &&
       this.showDay == false &&
-      this.showHour == false &&
+      this.showHr == false &&
       this.showMin == false &&
       this.showSec == false
     ) {
@@ -294,12 +322,12 @@ export default class SlaReqGroup extends Vue {
   }
 
   clickHour() {
-    this.showHour = !this.showHour;
+    this.showHr = !this.showHr;
     this.hour = null;
     if (
-      this.showMonth == false &&
+      this.showMon == false &&
       this.showDay == false &&
-      this.showHour == false &&
+      this.showHr == false &&
       this.showMin == false &&
       this.showSec == false
     ) {
@@ -313,9 +341,9 @@ export default class SlaReqGroup extends Vue {
     this.showDay = !this.showDay;
     this.day = null;
     if (
-      this.showMonth == false &&
+      this.showMon == false &&
       this.showDay == false &&
-      this.showHour == false &&
+      this.showHr == false &&
       this.showMin == false &&
       this.showSec == false
     ) {
@@ -326,12 +354,12 @@ export default class SlaReqGroup extends Vue {
   }
 
   clickMonth() {
-    this.showMonth = !this.showMonth;
+    this.showMon = !this.showMon;
     this.month = null;
     if (
-      this.showMonth == false &&
+      this.showMon == false &&
       this.showDay == false &&
-      this.showHour == false &&
+      this.showHr == false &&
       this.showMin == false &&
       this.showSec == false
     ) {
@@ -347,9 +375,9 @@ export default class SlaReqGroup extends Vue {
       this.$emit('update:isvalid', true);
       this.showSec = false;
       this.showMin = false;
-      this.showHour = false;
+      this.showHr = false;
       this.showDay = false;
-      this.showMonth = false;
+      this.showMon = false;
       this.sec = null;
       this.min = null;
       this.hour = null;
