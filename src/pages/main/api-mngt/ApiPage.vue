@@ -5,7 +5,12 @@
         <div class="search-wrap">
           <h2 class="h2-tit">{{ $t('common.search') }}</h2>
           <div class="search-cont">
-            <SelectBox v-model="searchData" :label="searchOption.label" :selectOptions="searchOption.selectOptions" />
+            <SelectBox
+              v-model="searchData"
+              :label="searchOption.label"
+              :selectOptions="searchOption.selectOptions"
+              @submit="searchOnClieckEvent"
+            />
           </div>
 
           <button class="mid-btn" @click="searchOnClieckEvent">
@@ -160,6 +165,14 @@ export default class ApiPage extends Vue {
   searchDataLabel = '';
   searchDataValue = '';
   created() {
+    this.fetchApiList();
+  }
+
+  destroyed() {
+    this.apiModule.release();
+  }
+
+  fetchApiList() {
     this.isShowProgress = true;
     this.apiModule.apiReset();
     const query = this.$route.query;
@@ -185,10 +198,6 @@ export default class ApiPage extends Vue {
       });
   }
 
-  destroyed() {
-    this.apiModule.release();
-  }
-
   get apiList(): ApiDetailResponse[] {
     console.log(this.apiModule.apiList);
     return this.apiModule.apiList;
@@ -200,7 +209,7 @@ export default class ApiPage extends Vue {
     await this.apiModule.deleteApi(apiId);
     this.showModal = false;
     this.isModalProgress = false;
-    this.$router.go(0);
+    this.fetchApiList();
   }
 
   // for searching
@@ -211,7 +220,7 @@ export default class ApiPage extends Vue {
     if (this.searchData.value === '') {
       this.$modal.show(`${this.$t('api.enter_search_data')}`);
     } else if (JSON.stringify(query) === JSON.stringify(this.$route.query)) {
-      this.$router.go(0);
+      this.fetchApiList();
     } else {
       this.getList();
     }
