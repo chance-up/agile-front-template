@@ -166,7 +166,7 @@ export default class ServiceManagementPage extends Vue {
     this.serviceModule
       .deleteServiceAction(ServiceId)
       .then(() => {
-        this.$router.go(0);
+        this._getServiceList();
         this.modal = false;
       })
       .catch((error) => {
@@ -183,6 +183,9 @@ export default class ServiceManagementPage extends Vue {
   }
 
   created() {
+    this._getServiceList();
+  }
+  _getServiceList() {
     this.serviceModule.serviceReset();
 
     this.isShowProgress = true;
@@ -247,7 +250,7 @@ export default class ServiceManagementPage extends Vue {
     if (Object.keys(this.pagingData).includes('ordeer_by')) query.order_by = this.pagingData.order_by as string;
 
     if (Object.is(JSON.stringify(this.$router.currentRoute.query), JSON.stringify(query))) {
-      this.$router.go(0);
+      this._getServiceList();
     } else {
       this.$router.push({
         name: 'service',
