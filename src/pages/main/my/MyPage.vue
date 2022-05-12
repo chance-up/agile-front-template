@@ -168,7 +168,8 @@ export default class MyPage extends Vue {
   }
 
   onSubmit(): void {
-    console.log(this.myInfo);
+    delete this.myInfo.pwdConfirm;
+
     this.isDisabled = true;
     this.isShowModal = false;
 
