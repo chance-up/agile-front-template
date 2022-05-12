@@ -2,7 +2,7 @@
   <div>
     <label class="label">{{ label }}</label>
     <select class="select-box" @change="handleChangeTarget">
-      <option v-for="(item, index) in selectOptions" :key="index" :selected="item.label == value.label">
+      <option v-for="(item, index) in selectOptions" :key="index" :selected="item.label == searchData.label">
         {{ item.value }}
       </option>
     </select>
@@ -44,6 +44,14 @@ export default class SelectBox extends Vue {
   };
   created() {
     this.searchData.label = this.selectOptions[0].label;
+    const query = this.$route.query;
+
+    const labels = this.selectOptions.map((value) => value.label);
+    console.log(query, labels);
+    Object.keys(query).map((key) => {
+      console.log(key, labels.includes(key));
+      if (labels.includes(key)) this.searchData.label = key as string;
+    });
   }
   handleChangeTarget(event: any) {
     this.searchData.label = this.selectOptions[event.target.selectedIndex].label;
@@ -54,8 +62,10 @@ export default class SelectBox extends Vue {
   @Watch('value')
   handleChangeValue(value: SelectOptionType) {
     console.log('handleChangeValue : ', value);
+    console.log('hahahahahahahah1' + JSON.stringify(this.searchData));
     this.searchData.value = value.value;
     this.searchData.label = value.label;
+    console.log('hahahahahahahah2' + JSON.stringify(this.searchData));
   }
   handleChangeSearchData(event: any) {
     this.searchData.value = event.target.value;
