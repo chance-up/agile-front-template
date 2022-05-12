@@ -6,13 +6,19 @@
 
         <!-- Input Box 옵션 -->
         <div class="search-cont">
-          <InputBox v-model="searchData['id']" :label="$t('system.id')" :placeholder="$t('common.placeholder')" />
+          <InputBox
+            v-model="searchData['id']"
+            :label="$t('system.id')"
+            :placeholder="$t('common.placeholder')"
+            @submit="searchOnClieckEvent"
+          />
         </div>
         <div class="search-cont">
           <InputBox
             v-model="searchData['tkcgr_nm']"
             :label="$t('system.tkcgrNm')"
             :placeholder="$t('common.placeholder')"
+            @submit="searchOnClieckEvent"
           />
         </div>
         <button class="mid-btn" @click="searchOnClieckEvent">

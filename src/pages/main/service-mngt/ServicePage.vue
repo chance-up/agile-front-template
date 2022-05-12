@@ -6,13 +6,28 @@
 
         <!-- Input Box 옵션 -->
         <div class="search-cont">
-          <InputBox v-model="searchData['nm']" :label="$t('service.name')" placeholder="입력해주세요." />
+          <InputBox
+            v-model="searchData['nm']"
+            :label="$t('service.name')"
+            placeholder="입력해주세요."
+            @submit="searchOnClieckEvent"
+          />
         </div>
         <div class="search-cont">
-          <InputBox v-model="searchData['id']" :label="$t('service.id')" placeholder="입력해주세요." />
+          <InputBox
+            v-model="searchData['id']"
+            :label="$t('service.id')"
+            placeholder="입력해주세요."
+            @submit="searchOnClieckEvent"
+          />
         </div>
         <div class="search-cont">
-          <InputBox v-model="searchData['athnType']" :label="$t('service.auth')" placeholder="입력해주세요." />
+          <InputBox
+            v-model="searchData['athnType']"
+            :label="$t('service.auth')"
+            placeholder="입력해주세요."
+            @submit="searchOnClieckEvent"
+          />
         </div>
         <button class="mid-btn" @click="searchOnClieckEvent">
           <i><img src="@/assets/search_ico.svg" :alt="$t('common.search')" /></i>{{ $t('common.search') }}
