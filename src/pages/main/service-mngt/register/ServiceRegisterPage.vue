@@ -21,8 +21,8 @@
             :inputNm="$t('service.date')"
             placeholderStart="YYYY-MM-DD"
             placeholderENd="YYYY-MM-DD"
-            :startDt.sync="formData.svc_st_dt"
-            :endDt.sync="formData.svc_end_dt"
+            :startDt.sync="formData.svcStDt"
+            :endDt.sync="formData.svcEndDt"
             :isvalid.sync="dateValid"
           />
           <AuthReqGroup
@@ -30,12 +30,12 @@
             :inputNm="$t('service.authentication_method')"
             :basicId="basicAuth.id"
             :basicPw="basicAuth.pw"
-            :athn.sync="show"
+            :athn.sync="formData.athnType"
             :alg.sync="JWTAlg.alg"
-            :pickedAlg.sync="formData.athn.JWT.alg"
-            :issuer.sync="formData.athn.JWT.iss"
-            :subject.sync="formData.athn.JWT.aud"
-            :publicKey.sync="formData.athn.JWT.pubKey"
+            :pickedAlg.sync="formData.athn.jwt.alg"
+            :issuer.sync="formData.athn.jwt.iss"
+            :subject.sync="formData.athn.jwt.aud"
+            :publicKey.sync="formData.athn.jwt.pubKey"
             :isvalid.sync="authValid"
             :progress="isBasicAuthProgress"
           />
@@ -57,14 +57,14 @@
             type="text"
             :inputNm="$t('service.tkcgrNm')"
             :placeholder="$t('service.tkcgrNmEx')"
-            :value.sync="formData.tkcgr_nm"
+            :value.sync="formData.tkcgrNm"
             :isvalid.sync="tkcgrNmValid"
           />
           <InputGroup
             type="text"
             :inputNm="$t('service.tkcgrPos')"
             :placeholder="$t('service.tkcgrPosEx')"
-            :value.sync="formData.tkcgr_pos"
+            :value.sync="formData.tkcgrPos"
             :isvalid.sync="tkcgrPosValid"
           />
           <InputGroup
@@ -72,7 +72,7 @@
             :inputNm="$t('service.tkcgrEml')"
             :placeholder="$t('service.tkcgrEmlEx')"
             inputClass="input-box lg check-ok"
-            :value.sync="formData.tkcgr_eml"
+            :value.sync="formData.tkcgrEml"
             :isvalid.sync="tkcgrEmlValid"
           />
           <SysExGroup :inputNm="$t('service.desc')" v-model="formData.desc" />
@@ -184,7 +184,7 @@ export default class SystemRegisterPage extends Vue {
   @Watch('show')
   onShowChange(val: string) {
     if (val == 'BASIC_AUTH') {
-      this.formData.athn.JWT = {
+      this.formData.athn.jwt = {
         alg: null,
         iss: null,
         aud: null,
@@ -200,18 +200,18 @@ export default class SystemRegisterPage extends Vue {
   formData: ServiceRegisterRequest = {
     id: '',
     nm: '',
-    tkcgr_nm: '',
-    tkcgr_pos: '',
-    tkcgr_eml: '',
+    tkcgrNm: '',
+    tkcgrPos: '',
+    tkcgrEml: '',
     sla: { sec: null, min: null, hr: null, day: null, mon: null },
-    svc_st_dt: '',
-    svc_end_dt: '',
+    svcStDt: '',
+    svcEndDt: '',
     athn: {
       basic: {
         id: null,
         pw: null,
       },
-      JWT: {
+      jwt: {
         alg: null,
         iss: null,
         aud: null,
@@ -226,9 +226,14 @@ export default class SystemRegisterPage extends Vue {
   modal = false;
   modalShow() {
     const val =
-      this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.dateValid && this.authValid
-        ? // &&this.isDuplicatedId
-          true
+      this.idValid &&
+      this.tkcgrNmValid &&
+      this.tkcgrPosValid &&
+      this.tkcgrEmlValid &&
+      this.dateValid &&
+      this.authValid &&
+      this.isDuplicatedId
+        ? true
         : false;
 
     if (!val) {
@@ -408,11 +413,9 @@ export default class SystemRegisterPage extends Vue {
     this.formData.apiAut = api;
     this.showApiAuthModal = false;
     if (api.length == 0) {
-      console.log('test');
       this.apiAuthValid = false;
     } else {
       console.log(api);
-      console.log('test22');
       this.apiAuthValid = true;
     }
   }

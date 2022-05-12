@@ -11,18 +11,18 @@
         <InfoGroup :inputNm="$t('service.id')" :value="serviceOption.id" />
         <DateInfoGroup
           :inputNm="$t('service.date')"
-          :startDt="serviceOption.svc_st_dt.slice(0, 10)"
-          :endDt="serviceOption.svc_end_dt.slice(0, 10)"
+          :startDt="serviceOption.svcStDt.slice(0, 10)"
+          :endDt="serviceOption.svcEndDt.slice(0, 10)"
         />
         <AuthGroup
           :inputNm="$t('service.authentication_method')"
-          :athn="auth"
+          :athn="serviceOption.athnType"
           :id="serviceOption.athn.basic.id"
           :pw="serviceOption.athn.basic.pw"
-          :alg="serviceOption.athn.JWT.alg"
-          :issuer="serviceOption.athn.JWT.iss"
-          :subject="serviceOption.athn.JWT.aud"
-          :publickey="serviceOption.athn.JWT.pubKey"
+          :alg="serviceOption.athn.jwt.alg"
+          :issuer="serviceOption.athn.jwt.iss"
+          :subject="serviceOption.athn.jwt.aud"
+          :publickey="serviceOption.athn.jwt.pubKey"
         />
         <li>
           <label class="label">{{ $t('service.api_mngt') }}</label>
@@ -43,9 +43,9 @@
           :dayVal="serviceOption.sla.day"
           :monthVal="serviceOption.sla.mon"
         />
-        <InfoGroup :inputNm="$t('service.tkcgrNm')" :value="serviceOption.tkcgr_nm" />
-        <InfoGroup :inputNm="$t('service.tkcgrPos')" :value="serviceOption.tkcgr_pos" />
-        <InfoGroup :inputNm="$t('service.tkcgrEml')" :value="serviceOption.tkcgr_eml" />
+        <InfoGroup :inputNm="$t('service.tkcgrNm')" :value="serviceOption.tkcgrNm" />
+        <InfoGroup :inputNm="$t('service.tkcgrPos')" :value="serviceOption.tkcgrPos" />
+        <InfoGroup :inputNm="$t('service.tkcgrEml')" :value="serviceOption.tkcgrEml" />
         <InfoGroup :inputNm="$t('service.desc')" :value="serviceOption.desc" />
         <ModalLayout size="m" v-if="modal">
           <template v-slot:modalHeader
@@ -107,18 +107,8 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
   },
 })
 export default class ServiceDetailPage extends Vue {
-  auth = '';
   isShowProgress = false;
   isRegisterProgress = false;
-
-  @Watch('serviceOption')
-  onServiceOptionChange(val: ServiceResponse) {
-    if (val.athn.basic.id === '') {
-      this.auth = 'JWT';
-    } else if (val.athn.JWT.alg === '') {
-      this.auth = 'Basic Auth';
-    }
-  }
 
   serviceModule = getModule(ServiceModule, this.$store);
 

@@ -4,18 +4,17 @@ import { Module, Mutation, Action } from 'vuex-module-decorators';
 import {
   ServiceResponse,
   ServiceRegisterRequest,
-  getServiceInfo,
-  getServiceId,
-  getSearchServiceInfo,
-  BasicAuthResponse,
-  getBasicAuth,
-  duplicatedCheck,
-  getDuplicatedTrue,
-  getDuplicatedFalse,
-  getJWTAlg,
   JWTAlgResponse,
   ApiAuthResponse,
-  getApiAuthList,
+  BasicAuthResponse,
+  duplicatedCheck,
+  // getServiceInfo,
+  // getServiceId,
+  // getSearchServiceInfo,
+  // getBasicAuth,
+  getDuplicatedTrue,
+  getJWTAlg,
+  // getApiAuthList,
 } from '@/types/ServiceType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { GateWayError } from '@/error/GateWayError';
@@ -27,18 +26,18 @@ export default class ServiceModule extends GateWayModule {
   public service: ServiceResponse = {
     id: '',
     nm: '',
-    tkcgr_nm: '',
-    tkcgr_pos: '',
-    tkcgr_eml: '',
+    tkcgrNm: '',
+    tkcgrPos: '',
+    tkcgrEml: '',
     sla: { sec: null, min: null, hr: null, day: null, mon: null },
-    svc_st_dt: '',
-    svc_end_dt: '',
+    svcStDt: '',
+    svcEndDt: '',
     athn: {
       basic: {
         id: null,
         pw: null,
       },
-      JWT: {
+      jwt: {
         alg: null,
         iss: null,
         aud: null,
@@ -48,27 +47,27 @@ export default class ServiceModule extends GateWayModule {
     athnType: '',
     apiAut: [],
     desc: '',
-    cret_dt: '',
-    upd_dt: '',
-    cret_id: '',
-    upd_id: '',
+    cretDt: '',
+    updDt: '',
+    cretId: '',
+    updId: '',
   };
 
   public requestService: ServiceRegisterRequest = {
     id: '',
     nm: '',
-    tkcgr_nm: '',
-    tkcgr_pos: '',
-    tkcgr_eml: '',
+    tkcgrNm: '',
+    tkcgrPos: '',
+    tkcgrEml: '',
     sla: { sec: null, min: null, hr: null, day: null, mon: null },
-    svc_st_dt: '',
-    svc_end_dt: '',
+    svcStDt: '',
+    svcEndDt: '',
     athn: {
       basic: {
         id: null,
         pw: null,
       },
-      JWT: {
+      jwt: {
         alg: null,
         iss: null,
         aud: null,
@@ -123,17 +122,15 @@ export default class ServiceModule extends GateWayModule {
 
   @Action({ rawError: true })
   async getServiceList(searchOption?: object) {
-    let data = null;
-    if (searchOption == undefined) {
-      data = JSON.stringify(getServiceInfo);
-    } else {
-      data = JSON.stringify(getSearchServiceInfo);
-    }
+    // let data = null;
+    // if (searchOption == undefined) {
+    //   data = JSON.stringify(getServiceInfo);
+    // } else {
+    //   data = JSON.stringify(getSearchServiceInfo);
+    // }
     try {
-      addMock('/api/service/getServiceInfo', data);
-      const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>(
-        '/api/service/getServiceInfo'
-      );
+      // addMock('/api/service/getServiceInfo', data);
+      const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>('/getServiceList');
       this.context.commit('setServiceList', response.data.value);
       this.context.commit('setServicePagination', response.data.pagination);
     } catch (error: GateWayError | any) {
@@ -149,14 +146,11 @@ export default class ServiceModule extends GateWayModule {
 
   @Action({ rawError: true })
   async getService(id: string) {
-    addMock('/api/service/getServiceId', JSON.stringify(getServiceId));
+    // addMock('/api/service/getServiceId', JSON.stringify(getServiceId));
     try {
-      const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>(
-        '/api/service/getServiceId',
-        {
-          serviceId: id,
-        }
-      );
+      const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>('getServiceById?id=API3', {
+        // id: id,
+      });
 
       this.context.commit('setService', response.data.value);
     } catch (error: GateWayError | any) {
@@ -172,10 +166,10 @@ export default class ServiceModule extends GateWayModule {
 
   @Action({ rawError: true })
   async createServiceAction(data: ServiceRegisterRequest) {
-    addMock('/api/service/registerService', JSON.stringify(getServiceId));
+    // addMock('/api/service/registerService', JSON.stringify(getServiceId));
     try {
       const response = await AxiosClient.getInstance().post<GateWayResponse<ServiceResponse>>(
-        '/api/service/registerService',
+        '/createServiceMngt',
         data
       );
       console.log(response.data.value);
@@ -206,7 +200,7 @@ export default class ServiceModule extends GateWayModule {
 
   @Action({ rawError: true })
   async editServiceAction(data: ServiceRegisterRequest) {
-    addMock('/api/service/updateServiceInfo', JSON.stringify(getServiceId));
+    // addMock('/api/service/updateServiceInfo', JSON.stringify(getServiceId));
     try {
       await AxiosClient.getInstance().put<GateWayResponse<ServiceRegisterRequest>>('/api/service/updateServiceInfo', {
         data,
@@ -245,26 +239,26 @@ export default class ServiceModule extends GateWayModule {
   }
 
   // Service ID 중복 체크
-  @Mutation
-  setDuplicatedCheckNm(duplicatedResponse: duplicatedCheck) {
-    console.log('중복되지 않은 서비스명 입니다.');
-    this.duplicatedNm = duplicatedResponse;
-  }
-  @Action
-  async getDuplicatedCheckNm(nm: string) {
-    addMock(`/service/detail/${nm}`, JSON.stringify(getDuplicatedTrue));
-    const response = await AxiosClient.getInstance().get<GateWayResponse<duplicatedCheck>>(`/service/detail/${nm}`);
-    this.context.commit('setDuplicatedCheckNm', response.data.value);
-  }
+  // @Mutation
+  // setDuplicatedCheckNm(duplicatedResponse: duplicatedCheck) {
+  //   console.log('중복되지 않은 서비스명 입니다.');
+  //   this.duplicatedNm = duplicatedResponse;
+  // }
+  // @Action
+  // async getDuplicatedCheckNm(nm: string) {
+  //   addMock(`/service/detail/${nm}`, JSON.stringify(getDuplicatedTrue));
+  //   const response = await AxiosClient.getInstance().get<GateWayResponse<duplicatedCheck>>(`/service/detail/${nm}`);
+  //   this.context.commit('setDuplicatedCheckNm', response.data.value);
+  // }
 
   @Mutation
   setDuplicatedCheckId(duplicatedResponse: duplicatedCheck) {
-    console.log('중복된 서비스ID 입니다.');
+    console.log('중복되지 않은 서비스ID 입니다.');
     this.duplicatedId = duplicatedResponse;
   }
   @Action
   async getDuplicatedCheckId(id: string) {
-    addMock(`/service/detail/${id}`, JSON.stringify(getDuplicatedFalse));
+    addMock(`/service/detail/${id}`, JSON.stringify(getDuplicatedTrue));
     const response = await AxiosClient.getInstance().get<GateWayResponse<duplicatedCheck>>(`/service/detail/${id}`);
     this.context.commit('setDuplicatedCheckId', response.data.value);
   }
@@ -278,8 +272,10 @@ export default class ServiceModule extends GateWayModule {
   @Action
   async getBasicAuth() {
     try {
-      addMock('/service/basicauth/', JSON.stringify(getBasicAuth));
-      const response = await AxiosClient.getInstance().get<GateWayResponse<BasicAuthResponse>>('/service/basicauth/');
+      // addMock('/service/basicauth/', JSON.stringify(getBasicAuth));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<BasicAuthResponse>>(
+        '/createAuthIdAndPwd?id=API8'
+      );
       console.log('getBasicAuth' + response.data.value.id);
       this.context.commit('setBasicAuth', response.data.value);
     } catch (error: GateWayError | any) {
@@ -314,8 +310,8 @@ export default class ServiceModule extends GateWayModule {
   @Action
   async getApiAuthList() {
     try {
-      addMock('/service/apiauth/', JSON.stringify(getApiAuthList));
-      const response = await AxiosClient.getInstance().get<GateWayResponse<JWTAlgResponse>>('/service/apiauth/');
+      // addMock('/service/apiauth/', JSON.stringify(getApiAuthList));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<JWTAlgResponse>>('/getApiAuthList');
       this.context.commit('setApiAuth', response.data.value);
     } catch (error: GateWayError | any) {
       console.log(error);

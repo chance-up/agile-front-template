@@ -51,41 +51,32 @@ export interface JWTAlgResponse {
   alg: string[];
 }
 
-export const JWtAlgMock: JWTAlgResponse = {
-  alg: ['ABC111', 'DEF222', 'GHI333'],
-};
-
-export const basicAuthMock: BasicAuthResponse = {
-  id: 'AKSJaiohfasdAS7asD',
-  pw: 'KL8SsS1KKsdJKASH9',
-};
-
 export interface ServiceRegisterRequest {
   id: string;
   nm: string;
-  tkcgr_nm: string;
-  tkcgr_pos: string;
-  tkcgr_eml: string;
+  tkcgrNm: string;
+  tkcgrPos: string;
+  tkcgrEml: string;
   sla: { sec: number | null; min: number | null; hr: number | null; day: number | null; mon: number | null };
-  svc_st_dt: string;
-  svc_end_dt: string;
+  svcStDt: string;
+  svcEndDt: string;
   athn: AuthResponse;
   athnType: string;
   apiAut: ApiAuthResponse[];
   desc: string;
 }
 
-// export const pagination: Pagination = {
-//   page: 1,
-//   size: 10,
-//   total_elements: 57,
-//   total_pages: 6,
-//   current_elements: 10,
-//   current_page: 1,
-//   order_by: 'ID',
-//   sort_by: 'DESC',
-//   limit: 10,
-// };
+export const pagination: Pagination = {
+  page: 1,
+  size: 10,
+  total_elements: 57,
+  total_pages: 6,
+  current_elements: 10,
+  current_page: 1,
+  order_by: 'ID',
+  sort_by: 'DESC',
+  limit: 10,
+};
 
 // export const searchServiceListResponse: ServiceResponse[] = [
 //   {
@@ -278,17 +269,8 @@ export interface ServiceRegisterRequest {
 //   status: 0,
 // };
 
-// export const duplicatedTrue: duplicatedCheck = {
-//   isDuplicated: true,
-// };
-
 // export const duplicatedFalse: duplicatedCheck = {
 //   isDuplicated: false,
-// };
-
-// export const duplicatedTrueData: Data<duplicatedCheck> = {
-//   pagination: pagination,
-//   value: duplicatedTrue,
 // };
 
 // export const duplicatedfalseData: Data<duplicatedCheck> = {
@@ -296,23 +278,20 @@ export interface ServiceRegisterRequest {
 //   value: duplicatedFalse,
 // };
 
-// export const getDuplicatedTrue: GateWayResponse<duplicatedCheck> = {
-//   data: duplicatedTrueData,
-//   status: 0,
-// };
+export const duplicatedTrue: duplicatedCheck = {
+  isDuplicated: true,
+};
+export const duplicatedTrueData: Data<duplicatedCheck> = {
+  pagination: pagination,
+  value: duplicatedTrue,
+};
+export const getDuplicatedTrue: GateWayResponse<duplicatedCheck> = {
+  data: duplicatedTrueData,
+  status: 0,
+};
 
 // export const getDuplicatedFalse: GateWayResponse<duplicatedCheck> = {
 //   data: duplicatedfalseData,
-//   status: 0,
-// };
-
-// export const JWTAlgData: Data<JWTAlgResponse> = {
-//   pagination: pagination,
-//   value: JWtAlgMock,
-// };
-
-// export const getJWTAlg: GateWayResponse<JWTAlgResponse> = {
-//   data: JWTAlgData,
 //   status: 0,
 // };
 
@@ -332,3 +311,22 @@ export interface ServiceRegisterRequest {
 //   data: ApiAuthListData,
 //   status: 0,
 // };
+
+export const JWtAlgMock: JWTAlgResponse = {
+  alg: ['ABC111', 'DEF222', 'GHI333'],
+};
+
+export const basicAuthMock: BasicAuthResponse = {
+  id: 'AKSJaiohfasdAS7asD',
+  pw: 'KL8SsS1KKsdJKASH9',
+};
+
+export const JWTAlgData: Data<JWTAlgResponse> = {
+  pagination: pagination,
+  value: JWtAlgMock,
+};
+
+export const getJWTAlg: GateWayResponse<JWTAlgResponse> = {
+  data: JWTAlgData,
+  status: 0,
+};

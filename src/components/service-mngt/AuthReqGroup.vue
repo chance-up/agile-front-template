@@ -4,12 +4,12 @@
     <div class="form-cont">
       <div class="form-group">
         <select class="select-box lg" v-model="auth">
-          <option value="BASIC_AUTH">Basic Auth</option>
-          <option value="JWT">JWT</option>
+          <option value="basic">Basic Auth</option>
+          <option value="jwt">JWT</option>
         </select>
       </div>
 
-      <div v-if="auth == 'BASIC_AUTH'" class="auth-group">
+      <div v-if="auth == 'basic'" class="auth-group">
         <!-- Basic Auth -->
         <ul class="domain-list lg">
           <li>
@@ -32,7 +32,7 @@
       </div>
       <!-- // Basic Auth -->
       <!-- JWT -->
-      <div v-if="auth == 'JWT'" class="auth-group">
+      <div v-if="auth == 'jwt'" class="auth-group">
         <ul class="domain-list lg">
           <li>
             <div class="auth-form">
@@ -205,7 +205,7 @@ export default class AuthReqGroup extends Vue {
     this.$emit('update:pickedAlg', val);
   }
   get auth() {
-    return this.athn;
+    return 'basic';
   }
   set auth(val: string) {
     this.showInput = false;

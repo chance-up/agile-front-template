@@ -64,7 +64,6 @@ export default class DateGroup extends Vue {
   @Watch('start')
   onStartChanged(val: string) {
     if (this.start == null || this.end == null || this.start == '' || this.end == '') {
-      console.log(val);
       this.$emit('update:isvalid', false);
     } else {
       this.$emit('update:isvalid', true);
