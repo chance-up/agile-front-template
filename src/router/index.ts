@@ -63,12 +63,12 @@ const routes: Array<RouteConfig> = [
         component: () => import('@/pages/main/api-mngt/register/ApiRegisterPage.vue'),
       },
       {
-        path: API + '/detail/:id',
+        path: API + '/detail',
         name: 'api-detail',
         component: () => import('@/pages/main/api-mngt/detail/ApiDetailPage.vue'),
       },
       {
-        path: API + '/edit/:id',
+        path: API + '/edit',
         name: 'api-edit',
         component: () => import('@/pages/main/api-mngt/edit/ApiEditPage.vue'),
       },

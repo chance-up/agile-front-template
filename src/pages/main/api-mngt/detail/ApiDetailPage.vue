@@ -32,7 +32,7 @@
             <p class="text">{{ deleteMsg }}를 삭제하시겠습니까?</p>
           </template>
           <template v-slot:modalFooter
-            ><button class="lg-btn purple-btn" @click="deleteApi(deleteMsg)">{{ $t('common.ok') }}</button
+            ><button class="lg-btn purple-btn" @click="deleteApi">{{ $t('common.ok') }}</button
             ><button class="lg-btn purple-btn" @click="showModal = false">{{ $t('common.cancel') }}</button>
           </template>
         </ModalLayout>
@@ -45,7 +45,7 @@
         <button
           :disabled="isButtonDisabled"
           class="lg-btn purple-btn"
-          @click="$router.push({ name: 'api-edit', params: { id: apiDetail.id } })"
+          @click="$router.push({ name: 'api-edit', query: { id: apiDetail.id, sysId: apiDetail.sysId } })"
         >
           {{ $t('api.edit') }}
         </button>
@@ -98,12 +98,14 @@ export default class ApiDetailPage extends Vue {
     return this.systemModule.system;
   }
 
-  created() {
+  mounted() {
     this.isShowProgress = true;
     this.apiModule.apiReset();
     this.systemModule.systemReset();
+    const query = this.$route.query as { id: string; sysId: string };
+    console.log('query', query);
     this.apiModule
-      .getApiDetail(this.$route.params.id)
+      .getApiDetail(query)
       .then(() => {
         console.log();
         this.deleteMsg = this.apiDetail?.id;
@@ -158,11 +160,14 @@ export default class ApiDetailPage extends Vue {
   // modal part
   showModal = false;
   deleteMsg: string | undefined = '';
-  async deleteApi(id: string) {
-    this.showModal = false;
-    this.isButtonDisabled = true;
-    await this.apiModule.deleteApi(id);
-    this.$router.push({ path: '/api' });
+  async deleteApi() {
+    const query = this.$route.query as { id: string; sysId: string };
+    if (this.apiDetail) {
+      this.showModal = false;
+      this.isButtonDisabled = true;
+      await this.apiModule.deleteApi(query);
+      this.$router.push({ path: '/api' });
+    }
   }
   // btn disabled
   isButtonDisabled = false;

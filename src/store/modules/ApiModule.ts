@@ -99,15 +99,16 @@ export default class ApiModule extends GateWayModule {
     this.apiDetail = api;
   }
   @Action
-  async getApiDetail(id: string) {
+  async getApiDetail(query: { id: string; sysId: string }) {
     try {
       // param 체크
       // const dummyDetail = JSON.parse(JSON.stringify(apiMockData));
       // dummyDetail.data.value = apiMockList.data.value.filter((item: ApiDetailResponse) => item.id === id)[0];
       // addMock('/mngt/v1/getApiByIdAndSysId', JSON.stringify(dummyDetail));
+      console.log(query);
       const response = await AxiosClient.getInstance().get<GateWayResponse<ApiDetailResponse>>(
         'http://localhost:8080/mngt/v1/getApiByIdAndSysId',
-        { id, sysId: 'id1' }
+        query
         // 수정 필요 !!!!!!!!!!!
       );
       // 아래 조건문은 meth 속성 타입이 string[]로 변경될 시 삭제해야 함
@@ -143,7 +144,10 @@ export default class ApiModule extends GateWayModule {
   async putApi(api: ApiUpdateRequestBody) {
     try {
       // addMock(`/mngt/v1/api`, JSON.stringify(apiMockData));
-      const response = await AxiosClient.getInstance().put<GateWayResponse<ApiDetailResponse>>('/mngt/v1/api', api);
+      const response = await AxiosClient.getInstance().put<GateWayResponse<ApiDetailResponse>>(
+        'http://localhost:8080/mngt/v1/api',
+        api
+      );
       console.log('putApi response: ', response);
     } catch (error: GateWayError | any) {
       if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
@@ -156,11 +160,12 @@ export default class ApiModule extends GateWayModule {
 
   // Api 삭제
   @Action
-  async deleteApi(id: string) {
+  async deleteApi(query: { id: string; sysId: string }) {
     try {
-      addMock(`/api/deleteApi/${id}`, JSON.stringify(dummyDeleteResData));
-      const response = await AxiosClient.getInstance().get<GateWayResponse<ApiDetailResponse[]>>(
-        `/api/deleteApi/${id}`
+      // addMock(`/api/deleteApi/${id}`, JSON.stringify(dummyDeleteResData));
+      const response = await AxiosClient.getInstance().delete<GateWayResponse<ApiDetailResponse[]>>(
+        'http://localhost:8080/mngt/v1/api',
+        query
       );
       console.log('api delete response: ', response);
     } catch (error: GateWayError | any) {
@@ -181,13 +186,13 @@ export default class ApiModule extends GateWayModule {
 }
 
 // 중복 체크
-export const apiValidationCheck = async (id: string) => {
+export const apiValidationCheck = async (id: string, sysId: string) => {
   try {
-    addMock('/mngt/v1/apiCheckApiByIdAndSysId', JSON.stringify(dummyApiIdValidCheck));
+    // addMock('/mngt/v1/apiCheckApiByIdAndSysId', JSON.stringify(dummyApiIdValidCheck));
 
     const response = await AxiosClient.getInstance().get<GateWayResponse<ResponseApiIdValidCheck>>(
-      '/mngt/v1/apiCheckApiByIdAndSysId',
-      { id }
+      'http://localhost:8080/mngt/v1/apiCheckByIdAndSysId',
+      { id, sysId }
     );
     console.log('apiValidationCheck => ' + response);
     return response.data.value.isPkDuplicated as boolean;
