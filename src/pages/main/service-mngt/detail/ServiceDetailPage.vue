@@ -135,7 +135,7 @@ export default class ServiceDetailPage extends Vue {
         this.$router.back();
         this.modal = false;
       })
-      .catch((error) => {
+      .catch(() => {
         this.isRegisterProgress = false;
         this.$modal.show(`${this.$t('error.server_error')}`);
       });
@@ -149,7 +149,7 @@ export default class ServiceDetailPage extends Vue {
       .then(() => {
         this.isShowProgress = false;
       })
-      .catch((error) => {
+      .catch(() => {
         this.$modal.show(`${this.$t('api.server_error')}`);
         this.isShowProgress = false;
       });

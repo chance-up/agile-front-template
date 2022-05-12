@@ -122,7 +122,6 @@ import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
 import { BasicAuthResponse, JWTAlgResponse, ServiceRegisterRequest } from '@/types/ServiceType';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
-import axios from 'axios';
 
 @Component({
   components: {
@@ -218,7 +217,7 @@ export default class SystemRegisterPage extends Vue {
       .then(() => {
         this.$router.back();
       })
-      .catch((error) => {
+      .catch(() => {
         this.isRegisterProgress = false;
         this.$modal.show(`${this.$t('error.server_error')}`);
       });
@@ -234,7 +233,7 @@ export default class SystemRegisterPage extends Vue {
       .then(() => {
         this.isShowProgress = false;
       })
-      .catch((error) => {
+      .catch(() => {
         this.isShowProgress = false;
         this.$modal.show(`${this.$t('api.server_error')}`);
       });
@@ -289,7 +288,7 @@ export default class SystemRegisterPage extends Vue {
       .then(() => {
         this.isBasicAuthProgress = false;
       })
-      .catch((error) => {
+      .catch(() => {
         this.isBasicAuthProgress = false;
       });
   }
