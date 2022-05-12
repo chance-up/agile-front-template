@@ -63,11 +63,11 @@ export default class TextForm extends Vue {
 
   mounted() {
     if (this.type === 'textarea' && typeof this.value === 'string') {
-      this.text = this.value;
+      this.longText = this.value;
     } else if (typeof this.value === 'number') {
       this.num = this.value;
     } else if (typeof this.value === 'string') {
-      this.longText = this.value;
+      this.text = this.value;
     }
   }
   notiMessage: [boolean | null, string] = [null, ''];
