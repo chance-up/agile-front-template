@@ -102,15 +102,15 @@ export default class SystemRegisterPage extends Vue {
   systemItem: SystemResponse = {
     id: '',
     nm: '',
-    tkcgr_nm: '',
-    tkcgr_pos: '',
-    tkcgr_eml: '',
+    tkcgrNm: '',
+    tkcgrPos: '',
+    tkcgrEml: '',
     edpt: ['http::'],
     desc: '',
-    created_at: '',
-    created_by: '',
-    updated_at: '',
-    updated_by: '',
+    cretDt: '',
+    cretId: '',
+    updDt: '',
+    updId: '',
   };
 
   cancelOnClickEvent() {

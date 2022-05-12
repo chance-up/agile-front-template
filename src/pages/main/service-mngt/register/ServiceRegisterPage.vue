@@ -21,8 +21,8 @@
             :inputNm="$t('service.date')"
             placeholderStart="YYYY-MM-DD"
             placeholderENd="YYYY-MM-DD"
-            :startDt.sync="formData.svc_st_dt"
-            :endDt.sync="formData.svc_end_dt"
+            :startDt.sync="formData.svcStDt"
+            :endDt.sync="formData.svcEndDt"
             :isvalid.sync="dateValid"
           />
           <AuthReqGroup
@@ -32,20 +32,14 @@
             :basicPw="basicAuth.pw"
             :athn.sync="show"
             :alg.sync="JWTAlg.alg"
-            :pickedAlg.sync="formData.athn.JWT.alg"
-            :issuer.sync="formData.athn.JWT.iss"
-            :subject.sync="formData.athn.JWT.aud"
-            :publicKey.sync="formData.athn.JWT.pubKey"
+            :pickedAlg.sync="formData.athn.jwt.alg"
+            :issuer.sync="formData.athn.jwt.iss"
+            :subject.sync="formData.athn.jwt.aud"
+            :publicKey.sync="formData.athn.jwt.pubKey"
             :isvalid.sync="authValid"
             :progress="isBasicAuthProgress"
-          ></AuthReqGroup>
-          <li>
-            <label class="label point">{{ $t('service.api_mngt') }}</label>
-            <div class="form-cont">
-              <button class="sm-btn" @click="showApiMngt()">권한설정</button>
-            </div>
-          </li>
-
+          />
+          <ApiAuthReqGroup inputNm="권한설정" @showApiAuth="showApiAuth" :setCheck="apiAuthValid" />
           <SlaReqGroup
             :inputNm="$t('service.SLA_mngt')"
             :secVal.sync="formData.sla.sec"
@@ -63,14 +57,14 @@
             type="text"
             :inputNm="$t('service.tkcgrNm')"
             :placeholder="$t('service.tkcgrNmEx')"
-            :value.sync="formData.tkcgr_nm"
+            :value.sync="formData.tkcgrNm"
             :isvalid.sync="tkcgrNmValid"
           />
           <InputGroup
             type="text"
             :inputNm="$t('service.tkcgrPos')"
             :placeholder="$t('service.tkcgrPosEx')"
-            :value.sync="formData.tkcgr_pos"
+            :value.sync="formData.tkcgrPos"
             :isvalid.sync="tkcgrPosValid"
           />
           <InputGroup
@@ -78,7 +72,7 @@
             :inputNm="$t('service.tkcgrEml')"
             :placeholder="$t('service.tkcgrEmlEx')"
             inputClass="input-box lg check-ok"
-            :value.sync="formData.tkcgr_eml"
+            :value.sync="formData.tkcgrEml"
             :isvalid.sync="tkcgrEmlValid"
           />
           <SysExGroup :inputNm="$t('service.desc')" v-model="formData.desc" />
@@ -128,7 +122,8 @@
       @checkApi="checkApi"
       @deleteApi="deleteApi"
       @searchApi="searchApi"
-      @hideApiMngt="hideApiMngt"
+      @registerApi="registerApi"
+      @hideApiAuth="hideApiAuth"
     />
   </div>
 </template>
@@ -147,6 +142,7 @@ import TextDebounceForm from '@/components/service-mngt/TextDebounceForm.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { BSpinner } from 'bootstrap-vue';
 import ApiAuthModal from '@/components/service-mngt/ApiAuthModal.vue';
+import ApiAuthReqGroup from '@/components/service-mngt/ApiAuthReqGroup.vue';
 
 @Component({
   components: {
@@ -160,6 +156,7 @@ import ApiAuthModal from '@/components/service-mngt/ApiAuthModal.vue';
     ModalLayout,
     BSpinner,
     ApiAuthModal,
+    ApiAuthReqGroup,
   },
 })
 export default class SystemRegisterPage extends Vue {
@@ -171,6 +168,7 @@ export default class SystemRegisterPage extends Vue {
   tkcgrEmlValid = false;
   dateValid = false;
   authValid = false;
+  apiAuthValid = true;
   slaSec = false;
   slaMin = false;
   slaHr = false;
@@ -186,7 +184,7 @@ export default class SystemRegisterPage extends Vue {
   @Watch('show')
   onShowChange(val: string) {
     if (val == 'BASIC_AUTH') {
-      this.formData.athn.JWT = {
+      this.formData.athn.jwt = {
         alg: null,
         iss: null,
         aud: null,
@@ -202,18 +200,18 @@ export default class SystemRegisterPage extends Vue {
   formData: ServiceRegisterRequest = {
     id: '',
     nm: '',
-    tkcgr_nm: '',
-    tkcgr_pos: '',
-    tkcgr_eml: '',
+    tkcgrNm: '',
+    tkcgrPos: '',
+    tkcgrEml: '',
     sla: { sec: null, min: null, hr: null, day: null, mon: null },
-    svc_st_dt: '',
-    svc_end_dt: '',
+    svcStDt: '',
+    svcEndDt: '',
     athn: {
       basic: {
         id: null,
         pw: null,
       },
-      JWT: {
+      jwt: {
         alg: null,
         iss: null,
         aud: null,
@@ -221,7 +219,7 @@ export default class SystemRegisterPage extends Vue {
       },
     },
     athnType: '',
-    apiAut: this.checkedApiList,
+    apiAut: [],
     desc: '',
   };
 
@@ -247,7 +245,8 @@ export default class SystemRegisterPage extends Vue {
         (this.slaMin == true && this.formData.sla.min == 0) ||
         (this.slaHr == true && this.formData.sla.hr == 0) ||
         (this.slaDay == true && this.formData.sla.day == 0) ||
-        (this.slaMon == true && this.formData.sla.mon == 0)
+        (this.slaMon == true && this.formData.sla.mon == 0) ||
+        this.formData.apiAut == []
       ) {
         this.$modal.show(`${this.$t('service.empty_check_message')}`);
       } else {
@@ -268,7 +267,7 @@ export default class SystemRegisterPage extends Vue {
       .then(() => {
         this.$router.push({ path: '/service' });
       })
-      .catch((error) => {
+      .catch(() => {
         this.isRegisterProgress = false;
         this.$modal.show(`${this.$t('error.server_error')}`);
       });
@@ -296,7 +295,7 @@ export default class SystemRegisterPage extends Vue {
       .then(() => {
         this.isBasicAuthProgress = false;
       })
-      .catch((error) => {
+      .catch(() => {
         this.isBasicAuthProgress = false;
       });
   }
@@ -322,7 +321,7 @@ export default class SystemRegisterPage extends Vue {
     return this.serviceModule.apiAuthList;
   }
 
-  showApiMngt() {
+  showApiAuth() {
     this.showApiAuthModal = true;
     this.isApiAuthProgress = true;
     this.serviceModule
@@ -332,14 +331,22 @@ export default class SystemRegisterPage extends Vue {
         this.apiList = this.apiAuthList.map((item) => {
           return { ...item };
         });
+        this.checkedApiList = this.formData.apiAut.map((item) => {
+          return { ...item };
+        });
       })
-      .catch((error) => {
+      .catch(() => {
         this.isApiAuthProgress = false;
       });
   }
 
-  hideApiMngt() {
+  hideApiAuth() {
     this.showApiAuthModal = false;
+    if (this.checkedApiList.length == 0) {
+      this.apiAuthValid = false;
+    } else {
+      this.apiAuthValid = true;
+    }
   }
 
   checkApi(sys: string, api: string) {
@@ -397,6 +404,19 @@ export default class SystemRegisterPage extends Vue {
     }
   }
 
+  registerApi(api: ApiAuthResponse[]) {
+    this.formData.apiAut = api;
+    this.showApiAuthModal = false;
+    if (api.length == 0) {
+      console.log('test');
+      this.apiAuthValid = false;
+    } else {
+      console.log(api);
+      console.log('test22');
+      this.apiAuthValid = true;
+    }
+  }
+
   created() {
     this.isShowProgress = true;
     this.serviceModule
@@ -404,7 +424,7 @@ export default class SystemRegisterPage extends Vue {
       .then(() => {
         this.isShowProgress = false;
       })
-      .catch((error) => {
+      .catch(() => {
         this.isShowProgress = false;
         this.$modal.show(`${this.$t('api.server_error')}`);
       });

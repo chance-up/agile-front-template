@@ -5,6 +5,7 @@ import { AxiosClient } from '@/axios/AxiosClient';
 import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
 import GateWayModule from '../GateWayModule';
+import { GateWayResponse } from '@/types/GateWayResponse';
 
 function handleCommonError(error: GateWayError | any) {
   try {
@@ -23,14 +24,17 @@ export default class HandlerModule extends GateWayModule {
   public reqHandlerGroupList: HandlerGroupDetail[] = [];
   @Mutation
   setReqHandlerGroupList(list: HandlerGroupDetail[]): void {
+    console.log('hjand', list);
     this.reqHandlerGroupList = list;
   }
   @Action
   async getReqHandlerGroupList() {
     try {
-      addMock('/api/getRequestHandlerGroupList', JSON.stringify(dummyReqHandlerGroupList));
-      const response = await AxiosClient.getInstance().get<HandlerGroupDetail[]>('/api/getRequestHandlerGroupList');
-      this.context.commit('setReqHandlerGroupList', response);
+      // addMock('/api/getRequestHandlerGroupList', JSON.stringify(dummyReqHandlerGroupList));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<HandlerGroupDetail[]>>(
+        'http://localhost:8080/mngt/v1/getRequestHandlerGroupList'
+      );
+      this.context.commit('setReqHandlerGroupList', response.data.value);
     } catch (error: GateWayError | any) {
       handleCommonError(error);
     }
@@ -45,9 +49,11 @@ export default class HandlerModule extends GateWayModule {
   @Action
   async getResHandlerGroupList() {
     try {
-      addMock('/api/getResponseHandlerGroupList', JSON.stringify(dummyResHandlerGroupList));
-      const response = await AxiosClient.getInstance().get<HandlerGroupDetail[]>('/api/getResponseHandlerGroupList');
-      this.context.commit('setResHandlerGroupList', response);
+      // addMock('/api/getResponseHandlerGroupList', JSON.stringify(dummyResHandlerGroupList));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<HandlerGroupDetail[]>>(
+        'http://localhost:8080/mngt/v1/getResponseHandlerGroupList'
+      );
+      this.context.commit('setResHandlerGroupList', response.data.value);
     } catch (error: GateWayError | any) {
       handleCommonError(error);
     }

@@ -164,10 +164,15 @@ export default class ApiPage extends Vue {
 
   searchDataLabel = '';
   searchDataValue = '';
-  created() {
+  mounted() {
     this.fetchApiList();
   }
-
+  // created() {
+  //   this.fetchApiList();
+  // }
+  // updated() {
+  //   this.fetchApiList();
+  // }
   destroyed() {
     this.apiModule.release();
   }

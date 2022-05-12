@@ -35,3 +35,13 @@ export const stringToEdpt = (str: string) => {
     port: afterStr[2],
   };
 };
+
+export const convertDate = (str: string) => {
+  const date = new Date(str);
+  return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+};
+
+export const convertTime = (str: string) => {
+  const date = new Date(str);
+  return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+};

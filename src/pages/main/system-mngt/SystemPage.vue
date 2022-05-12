@@ -60,14 +60,14 @@
                 <tr v-for="(list, index) in listOption" :key="index">
                   <td @click="getRoutePage('system-detail', list.id)">{{ index + 1 }}</td>
                   <td @click="getRoutePage('system-detail', list.id)">{{ list.id }}</td>
-                  <td @click="getRoutePage('system-detail', list.id)">{{ list.tkcgr_nm }}</td>
+                  <td @click="getRoutePage('system-detail', list.id)">{{ list.tkcgrNm }}</td>
                   <td @click="getRoutePage('system-detail', list.id)">
                     <p class="date-txt">
                       <span>
-                        {{ list.updated_at === '' ? getDate(list.created_at) : getDate(list.updated_at) }}
+                        {{ list.updDt === '' ? getDate(list.cretDt) : getDate(list.updDt) }}
                       </span>
                       <span>
-                        {{ list.updated_at === '' ? getHours(list.created_at) : getHours(list.updated_at) }}
+                        {{ list.updDt === '' ? getHours(list.cretDt) : getHours(list.updDt) }}
                       </span>
                     </p>
                   </td>
@@ -124,6 +124,8 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import { SearchCondition } from '@/types/SearchType';
 import { SystemResponse } from '@/types/SystemType';
 import { Pagination } from '@/types/GateWayResponse';
+
+import { convertDate, convertTime } from '@/utils/converter';
 
 @Component({
   components: {
@@ -183,6 +185,8 @@ export default class SystemPage extends Vue {
       this.systemModule
         .getSystemList()
         .then(() => {
+          console.log('!!!!!!!!');
+          console.log(this.systemModule.systemList);
           this.isShowProgress = false;
         })
         .catch(() => {
@@ -255,11 +259,11 @@ export default class SystemPage extends Vue {
   }
 
   getDate(date: string) {
-    return date.split(' ')[0];
+    return convertDate(date);
   }
 
   getHours(date: string) {
-    return date.split(' ')[1];
+    return convertTime(date);
   }
 
   showModal(id: string) {

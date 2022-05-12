@@ -69,7 +69,7 @@ export default class EdptForm extends Vue {
   notiMessagePort: [boolean | null, string][] = [];
   isDomainEmpty = true;
   created() {
-    this.strArr.forEach((str, idx) => {
+    this.strArr.forEach((str) => {
       this.edpts.push(stringToEdpt(str));
       this.notiMessageDomain.push([null, '']);
       this.notiMessagePort.push([null, '']);

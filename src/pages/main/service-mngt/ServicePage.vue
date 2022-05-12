@@ -33,17 +33,6 @@
           <i><img src="@/assets/search_ico.svg" :alt="$t('common.search')" /></i>{{ $t('common.search') }}
         </button>
       </div>
-
-      <!-- Select Box 옵션 -->
-      <!-- <div class="search-cont">
-          <SelectBox
-            v-model="searchData[target]"
-            label="기본정보"
-            placeholder="입력해주세요."
-            :selectOptions="selectOptions"
-            v-bind:value.sync="target"
-          />
-        </div> -->
     </template>
     <template slot="list-form">
       <ListForm :title="$t('service.list_title')" :isShowProgress="isShowProgress">
@@ -61,17 +50,15 @@
             <table class="list-tb" v-if="!isShowProgress">
               <colgroup>
                 <col width="7%" />
-                <col width="18%" />
-                <col width="15%" />
-                <col width="12%" />
+                <col width="20%" />
+                <col width="13%" />
                 <col width="*" />
-                <col width="18%" />
+                <col width="17%" />
                 <col width="10%" />
               </colgroup>
               <thead>
                 <tr>
                   <th>{{ $t('service.no') }}</th>
-                  <th>{{ $t('service.name') }}</th>
                   <th>{{ $t('service.id') }}</th>
                   <th>{{ $t('service.authentication_method') }}</th>
                   <th>{{ $t('service.validity') }}</th>
@@ -90,20 +77,16 @@
                 <tr v-for="(list, index) in listOption" :key="index">
                   <td>{{ index + 1 }}</td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                    <span class="bold">{{ list.nm }}</span>
-                  </td>
-                  <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                     {{ list.id }}
                   </td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                    {{ list.athn.basic.id == '' ? 'JWT' : 'Basic Auth' }}
+                    {{ list.athnType }}
                   </td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                    <span>{{ list.svc_st_dt.slice(0, 10) }}</span> ~ <span>{{ list.svc_end_dt.slice(0, 10) }}</span>
+                    <span>10</span> ~ <span>10</span>
                   </td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                    <span>{{ list.upd_dt.slice(0, 10) }}</span
-                    ><span>{{ list.upd_dt.slice(11, 19) }}</span>
+                    <span>10</span><span>10</span>
                   </td>
                   <td>
                     <button class="mod-btn" @click="$router.push({ name: 'service-edit', params: { id: list.id } })">
@@ -142,7 +125,7 @@
   </ListLayout>
 </template>
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 import ListLayout from '@/components/layout/ListLayout.vue';
 import InputBox from '@/components/commons/search-option/InputBox.vue';
@@ -184,7 +167,7 @@ export default class ServiceManagementPage extends Vue {
         this._getServiceList();
         this.modal = false;
       })
-      .catch((error) => {
+      .catch(() => {
         this.isRegisterProgress = false;
         this.$modal.show(`${this.$t('error.server_error')}`);
       });
@@ -211,12 +194,6 @@ export default class ServiceManagementPage extends Vue {
       if (Object.keys(this.$route.query).includes('athnType'))
         this.searchData.athnType = this.$route.query.athnType as string;
       if (Object.keys(this.$route.query).includes('page')) this.pagingData.page = this.$route.query.page as string;
-      // if (Object.keys(this.$route.query).includes('size')) this.searchData.size = Number(this.$route.query.size);
-      // if (Object.keys(this.$route.query).includes('sort_by'))
-      //   this.searchData.sort_by = this.$route.query.sort_by as string;
-      // if (Object.keys(this.$route.query).includes('ordeer_by'))
-      //   this.searchData.order_by = this.$route.query.order_by as string;
-
       const param = { ...this.searchData, ...this.pagingData };
 
       this.serviceModule

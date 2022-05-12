@@ -53,13 +53,15 @@ export default class SystemModule extends GateWayModule {
   @Action({ rawError: true })
   async getSystemList(searchOption?: object) {
     let url = '';
-    if (searchOption == undefined) {
-      addMock('/system/list', JSON.stringify(dummyListData));
-      url = '/system/list';
-    } else {
-      addMock('/system/getSystemSearch', JSON.stringify(dummySearchData));
-      url = '/system/getSystemSearch';
-    }
+    // if (searchOption == undefined) {
+    //   addMock('/system/list', JSON.stringify(dummyListData));
+    //   url = '/system/list';
+    // } else {
+    //   addMock('/system/getSystemSearch', JSON.stringify(dummySearchData));
+    //   url = '/system/getSystemSearch';
+    // }
+
+    url = '/getSystemList';
 
     try {
       const response = await AxiosClient.getInstance().get<GateWayResponse<SystemResponse[]>>(url, {
@@ -152,8 +154,10 @@ export default class SystemModule extends GateWayModule {
   @Action({ rawError: true })
   async getSystemIdEdptList() {
     try {
-      addMock('/mngt/v1/getSystemIdList', JSON.stringify(dummySystemIdEdptList));
-      const response = await AxiosClient.getInstance().get<GateWayResponse<SystemIdEdpt[]>>('/mngt/v1/getSystemIdList');
+      // addMock('/mngt/v1/getSystemIdList', JSON.stringify(dummySystemIdEdptList));
+      const response = await AxiosClient.getInstance().get<GateWayResponse<SystemIdEdpt[]>>(
+        'http://localhost:8080/mngt/v1/getSystemIdList'
+      );
       this.context.commit('setSystemIdEdptList', response.data.value);
     } catch (error: GateWayError | any) {
       return Promise.reject(error);
