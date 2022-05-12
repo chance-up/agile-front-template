@@ -15,19 +15,10 @@
               <li class="inside-click" v-for="(handlerGroup, index) in reqHandlerGroupList" :key="index">
                 <span
                   class="inside-click"
-                  @click="
-                    [
-                      handleSelectReqHandlerGroup(handlerGroup.apiGroupId),
-                      (chooseReqHandlerGroup = handlerGroup.apiGroupId),
-                    ]
-                  "
-                  >{{ handlerGroup.apiGroupNm }}</span
+                  @click="[handleSelectReqHandlerGroup(handlerGroup.id), (chooseReqHandlerGroup = handlerGroup.id)]"
+                  >{{ handlerGroup.id }}</span
                 >
-                <p
-                  ref="multiBtn"
-                  class="multi-btn inside-click"
-                  @click="showReqModalMethod(handlerGroup.apiGroupId)"
-                ></p>
+                <p ref="multiBtn" class="multi-btn inside-click" @click="showReqModalMethod(handlerGroup.id)"></p>
               </li>
               <HandlerModal
                 :handlerGroup="sendHandlerGroup"
@@ -56,19 +47,10 @@
               <li class="inside-click" v-for="(handlerGroup, index) in resHandlerGroupList" :key="index">
                 <span
                   class="inside-click"
-                  @click="
-                    [
-                      handleSelectResHandlerGroup(handlerGroup.apiGroupId),
-                      (chooseResHandlerGroup = handlerGroup.apiGroupId),
-                    ]
-                  "
-                  >{{ handlerGroup.apiGroupNm }}</span
+                  @click="[handleSelectResHandlerGroup(handlerGroup.id), (chooseResHandlerGroup = handlerGroup.id)]"
+                  >{{ handlerGroup.id }}</span
                 >
-                <p
-                  ref="multiBtn"
-                  class="multi-btn inside-click"
-                  @click="showResModalMethod(handlerGroup.apiGroupId)"
-                ></p>
+                <p ref="multiBtn" class="multi-btn inside-click" @click="showResModalMethod(handlerGroup.id)"></p>
               </li>
               <HandlerModal
                 :handlerGroup="sendHandlerGroup"
@@ -131,37 +113,20 @@ export default class HandlerGroupForm extends Vue {
   showReqModal = false;
   showResModal = false;
   sendHandlerGroup: HandlerGroupDetail = {
-    apiGroupId: '',
+    id: '',
     // apiGroupNm: 'API & Login Authentication Group Name',
-    apiGroupNm: '',
-    apiGroupDesc: '',
-    apiIdList: [
-      {
-        apiId: '',
-        apiNm: '',
-        apiDesc: '',
-      },
-      {
-        apiId: '',
-        apiNm: '',
-        apiDesc: '',
-      },
-      {
-        apiId: '',
-        apiNm: '',
-        apiDesc: '',
-      },
-      {
-        apiId: '',
-        apiNm: '',
-        apiDesc: '',
-      },
-    ],
+    trtSect: '',
+    hndlrId: [],
+    desc: '',
+    cretDt: '',
+    cretId: '',
+    updDt: '',
+    updId: '',
   };
   showReqModalMethod(apiGroupId: string | number) {
     for (let index = 0; index < this.reqHandlerGroupList.length; index++) {
       const handlerGroup = this.reqHandlerGroupList[index];
-      if (handlerGroup.apiGroupId == apiGroupId) {
+      if (handlerGroup.id == apiGroupId) {
         this.sendHandlerGroup = handlerGroup;
         break;
       }
@@ -171,7 +136,7 @@ export default class HandlerGroupForm extends Vue {
   showResModalMethod(apiGroupId: string | number) {
     for (let index = 0; index < this.resHandlerGroupList.length; index++) {
       const handlerGroup = this.resHandlerGroupList[index];
-      if (handlerGroup.apiGroupId == apiGroupId) {
+      if (handlerGroup.id == apiGroupId) {
         this.sendHandlerGroup = handlerGroup;
         break;
       }

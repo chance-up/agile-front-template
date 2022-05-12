@@ -30,10 +30,18 @@ export interface AuthDtl {
   action?: AuthAction; // CRUD 접근 권한 정보
 }
 
+// 사용자 접근 권한
 export interface AuthAction {
   isView?: boolean; //조회 권한 여부
   isEdit?: boolean; //수정 권한 여부
   isDelete?: boolean; //삭제 권한 여부
+}
+
+// 로그인 성공 시 사용자 정보
+export interface LoginUserResponse {
+  userInfo: UserResponse; // 사용자 정보
+  sesstion: string; // 세션
+  autDtl: UserAuth; // 사용자 권한
 }
 
 // mock data
@@ -44,6 +52,26 @@ export const userLogin = {
   },
   data: {
     value: {
+      userInfo: {
+        id: 'hyerim488',
+        pwd: 'asdf1234!H',
+        pwdConfirm: 'asdf1234!H',
+        nm: '정혜림',
+        pos: 'Agile Core팀',
+        eml: 'ktds.admin22@kt.com',
+        tel: '01098765432',
+        sttus: 'NRML',
+        autId: 'AUth_OP',
+        stpltId: '',
+        stpltAgreeDt: '2022-05-11 14:46:44',
+        lastLoginDt: '2022-05-11 14:46:44',
+        lastLoginFailDt: '2022-04-13 09:01:25',
+        loginFailCnt: 0,
+        cretDt: '2022-05-11 14:50:44',
+        updDt: '2022-05-11 14:50:44',
+        cretId: 'hyerim488',
+        updId: 'hyerim488',
+      },
       session: 'SESSION_TOKEN',
       autDtl: {
         sysMngt: {

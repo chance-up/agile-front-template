@@ -1,4 +1,4 @@
-import { HandlerGroupDetail, dummyReqHandlerGroupList, dummyResHandlerGroupList } from '@/types/HandlerType';
+import { HandlerGroupDetail } from '@/types/HandlerType';
 import { addMock } from '@/axios/AxiosIntercept';
 import { Module, Mutation, Action } from 'vuex-module-decorators';
 import { AxiosClient } from '@/axios/AxiosClient';

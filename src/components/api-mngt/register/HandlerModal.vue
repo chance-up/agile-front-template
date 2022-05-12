@@ -3,20 +3,20 @@
     <!------- handler pop -------->
     <div :class="{ large: l, medium: m, small: s, 'pop-wrap': true }" class="inside-click">
       <div class="pop-header inside-click">
-        <h1 class="h1-tit inside-click">{{ handlerGroup.apiGroupNm }}</h1>
+        <h1 class="h1-tit inside-click">{{ handlerGroup.id }}</h1>
         <button class="inside-click" @click="$emit('close')">
           <i class="inside-click"><img class="inside-click" src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
         </button>
       </div>
       <div class="pop-container inside-click">
-        <p class="text inside-click">{{ handlerGroup.apiGroupDesc }}</p>
+        <p class="text inside-click">{{ handlerGroup.desc }}</p>
 
         <ul class="handler-list inside-click">
-          <li class="inside-click" v-for="(eachApi, index) in handlerGroup.apiIdList" :key="index">
-            <span class="inside-click">{{ eachApi.apiNm }}</span>
+          <li class="inside-click" v-for="(eachApi, index) in handlerGroup.hndlrId" :key="index">
+            <span class="inside-click">{{ eachApi }}</span>
             <p
               v-on:mouseout="handleMouseOut"
-              v-on:mouseover="[changeApiDesc(eachApi.apiDesc)]"
+              v-on:mouseover="[changeApiDesc(eachApi)]"
               href=""
               class="tip-btn inside-click"
             >
@@ -75,6 +75,7 @@ export default class HandlerModal extends Vue {
     }
   }
   handleMouseOut() {
+    // this.handlerGroup.hndlrId
     if (this.showHoverModal) {
       this.showHoverModal = false;
     }
@@ -87,7 +88,7 @@ export default class HandlerModal extends Vue {
   }
   changeApiDesc(apiDesc: string) {
     if (!this.showHoverModal) {
-      this.sendApiDesc = apiDesc;
+      this.sendApiDesc = apiDesc + '의 설명입니다.';
       console.log(apiDesc);
       this.showHoverModal = true;
     }

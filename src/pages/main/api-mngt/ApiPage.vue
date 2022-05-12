@@ -152,7 +152,7 @@ export default class ApiPage extends Vue {
     selectOptions: [
       { label: 'id', value: `${this.$t('api.apiId')}` },
       { label: 'sysId', value: `${this.$t('api.sysId')}` },
-      { label: 'uri', value: `${this.$t('api.uri')}` },
+      { label: 'uriIn', value: `${this.$t('api.uri')}` },
     ],
   };
   apiModule = getModule(ApiModule, this.$store);
@@ -185,7 +185,7 @@ export default class ApiPage extends Vue {
     if (Object.keys(query).length > 0) {
       console.log('query 추가', query);
       this.searchData.label = Object.keys(query)[0];
-      this.searchData.value = query[Object.keys(query)[0]] as string;
+      this.searchData.value = query[this.searchData.label] as string;
       console.log(this.searchData);
       // made in jp
       // this.searchDataLabel = Object.keys(query)[0];
