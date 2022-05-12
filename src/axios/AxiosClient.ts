@@ -89,7 +89,7 @@ export class AxiosClient {
     this.source = cancelToken.source();
 
     try {
-      const response: AxiosResponse = await axios.get<T>(url, {
+      const response: AxiosResponse = await axios.delete<T>(url, {
         params: query,
         cancelToken: this.source.token,
       });
