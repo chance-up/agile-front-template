@@ -71,8 +71,8 @@ export default class ApiModule extends GateWayModule {
         }
       });
       // ============================
-      (mockList.data.pagination as Pagination).total_elements = mockList.data.value.length;
-      (mockList.data.pagination as Pagination).total_pages = parseInt(mockList.data.value.length / 10 + 1 + '');
+      (mockList.data.pagination as Pagination).totalElements = mockList.data.value.length;
+      (mockList.data.pagination as Pagination).totalPages = parseInt(mockList.data.value.length / 10 + 1 + '');
       addMock('/api/list', JSON.stringify(mockList));
       const response = await AxiosClient.getInstance().get<GateWayResponse<ApiDetailResponse[]>>(
         '/api/list',
