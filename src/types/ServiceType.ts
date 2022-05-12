@@ -63,12 +63,12 @@ export const basicAuthMock: BasicAuthResponse = {
 export interface ServiceRegisterRequest {
   id: string;
   nm: string;
-  tkcgr_nm: string;
-  tkcgr_pos: string;
-  tkcgr_eml: string;
+  tkcgrNm: string;
+  tkcgrPos: string;
+  tkcgrEml: string;
   sla: { sec: number | null; min: number | null; hr: number | null; day: number | null; mon: number | null };
-  svc_st_dt: string;
-  svc_end_dt: string;
+  svcStDt: string;
+  svcEndDt: string;
   athn: AuthResponse;
   athnType: string;
   apiAut: ApiAuthResponse[];
