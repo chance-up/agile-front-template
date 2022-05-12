@@ -19,6 +19,66 @@ export interface UserResponse {
   updId: string; // 갱신 id
 }
 
+// 사용자 권한
+export interface UserAuth {
+  [menu: string]: AuthDtl;
+}
+
+// 사용자 권한 상세
+export interface AuthDtl {
+  isShow: boolean; // 노출 여부
+  action?: AuthAction; // CRUD 접근 권한 정보
+}
+
+export interface AuthAction {
+  isView?: boolean; //조회 권한 여부
+  isEdit?: boolean; //수정 권한 여부
+  isDelete?: boolean; //삭제 권한 여부
+}
+
+// mock data
+export const userLogin = {
+  common: {
+    code: '200',
+    message: 'Success',
+  },
+  data: {
+    value: {
+      session: 'SESSION_TOKEN',
+      autDtl: {
+        sysMngt: {
+          isShow: false,
+        },
+        apiMngt: {
+          isShow: true,
+          action: {
+            isView: true,
+            isEdit: false,
+          },
+        },
+        serviveMngt: {
+          isShow: true,
+          action: {
+            isView: true,
+            isEdit: true,
+            isDelete: true,
+          },
+        },
+      },
+    },
+  },
+  pagination: null,
+};
+
+export const userLogout = {
+  common: {
+    code: '200',
+    message: 'Success',
+  },
+  data: null,
+  pagination: null,
+};
+
 export const userDetailInfo = {
   common: {
     code: '200',
