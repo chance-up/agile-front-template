@@ -27,8 +27,8 @@
           v-model="requestBody.ifNo"
         />
 
-        <MethodForm groupNm="Method" v-model="requestBody.meth" />
-        <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" />
+        <MethodForm groupNm="Method" v-model="requestBody.meth" :isvalid.sync="methodValid" />
+        <UriForm groupNm="URI" :uriIn="requestBody.uriIn" v-model="requestBody.uriOut" :isvalid.sync="uriValid" />
         <EndPointGroup groupNm="End-point" :edptList="edptList" />
 
         <HandlerGroupForm
@@ -48,7 +48,13 @@
             }
           "
         />
-        <TextForm :groupNm="$t('api.timeOutMS')" type="number" :required="true" v-model="requestBody.timeOut" />
+        <TextForm
+          :groupNm="$t('api.timeOutMS')"
+          type="number"
+          :required="true"
+          v-model="requestBody.timeOut"
+          :isvalid.sync="timeoutValid"
+        />
         <TextForm :groupNm="$t('api.apiDescription')" type="textarea" v-model="requestBody.desc" />
         <ModalLayout size="m" v-if="showModal">
           <template v-slot:modalHeader><h1 class="h1-tit">API 수정</h1> </template>
@@ -68,7 +74,7 @@
       <div class="btn-wrap">
         <button class="lg-btn purple-btn" @click="handleClickTestSubmitButton">수정테스트</button>
         <!-- <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">{{ $t('api.edit') }}</button> -->
-        <button :disabled="isButtonDisabled" class="lg-btn purple-btn" @click="showModal = true">
+        <button :disabled="isButtonDisabled" class="lg-btn purple-btn" @click="onClickSubmitButton">
           {{ $t('api.edit') }}
           <b-spinner variant="light" label="Spinning" v-if="isButtonDisabled" small></b-spinner>
         </button>
