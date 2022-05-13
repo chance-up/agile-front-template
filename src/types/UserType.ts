@@ -40,7 +40,7 @@ export interface AuthAction {
 // 로그인 성공 시 사용자 정보
 export interface LoginUserResponse {
   userInfo: UserResponse; // 사용자 정보
-  sesstion: string; // 세션
+  session: string; // 세션
   autDtl: UserAuth; // 사용자 권한
 }
 

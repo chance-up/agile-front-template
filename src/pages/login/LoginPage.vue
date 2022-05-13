@@ -30,7 +30,7 @@
           <button class="lg-btn purple-btn btn-left" @click="onClickLogin">
             {{ $t('login.login') }}
           </button>
-          <button class="lg-btn white-btn btn-right">{{ $t('login.join') }}</button>
+          <button class="lg-btn white-btn btn-right" @click="goToSignUpPage">{{ $t('login.join') }}</button>
         </div>
       </div>
     </div>
@@ -65,8 +65,12 @@ export default class LoginPage extends Vue {
       // this.$modal.show(`${this.$t('login.invalid_login')}`);
     } else {
       this.userModule.login(this.loginForm.id, this.loginForm.pwd);
-      this.$router.push({ name: 'home' });
+      // this.$router.push({ name: 'home' });
     }
+  }
+
+  goToSignUpPage() {
+    this.$router.push({ name: 'signUp' });
   }
 }
 </script>

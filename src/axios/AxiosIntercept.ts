@@ -23,8 +23,8 @@ class ErrorIntercept extends Error {
 }
 
 const axios = Axios.create({
-  //baseURL: 'https://reqres.in/api',
-  baseURL: 'http://localhost:8080/mngt/v1/',
+  baseURL: 'https://reqres.in/api',
+  // baseURL: 'http://localhost:8080/mngt/v1/',
   headers: {
     Accept: 'application/json',
     Authorization: 'Basic QU5EOnNhZmUyZ29fYW5k',
@@ -63,7 +63,18 @@ axios.interceptors.response.use(
 axios.interceptors.request.use(
   async (config) => {
     await sleep(1000);
-    console.log('http request api => ', config.url);
+    console.log('http request => ', config);
+    if (config.headers === undefined) {
+      config.headers = {
+        Accept: 'application/json',
+        Authorization: 'Basic QU5EOnNhZmUyZ29fYW5k',
+        Session:
+          sessionStorage.getItem('session_token') != undefined ? String(sessionStorage.getItem('session_token')) : '',
+      };
+    } else {
+      config.headers.Session =
+        sessionStorage.getItem('session_token') != undefined ? String(sessionStorage.getItem('session_token')) : '';
+    }
     if (isMockData(config.url ? config.url : '')) {
       return getMockError(config);
     }
