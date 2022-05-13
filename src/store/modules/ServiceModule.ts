@@ -25,9 +25,9 @@ export default class ServiceModule extends GateWayModule {
 
   public service: ServiceResponse = {
     id: '',
-    tkcgrNm: '',
-    tkcgrPos: '',
-    tkcgrEml: '',
+    tkcgrNm: null,
+    tkcgrPos: null,
+    tkcgrEml: null,
     sla: { sec: null, min: null, hr: null, day: null, mon: null },
     svcStDt: '',
     svcEndDt: '',
@@ -54,9 +54,9 @@ export default class ServiceModule extends GateWayModule {
 
   public requestService: ServiceRegisterRequest = {
     id: '',
-    tkcgrNm: '',
-    tkcgrPos: '',
-    tkcgrEml: '',
+    tkcgrNm: null,
+    tkcgrPos: null,
+    tkcgrEml: null,
     sla: { sec: null, min: null, hr: null, day: null, mon: null },
     svcStDt: '',
     svcEndDt: '',
