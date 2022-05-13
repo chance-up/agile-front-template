@@ -6,7 +6,8 @@
           <h2 class="h2-tit">{{ $t('common.search') }}</h2>
           <div class="search-cont">
             <SelectBox
-              v-model="searchData"
+              :searchTarget.sync="searchTarget"
+              :searchValue.sync="searchValue"
               :label="searchOption.label"
               :selectOptions="searchOption.selectOptions"
               @submit="searchOnClieckEvent"
@@ -156,14 +157,11 @@ export default class ApiPage extends Vue {
     ],
   };
   apiModule = getModule(ApiModule, this.$store);
-  searchData: SelectOptionType = {
-    label: '',
-    value: '',
-  };
+  searchTarget = '';
+  searchValue = '';
+
   pagingData: SearchCondition = {};
 
-  searchDataLabel = '';
-  searchDataValue = '';
   mounted() {
     this.fetchApiList();
   }
@@ -184,13 +182,9 @@ export default class ApiPage extends Vue {
     console.log('query : ', query);
     if (Object.keys(query).length > 0) {
       console.log('query 추가', query);
-      this.searchData.label = Object.keys(query)[0];
-      this.searchData.value = query[this.searchData.label] as string;
-      console.log(this.searchData);
-      // made in jp
-      // this.searchDataLabel = Object.keys(query)[0];
-      // this.searchDataValue = query[Object.keys(query)[0]] as string;
-      // made in jp
+      this.searchTarget = Object.keys(query)[0];
+      this.searchValue = query[this.searchTarget] as string;
+      console.log(this.searchTarget, this.searchValue);
     }
     this.apiModule
       .getApiList(query)
@@ -220,10 +214,10 @@ export default class ApiPage extends Vue {
 
   // for searching
   searchOnClieckEvent() {
-    console.log('searchData : ', this.searchData);
+    console.log(this.searchTarget, this.searchValue);
     const query: { [key: string]: string } = {};
-    query[this.searchData.label] = this.searchData.value;
-    if (this.searchData.value === '') {
+    query[this.searchTarget] = this.searchValue;
+    if (this.searchValue === '') {
       this.$modal.show(`${this.$t('api.enter_search_data')}`);
     } else if (JSON.stringify(query) === JSON.stringify(this.$route.query)) {
       this.fetchApiList();
@@ -240,7 +234,7 @@ export default class ApiPage extends Vue {
 
   getList() {
     const query = {} as { [key: string]: string };
-    if (Object.keys(this.searchData).includes('label')) query[this.searchData.label] = this.searchData.value as string;
+    if (this.searchTarget) query[this.searchTarget] = this.searchValue;
     if (Object.keys(this.pagingData).includes('page')) query.page = this.pagingData.page as string;
     if (Object.keys(this.pagingData).includes('size')) query.size = this.pagingData.size as string;
     if (Object.keys(this.pagingData).includes('sort_by')) query.sort_by = this.pagingData.sort_by as string;
