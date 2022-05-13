@@ -10,8 +10,8 @@
           </button>
         </div>
         <div class="pop-container" v-if="isApiAuthProgress">
-          <div class="api-wrap">
-            <b-spinner large></b-spinner>
+          <div class="api-wrap" style="height: 100%; display: flex; align-items: center">
+            <b-spinner large style="margin: 0 auto; vertical-align: middle"></b-spinner>
           </div>
         </div>
         <div class="pop-container" v-if="!isApiAuthProgress">
