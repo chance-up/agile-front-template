@@ -82,14 +82,14 @@ export default class DateGroup extends Vue {
     return this.startDt;
   }
   set start(val: string) {
-    this.$emit('update:startDt', val);
+    this.$emit('update:startDt', val + ' 00:00:00');
   }
 
   get end() {
     return this.endDt;
   }
   set end(val: string) {
-    this.$emit('update:endDt', val);
+    this.$emit('update:endDt', val + ' 23:59:59');
   }
   showStart = false;
   showEnd = false;

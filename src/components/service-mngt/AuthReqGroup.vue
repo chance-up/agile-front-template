@@ -105,11 +105,6 @@ export default class AuthReqGroup extends Vue {
   @Prop({ default: false }) isvalid!: boolean | null;
   @Prop({ default: false }) progress!: boolean;
 
-  @Watch('auth')
-  onAuthChanged() {
-    this.$emit('update:isvalid', false);
-  }
-
   @Watch('basicId')
   onBasicIdChanged(val: string) {
     if (this.auth == 'basic') {
@@ -203,7 +198,6 @@ export default class AuthReqGroup extends Vue {
   }
   set algPick(val: string) {
     this.$emit('update:pickedAlg', val);
-    console.log(this.pickedAlg);
   }
   get auth() {
     return this.athn;
@@ -211,6 +205,7 @@ export default class AuthReqGroup extends Vue {
   set auth(val: string) {
     this.showInput = false;
     this.$emit('update:athn', val);
+    this.$emit('update:isvalid', false);
   }
   get JWTalg() {
     return this.alg;

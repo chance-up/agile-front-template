@@ -1,7 +1,7 @@
 <template lang="">
   <div>
     <li>
-      <label class="label point">{{ groupNm }}</label>
+      <label class="label point">{{ $t('api.reqHndlrGrp') }}</label>
       <div class="form-cont">
         <!--  multi select -->
         <div class="multi-wrap">
@@ -33,7 +33,7 @@
       </div>
     </li>
     <li>
-      <label class="label point">{{ groupNm }}</label>
+      <label class="label point">{{ $t('api.resHndlrGrp') }}</label>
       <div class="form-cont">
         <!--  multi select -->
         <div class="multi-wrap">
@@ -77,7 +77,6 @@ import HandlerModal from '@/components/api-mngt/register/HandlerModal.vue';
   },
 })
 export default class HandlerGroupForm extends Vue {
-  @Prop() groupNm!: string | null;
   @Prop({ default: () => [] }) reqHandlerGroupList!: HandlerGroupDetail[];
   @Prop({ default: () => [] }) resHandlerGroupList!: HandlerGroupDetail[];
   @Prop() reqHandlerGroupId!: string | null;

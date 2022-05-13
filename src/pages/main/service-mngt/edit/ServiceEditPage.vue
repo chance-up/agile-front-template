@@ -110,6 +110,7 @@
       :setCheckedApiList="checkedApiList"
       :setIsApiAuthProgress="isApiAuthProgress"
       :setShowApiAuthModal="showApiAuthModal"
+      :setCountApiList="countApiList"
       @checkApiAll="checkApiAll"
       @checkApi="checkApi"
       @deleteApi="deleteApi"
@@ -177,7 +178,7 @@ export default class SystemRegisterPage extends Vue {
   showApiAuthModal = false;
   apiList: ApiAuthResponse[] = [];
   checkedApiList: ApiAuthResponse[] = [];
-
+  countApiList = 0;
   get serviceOption(): ServiceResponse {
     return this.serviceModule.service;
   }
@@ -207,9 +208,8 @@ export default class SystemRegisterPage extends Vue {
     desc: '',
     updId: '',
   };
-  @Watch('formdata.athnType')
+  @Watch('formData.athnType')
   onShowChange(val: string) {
-    this.formData.athnType = val;
     if (val == 'basic') {
       this.formData.athn.jwt = {
         alg: null,
@@ -218,7 +218,10 @@ export default class SystemRegisterPage extends Vue {
         pubKey: null,
       };
     } else if (val == 'jwt') {
-      this.serviceModule.setBasicAuth({ id: null, pw: null });
+      this.formData.athn.basic = {
+        id: null,
+        pw: null,
+      };
     }
   }
 
@@ -305,6 +308,8 @@ export default class SystemRegisterPage extends Vue {
     this.serviceModule
       .getBasicAuth()
       .then(() => {
+        this.formData.athn.basic.id = this.basicAuth.id;
+        this.formData.athn.basic.pw = this.basicAuth.pw;
         this.isBasicAuthProgress = false;
       })
       .catch(() => {
@@ -314,15 +319,6 @@ export default class SystemRegisterPage extends Vue {
 
   get basicAuth(): BasicAuthResponse {
     return this.serviceModule.basicAuth;
-  }
-
-  @Watch('basicAuth.id')
-  onIdChange(val: string) {
-    this.formData.athn.basic.id = val;
-  }
-  @Watch('basicAuth.pw')
-  onPwChange(val: string) {
-    this.formData.athn.basic.pw = val;
   }
 
   get apiAuthList(): ApiAuthResponse[] {
@@ -341,6 +337,11 @@ export default class SystemRegisterPage extends Vue {
         });
         this.checkedApiList = this.formData.apiAut.map((item) => {
           return { ...item };
+        });
+        this.countApiList = 0;
+        this.checkedApiList.forEach((api) => {
+          this.countApiList += api.apiId.length;
+          console.log(this.countApiList);
         });
       })
       .catch(() => {
@@ -367,33 +368,39 @@ export default class SystemRegisterPage extends Vue {
             this.checkedApiList.findIndex((item) => item.sysId === sys)
           ].apiId.filter((item) => item !== api);
         }
+        this.countApiList--;
       } else {
         this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.push(api);
+        this.countApiList++;
       }
     } else {
       this.checkedApiList.push({ sysId: sys, apiId: [api] });
+      this.countApiList++;
     }
   }
 
   deleteApi(sys: string, api: string) {
-    if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.length !== 1) {
-      this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
-        this.checkedApiList.findIndex((item) => item.sysId === sys)
-      ].apiId.filter((item) => item !== api);
-    } else {
-      this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== sys);
-    }
+    this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
+      this.checkedApiList.findIndex((item) => item.sysId === sys)
+    ].apiId.filter((item) => item !== api);
+    this.countApiList--;
   }
 
   checkApiAll(apiAll: ApiAuthResponse) {
     if (this.checkedApiList.find((item) => item.sysId === apiAll.sysId)) {
       if (this.checkedApiList.find((item) => item.sysId === apiAll.sysId)?.apiId.length === apiAll.apiId.length) {
+        this.countApiList = this.countApiList - apiAll.apiId.length;
         this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== apiAll.sysId);
       } else {
+        this.countApiList =
+          this.countApiList -
+          this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === apiAll.sysId)].apiId.length +
+          apiAll.apiId.length;
         this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === apiAll.sysId)].apiId = apiAll.apiId;
       }
     } else {
       this.checkedApiList.push({ sysId: apiAll.sysId, apiId: apiAll.apiId });
+      this.countApiList = this.countApiList + apiAll.apiId.length;
     }
   }
 
@@ -403,7 +410,9 @@ export default class SystemRegisterPage extends Vue {
         return { ...item };
       });
       this.apiList.forEach((api, index) => {
-        this.apiList[index].apiId = this.apiList[index].apiId.filter((item) => item.includes(searchText));
+        this.apiList[index].apiId = this.apiList[index].apiId.filter((item) =>
+          item.toUpperCase().includes(searchText.toUpperCase())
+        );
       });
       this.apiList = this.apiList.filter((item) => item.apiId.length !== 0);
     } else {
