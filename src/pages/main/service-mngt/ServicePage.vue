@@ -16,7 +16,7 @@
         <div class="search-cont">
           <InputBox
             v-model="searchData['athnType']"
-            :label="$t('service.auth')"
+            :label="$t('service.authentication_method')"
             :placeholder="$t('common.placeholder')"
             @submit="searchOnClieckEvent"
           />
@@ -180,12 +180,10 @@ export default class ServiceManagementPage extends Vue {
 
     if (Object.keys(this.$route.query).length > 0) {
       if (Object.keys(this.$route.query).includes('id')) this.searchData.id = this.$route.query.id as string;
-      if (Object.keys(this.$route.query).includes('athnType')) {
+      if (Object.keys(this.$route.query).includes('athnType'))
         this.searchData.athnType = this.$route.query.athnType as string;
-      }
       if (Object.keys(this.$route.query).includes('page')) this.pagingData.page = this.$route.query.page as string;
       const param = { ...this.searchData, ...this.pagingData };
-
       this.serviceModule
         .getServiceList(param)
         .then(() => {
