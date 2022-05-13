@@ -62,7 +62,6 @@ axios.interceptors.response.use(
 
 axios.interceptors.request.use(
   async (config) => {
-    await sleep(1000);
     console.log('http request => ', config);
     if (config.headers === undefined) {
       config.headers = {

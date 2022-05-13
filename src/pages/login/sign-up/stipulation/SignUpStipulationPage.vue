@@ -1,5 +1,5 @@
 <template>
-  <ContentLayout :title="$t('sign-up.title-register')" :subTitle="$t('sign-up.subtitle-register')">
+  <ContentLayout :title="$t('sign-up.title-register')" :subTitle="$t('sign-up.title-stipulation')">
     <template v-slot:contents>
       <ul>
         <InputGroup
@@ -10,9 +10,7 @@
           :place="$t('sign-up.id-place')"
         />
 
-        <div v-for="(item, index) in stpltSbst" :key="index">
-          <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="stplt.desc" :isValid.sync="descValid" />
-        </div>
+        <TextAreaGroup :inputNm="$t('system.desc')" />
       </ul>
       <ModalLayout size="m" v-if="isShowModal">
         <template v-slot:modalHeader
@@ -47,6 +45,7 @@ import UserModule from '@/store/modules/UserModule';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import InputGroup from '@/components/login/sign-up/InputGroup.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
+import TextAreaGroup from '@/components/login/sign-up/TextAreaGroup.vue';
 import { StipulationResponse } from '@/types/UserType';
 
 @Component({
@@ -54,9 +53,10 @@ import { StipulationResponse } from '@/types/UserType';
     ContentLayout,
     InputGroup,
     ModalLayout,
+    TextAreaGroup,
   },
 })
-export default class SignUptermPage extends Vue {
+export default class SignUpStipulationPage extends Vue {
   idValid = false;
   pwdValid = false;
   pwdConfirmValid = false;
