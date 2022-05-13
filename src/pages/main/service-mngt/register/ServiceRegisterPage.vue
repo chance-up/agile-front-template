@@ -30,7 +30,7 @@
             :inputNm="$t('service.authentication_method')"
             :basicId="basicAuth.id"
             :basicPw="basicAuth.pw"
-            :athn.sync="showAuth"
+            :athn.sync="formData.athnType"
             :alg.sync="JWTAlg.alg"
             :pickedAlg.sync="formData.athn.jwt.alg"
             :issuer.sync="formData.athn.jwt.iss"
@@ -118,6 +118,7 @@
       :setCheckedApiList="checkedApiList"
       :setIsApiAuthProgress="isApiAuthProgress"
       :setShowApiAuthModal="showApiAuthModal"
+      :setCountApiList="countApiList"
       @checkApiAll="checkApiAll"
       @checkApi="checkApi"
       @deleteApi="deleteApi"
@@ -180,18 +181,34 @@ export default class SystemRegisterPage extends Vue {
   showApiAuthModal = false;
   apiList: ApiAuthResponse[] = [];
   checkedApiList: ApiAuthResponse[] = [];
+  countApiList = 0;
+
+  @Watch('formData.athnType')
+  onShowChange(val: string) {
+    this.formData.athnType = val;
+    if (val == 'basic') {
+      this.formData.athn.jwt = {
+        alg: null,
+        iss: null,
+        aud: null,
+        pubKey: null,
+      };
+    } else {
+      this.serviceModule.setBasicAuth({ id: null, pw: null });
+    }
+  }
 
   serviceModule = getModule(ServiceModule, this.$store);
 
   formData: ServiceRegisterRequest = {
     id: '',
-    tkcgrNm: '',
-    tkcgrPos: '',
-    tkcgrEml: '',
+    tkcgrNm: null,
+    tkcgrPos: null,
+    tkcgrEml: null,
     sla: { sec: null, min: null, hr: null, day: null, mon: null },
     svcStDt: '',
     svcEndDt: '',
-    athnType: '',
+    athnType: 'basic',
     athn: {
       basic: {
         id: null,
@@ -205,24 +222,8 @@ export default class SystemRegisterPage extends Vue {
       },
     },
     apiAut: [],
-    desc: '',
+    desc: null,
   };
-  showAuth = 'basic';
-  @Watch('showAuth')
-  onShowChange(val: string) {
-    this.formData.athnType = val;
-    console.log();
-    if (val == 'basic') {
-      this.formData.athn.jwt = {
-        alg: null,
-        iss: null,
-        aud: null,
-        pubKey: null,
-      };
-    } else {
-      this.serviceModule.setBasicAuth({ id: null, pw: null });
-    }
-  }
 
   modal = false;
   modalShow() {
@@ -265,11 +266,10 @@ export default class SystemRegisterPage extends Vue {
   }
 
   submit() {
-    console.log(this.formData);
     this.modal = false;
     this.isRegisterProgress = true;
     this.serviceModule
-      .createServiceAction(this.formData)
+      .createService(this.formData)
       .then(() => {
         this.$router.push({ path: '/service' });
       })
@@ -366,11 +366,14 @@ export default class SystemRegisterPage extends Vue {
             this.checkedApiList.findIndex((item) => item.sysId === sys)
           ].apiId.filter((item) => item !== api);
         }
+        this.countApiList--;
       } else {
         this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.push(api);
+        this.countApiList++;
       }
     } else {
       this.checkedApiList.push({ sysId: sys, apiId: [api] });
+      this.countApiList++;
     }
   }
 
@@ -378,24 +381,29 @@ export default class SystemRegisterPage extends Vue {
     this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
       this.checkedApiList.findIndex((item) => item.sysId === sys)
     ].apiId.filter((item) => item !== api);
+    this.countApiList--;
   }
 
   checkApiAll(apiAll: ApiAuthResponse) {
     if (this.checkedApiList.find((item) => item.sysId === apiAll.sysId)) {
       if (this.checkedApiList.find((item) => item.sysId === apiAll.sysId)?.apiId.length === apiAll.apiId.length) {
+        this.countApiList = this.countApiList - apiAll.apiId.length;
         this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== apiAll.sysId);
       } else {
+        this.countApiList =
+          this.countApiList -
+          this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === apiAll.sysId)].apiId.length +
+          apiAll.apiId.length;
         this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === apiAll.sysId)].apiId = apiAll.apiId;
       }
     } else {
-      console.log(apiAll);
       this.checkedApiList.push({ sysId: apiAll.sysId, apiId: apiAll.apiId });
+      this.countApiList = this.countApiList + apiAll.apiId.length;
     }
   }
 
   searchApi(searchText: string) {
     if (searchText !== '') {
-      console.log('공백 아닐 때 apiAuthList : ', this.apiAuthList);
       this.apiList = this.apiAuthList.map((item) => {
         return { ...item };
       });
@@ -404,7 +412,6 @@ export default class SystemRegisterPage extends Vue {
       });
       this.apiList = this.apiList.filter((item) => item.apiId.length !== 0);
     } else {
-      console.log('공백일 때 apiAuthList : ', this.apiAuthList);
       this.apiList = this.apiAuthList.map((item) => {
         return { ...item };
       });

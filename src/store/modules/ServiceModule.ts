@@ -4,6 +4,7 @@ import { Module, Mutation, Action } from 'vuex-module-decorators';
 import {
   ServiceResponse,
   ServiceRegisterRequest,
+  ServiceModifyRequest,
   JWTAlgResponse,
   ApiAuthResponse,
   BasicAuthResponse,
@@ -24,7 +25,6 @@ export default class ServiceModule extends GateWayModule {
 
   public service: ServiceResponse = {
     id: '',
-    nm: '',
     tkcgrNm: '',
     tkcgrPos: '',
     tkcgrEml: '',
@@ -45,7 +45,7 @@ export default class ServiceModule extends GateWayModule {
     },
     athnType: '',
     apiAut: [],
-    desc: '',
+    desc: null,
     cretDt: '',
     updDt: '',
     cretId: '',
@@ -74,7 +74,7 @@ export default class ServiceModule extends GateWayModule {
     },
     athnType: '',
     apiAut: [],
-    desc: '',
+    desc: null,
   };
 
   public servicePagination: Pagination = {} as Pagination;
@@ -116,6 +116,7 @@ export default class ServiceModule extends GateWayModule {
     this.servicePagination = pagination;
   }
 
+  //서비스 리스트 조회
   @Action({ rawError: true })
   async getServiceList(searchOption?: object) {
     // let data = null;
@@ -126,7 +127,9 @@ export default class ServiceModule extends GateWayModule {
     // }
     try {
       // addMock('/api/service/getServiceInfo', data);
-      const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>('/getServiceList');
+      const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse[]>>('/getServiceList', {
+        ...searchOption,
+      });
       this.context.commit('setServiceList', response.data.value);
       this.context.commit('setServicePagination', response.data.pagination);
     } catch (error: GateWayError | any) {
@@ -140,28 +143,23 @@ export default class ServiceModule extends GateWayModule {
     this.service = data;
   }
 
+  //서비스 조회
   @Action({ rawError: true })
   async getService(id: string) {
     // addMock('/api/service/getServiceId', JSON.stringify(getServiceId));
     try {
-      const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>('getServiceById?id=API3', {
-        // id: id,
-      });
-
+      const response = await AxiosClient.getInstance().get<GateWayResponse<ServiceResponse>>(
+        `/getServiceById?id=${id}`
+      );
       this.context.commit('setService', response.data.value);
     } catch (error: GateWayError | any) {
       return Promise.reject(error);
     }
   }
 
-  //서비스 등록 요청
-  // @Mutation
-  // public createServiceMutation(data: ServiceResponse): void {
-  //   this.service = data;
-  // }
-
+  //서비스 등록
   @Action({ rawError: true })
-  async createServiceAction(data: ServiceRegisterRequest) {
+  async createService(data: ServiceRegisterRequest) {
     // addMock('/api/service/registerService', JSON.stringify(getServiceId));
     try {
       const response = await AxiosClient.getInstance().post<GateWayResponse<ServiceResponse>>(
@@ -169,56 +167,26 @@ export default class ServiceModule extends GateWayModule {
         data
       );
       console.log(response.data.value);
-      // TODO:: 성공 or 실패 팝업으로 변경
-      // this.context.commit('createserviceMutation', response.data.value);
     } catch (error: GateWayError | any) {
       return Promise.reject(error);
     }
   }
 
-  //   //서비스 수정 요청
-  //   @Mutation
-  //   public editServiceMutation(data: DummyServiceResponse): void {
-  //     this.service = data;
-  //     this.services = this.services.map((item: ServiceResponse) => {
-  //       if (item.serviceId == data.serviceId) {
-  //         item.serviceNm = data.serviceNm;
-  //         item.serviceId = data.serviceId;
-  //         item.authMethod = data.authMethod;
-  //         item.start_validity_date = data.start_validity_date;
-  //         item.end_validity_date = data.end_validity_date;
-  //         item.update_date = data.update_date;
-  //         console.log(item);
-  //       }
-  //       return item;
-  //     });
-  //   }
-
+  //서비스 수정
   @Action({ rawError: true })
-  async editServiceAction(data: ServiceRegisterRequest) {
+  async editService(data: ServiceModifyRequest) {
     // addMock('/api/service/updateServiceInfo', JSON.stringify(getServiceId));
     try {
-      await AxiosClient.getInstance().put<GateWayResponse<ServiceRegisterRequest>>('/service', {
-        data,
-      });
-      // TODO:: 성공 or 실패 팝업으로 변경
-      // this.context.commit('editServiceMutation', response.data);
+      const response = await AxiosClient.getInstance().put<GateWayResponse<ServiceModifyRequest>>('/service', data);
+      console.log(response);
     } catch (error: GateWayError | any) {
       return Promise.reject(error);
     }
   }
 
   //서비스 삭제 요청
-  @Mutation
-  public deleteServiceMutation(id: string): void {
-    this.services = this.services.filter((item) => {
-      return item.id !== id;
-    });
-    console.log(this.services);
-  }
-
   @Action
-  async deleteServiceAction(id: string) {
+  async deleteService(id: string) {
     try {
       // addMock('/api/service/deleteServiceInfo', '{ "common": { "code": 200, "message": "Success"}, "data": null}');
       await AxiosClient.getInstance().delete<GateWayResponse<null>>(`/service?id=${id}`);

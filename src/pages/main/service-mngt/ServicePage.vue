@@ -87,7 +87,7 @@
                   </td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                     <span>{{ list.updDt.slice(0, 10) }}</span
-                    ><span>{{ list.updDt.slice(0, 10) }}</span>
+                    ><span>{{ list.updDt.slice(10, 19) }}</span>
                   </td>
                   <td>
                     <button class="mod-btn" @click="$router.push({ name: 'service-edit', params: { id: list.id } })">
@@ -163,7 +163,7 @@ export default class ServiceManagementPage extends Vue {
   deleteService(ServiceId: string) {
     this.isRegisterProgress = true;
     this.serviceModule
-      .deleteServiceAction(ServiceId)
+      .deleteService(ServiceId)
       .then(() => {
         this._getServiceList();
         this.modal = false;

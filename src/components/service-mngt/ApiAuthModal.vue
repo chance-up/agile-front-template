@@ -24,7 +24,7 @@
                       <div class="check">
                         <input
                           type="checkbox"
-                          id="checkAll"
+                          :id="system.sysId + '-all'"
                           :checked="
                             checkedApiList.find((item) => item.sysId === system.sysId) &&
                             checkedApiList.find((item) => item.sysId === system.sysId).apiId.length ===
@@ -33,7 +33,7 @@
                           @click="checkApiAll(system)"
                         /><span class="checkmark"></span>
                       </div>
-                      <label for="checkAll">전체 선택</label>
+                      <label :for="system.sysId + '-all'">전체 선택</label>
                     </div>
                   </div>
                   <div class="check-group">
@@ -41,7 +41,7 @@
                       <div class="check">
                         <input
                           type="checkbox"
-                          id=""
+                          :id="api"
                           :checked="
                             checkedApiList.find((item) => item.sysId === system.sysId) &&
                             checkedApiList.find((item) => item.sysId === system.sysId).apiId.includes(api)
@@ -49,7 +49,7 @@
                           @click="checkApi(system.sysId, api)"
                         /><span class="checkmark"></span>
                       </div>
-                      <label for="checkGet">{{ api }}</label>
+                      <label :for="api">{{ api }}</label>
                     </div>
                   </div>
                 </div>
@@ -60,7 +60,7 @@
             <div class="box-tit">
               <h3 class="h3-tit">권한 부여 된 API</h3>
               <p class="total">
-                total : <span>{{ checkedApiList.length }}</span>
+                total : <span>{{ countApiList }}</span>
               </p>
             </div>
 
@@ -103,8 +103,14 @@ export default class ApiAuthModal extends Vue {
   @Prop({ default: [] }) setCheckedApiList!: ApiAuthResponse[];
   @Prop({ default: false }) setIsApiAuthProgress!: boolean;
   @Prop({ default: false }) setShowApiAuthModal!: boolean;
+  @Prop({ default: 0 }) setCountApiList!: number;
 
   searchText = '';
+  countApiList = 0;
+  @Watch('setCountApiList')
+  onCountSetApiList(val: number) {
+    this.countApiList = val;
+  }
 
   apiList: ApiAuthResponse[] = [];
   @Watch('setApiList')

@@ -22,20 +22,19 @@ interface JWTDetail {
 }
 export interface ServiceResponse {
   id: string;
-  nm: string;
-  tkcgrNm: string;
-  tkcgrPos: string;
-  tkcgrEml: string;
-  sla: { sec: number | null; min: number | null; hr: number | null; day: number | null; mon: number | null };
+  tkcgrNm: string | null;
+  tkcgrPos: string | null;
+  tkcgrEml: string | null;
   svcStDt: string;
   svcEndDt: string;
-  athn: AuthResponse;
   athnType: string;
+  athn: AuthResponse;
+  sla: { sec: number | null; min: number | null; hr: number | null; day: number | null; mon: number | null };
   apiAut: ApiAuthResponse[];
-  desc: string;
-  cretDt: string;
-  updDt: string;
-  cretId: string;
+  desc: string | null;
+  cretDt?: string;
+  updDt?: string;
+  cretId?: string;
   updId: string;
 }
 export interface BasicAuthResponse {
@@ -53,30 +52,30 @@ export interface JWTAlgResponse {
 
 export interface ServiceRegisterRequest {
   id: string;
-  tkcgrNm: string;
-  tkcgrPos: string;
-  tkcgrEml: string;
-  sla: { sec: number | null; min: number | null; hr: number | null; day: number | null; mon: number | null };
+  tkcgrNm: string | null;
+  tkcgrPos: string | null;
+  tkcgrEml: string | null;
   svcStDt: string;
   svcEndDt: string;
-  athn: AuthResponse;
   athnType: string;
+  athn: AuthResponse;
+  sla: { sec: number | null; min: number | null; hr: number | null; day: number | null; mon: number | null };
   apiAut: ApiAuthResponse[];
-  desc: string;
+  desc: string | null;
 }
 
 export interface ServiceModifyRequest {
   id: string;
-  tkcgrNm: string;
-  tkcgrPos: string;
-  tkcgrEml: string;
-  sla: { sec: number | null; min: number | null; hr: number | null; day: number | null; mon: number | null };
+  tkcgrNm: string | null;
+  tkcgrPos: string | null;
+  tkcgrEml: string | null;
   svcStDt: string;
   svcEndDt: string;
-  athn: AuthResponse;
   athnType: string;
+  athn: AuthResponse;
+  sla: { sec: number | null; min: number | null; hr: number | null; day: number | null; mon: number | null };
   apiAut: ApiAuthResponse[];
-  desc: string;
+  desc: string | null;
   updId: string;
 }
 
@@ -84,7 +83,7 @@ export const pagination: Pagination = {
   page: 1,
   size: 10,
   totalElements: 57,
-  totalPage: 6,
+  totalPages: 6,
   currentElements: 10,
   currentPage: 1,
   orderBy: 'ID',
@@ -218,30 +217,29 @@ export const pagination: Pagination = {
 //   },
 // ];
 
-// export const serviceResponse: ServiceResponse = {
-//   id: 'KT_COM',
-//   nm: 'KT닷컴',
-//   tkcgr_nm: '이경민',
-//   tkcgr_pos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
-//   tkcgr_eml: 'km0403.lee@kt.com',
-//   sla: { sec: 10, min: null, hr: 45000, day: null, mon: null },
-//   svc_st_dt: '2022-04-13 00:00:00',
-//   svc_end_dt: '9999-12-31 00:00:00',
-//   athn: {
-//     basic: { id: '', pw: '' },
-//     jwt: { alg: 'ABC111', iss: '임꺽정', aud: '홍길등', pubKey: 'testKey' },
-//   },
-//   athnType: 'jwt',
-//   apiAut: [
-//     { sysId: 'SYSTEM_A', apiId: ['API_1', 'API_2'] },
-//     { sysId: 'SYSTEM_C', apiId: ['API_5', 'API_6'] },
-//   ],
-//   desc: 'test',
-//   cret_dt: '2022-04-20 17:44:23',
-//   upd_dt: '2022-04-20 17:44:23',
-//   cret_id: 'AUTH_ADMIN',
-//   upd_id: 'AUTH_ADMIN',
-// };
+export const serviceResponse: ServiceResponse = {
+  id: 'KT_COM',
+  tkcgrNm: '이경민',
+  tkcgrPos: 'KTDS 시스템서비스본부 Digico개발센터 Agile Core팀',
+  tkcgrEml: 'km0403.lee@kt.com',
+  sla: { sec: null, min: null, hr: 45000, day: 31, mon: null },
+  svcStDt: '2022-04-13 00:00:00',
+  svcEndDt: '9999-12-31 00:00:00',
+  athn: {
+    basic: { id: '', pw: '' },
+    jwt: { alg: 'ABC111', iss: '임꺽정', aud: '홍길등', pubKey: 'testKey' },
+  },
+  athnType: 'jwt',
+  apiAut: [
+    { sysId: 'SYSTEM_A', apiId: ['API_1', 'API_2'] },
+    { sysId: 'SYSTEM_C', apiId: ['API_5', 'API_6'] },
+  ],
+  desc: 'test',
+  cretDt: '2022-04-20 17:44:23',
+  updDt: '2022-04-20 17:44:23',
+  cretId: 'AUTH_ADMIN',
+  updId: 'AUTH_ADMIN',
+};
 
 // export const serviceListData: Data<ServiceResponse[]> = {
 //   pagination: pagination,
@@ -253,20 +251,20 @@ export const pagination: Pagination = {
 //   value: searchServiceListResponse,
 // };
 
-// export const serviceData: Data<ServiceResponse> = {
-//   pagination: pagination,
-//   value: serviceResponse,
-// };
+export const serviceData: Data<ServiceResponse> = {
+  pagination: pagination,
+  value: serviceResponse,
+};
 
 // export const getServiceInfo: GateWayResponse<ServiceResponse[]> = {
 //   data: serviceListData,
 //   status: 0,
 // };
 
-// export const getServiceId: GateWayResponse<ServiceResponse> = {
-//   data: serviceData,
-//   status: 0,
-// };
+export const getServiceId: GateWayResponse<ServiceResponse> = {
+  data: serviceData,
+  status: 0,
+};
 
 // export const getSearchServiceInfo: GateWayResponse<ServiceResponse[]> = {
 //   data: searchServiceListData,
@@ -327,7 +325,7 @@ export const getDuplicatedTrue: GateWayResponse<duplicatedCheck> = {
 // };
 
 export const JWtAlgMock: JWTAlgResponse = {
-  alg: ['ABC111', 'DEF222', 'GHI333'],
+  alg: ['HS256', ' HS384', 'HS512', 'RS256', 'RS384', 'RS512', 'ES256', 'ES384', 'ES512', 'PS256', 'PS384', 'PS512'],
 };
 
 // export const basicAuthMock: BasicAuthResponse = {

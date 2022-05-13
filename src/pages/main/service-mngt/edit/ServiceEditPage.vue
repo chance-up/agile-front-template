@@ -29,7 +29,7 @@
             :inputNm="$t('service.authentication_method')"
             :basicId="formData.athn.basic.id"
             :basicPw="formData.athn.basic.pw"
-            :athn.sync="showAuth"
+            :athn.sync="formData.athnType"
             :alg.sync="JWTAlg.alg"
             :pickedAlg.sync="formData.athn.jwt.alg"
             :issuer.sync="formData.athn.jwt.iss"
@@ -132,9 +132,9 @@ import ServiceModule from '@/store/modules/ServiceModule';
 import {
   BasicAuthResponse,
   JWTAlgResponse,
-  ServiceRegisterRequest,
   ServiceModifyRequest,
   ApiAuthResponse,
+  ServiceResponse,
 } from '@/types/ServiceType';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import ApiAuthModal from '@/components/service-mngt/ApiAuthModal.vue';
@@ -178,18 +178,18 @@ export default class SystemRegisterPage extends Vue {
   apiList: ApiAuthResponse[] = [];
   checkedApiList: ApiAuthResponse[] = [];
 
-  get serviceOption(): ServiceModifyRequest {
+  get serviceOption(): ServiceResponse {
     return this.serviceModule.service;
   }
 
   formData: ServiceModifyRequest = {
     id: '',
-    tkcgrNm: '',
-    tkcgrPos: '',
-    tkcgrEml: '',
-    sla: { sec: null, min: null, hr: null, day: null, mon: null },
+    tkcgrNm: null,
+    tkcgrPos: null,
+    tkcgrEml: null,
     svcStDt: '',
     svcEndDt: '',
+    athnType: '',
     athn: {
       basic: {
         id: null,
@@ -202,13 +202,12 @@ export default class SystemRegisterPage extends Vue {
         pubKey: null,
       },
     },
-    athnType: '',
+    sla: { sec: null, min: null, hr: null, day: null, mon: null },
     apiAut: [],
     desc: '',
     updId: '',
   };
-  showAuth = '';
-  @Watch('showAuth')
+  @Watch('formdata.athnType')
   onShowChange(val: string) {
     this.formData.athnType = val;
     if (val == 'basic') {
@@ -224,10 +223,11 @@ export default class SystemRegisterPage extends Vue {
   }
 
   editService() {
+    console.log(this.formData);
     this.modal = false;
     this.isRegisterProgress = true;
     this.serviceModule
-      .editServiceAction(this.formData)
+      .editService(this.formData)
       .then(() => {
         this.$router.back();
       })
@@ -246,7 +246,9 @@ export default class SystemRegisterPage extends Vue {
     Promise.all([this.serviceModule.getService(this.$route.params.id), this.serviceModule.getJWTAlg()])
       .then(() => {
         this.isShowProgress = false;
-        this.showAuth = this.serviceOption.athnType;
+        delete this.serviceOption.cretDt;
+        delete this.serviceOption.updDt;
+        delete this.serviceOption.cretId;
         this.formData = this.serviceOption;
       })
       .catch(() => {

@@ -178,40 +178,6 @@ export default class SlaReqGroup extends Vue {
   showMonChange() {
     this.$emit('update:onMon', false);
   }
-  // get showSec() {
-  //   return this.onSec;
-  // }
-  // set showSec(val: boolean) {
-  //   this.$emit('update:onSec', val);
-  // }
-
-  // get showMin() {
-  //   return this.onMin;
-  // }
-  // set showMin(val: boolean) {
-  //   this.$emit('update:onMin', val);
-  // }
-
-  // get showHour() {
-  //   return this.onHour;
-  // }
-  // set showHour(val: boolean) {
-  //   this.$emit('update:onHour', val);
-  // }
-
-  // get showDay() {
-  //   return this.onDay;
-  // }
-  // set showDay(val: boolean) {
-  //   this.$emit('update:onDay', val);
-  // }
-
-  // get showMonth() {
-  //   return this.onMonth;
-  // }
-  // set showMonth(val: boolean) {
-  //   this.$emit('update:onMonth', val);
-  // }
 
   get sec() {
     return this.secVal;
@@ -260,21 +226,21 @@ export default class SlaReqGroup extends Vue {
     this.$emit('update:monthVal', val);
   }
 
-  created() {
+  mounted() {
     if (this.sec != null) {
       this.showSec = true;
     }
     if (this.min != null) {
-      this.showSec = true;
+      this.showMin = true;
     }
     if (this.hour != null) {
-      this.showSec = true;
+      this.showHr = true;
     }
     if (this.day != null) {
-      this.showSec = true;
+      this.showDay = true;
     }
     if (this.month != null) {
-      this.showSec = true;
+      this.showMon = true;
     }
     if (
       this.monthVal == null &&

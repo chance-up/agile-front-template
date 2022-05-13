@@ -116,11 +116,11 @@ export default class ServiceDetailPage extends Vue {
     return this.serviceModule.service;
   }
 
-  deleteService(ServiceId: string) {
+  deleteService(id: string) {
     this.modal = false;
     this.isRegisterProgress = true;
     this.serviceModule
-      .deleteServiceAction(ServiceId)
+      .deleteService(id)
       .then(() => {
         this.$router.back();
         this.modal = false;
@@ -131,11 +131,11 @@ export default class ServiceDetailPage extends Vue {
       });
   }
 
-  created() {
+  mounted() {
     this.isShowProgress = true;
 
     this.serviceModule
-      .getService(this.$route.params.serviceId)
+      .getService(this.$route.params.id)
       .then(() => {
         this.isShowProgress = false;
       })
