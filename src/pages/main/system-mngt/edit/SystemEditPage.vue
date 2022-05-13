@@ -18,7 +18,7 @@
 
         <InputGroup
           type="text"
-          :value.sync="systemItem.tkcgr_nm"
+          :value.sync="systemItem.tkcgrNm"
           :isValid.sync="tkcgrNmValid"
           :inputNm="$t('system.tkcgrNm')"
           :place="$t('system.tkcgrNm')"
@@ -26,14 +26,14 @@
 
         <InputGroup
           type="text"
-          :value.sync="systemItem.tkcgr_pos"
+          :value.sync="systemItem.tkcgrPos"
           :inputNm="$t('system.tkcgrPos')"
           :place="$t('system.tkcgrPos')"
           :isValid.sync="tkcgrPosValid"
         />
         <InputGroup
           type="email"
-          :value.sync="systemItem.tkcgr_eml"
+          :value.sync="systemItem.tkcgrEml"
           :inputNm="$t('system.tkcgrEml')"
           :place="$t('system.tkcgrEml')"
           :isValid.sync="tkcgrEmlValid"

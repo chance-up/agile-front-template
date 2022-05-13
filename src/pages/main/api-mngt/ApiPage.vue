@@ -105,7 +105,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import ContentLayout from '@/components/layout/ContentLayout.vue';
 import ListLayout from '@/components/layout/ListLayout.vue';
 import SearchForm from '@/components/api-mngt/list/SearchForm.vue';
@@ -137,6 +137,10 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
   },
 })
 export default class ApiPage extends Vue {
+  @Watch('searchData')
+  detectSearchData() {
+    console.log('hohohohohohohoho' + JSON.stringify(this.searchData));
+  }
   showModal = false;
   isModalProgress = false;
   isShowProgress = false;

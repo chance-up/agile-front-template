@@ -10,11 +10,11 @@ export interface Data<T> {
 export interface Pagination {
   page: number;
   size: number;
-  total_elements: number;
-  total_pages: number;
-  current_elements: number;
-  current_page: number;
-  order_by: string;
-  sort_by: string;
+  totalElements: number;
+  totalPage: number;
+  currentElements: number;
+  currentPage: number;
+  orderBy: string;
+  sortBy: string;
   limit: number;
 }

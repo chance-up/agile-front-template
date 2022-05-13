@@ -6,30 +6,34 @@
   >
     <template v-slot:contents>
       <ul>
-        <InputGroup
+        <TextDebounceForm
           type="text"
-          :value.sync="systemItem.id"
+          :check="isDuplicatedId"
+          v-model="systemItem.id"
           :isValid.sync="idValid"
           :inputNm="$t('system.id')"
-          :place="$t('system.id_placeholder')"
+          :placeholder="$t('system.id_placeholder')"
+          :required="true"
+          @input="duplicateCheckId"
         />
+
         <InputGroup
           type="text"
-          :value.sync="systemItem.tkcgr_nm"
+          :value.sync="systemItem.tkcgrNm"
           :isValid.sync="tkcgrNmValid"
           :inputNm="$t('system.tkcgrNm')"
           :place="$t('system.tkcgrNm_placeholder')"
         />
         <InputGroup
           type="text"
-          :value.sync="systemItem.tkcgr_pos"
+          :value.sync="systemItem.tkcgrPos"
           :inputNm="$t('system.tkcgrPos')"
           :place="$t('system.tkcgrPos_placeholder')"
           :isValid.sync="tkcgrPosValid"
         />
         <InputGroup
           type="email"
-          :value.sync="systemItem.tkcgr_eml"
+          :value.sync="systemItem.tkcgrEml"
           :inputNm="$t('system.tkcgrEml')"
           :place="$t('system.tkcgrEml_placeholder')"
           :isValid.sync="tkcgrEmlValid"
@@ -73,7 +77,7 @@ import TextAreaGroup from '@/components/system-mngt/TextAreaGroup.vue';
 import TextDebounceForm from '@/components/system-mngt/TextDebounceForm.vue';
 import EdptForm from '@/components/system-mngt/EdptForm.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
-import { SystemResponse } from '@/types/SystemType';
+import { SystemRegisterResponse } from '@/types/SystemType';
 
 @Component({
   components: {
@@ -99,38 +103,44 @@ export default class SystemRegisterPage extends Vue {
 
   systemModule = getModule(SystemModule, this.$store);
 
-  systemItem: SystemResponse = {
+  systemItem: SystemRegisterResponse = {
     id: '',
-    nm: '',
     tkcgrNm: '',
     tkcgrPos: '',
     tkcgrEml: '',
     edpt: ['http::'],
     desc: '',
-    cretDt: '',
-    cretId: '',
-    updDt: '',
-    updId: '',
+    cretId: 'ccs',
+    updId: 'ccs',
   };
 
   cancelOnClickEvent() {
     this.$router.go(-1);
   }
 
-  isDuplicated: boolean | null = null;
-  async duplicateCheck() {
-    this.isDuplicated = await this.systemModule.duplicateCheck(this.systemItem.id);
+  timerId = 0;
+  isDuplicatedId: boolean | null = null;
+  duplicateCheckId() {
+    this.isDuplicatedId = null;
+    if (this.timerId) {
+      clearTimeout(this.timerId);
+    }
+    this.timerId = setTimeout(async () => {
+      console.log('입력 1초 경과!!!!@#!@#!@#');
+      this.isDuplicatedId = await this.systemModule.duplicateCheck(this.systemItem.id);
+    }, 1000);
   }
 
   showModal() {
-    console.log('idValid :: ', this.idValid);
-    console.log('tkcgrNmValid :: ', this.tkcgrNmValid);
-    console.log('tkcgrPosValid :: ', this.tkcgrPosValid);
-    console.log('tkcgrEmlValid :: ', this.tkcgrEmlValid);
-    console.log('edptValid :: ', this.edptValid);
-    console.log('descValid :: ', this.descValid);
-    console.log('edpt :: ', this.systemItem.edpt);
-    console.log('edpt :: ', this.systemItem.edpt);
+    // console.log('idValid :: ', this.idValid);
+    // console.log('tkcgrNmValid :: ', this.tkcgrNmValid);
+    // console.log('tkcgrPosValid :: ', this.tkcgrPosValid);
+    // console.log('tkcgrEmlValid :: ', this.tkcgrEmlValid);
+    // console.log('edptValid :: ', this.edptValid);
+    // console.log('descValid :: ', this.descValid);
+    // console.log('edpt :: ', this.systemItem.edpt);
+    // console.log('edpt :: ', this.systemItem.edpt);
+    console.log('desc :: ', this.systemItem.desc);
 
     const val =
       this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.edptValid && this.descValid

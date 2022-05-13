@@ -12,7 +12,6 @@ import {
   // getServiceId,
   // getSearchServiceInfo,
   // getBasicAuth,
-  getDuplicatedTrue,
   getJWTAlg,
   // getApiAuthList,
 } from '@/types/ServiceType';
@@ -55,7 +54,6 @@ export default class ServiceModule extends GateWayModule {
 
   public requestService: ServiceRegisterRequest = {
     id: '',
-    nm: '',
     tkcgrNm: '',
     tkcgrPos: '',
     tkcgrEml: '',
@@ -85,11 +83,9 @@ export default class ServiceModule extends GateWayModule {
     id: '',
     pw: '',
   };
-  public duplicatedNm: duplicatedCheck = {
-    isDuplicated: true,
-  };
+
   public duplicatedId: duplicatedCheck = {
-    isDuplicated: true,
+    isPkDuplicated: true,
   };
 
   public JWTAlg: JWTAlgResponse = {
@@ -202,7 +198,7 @@ export default class ServiceModule extends GateWayModule {
   async editServiceAction(data: ServiceRegisterRequest) {
     // addMock('/api/service/updateServiceInfo', JSON.stringify(getServiceId));
     try {
-      await AxiosClient.getInstance().put<GateWayResponse<ServiceRegisterRequest>>('/api/service/updateServiceInfo', {
+      await AxiosClient.getInstance().put<GateWayResponse<ServiceRegisterRequest>>('/service', {
         data,
       });
       // TODO:: 성공 or 실패 팝업으로 변경
@@ -224,42 +220,23 @@ export default class ServiceModule extends GateWayModule {
   @Action
   async deleteServiceAction(id: string) {
     try {
-      addMock('/api/service/deleteServiceInfo', '{ "common": { "code": 200, "message": "Success"}, "data": null}');
-      const response = await AxiosClient.getInstance().delete<GateWayResponse<null>>('/api/service/deleteServiceInfo', {
-        serviceId: id,
-      });
-      console.log(response);
-      // this.context.commit('setServiceList', []);
-      // if (200 === response.data.common.code) {
-      // this.getServiceList();
-      // }
+      // addMock('/api/service/deleteServiceInfo', '{ "common": { "code": 200, "message": "Success"}, "data": null}');
+      await AxiosClient.getInstance().delete<GateWayResponse<null>>(`/service?id=${id}`);
     } catch (error: GateWayError | any) {
       return Promise.reject(error);
     }
   }
 
-  // Service ID 중복 체크
-  // @Mutation
-  // setDuplicatedCheckNm(duplicatedResponse: duplicatedCheck) {
-  //   console.log('중복되지 않은 서비스명 입니다.');
-  //   this.duplicatedNm = duplicatedResponse;
-  // }
-  // @Action
-  // async getDuplicatedCheckNm(nm: string) {
-  //   addMock(`/service/detail/${nm}`, JSON.stringify(getDuplicatedTrue));
-  //   const response = await AxiosClient.getInstance().get<GateWayResponse<duplicatedCheck>>(`/service/detail/${nm}`);
-  //   this.context.commit('setDuplicatedCheckNm', response.data.value);
-  // }
-
   @Mutation
   setDuplicatedCheckId(duplicatedResponse: duplicatedCheck) {
-    console.log('중복되지 않은 서비스ID 입니다.');
     this.duplicatedId = duplicatedResponse;
   }
   @Action
   async getDuplicatedCheckId(id: string) {
-    addMock(`/service/detail/${id}`, JSON.stringify(getDuplicatedTrue));
-    const response = await AxiosClient.getInstance().get<GateWayResponse<duplicatedCheck>>(`/service/detail/${id}`);
+    // addMock(`/service/detail/${id}`, JSON.stringify(getDuplicatedTrue));
+    const response = await AxiosClient.getInstance().get<GateWayResponse<duplicatedCheck>>(
+      `/serviceCheckById?id=${id}`
+    );
     this.context.commit('setDuplicatedCheckId', response.data.value);
   }
 

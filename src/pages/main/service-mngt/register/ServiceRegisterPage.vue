@@ -30,7 +30,7 @@
             :inputNm="$t('service.authentication_method')"
             :basicId="basicAuth.id"
             :basicPw="basicAuth.pw"
-            :athn.sync="formData.athnType"
+            :athn.sync="showAuth"
             :alg.sync="JWTAlg.alg"
             :pickedAlg.sync="formData.athn.jwt.alg"
             :issuer.sync="formData.athn.jwt.iss"
@@ -49,9 +49,9 @@
             :monthVal.sync="formData.sla.mon"
             :onSec.sync="slaSec"
             :onMin.sync="slaMin"
-            :onHour.sync="slaHr"
+            :onHr.sync="slaHr"
             :onDay.sync="slaDay"
-            :onMonth.sync="slaMon"
+            :onMon.sync="slaMon"
           />
           <InputGroup
             type="text"
@@ -160,12 +160,11 @@ import ApiAuthReqGroup from '@/components/service-mngt/ApiAuthReqGroup.vue';
   },
 })
 export default class SystemRegisterPage extends Vue {
-  show = 'BASIC_AUTH';
   isBtnDisabled = true;
   idValid = false;
-  tkcgrNmValid = false;
-  tkcgrPosValid = false;
-  tkcgrEmlValid = false;
+  tkcgrNmValid = true;
+  tkcgrPosValid = true;
+  tkcgrEmlValid = true;
   dateValid = false;
   authValid = false;
   apiAuthValid = true;
@@ -181,31 +180,18 @@ export default class SystemRegisterPage extends Vue {
   showApiAuthModal = false;
   apiList: ApiAuthResponse[] = [];
   checkedApiList: ApiAuthResponse[] = [];
-  @Watch('show')
-  onShowChange(val: string) {
-    if (val == 'BASIC_AUTH') {
-      this.formData.athn.jwt = {
-        alg: null,
-        iss: null,
-        aud: null,
-        pubKey: null,
-      };
-    } else {
-      this.serviceModule.setBasicAuth({ id: null, pw: null });
-    }
-  }
 
   serviceModule = getModule(ServiceModule, this.$store);
 
   formData: ServiceRegisterRequest = {
     id: '',
-    nm: '',
     tkcgrNm: '',
     tkcgrPos: '',
     tkcgrEml: '',
     sla: { sec: null, min: null, hr: null, day: null, mon: null },
     svcStDt: '',
     svcEndDt: '',
+    athnType: '',
     athn: {
       basic: {
         id: null,
@@ -218,10 +204,25 @@ export default class SystemRegisterPage extends Vue {
         pubKey: null,
       },
     },
-    athnType: '',
     apiAut: [],
     desc: '',
   };
+  showAuth = 'basic';
+  @Watch('showAuth')
+  onShowChange(val: string) {
+    this.formData.athnType = val;
+    console.log();
+    if (val == 'basic') {
+      this.formData.athn.jwt = {
+        alg: null,
+        iss: null,
+        aud: null,
+        pubKey: null,
+      };
+    } else {
+      this.serviceModule.setBasicAuth({ id: null, pw: null });
+    }
+  }
 
   modal = false;
   modalShow() {
@@ -287,8 +288,9 @@ export default class SystemRegisterPage extends Vue {
     }
     this.timerId = setTimeout(async () => {
       console.log(this.formData.id);
-      await this.serviceModule.getDuplicatedCheckId(this.formData.id);
-      this.isDuplicatedId = this.serviceModule.duplicatedId.isDuplicated;
+      await this.serviceModule.getDuplicatedCheckId(this.formData.id).then(() => {
+        this.isDuplicatedId = this.serviceModule.duplicatedId.isPkDuplicated;
+      });
     }, 1000);
   }
 

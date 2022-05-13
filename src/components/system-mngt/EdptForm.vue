@@ -43,8 +43,9 @@
               </button>
               <button class="xs-btn" @click="deleteEdpt(idx)" v-else><i class="minus"></i></button>
             </div>
-            <p v-show="notiMessageDomain[idx][0] == false" class="red-txt noti">{{ notiMessageDomain[idx][1] }}</p>
+            <p v-if="notiMessageDomain[idx][0] == false" class="red-txt noti">{{ notiMessageDomain[idx][1] }}</p>
             <p v-if="notiMessagePort[idx][0] == false" class="red-txt noti">{{ notiMessagePort[idx][1] }}</p>
+            <p v-if="notiMessageDupl[idx][0] == false" class="red-txt noti">{{ notiMessageDupl[idx][1] }}</p>
           </li>
         </ul>
       </div>
@@ -67,12 +68,14 @@ export default class EdptForm extends Vue {
   edpts: SystemEdptType[] = [];
   notiMessageDomain: [boolean | null, string][] = [];
   notiMessagePort: [boolean | null, string][] = [];
+  notiMessageDupl: [boolean | null, string][] = [];
   isDomainEmpty = true;
   created() {
     this.strArr.forEach((str) => {
       this.edpts.push(stringToEdpt(str));
       this.notiMessageDomain.push([null, '']);
       this.notiMessagePort.push([null, '']);
+      this.notiMessageDupl.push([null, '']);
     });
     console.log(this.editPage);
     if (this.editPage) {
@@ -85,12 +88,13 @@ export default class EdptForm extends Vue {
 
   @Watch('edpts', { deep: true })
   edptsChanged() {
+    console.log('domainR!!!');
     // 중복 검사를 수행한다.
     let idxArr: number[] = [];
     this.edpts.forEach((edpt, idx) => {
       if (!this.duplCheck(edptToString(this.edpts[idx]))) {
-        Vue.set(this.notiMessageDomain[idx], 0, true);
-        Vue.set(this.notiMessageDomain[idx], 1, '');
+        Vue.set(this.notiMessageDupl[idx], 0, true);
+        Vue.set(this.notiMessageDupl[idx], 1, '');
       } else {
         idxArr.push(idx);
       }
@@ -98,9 +102,9 @@ export default class EdptForm extends Vue {
 
     // 중복된 값이 하나라도 있으면,
     // 마지막에 입력한 엔드포인트에 경고문구를 출력한다.
-    if (idxArr.length !== 0) {
-      Vue.set(this.notiMessageDomain[idxArr[idxArr.length - 1]], 0, false);
-      Vue.set(this.notiMessageDomain[idxArr[idxArr.length - 1]], 1, this.$t('system.dupl_check_edpt_nm') as string);
+    if (idxArr.length > 1) {
+      Vue.set(this.notiMessageDupl[idxArr[idxArr.length - 1]], 0, false);
+      Vue.set(this.notiMessageDupl[idxArr[idxArr.length - 1]], 1, this.$t('system.dupl_check_edpt_nm') as string);
     }
     // 모든 값이 유효성 check를 통과했다면, isValid를 true로 변경한다.
     // * isValid? => SystemRegister/SystemEdit 페이지에서 태그들의 유효성 검사를 위해 사용한다.
@@ -129,12 +133,14 @@ export default class EdptForm extends Vue {
     this.edpts.push(empty);
     this.notiMessageDomain.push([null, '']);
     this.notiMessagePort.push([null, '']);
+    this.notiMessageDupl.push([null, '']);
   }
 
   deleteEdpt(idx: number) {
     this.edpts.splice(idx, 1);
     this.notiMessageDomain.splice(idx, 1);
     this.notiMessagePort.splice(idx, 1);
+    this.notiMessageDupl.splice(idx, 1);
   }
 
   duplCheck(val: string) {
@@ -172,6 +178,7 @@ export default class EdptForm extends Vue {
   }
 
   validCheckDomain(idx: number) {
+    console.log('domainQ!!!');
     let domain = this.edpts[idx].domain;
     if (checkLength(domain, 1, 30) && checkDomain(domain)) {
       // 중복 체크 수행

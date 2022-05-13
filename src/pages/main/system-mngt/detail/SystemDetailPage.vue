@@ -9,9 +9,9 @@
     <template v-if="!isShowProgress" v-slot:contents>
       <ul>
         <InfoGroup :inputNm="$t('system.id')" :value="systemItem.id" />
-        <InfoGroup :inputNm="$t('system.tkcgrNm')" :value="systemItem.tkcgr_nm" />
-        <InfoGroup :inputNm="$t('system.tkcgrPos')" :value="systemItem.tkcgr_pos" />
-        <InfoGroup :inputNm="$t('system.tkcgrEml')" :value="systemItem.tkcgr_eml" />
+        <InfoGroup :inputNm="$t('system.tkcgrNm')" :value="systemItem.tkcgrNm" />
+        <InfoGroup :inputNm="$t('system.tkcgrPos')" :value="systemItem.tkcgrPos" />
+        <InfoGroup :inputNm="$t('system.tkcgrEml')" :value="systemItem.tkcgrEml" />
         <IfFormlGroup :inputNm="$t('system.edpt')" :endPoints="systemItem.edpt" />
         <InfoGroup :inputNm="$t('system.desc')" :value="systemItem.desc" />
         <ModalLayout size="m" v-if="isShowModal">
@@ -77,13 +77,15 @@ export default class SystemDetailPage extends Vue {
     return this.systemModule.system;
   }
 
-  created() {
+  mounted() {
     this.isShowProgress = true;
     this.systemModule.systemReset();
 
     this.systemModule
       .getSystemDetail(this.$route.params.id as string)
       .then(() => {
+        console.log(this.systemModule.system);
+
         this.isShowProgress = false;
         this.systemItem = this.system;
       })

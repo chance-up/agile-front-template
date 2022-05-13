@@ -44,7 +44,7 @@ export interface BasicAuthResponse {
 }
 
 export interface duplicatedCheck {
-  isDuplicated: boolean;
+  isPkDuplicated: boolean;
 }
 
 export interface JWTAlgResponse {
@@ -53,7 +53,6 @@ export interface JWTAlgResponse {
 
 export interface ServiceRegisterRequest {
   id: string;
-  nm: string;
   tkcgrNm: string;
   tkcgrPos: string;
   tkcgrEml: string;
@@ -66,15 +65,30 @@ export interface ServiceRegisterRequest {
   desc: string;
 }
 
+export interface ServiceModifyRequest {
+  id: string;
+  tkcgrNm: string;
+  tkcgrPos: string;
+  tkcgrEml: string;
+  sla: { sec: number | null; min: number | null; hr: number | null; day: number | null; mon: number | null };
+  svcStDt: string;
+  svcEndDt: string;
+  athn: AuthResponse;
+  athnType: string;
+  apiAut: ApiAuthResponse[];
+  desc: string;
+  updId: string;
+}
+
 export const pagination: Pagination = {
   page: 1,
   size: 10,
-  total_elements: 57,
-  total_pages: 6,
-  current_elements: 10,
-  current_page: 1,
-  order_by: 'ID',
-  sort_by: 'DESC',
+  totalElements: 57,
+  totalPage: 6,
+  currentElements: 10,
+  currentPage: 1,
+  orderBy: 'ID',
+  sortBy: 'DESC',
   limit: 10,
 };
 
@@ -279,7 +293,7 @@ export const pagination: Pagination = {
 // };
 
 export const duplicatedTrue: duplicatedCheck = {
-  isDuplicated: true,
+  isPkDuplicated: true,
 };
 export const duplicatedTrueData: Data<duplicatedCheck> = {
   pagination: pagination,
@@ -316,10 +330,10 @@ export const JWtAlgMock: JWTAlgResponse = {
   alg: ['ABC111', 'DEF222', 'GHI333'],
 };
 
-export const basicAuthMock: BasicAuthResponse = {
-  id: 'AKSJaiohfasdAS7asD',
-  pw: 'KL8SsS1KKsdJKASH9',
-};
+// export const basicAuthMock: BasicAuthResponse = {
+//   id: 'AKSJaiohfasdAS7asD',
+//   pw: 'KL8SsS1KKsdJKASH9',
+// };
 
 export const JWTAlgData: Data<JWTAlgResponse> = {
   pagination: pagination,

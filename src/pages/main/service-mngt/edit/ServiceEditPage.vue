@@ -27,8 +27,8 @@
           <AuthReqGroup
             @basicAuthClicked="basicAuthClicked"
             :inputNm="$t('service.authentication_method')"
-            :basicId="basicAuth.id"
-            :basicPw="basicAuth.pw"
+            :basicId="formData.athn.basic.id"
+            :basicPw="formData.athn.basic.pw"
             :athn.sync="showAuth"
             :alg.sync="JWTAlg.alg"
             :pickedAlg.sync="formData.athn.jwt.alg"
@@ -129,7 +129,13 @@ import SlaReqGroup from '@/components/service-mngt/SlqReqGroup.vue';
 import SysExGroup from '@/components/service-mngt/SysExGroup.vue';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
-import { BasicAuthResponse, JWTAlgResponse, ServiceRegisterRequest, ApiAuthResponse } from '@/types/ServiceType';
+import {
+  BasicAuthResponse,
+  JWTAlgResponse,
+  ServiceRegisterRequest,
+  ServiceModifyRequest,
+  ApiAuthResponse,
+} from '@/types/ServiceType';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import ApiAuthModal from '@/components/service-mngt/ApiAuthModal.vue';
 import ApiAuthReqGroup from '@/components/service-mngt/ApiAuthReqGroup.vue';
@@ -172,13 +178,12 @@ export default class SystemRegisterPage extends Vue {
   apiList: ApiAuthResponse[] = [];
   checkedApiList: ApiAuthResponse[] = [];
 
-  get serviceOption(): ServiceRegisterRequest {
+  get serviceOption(): ServiceModifyRequest {
     return this.serviceModule.service;
   }
 
-  formData: ServiceRegisterRequest = {
+  formData: ServiceModifyRequest = {
     id: '',
-    nm: '',
     tkcgrNm: '',
     tkcgrPos: '',
     tkcgrEml: '',
@@ -200,30 +205,20 @@ export default class SystemRegisterPage extends Vue {
     athnType: '',
     apiAut: [],
     desc: '',
+    updId: '',
   };
-
   showAuth = '';
-  @Watch('serviceOption')
-  onServiceOptionChanged() {
-    if (this.serviceOption.athn.basic?.id != '') {
-      this.showAuth = 'BASIC_AUTH';
-    } else {
-      this.showAuth = 'JWT';
-    }
-    this.formData = this.serviceOption;
-  }
-
   @Watch('showAuth')
   onShowChange(val: string) {
-    console.log(this.showAuth);
-    if (val == 'BASIC_AUTH') {
+    this.formData.athnType = val;
+    if (val == 'basic') {
       this.formData.athn.jwt = {
         alg: null,
         iss: null,
         aud: null,
         pubKey: null,
       };
-    } else if (val == 'JWT') {
+    } else if (val == 'jwt') {
       this.serviceModule.setBasicAuth({ id: null, pw: null });
     }
   }
@@ -232,7 +227,7 @@ export default class SystemRegisterPage extends Vue {
     this.modal = false;
     this.isRegisterProgress = true;
     this.serviceModule
-      .createServiceAction(this.formData)
+      .editServiceAction(this.formData)
       .then(() => {
         this.$router.back();
       })
@@ -246,11 +241,13 @@ export default class SystemRegisterPage extends Vue {
     Math.random().toString(36).substr(2, 11);
   }
 
-  created() {
+  mounted() {
     this.isShowProgress = true;
     Promise.all([this.serviceModule.getService(this.$route.params.id), this.serviceModule.getJWTAlg()])
       .then(() => {
         this.isShowProgress = false;
+        this.showAuth = this.serviceOption.athnType;
+        this.formData = this.serviceOption;
       })
       .catch(() => {
         this.isShowProgress = false;
@@ -394,14 +391,12 @@ export default class SystemRegisterPage extends Vue {
         this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === apiAll.sysId)].apiId = apiAll.apiId;
       }
     } else {
-      console.log(apiAll);
       this.checkedApiList.push({ sysId: apiAll.sysId, apiId: apiAll.apiId });
     }
   }
 
   searchApi(searchText: string) {
     if (searchText !== '') {
-      console.log('공백 아닐 때 apiAuthList : ', this.apiAuthList);
       this.apiList = this.apiAuthList.map((item) => {
         return { ...item };
       });
@@ -410,7 +405,6 @@ export default class SystemRegisterPage extends Vue {
       });
       this.apiList = this.apiList.filter((item) => item.apiId.length !== 0);
     } else {
-      console.log('공백일 때 apiAuthList : ', this.apiAuthList);
       this.apiList = this.apiAuthList.map((item) => {
         return { ...item };
       });
