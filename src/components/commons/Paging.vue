@@ -14,7 +14,7 @@
         <a @click="onChangedPage(pagingOption.currentPage + 1)"><img src="@/assets/page_after.svg" alt="다음" /></a>
       </li>
       <li class="page-btn" v-show="isShowLastBtn == true">
-        <a @click="onChangedPage(pagingOption.totalPages)"><img src="@/assets/page_last.svg" alt="마지막" /></a>
+        <a @click="onChangedPage(pagingOption.totalPage)"><img src="@/assets/page_last.svg" alt="마지막" /></a>
       </li>
     </ul>
   </div>
