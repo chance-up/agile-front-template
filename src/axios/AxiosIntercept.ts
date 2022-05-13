@@ -24,13 +24,8 @@ class ErrorIntercept extends Error {
 }
 
 const axios = Axios.create({
-<<<<<<< HEAD
-  // baseURL: 'https://reqres.in/api',
-  baseURL: 'http://localhost:8080/mngt/v1',
-=======
   baseURL: 'http://localhost:8080/mngt/v1/',
   // baseURL: 'http://localhost:8080/mngt/v1/',
->>>>>>> ddbdae6de99b193da714ee7f900adcb5179e4361
   headers: {
     Accept: 'application/json',
     Authorization: 'Basic QU5EOnNhZmUyZ29fYW5k',
