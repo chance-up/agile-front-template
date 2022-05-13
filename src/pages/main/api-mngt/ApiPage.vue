@@ -250,6 +250,5 @@ export default class ApiPage extends Vue {
   get pagination(): Pagination | null {
     return this.apiModule.apiPagination;
   }
-
 }
 </script>
