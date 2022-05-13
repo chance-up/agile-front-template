@@ -34,7 +34,6 @@
           /> -->
           <EndPointGroup groupNm="End-point" :edptList="edptList" />
           <HandlerGroupForm
-            :groupNm="$t('api.resHndlrGrp')"
             :reqHandlerGroupList="reqHandlerGroupList"
             :resHandlerGroupList="resHandlerGroupList"
             @reqInput="
@@ -141,23 +140,23 @@ export default class ApiRegisterPage extends Vue {
     return this.systemModule.systemIdEdptList;
   }
   showPage = false;
-
-  created() {
+  mounted() {
     this.apiModule.apiReset();
     this.handlerModule.handlerReset();
     this.systemModule.systemReset();
 
     console.log('APiRegisterPage created');
-    axios
-      .all([
-        this.systemModule.getSystemIdEdptList(),
-        this.handlerModule.getReqHandlerGroupList(),
-        this.handlerModule.getResHandlerGroupList(),
-      ])
+    Promise.all([
+      this.systemModule.getSystemIdEdptList(),
+      this.handlerModule.getReqHandlerGroupList(),
+      this.handlerModule.getResHandlerGroupList(),
+    ])
       .then(() => {
         this.showPage = true;
       })
-      .catch();
+      .catch((error) => {
+        console.log(error);
+      });
   }
   destroyed() {
     this.apiModule.release();

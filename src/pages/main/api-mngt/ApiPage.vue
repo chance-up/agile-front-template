@@ -71,12 +71,10 @@
                     :index="index"
                     @deleteApi="
                       (msg) => {
-                        emitDelApi(msg);
+                        handleOndeleteApi(msg);
                       }
                     "
                   />
-                  <!-- @deleteApi="test(msg)" -->
-                  <!-- <ListRow :key="0" :apiData="apiList[0]" :index="0" @deleteApi="test" /> -->
                 </tbody>
               </table>
             </div>
@@ -121,6 +119,8 @@ import Paging from '@/components/commons/Paging.vue';
 import { BSpinner } from 'bootstrap-vue';
 import { Pagination } from '@/types/GateWayResponse';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
+import SystemModule from '@/store/modules/SystemModule';
+import axios from 'axios';
 
 @Component({
   components: {
@@ -141,9 +141,8 @@ export default class ApiPage extends Vue {
   isModalProgress = false;
   isShowProgress = false;
   deleteMsg = { id: '', sysId: '' };
-  emitDelApi(msg: { id: string; sysId: string }) {
+  handleOndeleteApi(msg: { id: string; sysId: string }) {
     this.deleteMsg = msg;
-    // console.log(msg + ' 를 삭제하시겠습니까?');
     this.showModal = true;
   }
   searchOption: { type: string; label: string; placeholder: string; selectOptions: SelectOptionType[] } = {

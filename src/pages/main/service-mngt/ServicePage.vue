@@ -7,25 +7,17 @@
         <!-- Input Box 옵션 -->
         <div class="search-cont">
           <InputBox
-            v-model="searchData['nm']"
-            :label="$t('service.name')"
-            placeholder="입력해주세요."
-            @submit="searchOnClieckEvent"
-          />
-        </div>
-        <div class="search-cont">
-          <InputBox
             v-model="searchData['id']"
             :label="$t('service.id')"
-            placeholder="입력해주세요."
+            :placeholder="$t('common.placeholder')"
             @submit="searchOnClieckEvent"
           />
         </div>
         <div class="search-cont">
           <InputBox
             v-model="searchData['athnType']"
-            :label="$t('service.auth')"
-            placeholder="입력해주세요."
+            :label="$t('service.authentication_method')"
+            :placeholder="$t('common.placeholder')"
             @submit="searchOnClieckEvent"
           />
         </div>
@@ -102,8 +94,8 @@
             </table>
           </div>
         </template>
-        <template slot="pagination">
-          <Paging :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
+        <template slot="pagination" v-if="!isShowProgress">
+          <Paging :pagingOption="servicePagination" @onChangedPage:page="onChangedPage" />
           <ModalLayout size="m" v-if="modal">
             <template v-slot:modalHeader
               ><h1 class="h1-tit">{{ $t('service.delete') }}</h1>
@@ -173,30 +165,25 @@ export default class ServiceManagementPage extends Vue {
         this.$modal.show(`${this.$t('error.server_error')}`);
       });
   }
-  searchOnClieckEvent() {
-    if (Object.values(this.searchData).some((item) => item != '')) {
-      this.getList();
-    } else {
-      this.$modal.show(`${this.$t('service.enter_search_data')}`);
-    }
-  }
 
-  created() {
+  mounted() {
     this._getServiceList();
   }
+
+  get servicePagination(): Pagination {
+    return this.serviceModule.servicePagination;
+  }
+
   _getServiceList() {
+    this.isShowProgress = true;
     this.serviceModule.serviceReset();
 
-    this.isShowProgress = true;
-    this.serviceModule.setServicePagination({} as Pagination);
     if (Object.keys(this.$route.query).length > 0) {
-      if (Object.keys(this.$route.query).includes('nm')) this.searchData.nm = this.$route.query.nm as string;
       if (Object.keys(this.$route.query).includes('id')) this.searchData.id = this.$route.query.id as string;
       if (Object.keys(this.$route.query).includes('athnType'))
         this.searchData.athnType = this.$route.query.athnType as string;
       if (Object.keys(this.$route.query).includes('page')) this.pagingData.page = this.$route.query.page as string;
       const param = { ...this.searchData, ...this.pagingData };
-
       this.serviceModule
         .getServiceList(param)
         .then(() => {
@@ -204,7 +191,7 @@ export default class ServiceManagementPage extends Vue {
         })
         .catch((error) => {
           this.isShowProgress = false;
-          this.$modal.show(error);
+          this.$modal.show(`${this.$t('error.server_error')}`);
         });
     } else {
       this.serviceModule
@@ -214,27 +201,21 @@ export default class ServiceManagementPage extends Vue {
         })
         .catch((error) => {
           this.isShowProgress = false;
-          this.$modal.show(error);
+          this.$modal.show(`${this.$t('error.server_error')}`);
         });
     }
   }
 
-  destroyed() {
-    this.serviceModule.release();
-  }
-
-  get pagination(): Pagination {
-    return this.serviceModule.servicePagination;
-  }
-
-  onChangedPage(page: number) {
-    this.pagingData.page = String(page);
-    this.getList();
+  searchOnClieckEvent() {
+    if (Object.values(this.searchData).some((item) => item != '')) {
+      this.getList();
+    } else {
+      this.$modal.show(`${this.$t('service.enter_search_data')}`);
+    }
   }
 
   getList() {
     const query = {} as SearchCondition;
-    if (Object.keys(this.searchData).includes('nm')) query.nm = this.searchData.nm as string;
     if (Object.keys(this.searchData).includes('id')) query.id = this.searchData.id as string;
     if (Object.keys(this.searchData).includes('athnType')) query.athnType = this.searchData.athnType as string;
     if (Object.keys(this.pagingData).includes('page')) query.page = this.pagingData.page;
@@ -252,6 +233,14 @@ export default class ServiceManagementPage extends Vue {
         },
       });
     }
+  }
+
+  onChangedPage(page: number) {
+    this.pagingData.page = String(page);
+    this.getList();
+  }
+  destroyed() {
+    this.serviceModule.release();
   }
 
   modal = false;

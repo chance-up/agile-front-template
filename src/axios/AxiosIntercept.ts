@@ -23,7 +23,7 @@ class ErrorIntercept extends Error {
 }
 
 const axios = Axios.create({
-  baseURL: 'https://reqres.in/api',
+  baseURL: 'http://localhost:8080/mngt/v1/',
   // baseURL: 'http://localhost:8080/mngt/v1/',
   headers: {
     Accept: 'application/json',

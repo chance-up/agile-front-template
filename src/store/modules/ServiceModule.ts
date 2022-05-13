@@ -25,9 +25,9 @@ export default class ServiceModule extends GateWayModule {
 
   public service: ServiceResponse = {
     id: '',
-    tkcgrNm: '',
-    tkcgrPos: '',
-    tkcgrEml: '',
+    tkcgrNm: null,
+    tkcgrPos: null,
+    tkcgrEml: null,
     sla: { sec: null, min: null, hr: null, day: null, mon: null },
     svcStDt: '',
     svcEndDt: '',
@@ -54,9 +54,9 @@ export default class ServiceModule extends GateWayModule {
 
   public requestService: ServiceRegisterRequest = {
     id: '',
-    tkcgrNm: '',
-    tkcgrPos: '',
-    tkcgrEml: '',
+    tkcgrNm: null,
+    tkcgrPos: null,
+    tkcgrEml: null,
     sla: { sec: null, min: null, hr: null, day: null, mon: null },
     svcStDt: '',
     svcEndDt: '',
@@ -97,8 +97,8 @@ export default class ServiceModule extends GateWayModule {
   @Action
   serviceReset() {
     this.context.commit('setServiceList', []);
-    this.context.commit('setService', {} as ServiceResponse);
-    this.context.commit('setServicePagination', {} as Pagination);
+    this.context.commit('setService', {});
+    this.context.commit('setServicePagination', {});
   }
 
   //서비스 리스트 요청
@@ -108,11 +108,7 @@ export default class ServiceModule extends GateWayModule {
   }
 
   @Mutation
-  getMethod() {
-    console.log('getMethod');
-  }
-  @Mutation
-  setServicePagination(pagination: Pagination) {
+  setServicePagination(pagination: Pagination): void {
     this.servicePagination = pagination;
   }
 
@@ -162,6 +158,7 @@ export default class ServiceModule extends GateWayModule {
   async createService(data: ServiceRegisterRequest) {
     // addMock('/api/service/registerService', JSON.stringify(getServiceId));
     try {
+      console.log(data);
       const response = await AxiosClient.getInstance().post<GateWayResponse<ServiceResponse>>(
         '/createServiceMngt',
         data

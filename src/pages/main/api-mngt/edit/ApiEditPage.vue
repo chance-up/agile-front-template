@@ -145,7 +145,10 @@ export default class ApiEditPage extends Vue {
   get system(): SystemResponse {
     return this.systemModule.system;
   }
-  created() {
+  mounted() {
+    this.apiModule.apiReset();
+    this.handlerModule.handlerReset();
+    this.systemModule.systemReset();
     this.isShowProgress = true;
     const query = this.$route.query as { id: string; sysId: string };
     console.log('APiRegisterPage created');
