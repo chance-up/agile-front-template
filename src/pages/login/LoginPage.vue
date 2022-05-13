@@ -34,6 +34,7 @@
         </div>
       </div>
     </div>
+    <!-- <ModalLayout :alert="true" size="m" @close="hideModal" /> -->
   </div>
 </template>
 <script lang="ts">
@@ -44,10 +45,12 @@ import UserModule from '@/store/modules/UserModule';
 import { UserResponse } from '@/types/UserType';
 
 import InputGroup from '@/components/login/InputGroup.vue';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 
 @Component({
   components: {
     InputGroup,
+    ModalLayout,
   },
 })
 export default class LoginPage extends Vue {
@@ -58,19 +61,32 @@ export default class LoginPage extends Vue {
 
   userModule = getModule(UserModule, this.$store);
 
+  created() {
+    console.log('route info : ', this.$route);
+    if (this.$route.params.error_code === 'UNAUTHORIZED') {
+      alert('세션 만료로 인해 로그아웃 되었습니다.');
+      // this.$modal.show('세션 만료로 인해 로그아웃 되었습니다.');
+    }
+  }
+
   onClickLogin() {
     const val = this.idValid && this.pwdValid;
     if (!val) {
       alert('입력정보를 확인해주세요.');
       // this.$modal.show(`${this.$t('login.invalid_login')}`);
     } else {
-      this.userModule.login(this.loginForm.id, this.loginForm.pwd);
+      console.log('loginForm : ', this.loginForm);
+      this.userModule.login(this.loginForm);
       // this.$router.push({ name: 'home' });
     }
   }
 
   goToSignUpPage() {
     this.$router.push({ name: 'signUp' });
+  }
+
+  hideModal() {
+    this.$modal.hide();
   }
 }
 </script>

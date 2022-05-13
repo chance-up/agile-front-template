@@ -22,17 +22,17 @@ export default class UserModule extends GateWayModule {
 
   // 로그인
   @Action({ rawError: true })
-  async login(id: string, pwd: string) {
-    addMock(`/signIn`, JSON.stringify(userLogin));
-
+  async login(loginForm: { id: string; pwd: string }) {
+    // addMock(`/signIn`, JSON.stringify(userLogin));
     try {
-      const response = await AxiosClient.getInstance().post<LoginUserResponse>(`/signIn`, {
-        id: id,
-        pwd: pwd,
+      console.log('loginForm', loginForm);
+      const response = await AxiosClient.getInstance().post<LoginUserResponse>('/signIn', {
+        id: loginForm.id,
+        pwd: loginForm.pwd,
       });
       console.log('로그인 response', response);
       //쿠키 저장(세션 스토리지 -> 쿠키로 변경하기)
-      sessionStorage.setItem('session_token', response.data.value.session);
+      // sessionStorage.setItem('session_token', response.data.value.session);
       // sessionStorage.setItem('auth_dtl', JSON.stringify(response.data.value.data.value.autDtl));
     } catch (error: GateWayError | any) {
       return Promise.reject(error);

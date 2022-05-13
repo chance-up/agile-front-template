@@ -1,3 +1,4 @@
+import ErrorCode from '@/error/ErrorCodes';
 import Axios, { AxiosRequestConfig } from 'axios';
 
 const mocks: Map<string, string> = new Map<string, string>();
@@ -23,8 +24,8 @@ class ErrorIntercept extends Error {
 }
 
 const axios = Axios.create({
-  baseURL: 'https://reqres.in/api',
-  // baseURL: 'http://localhost:8080/mngt/v1/',
+  // baseURL: 'https://reqres.in/api',
+  baseURL: 'http://localhost:8080/mngt/v1',
   headers: {
     Accept: 'application/json',
     Authorization: 'Basic QU5EOnNhZmUyZ29fYW5k',
@@ -51,7 +52,10 @@ const getMockResponse = (mockError: ErrorIntercept) => {
 };
 
 axios.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('cookie....plz.... : ', response.data);
+    return response;
+  },
   (error) => {
     if (isMockError(error)) {
       return getMockResponse(error);
@@ -80,7 +84,9 @@ axios.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    Promise.reject(error);
+  }
 );
 
 function sleep(ms: number) {
