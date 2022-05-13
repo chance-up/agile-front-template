@@ -84,7 +84,7 @@ export const pagination: Pagination = {
   page: 1,
   size: 10,
   totalElements: 57,
-  totalPages: 6,
+  totalPage: 6,
   currentElements: 10,
   currentPage: 1,
   orderBy: 'ID',
