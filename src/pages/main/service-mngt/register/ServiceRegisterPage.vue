@@ -185,7 +185,6 @@ export default class SystemRegisterPage extends Vue {
 
   @Watch('formData.athnType')
   onShowChange(val: string) {
-    this.formData.athnType = val;
     if (val == 'basic') {
       this.formData.athn.jwt = {
         alg: null,
@@ -194,7 +193,10 @@ export default class SystemRegisterPage extends Vue {
         pubKey: null,
       };
     } else {
-      this.serviceModule.setBasicAuth({ id: null, pw: null });
+      this.formData.athn.basic = {
+        id: null,
+        pw: null,
+      };
     }
   }
 
@@ -300,6 +302,8 @@ export default class SystemRegisterPage extends Vue {
     this.serviceModule
       .getBasicAuth()
       .then(() => {
+        this.formData.athn.basic.id = this.basicAuth.id;
+        this.formData.athn.basic.pw = this.basicAuth.pw;
         this.isBasicAuthProgress = false;
       })
       .catch(() => {
@@ -309,15 +313,6 @@ export default class SystemRegisterPage extends Vue {
 
   get basicAuth(): BasicAuthResponse {
     return this.serviceModule.basicAuth;
-  }
-
-  @Watch('basicAuth.id')
-  onIdChange(val: string) {
-    this.formData.athn.basic.id = val;
-  }
-  @Watch('basicAuth.pw')
-  onPwChange(val: string) {
-    this.formData.athn.basic.pw = val;
   }
 
   get JWTAlg(): JWTAlgResponse {
@@ -340,6 +335,11 @@ export default class SystemRegisterPage extends Vue {
         });
         this.checkedApiList = this.formData.apiAut.map((item) => {
           return { ...item };
+        });
+        this.countApiList = 0;
+        this.checkedApiList.forEach((api) => {
+          this.countApiList += api.apiId.length;
+          console.log(this.countApiList);
         });
       })
       .catch(() => {
@@ -408,7 +408,9 @@ export default class SystemRegisterPage extends Vue {
         return { ...item };
       });
       this.apiList.forEach((api, index) => {
-        this.apiList[index].apiId = this.apiList[index].apiId.filter((item) => item.includes(searchText));
+        this.apiList[index].apiId = this.apiList[index].apiId.filter((item) =>
+          item.toUpperCase().includes(searchText.toUpperCase())
+        );
       });
       this.apiList = this.apiList.filter((item) => item.apiId.length !== 0);
     } else {
@@ -429,7 +431,7 @@ export default class SystemRegisterPage extends Vue {
     }
   }
 
-  created() {
+  mounted() {
     this.isShowProgress = true;
     this.serviceModule
       .getJWTAlg()
