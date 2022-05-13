@@ -27,50 +27,36 @@ import { Pagination } from '@/types/GateWayResponse';
 @Component
 export default class Paging extends Vue {
   @Prop() pagingOption!: Pagination;
-  created() {
-    console.log('pageingOption', this.pagingOption);
-  }
 
   get pageList(): number[] {
     const list = [];
-    for (let p = this.startPage; p <= this.endPage; p++) {
+    for (let p = 0; p <= this.pagingOption.totalPage - 1; p++) {
       list.push(p);
     }
     return list;
   }
 
-  get startPage(): number {
-    return Math.floor(this.pagingOption.currentPage + 1 / this.pagingOption.limit) * this.pagingOption.limit + 1;
-  }
-
-  get endPage(): number {
-    const lastPage =
-      Math.floor(this.pagingOption.currentPage + 1 / this.pagingOption.limit) * this.pagingOption.limit +
-      this.pagingOption.limit;
-    return lastPage <= this.pagingOption.totalPages ? lastPage : this.pagingOption.totalPages;
-  }
-
   get isShowFirstBtn(): boolean {
     // 총 페이지 수가 10개를 초과하고, 현재 페이지가 1이 아닌 경우에 true, 그 외에는 false
-    const rule = this.pagingOption.totalPages > 10 && this.pagingOption.currentPage + 1 > 1;
+    const rule = this.pagingOption.totalPage > 10 && this.pagingOption.currentPage == 0;
     return rule;
   }
 
   get isShowPrevBtn(): boolean {
     // 현재 페이지가 1이면 false, 그 외에는 true
-    const rule = this.pagingOption.currentPage + 1 > 1;
-    return rule;
+    const rule = this.pagingOption.currentPage === 0;
+    return !rule;
   }
 
   get isShowNextBtn(): boolean {
     // 현재 페이지가 마지막 페이지면 false, 그 외에는 true
-    const rule = this.pagingOption.currentPage + 1 < this.pagingOption.totalPages;
-    return rule;
+    const rule = this.pagingOption.currentPage == this.pagingOption.totalPage - 1;
+    return !rule;
   }
 
   get isShowLastBtn(): boolean {
     // 총 페이지 수가 10개를 초과하고, 현재 페이지가 마지막 페이지가 아닌 경우에 true, 그 외에는 false
-    const rule = this.pagingOption.totalPages > 10 && this.pagingOption.currentPage + 1 < this.pagingOption.totalPages;
+    const rule = this.pagingOption.totalPage > 10 && this.pagingOption.currentPage == this.pagingOption.totalPage - 1;
     return rule;
   }
 

@@ -50,7 +50,7 @@
                 <tr>
                   <th>{{ $t('system.no') }}</th>
                   <th>{{ $t('system.id') }}</th>
-                  <th>{{ $t('system.tkcgr') }}</th>
+                  <th>{{ $t('system.tkcgrNm') }}</th>
                   <th>{{ $t('system.update') }}</th>
                   <th>{{ $t('system.action') }}</th>
                 </tr>
@@ -214,7 +214,7 @@ export default class SystemPage extends Vue {
     if (Object.keys(this.pagingData).includes('page')) query.page = this.pagingData.page;
     if (Object.keys(this.pagingData).includes('size')) query.size = this.pagingData.size;
     if (Object.keys(this.pagingData).includes('sort_by')) query.sort_by = this.pagingData.sort_by as string;
-    if (Object.keys(this.pagingData).includes('ordeer_by')) query.order_by = this.pagingData.order_by as string;
+    if (Object.keys(this.pagingData).includes('order_by')) query.order_by = this.pagingData.order_by as string;
 
     if (Object.is(JSON.stringify(this.$router.currentRoute.query), JSON.stringify(query))) {
       this._getSystemList();

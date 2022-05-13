@@ -11,7 +11,7 @@ export interface Pagination {
   page: number;
   size: number;
   totalElements: number;
-  totalPages: number;
+  totalPage: number;
   currentElements: number;
   currentPage: number;
   orderBy: string;

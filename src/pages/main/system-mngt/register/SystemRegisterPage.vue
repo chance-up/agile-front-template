@@ -132,14 +132,15 @@ export default class SystemRegisterPage extends Vue {
   }
 
   showModal() {
-    console.log('idValid :: ', this.idValid);
-    console.log('tkcgrNmValid :: ', this.tkcgrNmValid);
-    console.log('tkcgrPosValid :: ', this.tkcgrPosValid);
-    console.log('tkcgrEmlValid :: ', this.tkcgrEmlValid);
-    console.log('edptValid :: ', this.edptValid);
-    console.log('descValid :: ', this.descValid);
-    console.log('edpt :: ', this.systemItem.edpt);
-    console.log('edpt :: ', this.systemItem.edpt);
+    // console.log('idValid :: ', this.idValid);
+    // console.log('tkcgrNmValid :: ', this.tkcgrNmValid);
+    // console.log('tkcgrPosValid :: ', this.tkcgrPosValid);
+    // console.log('tkcgrEmlValid :: ', this.tkcgrEmlValid);
+    // console.log('edptValid :: ', this.edptValid);
+    // console.log('descValid :: ', this.descValid);
+    // console.log('edpt :: ', this.systemItem.edpt);
+    // console.log('edpt :: ', this.systemItem.edpt);
+    console.log('desc :: ', this.systemItem.desc);
 
     const val =
       this.idValid && this.tkcgrNmValid && this.tkcgrPosValid && this.tkcgrEmlValid && this.edptValid && this.descValid

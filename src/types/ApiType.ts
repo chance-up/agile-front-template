@@ -4,7 +4,7 @@ export const dummyPagination: Pagination = {
   page: 1,
   size: 10,
   totalElements: 13,
-  totalPages: 2,
+  totalPage: 2,
   currentElements: 10,
   currentPage: 1,
   orderBy: 'ID',
