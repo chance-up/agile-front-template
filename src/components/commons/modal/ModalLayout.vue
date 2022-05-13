@@ -134,7 +134,7 @@ export default class ModalLayout extends Vue {
 
 .pop-container {
   /* width: auto; */
-  padding: 30px 0px;
+  /* padding: 30px 0px; */
   /* overflow-y: auto;
   position: relative; */
 }
