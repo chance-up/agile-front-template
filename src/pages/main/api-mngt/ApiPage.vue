@@ -77,7 +77,6 @@
                   />
                 </tbody>
               </table>
-              <button @click="checkPromise">Promise Test</button>
             </div>
           </template>
           <template v-slot:pagination v-if="!isShowProgress">
@@ -252,9 +251,5 @@ export default class ApiPage extends Vue {
     return this.apiModule.apiPagination;
   }
 
-  systemModule = getModule(SystemModule, this.$store);
-  async checkPromise() {
-    axios.all([this.apiModule.getApiList(), this.systemModule.getSystemIdEdptList()]);
-  }
 }
 </script>
