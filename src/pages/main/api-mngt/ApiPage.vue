@@ -156,7 +156,7 @@ export default class ApiPage extends Vue {
     ],
   };
   apiModule = getModule(ApiModule, this.$store);
-  searchTarget = '';
+  searchTarget = 'id';
   searchValue = '';
 
   pagingData: SearchCondition = {};
