@@ -137,10 +137,6 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
   },
 })
 export default class ApiPage extends Vue {
-  @Watch('searchData')
-  detectSearchData() {
-    console.log('hohohohohohohoho' + JSON.stringify(this.searchData));
-  }
   showModal = false;
   isModalProgress = false;
   isShowProgress = false;
