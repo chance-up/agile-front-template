@@ -44,6 +44,16 @@ export interface LoginUserResponse {
   autDtl: UserAuth; // 사용자 권한
 }
 
+export interface StipulationResponse {
+  id: string; // id
+  stpltType: string; // 약관 유형
+  stpltSbst: string[]; // 약관 내용
+  cretDt: string; // 생성 일자
+  updDt: string; // 갱신 일자
+  cretId: string; // 생성 id
+  updId: string; // 갱신 id
+}
+
 // mock data
 export const userLogin = {
   common: {

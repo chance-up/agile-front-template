@@ -8,7 +8,15 @@ import { GateWayError } from '@/error/GateWayError';
 import { GateWayResponse } from '@/types/GateWayResponse';
 import GateWayModule from '../GateWayModule';
 
-import { UserResponse, userLogin, userLogout, userDetailInfo, userEditInfo, LoginUserResponse } from '@/types/UserType';
+import {
+  UserResponse,
+  userLogin,
+  userLogout,
+  userDetailInfo,
+  userEditInfo,
+  LoginUserResponse,
+  StipulationResponse,
+} from '@/types/UserType';
 import { SystemResponse } from '@/types/SystemType';
 
 @Module({ name: 'UserModule' })
@@ -79,6 +87,35 @@ export default class UserModule extends GateWayModule {
         userInfo
       );
       this.context.commit('setLoginUser', response.data.value);
+    } catch (error: GateWayError | any) {
+      return Promise.reject(error);
+    }
+  }
+
+  // 회뤈가입
+  @Action({ rawError: true })
+  async signUp(userInfo: UserResponse) {
+    addMock(`/user/signUp`, JSON.stringify(userInfo));
+
+    try {
+      const response = await AxiosClient.getInstance().post<GateWayResponse<UserResponse>>(`/user/signUp`, userInfo);
+      // this.context.commit('setLoginUser', response.data.value);
+    } catch (error: GateWayError | any) {
+      return Promise.reject(error);
+    }
+  }
+
+  // 약관 동의
+  @Action({ rawError: true })
+  async agreeStipulation(stpltInfo: StipulationResponse) {
+    addMock(`/user/agreeStipulation`, JSON.stringify(stpltInfo));
+
+    try {
+      const response = await AxiosClient.getInstance().post<GateWayResponse<UserResponse>>(
+        `/user/agreeStipulation`,
+        stpltInfo
+      );
+      // this.context.commit('setLoginUser', response.data.value);
     } catch (error: GateWayError | any) {
       return Promise.reject(error);
     }

@@ -18,7 +18,25 @@ const routes: Array<RouteConfig> = [
   {
     path: '/signUp',
     name: 'signUp',
+    redirect: '/signUp/term',
     component: () => import('@/pages/login/sign-up/SignUpPage.vue'),
+    children: [
+      {
+        path: '/signUp/term',
+        name: 'signUpTerm',
+        component: () => import('@/pages/login/sign-up/term/SignUpTermPage.vue'),
+      },
+      {
+        path: '/signUp/register',
+        name: 'signUpRegister',
+        component: () => import('@/pages/login/sign-up/register/SignUpRegisterPage.vue'),
+      },
+      {
+        path: '/signUp/complete',
+        name: 'signUpComplete',
+        component: () => import('@/pages/login/sign-up/complete/SignUpCompletePage.vue'),
+      },
+    ],
   },
   {
     path: '/main',

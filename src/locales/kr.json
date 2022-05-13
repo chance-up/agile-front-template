@@ -11,6 +11,8 @@
     "save": "저장",
     "list": "목록",
     "register": "등록",
+    "join": "가입",
+    "next": "다음",
     "search": "검색",
     "add": "추가",
     "placeholder": "입력해주세요.",
@@ -30,6 +32,29 @@
     "is_forgot_password": "비밀번호를 잊으셨나요?",
     "find_password": "비밀번호 찾기",
     "invalid_login": "아이디 또는 비밀번호를 입력해주세요."
+  },
+  "sign-up":{
+    "add_depth": "회원가입",
+    "title-register":"회원가입",
+    "subtitle-register":"회원 정보 입력",
+
+    "nm":"이름",
+    "nm-place":"홍길동",    
+    "id": "ID",
+    "id-place" : "example",
+    "pwd": "비밀번호",
+    "pwd-place": "비밀번호",
+    "pwd-confirm": "비밀번호 확인",
+    "pwd-confirm-place": "비밀번호 확인",
+    "tel":"전화번호",
+    "tel-place":"010-1234-5678",
+    "pos":"소속",
+    "pos-place":"ktds",
+    "eml": "이메일",
+    "eml-place": "example@test.com",
+
+    "modal-register": "회원가입",
+    "modal-register-message": "가입 하시겠습니까?"
   },
   "api": {
     "apiId": "API ID",
