@@ -159,6 +159,7 @@ export default class ServiceManagementPage extends Vue {
       .then(() => {
         this._getServiceList();
         this.modal = false;
+        this.isRegisterProgress = false;
       })
       .catch(() => {
         this.isRegisterProgress = false;

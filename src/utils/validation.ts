@@ -48,6 +48,6 @@ export const checkEnglishNumberKoreanSpacialChar = (value: string) => {
 
 export const checkDomain = (value: string) => {
   console.log(value);
-  const r = /^(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,5})/gi;
+  const r = /^(([a-zA-Z\-0-9]+\.)+[a-zA-Z0-9]{1,5})/gi;
   return r.test(String(value));
 };
