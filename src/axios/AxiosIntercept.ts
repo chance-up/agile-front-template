@@ -1,3 +1,4 @@
+import ErrorCode from '@/error/ErrorCodes';
 import Axios, { AxiosRequestConfig } from 'axios';
 
 const mocks: Map<string, string> = new Map<string, string>();
@@ -51,7 +52,10 @@ const getMockResponse = (mockError: ErrorIntercept) => {
 };
 
 axios.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('cookie....plz.... : ', response.data);
+    return response;
+  },
   (error) => {
     if (isMockError(error)) {
       return getMockResponse(error);
@@ -79,7 +83,9 @@ axios.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    Promise.reject(error);
+  }
 );
 
 function sleep(ms: number) {

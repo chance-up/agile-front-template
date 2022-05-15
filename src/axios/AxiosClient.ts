@@ -5,6 +5,10 @@ import { GateWayError } from '@/error/GateWayError';
 import ErrorCode from '@/error/ErrorCodes';
 import { GateWayResponse } from '@/types/GateWayResponse';
 import { AxiosResponse } from 'axios';
+
+import router from '@/router/index';
+import modal from '@/plugins/modal/ModalPlugin';
+
 export class AxiosClient {
   private static instance: AxiosClient;
   source: CancelTokenSource | null = null;
@@ -38,7 +42,16 @@ export class AxiosClient {
         if (!error.response) {
           throw new GateWayError(ErrorCode.NETWORK_ERROR);
         } else {
-          throw new GateWayError(error.response.status);
+          if (error.response.status == ErrorCode.NOT_FOUND) {
+            router.push({
+              name: 'login',
+              params: {
+                error_code: 'UNAUTHORIZED',
+              },
+            });
+          } else {
+            throw new GateWayError(error.response.status);
+          }
         }
       }
     }
@@ -49,16 +62,29 @@ export class AxiosClient {
     this.source = cancelToken.source();
 
     try {
-      const response: AxiosResponse = await axios.post<T>(url, data, { cancelToken: this.source.token });
+      const response: AxiosResponse = await axios.post<T>(url, data, {
+        cancelToken: this.source.token,
+        // withCredentials: true,
+      });
+      console.log('pose response', response);
       if (isMockData(url)) {
         return JSON.parse(response.data);
       } else {
         return response.data;
       }
     } catch (error: Error | any) {
+      console.log('post error', error);
       if (!error.response) {
         throw new GateWayError(ErrorCode.NETWORK_ERROR);
       } else {
+        if (error.response.status == ErrorCode.NOT_FOUND) {
+          router.push({
+            name: 'login',
+            params: {
+              error_code: 'UNAUTHORIZED',
+            },
+          });
+        }
         throw new GateWayError(error.response.status);
       }
     }
@@ -79,6 +105,14 @@ export class AxiosClient {
       if (!error.response) {
         throw new GateWayError(ErrorCode.NETWORK_ERROR);
       } else {
+        if (error.response.status == ErrorCode.NOT_FOUND) {
+          router.push({
+            name: 'login',
+            params: {
+              error_code: 'UNAUTHORIZED',
+            },
+          });
+        }
         throw new GateWayError(error.response.status);
       }
     }
@@ -102,6 +136,14 @@ export class AxiosClient {
       if (!error.response) {
         throw new GateWayError(ErrorCode.NETWORK_ERROR);
       } else {
+        if (error.response.status == ErrorCode.NOT_FOUND) {
+          router.push({
+            name: 'login',
+            params: {
+              error_code: 'UNAUTHORIZED',
+            },
+          });
+        }
         throw new GateWayError(error.response.status);
       }
     }

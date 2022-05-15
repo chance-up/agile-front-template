@@ -2,6 +2,10 @@
   <ContentLayout :title="$t('sign-up.title-register')" :subTitle="$t('sign-up.title-stipulation')">
     <template v-slot:contents>
       <ul>
+        <div class="check-box">
+          <div class="check"><input type="checkbox" id="checkPost" /><span class="checkmark"></span></div>
+          <label for="checkPost">약관 전체동의</label>
+        </div>
         <InputGroup
           type="text"
           :value.sync="stplt.id"
@@ -27,8 +31,9 @@
     </template>
     <template v-slot:buttons v-if="!isShowProgress">
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="showModal" :disabled="isBtnDisabled">
-          {{ $t('common.join') }}
+        <!-- <button class="lg-btn purple-btn" @click="showModal" :disabled="isBtnDisabled"> -->
+        <button class="lg-btn purple-btn" @click="goToNext" :disabled="isBtnDisabled">
+          {{ $t('common.next') }}
           <b-spinner variant="light" label="Spinning" v-if="isBtnDisabled" small></b-spinner>
         </button>
         <button class="lg-btn white-btn" @click="cancelOnClickEvent" :disabled="isBtnDisabled">
@@ -80,6 +85,10 @@ export default class SignUpStipulationPage extends Vue {
     updId: '',
   };
 
+  goToNext() {
+    this.$router.push({ name: 'signUpRegister' });
+  }
+
   cancelOnClickEvent() {
     this.$router.go(-1);
   }
@@ -97,19 +106,19 @@ export default class SignUpStipulationPage extends Vue {
   //   }, 1000);
   // }
 
-  showModal() {
-    const val =
-      this.idValid && this.pwdValid && this.pwdConfirmValid && this.telValid && this.posValid && this.emlValid
-        ? true
-        : false;
+  // showModal() {
+  //   const val =
+  //     this.idValid && this.pwdValid && this.pwdConfirmValid && this.telValid && this.posValid && this.emlValid
+  //       ? true
+  //       : false;
 
-    if (!val) {
-      this.$modal.show(`${this.$t('system.empty_check_message')}`);
-      return;
-    } else {
-      this.isShowModal = true;
-    }
-  }
+  //   if (!val) {
+  //     this.$modal.show(`${this.$t('system.empty_check_message')}`);
+  //     return;
+  //   } else {
+  //     this.isShowModal = true;
+  //   }
+  // }
 
   closeModal() {
     this.isShowModal = false;
