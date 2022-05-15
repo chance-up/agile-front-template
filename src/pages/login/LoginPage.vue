@@ -34,6 +34,7 @@
         </div>
       </div>
     </div>
+    <ModalLayout v-if="isShowModal" :errorDesc="message" :alert="true" @close="hideModal" size="m"> </ModalLayout>
     <!-- <ModalLayout :alert="true" size="m" @close="hideModal" /> -->
   </div>
 </template>
@@ -59,21 +60,21 @@ export default class LoginPage extends Vue {
   idValid = false;
   pwdValid = false;
 
+  isShowModal = false;
+  message = '';
+
   userModule = getModule(UserModule, this.$store);
 
   created() {
-    console.log('route info : ', this.$route);
     if (this.$route.params.error_code === 'UNAUTHORIZED') {
-      alert('세션 만료로 인해 로그아웃 되었습니다.');
-      // this.$modal.show('세션 만료로 인해 로그아웃 되었습니다.');
+      this.showModal(`${this.$t('login.session_expired')}`);
     }
   }
 
   onClickLogin() {
     const val = this.idValid && this.pwdValid;
     if (!val) {
-      alert('입력정보를 확인해주세요.');
-      // this.$modal.show(`${this.$t('login.invalid_login')}`);
+      this.showModal(`${this.$t('login.invalid_login')}`);
     } else {
       console.log('loginForm : ', this.loginForm);
       this.userModule.login(this.loginForm);
@@ -85,8 +86,13 @@ export default class LoginPage extends Vue {
     this.$router.push({ name: 'signUp' });
   }
 
+  showModal(text: string) {
+    this.isShowModal = true;
+    this.message = text;
+  }
+
   hideModal() {
-    this.$modal.hide();
+    this.isShowModal = false;
   }
 }
 </script>

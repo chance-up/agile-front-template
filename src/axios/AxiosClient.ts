@@ -64,7 +64,6 @@ export class AxiosClient {
     try {
       const response: AxiosResponse = await axios.post<T>(url, data, {
         cancelToken: this.source.token,
-        // withCredentials: true,
       });
       console.log('pose response', response);
       if (isMockData(url)) {
