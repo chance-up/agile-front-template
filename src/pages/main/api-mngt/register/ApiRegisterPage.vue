@@ -198,8 +198,8 @@ export default class ApiRegisterPage extends Vue {
   async handleChangeApiId() {
     console.log('isDuplicatedId changed', this.isDuplicatedId);
     if (this.isDuplicatedId) {
-      this.requestBody.uriIn = this.requestBody.sysId + '/v1/' + this.requestBody.id;
-      this.requestBody.uriOut = this.requestBody.sysId + '/v1/' + this.requestBody.id;
+      this.requestBody.uriIn = '/' + this.requestBody.sysId + '/v1/' + this.requestBody.id;
+      this.requestBody.uriOut = '/' + this.requestBody.sysId + '/v1/' + this.requestBody.id;
       this.uriValid = true;
     }
   }
