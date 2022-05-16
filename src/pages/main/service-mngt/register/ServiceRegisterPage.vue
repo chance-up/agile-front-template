@@ -28,8 +28,8 @@
           <AuthReqGroup
             @basicAuthClicked="basicAuthClicked"
             :inputNm="$t('service.authentication_method')"
-            :basicId="basicAuth.id"
-            :basicPw="basicAuth.pw"
+            :basicId="formData.athn.basic.id"
+            :basicPw="formData.athn.basic.pw"
             :athn.sync="formData.athnType"
             :alg.sync="JWTAlg.alg"
             :pickedAlg.sync="formData.athn.jwt.alg"
