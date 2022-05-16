@@ -78,8 +78,10 @@
                     <span>{{ list.svcStDt.slice(0, 10) }}</span> ~ <span>{{ list.svcEndDt.slice(0, 10) }}</span>
                   </td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
-                    <span>{{ list.updDt.slice(0, 10) }}</span
-                    ><span>{{ list.updDt.slice(10, 19) }}</span>
+                    <p class="date-txt">
+                      <span> {{ list.updDt === '' ? getDate(list.cretDt) : getDate(list.updDt) }}</span
+                      ><span>{{ list.updDt === '' ? getHours(list.cretDt) : getHours(list.updDt) }}</span>
+                    </p>
                   </td>
                   <td>
                     <button class="mod-btn" @click="$router.push({ name: 'service-edit', params: { id: list.id } })">
@@ -130,6 +132,7 @@ import { BSpinner } from 'bootstrap-vue';
 import Paging from '@/components/commons/Paging.vue';
 import { Pagination } from '@/types/GateWayResponse';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
+import { convertDate, convertTime } from '@/utils/converter';
 
 @Component({
   components: {
@@ -148,6 +151,14 @@ export default class ServiceManagementPage extends Vue {
   isRegisterProgress = false;
   isListEmpty = false;
   serviceModule = getModule(ServiceModule, this.$store);
+
+  getDate(date: string) {
+    return convertDate(date);
+  }
+
+  getHours(date: string) {
+    return convertTime(date);
+  }
 
   get listOption(): ServiceResponse[] {
     return this.serviceModule.services;

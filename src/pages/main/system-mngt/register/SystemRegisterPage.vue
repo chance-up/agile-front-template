@@ -17,6 +17,8 @@
           @input="duplicateCheckId"
         />
 
+        <EdptForm :inputNm="$t('system.edpt')" :strArr.sync="systemItem.edpt" :isValid.sync="edptValid" />
+
         <InputGroup
           type="text"
           :value.sync="systemItem.tkcgrNm"
@@ -38,7 +40,6 @@
           :place="$t('system.tkcgrEml_placeholder')"
           :isValid.sync="tkcgrEmlValid"
         />
-        <EdptForm :inputNm="$t('system.edpt')" :strArr.sync="systemItem.edpt" :isValid.sync="edptValid" />
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" :isValid.sync="descValid" />
       </ul>
       <ModalLayout size="m" v-if="isShowModal">

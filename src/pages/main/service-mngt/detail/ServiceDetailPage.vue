@@ -9,35 +9,35 @@
     >
       <template v-if="!isShowProgress" v-slot:contents>
         <ul>
-          <InfoGroup :inputNm="$t('service.id')" :value="serviceOption.id" />
+          <InfoGroup :inputNm="$t('service.id')" :value="service.id" />
           <DateInfoGroup
             :inputNm="$t('service.date')"
-            :startDt="serviceOption.svcStDt.slice(0, 10)"
-            :endDt="serviceOption.svcEndDt.slice(0, 10)"
+            :startDt="getDate(service.svcStDt)"
+            :endDt="getDate(service.svcEndDt)"
           />
           <AuthGroup
             :inputNm="$t('service.authentication_method')"
-            :athn="serviceOption.athnType"
-            :id="serviceOption.athn.basic.id"
-            :pw="serviceOption.athn.basic.pw"
-            :alg="serviceOption.athn.jwt.alg"
-            :issuer="serviceOption.athn.jwt.iss"
-            :subject="serviceOption.athn.jwt.aud"
-            :publickey="serviceOption.athn.jwt.pubKey"
+            :athn="service.athnType"
+            :id="service.athn.basic.id"
+            :pw="service.athn.basic.pw"
+            :alg="service.athn.jwt.alg"
+            :iss="service.athn.jwt.iss"
+            :aud="service.athn.jwt.aud"
+            :pubKey="service.athn.jwt.pubKey"
           />
-          <ApiAuthGroup :inputNm="$t('service.api_mngt')" @setShowApiAuth="showApiAuth" />
+          <ApiAuthGroup :inputNm="$t('service.api_mngt')" :countApiList="countApiList" @setShowApiAuth="showApiAuth" />
           <SlaGroup
             :inputNm="$t('service.SLA_mngt')"
-            :secVal="serviceOption.sla.sec"
-            :minVal="serviceOption.sla.min"
-            :hourVal="serviceOption.sla.hr"
-            :dayVal="serviceOption.sla.day"
-            :monthVal="serviceOption.sla.mon"
+            :secVal="service.sla.sec"
+            :minVal="service.sla.min"
+            :hourVal="service.sla.hr"
+            :dayVal="service.sla.day"
+            :monthVal="service.sla.mon"
           />
-          <InfoGroup :inputNm="$t('service.tkcgrNm')" :value="serviceOption.tkcgrNm" />
-          <InfoGroup :inputNm="$t('service.tkcgrPos')" :value="serviceOption.tkcgrPos" />
-          <InfoGroup :inputNm="$t('service.tkcgrEml')" :value="serviceOption.tkcgrEml" />
-          <InfoGroup :inputNm="$t('service.desc')" :value="serviceOption.desc" />
+          <InfoGroup :inputNm="$t('service.tkcgrNm')" :value="service.tkcgrNm" />
+          <InfoGroup :inputNm="$t('service.tkcgrPos')" :value="service.tkcgrPos" />
+          <InfoGroup :inputNm="$t('service.tkcgrEml')" :value="service.tkcgrEml" />
+          <InfoGroup :inputNm="$t('service.desc')" :value="service.desc" />
           <ModalLayout size="m" v-if="modal">
             <template v-slot:modalHeader
               ><h1 class="h1-tit">{{ $t('service.delete') }}</h1>
@@ -62,7 +62,7 @@
           >
             {{ $t('common.modify') }}
           </button>
-          <button class="lg-btn white-btn" @click="modalShow(serviceOption.id)" :disabled="isRegisterProgress">
+          <button class="lg-btn white-btn" @click="modalShow(service.id)" :disabled="isRegisterProgress">
             {{ $t('common.delete') }}
             <b-spinner v-show="isRegisterProgress" small></b-spinner>
           </button>
@@ -73,9 +73,10 @@
       </template>
     </ContentLayout>
     <ApiAuthVueModal
-      :setCheckedApiList="serviceOption.apiAut"
+      :setCheckedApiList="service.apiAut"
       :setIsApiAuthProgress="isApiAuthProgress"
       :setShowApiAuthModal="showApiAuthModal"
+      :setCountApiList="countApiList"
       @hideApiAuth="hideApiAuth"
     ></ApiAuthVueModal>
   </div>
@@ -91,10 +92,10 @@ import Component from 'vue-class-component';
 import { ServiceResponse } from '@/types/ServiceType';
 import { getModule } from 'vuex-module-decorators';
 import ServiceModule from '@/store/modules/ServiceModule';
-import { Watch } from 'vue-property-decorator';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import ApiAuthVueModal from '@/components/service-mngt/ApiAuthVueModal.vue';
 import ApiAuthGroup from '@/components/service-mngt/ApiAuthGroup.vue';
+import { convertDate } from '@/utils/converter';
 
 @Component({
   components: {
@@ -111,11 +112,43 @@ import ApiAuthGroup from '@/components/service-mngt/ApiAuthGroup.vue';
 export default class ServiceDetailPage extends Vue {
   isShowProgress = false;
   isRegisterProgress = false;
-
+  countApiList = 0;
   serviceModule = getModule(ServiceModule, this.$store);
+  service: ServiceResponse = {
+    id: '',
+    tkcgrNm: null,
+    tkcgrPos: null,
+    tkcgrEml: null,
+    svcStDt: '',
+    svcEndDt: '',
+    athnType: '',
+    athn: {
+      basic: {
+        id: null,
+        pw: null,
+      },
+      jwt: {
+        alg: null,
+        iss: null,
+        aud: null,
+        pubKey: null,
+      },
+    },
+    sla: { sec: null, min: null, hr: null, day: null, mon: null },
+    apiAut: [],
+    desc: '',
+    updId: '',
+    updDt: '',
+    cretDt: '',
+    cretId: '',
+  };
 
   get serviceOption(): ServiceResponse {
     return this.serviceModule.service;
+  }
+
+  getDate(date: string) {
+    return convertDate(date);
   }
 
   deleteService(id: string) {
@@ -135,11 +168,14 @@ export default class ServiceDetailPage extends Vue {
 
   mounted() {
     this.isShowProgress = true;
-
     this.serviceModule
-      .getService(this.$route.params.id)
+      .getService(this.$route.params.id as string)
       .then(() => {
         this.isShowProgress = false;
+        this.service = this.serviceOption;
+        this.service.apiAut.forEach((api) => {
+          this.countApiList += api.apiId.length;
+        });
       })
       .catch(() => {
         this.$modal.show(`${this.$t('api.server_error')}`);

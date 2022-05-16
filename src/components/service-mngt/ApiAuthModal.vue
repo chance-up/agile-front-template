@@ -71,6 +71,7 @@
 
               <div class="api-cont">
                 <div v-for="(sys, index) in checkedApiList" :key="index">
+                  <h6 v-if="sys" class="h6-tit">{{ sys.sysId }} ---------------------------------------</h6>
                   <div class="api-stick" v-for="(checkedApi, index) in sys.apiId" :key="index">
                     <span>{{ checkedApi }}</span>
                     <button @click="deleteApi(sys.sysId, checkedApi)">
@@ -99,6 +100,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { ApiAuthResponse } from '@/types/ServiceType';
 import { BSpinner } from 'bootstrap-vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
+import { disableScrolling, enableScrolling } from '@/utils/screen';
 
 @Component({
   components: {
@@ -142,6 +144,11 @@ export default class ApiAuthModal extends Vue {
   @Watch('setShowApiAuthModal')
   showApiAuthModalChanged(val: boolean) {
     this.showApiAuthModal = val;
+    if (val) {
+      disableScrolling();
+    } else {
+      enableScrolling();
+    }
   }
 
   checkApiAll(system: ApiAuthResponse) {

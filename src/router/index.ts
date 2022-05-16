@@ -44,9 +44,9 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/pages/main/MainPage.vue'),
     children: [
       {
-        path: '/home',
-        name: 'home',
-        component: () => import('@/pages/main/home/HomePage.vue'),
+        path: '/dashboard',
+        name: 'dashBoard',
+        component: () => import('@/pages/main/dash-board/DashBoardPage.vue'),
       },
       // System
       {

@@ -14,8 +14,15 @@
           :inputNm="$t('system.id')"
           :place="$t('system.id_placeholder')"
           :disabled="true"
+          :required="true"
         />
 
+        <EdptForm
+          :inputNm="$t('system.edpt')"
+          :strArr.sync="systemItem.edpt"
+          :isValid.sync="edptValid"
+          editPage="true"
+        />
         <InputGroup
           type="text"
           :value.sync="systemItem.tkcgrNm"
@@ -37,12 +44,6 @@
           :inputNm="$t('system.tkcgrEml')"
           :place="$t('system.tkcgrEml')"
           :isValid.sync="tkcgrEmlValid"
-        />
-        <EdptForm
-          :inputNm="$t('system.edpt')"
-          :strArr.sync="systemItem.edpt"
-          :isValid.sync="edptValid"
-          editPage="true"
         />
         <TextAreaGroup :inputNm="$t('system.desc')" :value.sync="systemItem.desc" />
       </ul>
@@ -112,7 +113,7 @@ export default class SystemEditPage extends Vue {
     return this.systemModule.system;
   }
 
-  created() {
+  mounted() {
     this.isShowProgress = true;
 
     this.systemModule

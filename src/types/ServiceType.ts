@@ -32,9 +32,9 @@ export interface ServiceResponse {
   sla: { sec: number | null; min: number | null; hr: number | null; day: number | null; mon: number | null };
   apiAut: ApiAuthResponse[];
   desc: string | null;
-  cretDt?: string;
-  updDt?: string;
-  cretId?: string;
+  cretDt: string;
+  updDt: string;
+  cretId: string;
   updId: string;
 }
 export interface BasicAuthResponse {

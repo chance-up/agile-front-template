@@ -78,7 +78,6 @@ export default class LoginPage extends Vue {
     } else {
       console.log('loginForm : ', this.loginForm);
       this.userModule.login(this.loginForm);
-      // this.$router.push({ name: 'home' });
     }
   }
 

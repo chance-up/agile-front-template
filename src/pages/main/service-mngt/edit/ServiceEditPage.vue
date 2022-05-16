@@ -179,7 +179,7 @@ export default class SystemRegisterPage extends Vue {
   apiList: ApiAuthResponse[] = [];
   checkedApiList: ApiAuthResponse[] = [];
   countApiList = 0;
-  get serviceOption(): ServiceResponse {
+  get serviceOption(): ServiceModifyRequest {
     return this.serviceModule.service;
   }
 
@@ -249,9 +249,7 @@ export default class SystemRegisterPage extends Vue {
     Promise.all([this.serviceModule.getService(this.$route.params.id), this.serviceModule.getJWTAlg()])
       .then(() => {
         this.isShowProgress = false;
-        delete this.serviceOption.cretDt;
-        delete this.serviceOption.updDt;
-        delete this.serviceOption.cretId;
+
         this.formData = this.serviceOption;
       })
       .catch(() => {
@@ -351,7 +349,7 @@ export default class SystemRegisterPage extends Vue {
 
   hideApiAuth() {
     this.showApiAuthModal = false;
-    if (this.checkedApiList.length == 0) {
+    if (this.formData.apiAut.length == 0) {
       this.apiAuthValid = false;
     } else {
       this.apiAuthValid = true;
@@ -377,13 +375,25 @@ export default class SystemRegisterPage extends Vue {
       this.checkedApiList.push({ sysId: sys, apiId: [api] });
       this.countApiList++;
     }
+    this.checkedApiList.sort(function (a, b) {
+      // 오름차순
+      return a.sysId < b.sysId ? -1 : a.sysId > b.sysId ? 1 : 0;
+    });
   }
 
   deleteApi(sys: string, api: string) {
-    this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
-      this.checkedApiList.findIndex((item) => item.sysId === sys)
-    ].apiId.filter((item) => item !== api);
+    if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.length == 1) {
+      this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== sys);
+    } else {
+      this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
+        this.checkedApiList.findIndex((item) => item.sysId === sys)
+      ].apiId.filter((item) => item !== api);
+    }
     this.countApiList--;
+    this.checkedApiList.sort(function (a, b) {
+      // 오름차순
+      return a.sysId < b.sysId ? -1 : a.sysId > b.sysId ? 1 : 0;
+    });
   }
 
   checkApiAll(apiAll: ApiAuthResponse) {
@@ -402,6 +412,10 @@ export default class SystemRegisterPage extends Vue {
       this.checkedApiList.push({ sysId: apiAll.sysId, apiId: apiAll.apiId });
       this.countApiList = this.countApiList + apiAll.apiId.length;
     }
+    this.checkedApiList.sort(function (a, b) {
+      // 오름차순
+      return a.sysId < b.sysId ? -1 : a.sysId > b.sysId ? 1 : 0;
+    });
   }
 
   searchApi(searchText: string) {
