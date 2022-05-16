@@ -192,7 +192,7 @@ export default class MyPage extends Vue {
   }
 
   cancelOnClickEvent() {
-    this.$router.push({ name: 'home' });
+    this.$router.push({ name: 'dashBoard' });
   }
 
   showModal() {

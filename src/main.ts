@@ -13,7 +13,6 @@ import Modal from '@/plugins/modal/Modal';
 import ModalPlugin from '@/plugins/modal/ModalPlugin';
 
 import 'bootstrap/dist/css/bootstrap.css';
-// import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);

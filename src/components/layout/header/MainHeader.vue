@@ -8,8 +8,8 @@
       <!------- navigation -------->
       <nav id="navi">
         <ul>
-          <li :class="{ on: navState.homeState }" @click="changeNavState('homeState')">
-            <router-link :to="`${homePath}`">Home</router-link>
+          <li :class="{ on: navState.dashboardState }" @click="changeNavState('dashboardState')">
+            <router-link :to="`${dashBoardPath}`">Home</router-link>
           </li>
           <li :class="{ on: navState.systemState }" @click="changeNavState('systemState')">
             <router-link :to="`${systemPath}`">시스템 관리</router-link>
@@ -61,7 +61,7 @@ import { UserResponse } from '@/types/UserType';
 
 interface NavState {
   [key: string]: boolean;
-  homeState: boolean;
+  dashBoardState: boolean;
   systemState: boolean;
   apiState: boolean;
   serviceState: boolean;
@@ -70,7 +70,7 @@ interface NavState {
 }
 @Component
 export default class MainHeader extends Vue {
-  homePath = '/home';
+  dashBoardPath = '/dashboard';
   systemPath = SYSTEM;
   apiPath = API;
   servicePath = SERVICE;
@@ -78,7 +78,7 @@ export default class MainHeader extends Vue {
   managementPath = MANAGEMENT;
 
   navState: NavState = {
-    homeState: true,
+    dashBoardState: true,
     systemState: false,
     apiState: false,
     serviceState: false,
@@ -93,6 +93,7 @@ export default class MainHeader extends Vue {
   }
 
   changeNavState(state: string) {
+    console.log(state);
     for (const key of Object.keys(this.navState)) {
       this.navState[key] = false;
     }
