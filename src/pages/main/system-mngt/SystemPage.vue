@@ -85,7 +85,7 @@
           </div>
         </template>
         <template slot="pagination" v-if="!isShowProgress">
-          <Paging :pagingOption="systemPagination" @onChangedPage:page="onChangedPage" />
+          <Paging :pagingOption="systemPagination" :isListEmpty="isListEmpty" @onChangedPage:page="onChangedPage" />
         </template>
       </ListForm>
       <ModalLayout size="m" v-if="isShowModal">
@@ -109,7 +109,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 
 import SystemModule from '@/store/modules/SystemModule';
@@ -147,6 +147,7 @@ export default class SystemPage extends Vue {
   isShowProgress = true;
   isShowModal = false;
   isDisabled = false;
+  isListEmpty = false;
 
   currId = '';
 
@@ -156,6 +157,15 @@ export default class SystemPage extends Vue {
 
   get systemPagination(): Pagination {
     return this.systemModule.systemPagination;
+  }
+
+  @Watch('listOption')
+  onListOptionChanged() {
+    if (this.listOption.length === 0) {
+      this.isListEmpty = true;
+    } else {
+      this.isListEmpty = false;
+    }
   }
 
   created() {

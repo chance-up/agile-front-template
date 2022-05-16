@@ -30,7 +30,7 @@ const axios = Axios.create({
     Accept: 'application/json',
     Authorization: 'Basic QU5EOnNhZmUyZ29fYW5k',
   },
-  withCredentials: true,
+  // withCredentials: true,
 });
 
 const isMockError = (error: ErrorIntercept) => Boolean(error.mockData);

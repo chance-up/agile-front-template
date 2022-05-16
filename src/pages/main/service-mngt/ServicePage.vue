@@ -95,7 +95,7 @@
           </div>
         </template>
         <template slot="pagination" v-if="!isShowProgress">
-          <Paging :pagingOption="servicePagination" @onChangedPage:page="onChangedPage" />
+          <Paging :pagingOption="servicePagination" :isListEmpty="isListEmpty" @onChangedPage:page="onChangedPage" />
           <ModalLayout size="m" v-if="modal">
             <template v-slot:modalHeader
               ><h1 class="h1-tit">{{ $t('service.delete') }}</h1>
@@ -118,7 +118,7 @@
   </ListLayout>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 import ListLayout from '@/components/layout/ListLayout.vue';
 import InputBox from '@/components/commons/search-option/InputBox.vue';
@@ -146,6 +146,7 @@ export default class ServiceManagementPage extends Vue {
   pagingData: SearchCondition = {};
   isShowProgress = true;
   isRegisterProgress = false;
+  isListEmpty = false;
   serviceModule = getModule(ServiceModule, this.$store);
 
   get listOption(): ServiceResponse[] {
@@ -173,6 +174,15 @@ export default class ServiceManagementPage extends Vue {
 
   get servicePagination(): Pagination {
     return this.serviceModule.servicePagination;
+  }
+
+  @Watch('listOption')
+  onListOptionChanged() {
+    if (this.listOption.length === 0) {
+      this.isListEmpty = true;
+    } else {
+      this.isListEmpty = false;
+    }
   }
 
   _getServiceList() {
