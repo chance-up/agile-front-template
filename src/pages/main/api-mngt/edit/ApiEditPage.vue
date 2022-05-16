@@ -77,7 +77,7 @@
     <template v-slot:buttons v-if="!isShowProgress">
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap">
-        <button class="lg-btn purple-btn" @click="handleClickTestSubmitButton">수정테스트</button>
+        <!-- <button class="lg-btn purple-btn" @click="handleClickTestSubmitButton">수정테스트</button> -->
         <!-- <button class="lg-btn purple-btn" @click="$router.push({ path: '/api' })">{{ $t('api.edit') }}</button> -->
         <button :disabled="isButtonDisabled" class="lg-btn purple-btn" @click="onClickSubmitButton">
           {{ $t('api.edit') }}

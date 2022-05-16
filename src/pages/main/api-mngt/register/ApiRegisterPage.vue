@@ -78,9 +78,9 @@
     <template v-slot:buttons>
       <!-- 레이아웃과 컨텐츠를 제외한 나머지 버튼들을 넣어주세요 -->
       <div class="btn-wrap" v-if="showPage">
-        <button class="lg-btn purple-btn" @click="handleClickTestSubmitButton" :disabled="isButtonDisabled">
+        <!-- <button class="lg-btn purple-btn" @click="handleClickTestSubmitButton" :disabled="isButtonDisabled">
           등록테스트
-        </button>
+        </button> -->
         <button class="lg-btn purple-btn" @click="onClickSubmitButton" :disabled="isButtonDisabled">
           {{ $t('common.register') }}
           <b-spinner variant="light" label="Spinning" v-if="isButtonDisabled" small></b-spinner>
