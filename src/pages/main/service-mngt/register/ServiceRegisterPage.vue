@@ -339,7 +339,6 @@ export default class SystemRegisterPage extends Vue {
         this.countApiList = 0;
         this.checkedApiList.forEach((api) => {
           this.countApiList += api.apiId.length;
-          console.log(this.countApiList);
         });
       })
       .catch(() => {
@@ -349,7 +348,7 @@ export default class SystemRegisterPage extends Vue {
 
   hideApiAuth() {
     this.showApiAuthModal = false;
-    if (this.checkedApiList.length == 0) {
+    if (this.formData.apiAut.length == 0) {
       this.apiAuthValid = false;
     } else {
       this.apiAuthValid = true;
@@ -375,13 +374,25 @@ export default class SystemRegisterPage extends Vue {
       this.checkedApiList.push({ sysId: sys, apiId: [api] });
       this.countApiList++;
     }
+    this.checkedApiList.sort(function (a, b) {
+      // 오름차순
+      return a.sysId < b.sysId ? -1 : a.sysId > b.sysId ? 1 : 0;
+    });
   }
 
   deleteApi(sys: string, api: string) {
-    this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
-      this.checkedApiList.findIndex((item) => item.sysId === sys)
-    ].apiId.filter((item) => item !== api);
+    if (this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId.length == 1) {
+      this.checkedApiList = this.checkedApiList.filter((item) => item.sysId !== sys);
+    } else {
+      this.checkedApiList[this.checkedApiList.findIndex((item) => item.sysId === sys)].apiId = this.checkedApiList[
+        this.checkedApiList.findIndex((item) => item.sysId === sys)
+      ].apiId.filter((item) => item !== api);
+    }
     this.countApiList--;
+    this.checkedApiList.sort(function (a, b) {
+      // 오름차순
+      return a.sysId < b.sysId ? -1 : a.sysId > b.sysId ? 1 : 0;
+    });
   }
 
   checkApiAll(apiAll: ApiAuthResponse) {
@@ -400,6 +411,10 @@ export default class SystemRegisterPage extends Vue {
       this.checkedApiList.push({ sysId: apiAll.sysId, apiId: apiAll.apiId });
       this.countApiList = this.countApiList + apiAll.apiId.length;
     }
+    this.checkedApiList.sort(function (a, b) {
+      // 오름차순
+      return a.sysId < b.sysId ? -1 : a.sysId > b.sysId ? 1 : 0;
+    });
   }
 
   searchApi(searchText: string) {

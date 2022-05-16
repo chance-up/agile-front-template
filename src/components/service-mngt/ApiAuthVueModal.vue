@@ -65,7 +65,7 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
   },
 })
 export default class ApiAuthVueModal extends Vue {
-  @Prop({ default: [] }) setCheckedApiList!: ApiAuthResponse[];
+  @Prop({ default: () => [] }) setCheckedApiList!: ApiAuthResponse[];
   @Prop({ default: false }) setIsApiAuthProgress!: boolean;
   @Prop({ default: false }) setShowApiAuthModal!: boolean;
   @Prop({ default: 0 }) setCountApiList!: number;

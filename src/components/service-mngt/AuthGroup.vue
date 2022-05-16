@@ -46,13 +46,13 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class AuthReqGroup extends Vue {
-  @Prop({ default: '' }) inputNm!: string;
-  @Prop({ default: '' }) athn!: string;
-  @Prop({ default: '' }) id!: string;
-  @Prop({ default: '' }) pw!: string;
-  @Prop({ default: [] }) alg!: string[];
-  @Prop({ default: '' }) issuer!: string;
-  @Prop({ default: '' }) subject!: string;
-  @Prop({ default: '' }) publickey!: string;
+  @Prop() inputNm!: string;
+  @Prop() athn!: string;
+  @Prop() id!: string | null;
+  @Prop() pw!: string | null;
+  @Prop() alg!: string | null;
+  @Prop() issuer!: string | null;
+  @Prop() subject!: string | null;
+  @Prop() publickey!: string | null;
 }
 </script>
