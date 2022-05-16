@@ -1,5 +1,5 @@
 <template>
-  <div class="page-wrap">
+  <div class="page-wrap" v-if="!isListEmpty">
     <ul>
       <li class="page-btn" v-show="isShowFirstBtn == true">
         <a @click="onChangedPage(1)"><img src="@/assets/page_first.svg" alt="처음" /></a>
@@ -27,6 +27,7 @@ import { Pagination } from '@/types/GateWayResponse';
 @Component
 export default class Paging extends Vue {
   @Prop() pagingOption!: Pagination;
+  @Prop() isListEmpty!: boolean;
 
   get pageList(): number[] {
     const list = [];
