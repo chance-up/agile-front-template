@@ -25,17 +25,7 @@
             :subject="serviceOption.athn.jwt.aud"
             :publickey="serviceOption.athn.jwt.pubKey"
           />
-          <li>
-            <label class="label">{{ $t('service.api_mngt') }}</label>
-            <div class="form-cont">
-              <div class="form-group">
-                <p class="api-more"><span class="bold">6</span>건</p>
-                <button class="more-btn" @click="showApiAuth()">
-                  <i><img src="@/assets/more_ico.svg" alt="더보기" /></i>
-                </button>
-              </div>
-            </div>
-          </li>
+          <ApiAuthGroup :inputNm="$t('service.api_mngt')" @setShowApiAuth="showApiAuth" />
           <SlaGroup
             :inputNm="$t('service.SLA_mngt')"
             :secVal="serviceOption.sla.sec"
@@ -104,6 +94,7 @@ import ServiceModule from '@/store/modules/ServiceModule';
 import { Watch } from 'vue-property-decorator';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 import ApiAuthVueModal from '@/components/service-mngt/ApiAuthVueModal.vue';
+import ApiAuthGroup from '@/components/service-mngt/ApiAuthGroup.vue';
 
 @Component({
   components: {
@@ -114,6 +105,7 @@ import ApiAuthVueModal from '@/components/service-mngt/ApiAuthVueModal.vue';
     ModalLayout,
     DateInfoGroup,
     ApiAuthVueModal,
+    ApiAuthGroup,
   },
 })
 export default class ServiceDetailPage extends Vue {
