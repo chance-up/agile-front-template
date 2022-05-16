@@ -80,7 +80,12 @@
             </div>
           </template>
           <template v-slot:pagination v-if="!isShowProgress">
-            <Paging v-if="pagination" :pagingOption="pagination" @onChangedPage:page="onChangedPage" />
+            <Paging
+              v-if="pagination"
+              :pagingOption="pagination"
+              :isListEmpty="isListEmpty"
+              @onChangedPage:page="onChangedPage"
+            />
             <ModalLayout size="m" v-if="showModal">
               <template v-slot:modalHeader><h1 class="h1-tit">API 삭제</h1> </template>
               <template v-slot:modalContainer>
@@ -140,6 +145,7 @@ export default class ApiPage extends Vue {
   showModal = false;
   isModalProgress = false;
   isShowProgress = false;
+  isListEmpty = false;
   deleteMsg = { id: '', sysId: '' };
   handleOndeleteApi(msg: { id: string; sysId: string }) {
     this.deleteMsg = msg;
@@ -172,6 +178,15 @@ export default class ApiPage extends Vue {
   // }
   destroyed() {
     this.apiModule.release();
+  }
+
+  @Watch('apiList')
+  onApiListChanged() {
+    if (this.apiList.length === 0) {
+      this.isListEmpty = true;
+    } else {
+      this.isListEmpty = false;
+    }
   }
 
   fetchApiList() {
