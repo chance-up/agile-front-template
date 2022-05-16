@@ -1,16 +1,33 @@
 <template>
-  <div>
-    <h1>This is Home Page!</h1>
-    <Dropdown />
-  </div>
+  <article class="contents-wrap">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <TotalApiTraffic />
+        </div>
+        <div class="col-sm">One of three columns</div>
+        <div class="col-sm">One of three columns</div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          .col-4<br />Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous
+          unit.
+        </div>
+        <div class="col-6">.col-6<br />Subsequent columns continue along the new line.</div>
+      </div>
+    </div>
+  </article>
 </template>
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Dropdown from '@/components/commons/Dropdown.vue';
+import DoughnutChart from '@/components/dash-board/charts/DoughnutChart.vue';
+import TotalApiTraffic from '@/components/dash-board/charts/TotalApiTraffic.vue';
 
+import * as echarts from 'echarts';
 @Component({
   components: {
-    Dropdown,
+    DoughnutChart,
+    TotalApiTraffic,
   },
 })
 export default class HomePage extends Vue {}
