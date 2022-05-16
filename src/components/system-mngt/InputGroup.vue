@@ -1,6 +1,13 @@
 <template>
   <li>
-    <label for="" class="label point">{{ inputNm }}</label>
+    <label
+      for=""
+      :class="{
+        'label point': required === true,
+        label: required === false,
+      }"
+      >{{ inputNm }}</label
+    >
     <div class="form-cont">
       <input
         :type="type"
@@ -37,6 +44,7 @@ export default class InputGroup extends Vue {
   @Prop({ default: false }) disabled!: boolean;
   @Prop({ default: '' }) value!: string;
   @Prop({ default: false }) isValid!: boolean | null;
+  @Prop({ default: false }) required!: boolean;
 
   notiMessage: [boolean | null, string] = [null, ''];
 
@@ -45,21 +53,17 @@ export default class InputGroup extends Vue {
     this.$emit('update:isValid', this.notiMessage[0]);
   }
 
+  created() {
+    if (this.required === false) {
+      this.$emit('update:isValid', true);
+    }
+  }
+
   get v() {
     return this.value;
   }
   set v(val: string) {
     switch (this.inputNm) {
-      case this.$t('system.name'):
-        if (checkLength(val, 1, 20) && checkEnglishNumberKorean(val)) {
-          this.notiMessage = [true, ''];
-        } else if (val == '') {
-          this.notiMessage = [false, this.$t('system.empty_check') as string];
-        } else {
-          this.notiMessage = [false, this.$t('system.valid_check_nm') as string];
-          console.log(this.notiMessage);
-        }
-        break;
       case this.$t('system.id'):
         if (checkLength(val, 1, 20) && checkEnglishNumber(val)) {
           this.notiMessage = [true, ''];
@@ -74,7 +78,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 20) && checkEnglishKorean(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [false, this.$t('system.empty_check') as string];
+          this.notiMessage = [true, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrNm') as string];
         }
@@ -83,7 +87,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 50)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [false, this.$t('system.empty_check') as string];
+          this.notiMessage = [true, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrPos') as string];
         }
@@ -92,7 +96,7 @@ export default class InputGroup extends Vue {
         if (checkLength(val, 1, 20) && checkEmail(val)) {
           this.notiMessage = [true, ''];
         } else if (val == '') {
-          this.notiMessage = [false, this.$t('system.empty_check') as string];
+          this.notiMessage = [true, ''];
         } else {
           this.notiMessage = [false, this.$t('system.valid_check_tkcgrEml') as string];
         }
@@ -105,7 +109,7 @@ export default class InputGroup extends Vue {
   }
 
   emptyChkFunc() {
-    if (!checkEmpty(this.v)) {
+    if (this.required === true && !checkEmpty(this.v)) {
       this.notiMessage = [false, this.$t('system.empty_check') as string];
     }
   }
