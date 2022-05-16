@@ -21,9 +21,9 @@
             :id="service.athn.basic.id"
             :pw="service.athn.basic.pw"
             :alg="service.athn.jwt.alg"
-            :issuer="service.athn.jwt.iss"
-            :subject="service.athn.jwt.aud"
-            :publickey="service.athn.jwt.pubKey"
+            :iss="service.athn.jwt.iss"
+            :aud="service.athn.jwt.aud"
+            :pubKey="service.athn.jwt.pubKey"
           />
           <ApiAuthGroup :inputNm="$t('service.api_mngt')" :countApiList="countApiList" @setShowApiAuth="showApiAuth" />
           <SlaGroup
@@ -114,7 +114,35 @@ export default class ServiceDetailPage extends Vue {
   isRegisterProgress = false;
   countApiList = 0;
   serviceModule = getModule(ServiceModule, this.$store);
-  service: ServiceResponse = {} as ServiceResponse;
+  service: ServiceResponse = {
+    id: '',
+    tkcgrNm: null,
+    tkcgrPos: null,
+    tkcgrEml: null,
+    svcStDt: '',
+    svcEndDt: '',
+    athnType: '',
+    athn: {
+      basic: {
+        id: null,
+        pw: null,
+      },
+      jwt: {
+        alg: null,
+        iss: null,
+        aud: null,
+        pubKey: null,
+      },
+    },
+    sla: { sec: null, min: null, hr: null, day: null, mon: null },
+    apiAut: [],
+    desc: '',
+    updId: '',
+    updDt: '',
+    cretDt: '',
+    cretId: '',
+  };
+
   get serviceOption(): ServiceResponse {
     return this.serviceModule.service;
   }
@@ -140,9 +168,8 @@ export default class ServiceDetailPage extends Vue {
 
   mounted() {
     this.isShowProgress = true;
-
     this.serviceModule
-      .getService(this.$route.params.id)
+      .getService(this.$route.params.id as string)
       .then(() => {
         this.isShowProgress = false;
         this.service = this.serviceOption;

@@ -31,7 +31,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class InfoGroup extends Vue {
+export default class SlaGroup extends Vue {
   @Prop() public inputNm!: string | null;
   @Prop({ default: null }) secVal!: number | null;
   @Prop({ default: null }) minVal!: number | null;

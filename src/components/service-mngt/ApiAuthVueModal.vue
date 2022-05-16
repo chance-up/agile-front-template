@@ -30,7 +30,7 @@
               </thead>
               <tbody>
                 <template v-for="(system, sysIndex) in checkedApiList">
-                  <tr v-for="(api, apiIndex) in system.apiId" :key="apiIndex">
+                  <tr v-for="(api, apiIndex) in system.apiId" :key="api">
                     <td>{{ sysIndex * system.apiId.length + apiIndex + 1 }}</td>
                     <td v-if="apiIndex == 0" :rowspan="system.apiId.length" class="tl">{{ system.sysId }}</td>
                     <td class="tl">{{ api }}</td>

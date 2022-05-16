@@ -27,15 +27,15 @@
           </li>
           <li>
             <label class="label">발급자 :</label>
-            <span class="text">{{ issuer }}</span>
+            <span class="text">{{ iss }}</span>
           </li>
           <li>
             <label class="label">대상자 :</label>
-            <span class="text">{{ subject }}</span>
+            <span class="text">{{ aud }}</span>
           </li>
           <li>
             <label class="label">공개key :</label>
-            <span class="text">{{ publickey }}</span>
+            <span class="text">{{ pubKey }}</span>
           </li>
         </ul>
       </div>
@@ -45,14 +45,14 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
-export default class AuthReqGroup extends Vue {
+export default class AuthGroup extends Vue {
   @Prop() inputNm!: string;
   @Prop() athn!: string;
   @Prop() id!: string | null;
   @Prop() pw!: string | null;
   @Prop() alg!: string | null;
-  @Prop() issuer!: string | null;
-  @Prop() subject!: string | null;
-  @Prop() publickey!: string | null;
+  @Prop() iss!: string | null;
+  @Prop() aud!: string | null;
+  @Prop() pubKey!: string | null;
 }
 </script>
