@@ -112,7 +112,7 @@ export default class SystemEditPage extends Vue {
     return this.systemModule.system;
   }
 
-  created() {
+  mounted() {
     this.isShowProgress = true;
 
     this.systemModule
