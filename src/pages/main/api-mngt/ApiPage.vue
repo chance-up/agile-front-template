@@ -69,6 +69,7 @@
                     :key="index"
                     :apiData="apiData"
                     :index="index"
+                    :pagination="pagination"
                     @deleteApi="
                       (msg) => {
                         handleOndeleteApi(msg);
