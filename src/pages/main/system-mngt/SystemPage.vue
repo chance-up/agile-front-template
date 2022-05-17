@@ -56,7 +56,7 @@
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody v-if="listOption.length > 0">
                 <tr v-for="(list, index) in listOption" :key="index">
                   <td @click="getRoutePage('system-detail', list.id)">{{ index + 1 }}</td>
                   <td @click="getRoutePage('system-detail', list.id)">{{ list.id }}</td>
@@ -79,6 +79,11 @@
                       <i>{{ $t('common.delete') }}</i>
                     </button>
                   </td>
+                </tr>
+              </tbody>
+              <tbody v-else>
+                <tr>
+                  <td colspan="5">{{ $t('common.no_data') }}</td>
                 </tr>
               </tbody>
             </table>
@@ -256,7 +261,6 @@ export default class SystemPage extends Vue {
   }
 
   async deleteSystem() {
-    console.log('currId : ', this.currId);
     this.isDisabled = true;
 
     await this.systemModule
