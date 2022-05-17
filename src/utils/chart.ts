@@ -68,7 +68,6 @@ export const drawDynamicChart = (id: string, _rawData: any) => {
       },
       ...datasetWithFilters,
     ],
-
     tooltip: {
       order: 'valueDesc',
       trigger: 'axis',

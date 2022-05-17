@@ -55,7 +55,7 @@ export default class ErrorStats extends Vue {
         ],
       },
     ],
-    color: ['red', 'pink'],
+    color: ['#FF4E63', '#F8B7B0'],
   };
   errorChartOption: echarts.EChartsOption = {
     // tooltip: {
@@ -64,36 +64,66 @@ export default class ErrorStats extends Vue {
     backgroundColor: 'white',
     xAxis: {
       type: 'value',
-      max: 30,
+      max: 8,
       axisLine: { show: false },
       axisLabel: { show: false },
       axisTick: { show: false },
       splitLine: { show: false },
     },
     yAxis: {
-      data: ['Critical', 'Major', 'Minor'],
+      data: ['Minor', 'Major', 'Critical'],
       type: 'category',
       axisLine: { show: false },
       axisLabel: { show: true },
       axisTick: { show: false },
       splitLine: { show: false },
     },
+    grid: {
+      top: 30,
+      left: 40,
+      bottom: 30,
+      right: 30,
+    },
     series: [
       {
-        data: [2, 5, 1],
+        data: [
+          {
+            value: 1,
+            itemStyle: {
+              color: '#6998FF',
+            },
+          },
+          {
+            value: 5,
+            itemStyle: {
+              color: '#FFB43D',
+            },
+          },
+          {
+            value: 2,
+            itemStyle: {
+              color: '#FF4E63',
+            },
+          },
+        ],
         type: 'bar',
         showBackground: true,
         backgroundStyle: {
           color: 'rgba(180, 180, 180, 0.5)',
+          borderRadius: [100, 100, 100, 100],
         },
         label: {
           show: true,
           position: 'right',
           valueAnimation: true,
+          formatter: '{c}' + '건',
+        },
+        barWidth: '40%',
+        itemStyle: {
+          borderRadius: [100, 100, 100, 100],
         },
       },
     ],
-    color: ['red', 'pink'],
   };
 }
 </script>
