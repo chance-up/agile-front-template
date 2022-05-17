@@ -70,19 +70,29 @@ export default class ErrorStats extends Vue {
       axisTick: { show: false },
       splitLine: { show: false },
     },
-    yAxis: {
-      data: ['Minor', 'Major', 'Critical'],
-      type: 'category',
-      axisLine: { show: false },
-      axisLabel: { show: true },
-      axisTick: { show: false },
-      splitLine: { show: false },
-    },
+    yAxis: [
+      {
+        data: ['Minor', 'Major', 'Critical'],
+        type: 'category',
+        axisLine: { show: false },
+        axisLabel: { show: true, fontSize: '13', fontWeight: 600, color: '#000' },
+        axisTick: { show: false },
+        splitLine: { show: false },
+      },
+      {
+        type: 'category',
+        data: ['1건', '5건', '2건'],
+        axisLine: { show: false },
+        axisLabel: { show: true, fontSize: '13', fontWeight: 600, color: '#000' },
+        axisTick: { show: false },
+        splitLine: { show: false },
+      },
+    ],
     grid: {
       top: 30,
-      left: 40,
+      left: 50,
       bottom: 30,
-      right: 30,
+      right: 50,
     },
     series: [
       {
@@ -112,12 +122,12 @@ export default class ErrorStats extends Vue {
           color: 'rgba(180, 180, 180, 0.5)',
           borderRadius: [100, 100, 100, 100],
         },
-        label: {
-          show: true,
-          position: 'right',
-          valueAnimation: true,
-          formatter: '{c}' + '건',
-        },
+        // label: {
+        //   show: true,
+        //   position: 'right',
+        //   valueAnimation: true,
+        //   formatter: '{c}' + '건',
+        // },
         barWidth: '40%',
         itemStyle: {
           borderRadius: [100, 100, 100, 100],
