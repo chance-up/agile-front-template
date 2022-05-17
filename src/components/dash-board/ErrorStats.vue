@@ -2,8 +2,8 @@
   <div class="chart-wrap">
     <h3 class="h3-tit">Error stats (24Hour)</h3>
     <div class="chart-group error-stats">
-      <div id="errorStats" class="error-pie">실패율</div>
-      <div class="error-chart">Critical/Major/Minor</div>
+      <div id="errorStatsPie" class="error-pie" data-echart-responsive="true">실패율</div>
+      <div id="errorStateBar" class="error-chart" data-echart-responsive="true">Critical/Major/Minor</div>
     </div>
   </div>
 </template>
@@ -14,12 +14,24 @@ import * as echarts from 'echarts';
 @Component
 export default class ErrorStats extends Vue {
   mounted() {
-    drawChart('errorStats', this.errorStatsOption);
+    drawChart('errorStatsPie', this.errorStatsOption);
+    drawChart('errorStateBar', this.errorChartOption);
   }
   errorStatsOption: echarts.EChartsOption = {
-    tooltip: {
-      trigger: 'item',
+    title: {
+      text: '실패율',
+      left: 'center',
+      top: 'bottom',
+      textStyle: {
+        color: 'black',
+        fontSize: '13',
+        fontWeight: 400,
+      },
     },
+    // tooltip: {
+    //   trigger: 'item',
+    // },
+    backgroundColor: 'white',
     series: [
       {
         name: 'Access From',
@@ -28,28 +40,60 @@ export default class ErrorStats extends Vue {
         avoidLabelOverlap: false,
 
         label: {
-          show: false,
+          show: true,
           position: 'center',
-        },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: '40',
-            fontWeight: 'bold',
-          },
+          formatter: '15' + '%',
+          color: 'red',
+          fontSize: '18',
         },
         labelLine: {
           show: false,
         },
         data: [
-          { value: 1048, name: 'Search Engine' },
-          { value: 735, name: 'Direct' },
-          { value: 580, name: 'Email' },
-          { value: 484, name: 'Union Ads' },
-          { value: 300, name: 'Video Ads' },
+          { value: 15, name: '실패율' },
+          { value: 85, name: '성공률' },
         ],
       },
     ],
+    color: ['red', 'pink'],
+  };
+  errorChartOption: echarts.EChartsOption = {
+    // tooltip: {
+    //   trigger: 'item',
+    // },
+    backgroundColor: 'white',
+    xAxis: {
+      type: 'value',
+      max: 30,
+      axisLine: { show: false },
+      axisLabel: { show: false },
+      axisTick: { show: false },
+      splitLine: { show: false },
+    },
+    yAxis: {
+      data: ['Critical', 'Major', 'Minor'],
+      type: 'category',
+      axisLine: { show: false },
+      axisLabel: { show: true },
+      axisTick: { show: false },
+      splitLine: { show: false },
+    },
+    series: [
+      {
+        data: [2, 5, 1],
+        type: 'bar',
+        showBackground: true,
+        backgroundStyle: {
+          color: 'rgba(180, 180, 180, 0.5)',
+        },
+        label: {
+          show: true,
+          position: 'right',
+          valueAnimation: true,
+        },
+      },
+    ],
+    color: ['red', 'pink'],
   };
 }
 </script>

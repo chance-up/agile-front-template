@@ -58,7 +58,7 @@
 
               <tbody v-if="listOption.length > 0">
                 <tr v-for="(list, index) in listOption" :key="index">
-                  <td @click="getRoutePage('system-detail', list.id)">{{ index + 1 }}</td>
+                  <td @click="getRoutePage('system-detail', list.id)" v-text="getIdx(index)"></td>
                   <td @click="getRoutePage('system-detail', list.id)">{{ list.id }}</td>
                   <td @click="getRoutePage('system-detail', list.id)">{{ list.tkcgrNm }}</td>
                   <td @click="getRoutePage('system-detail', list.id)">
@@ -199,12 +199,15 @@ export default class SystemPage extends Vue {
           this.isShowProgress = false;
           this.$modal.show(`${this.$t('error.server_error')}`);
         });
+
+      console.log('result : ', this.systemModule.systemPagination);
     } else {
       this.systemModule
         .getSystemList()
         .then(() => {
           console.log('!!!!!!!!');
-          console.log(this.systemModule.systemList);
+          console.log('result : ', this.systemModule.systemPagination);
+          // console.log(this.systemModule.systemList);
           this.isShowProgress = false;
         })
         .catch(() => {
@@ -273,6 +276,10 @@ export default class SystemPage extends Vue {
       .catch(() => {
         this.isDisabled = false;
       });
+  }
+
+  getIdx(index: number): number {
+    return this.systemPagination.totalElements - this.systemPagination.currentPage * 10 - index;
   }
 
   getDate(date: string) {
