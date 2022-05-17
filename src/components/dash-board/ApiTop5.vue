@@ -12,7 +12,7 @@
           </dd>
         </dl>
         <div class="sm-bar">성공률</div>
-        <ProgressBar :item="item" />
+        <ProgressBar :listItem="item" />
         <button class="more-btn">
           <i><img src="@/assets/more_ico.svg" alt="더보기" /></i>
         </button>
@@ -80,31 +80,31 @@ export default class ApiTop5 extends Vue {
       id: 'sysID_API_deviceinfo',
       total: 208,
       success: 200,
-      fail: 3,
+      fail: 5,
     },
     {
       id: 'sysID_API_deviceinfo',
       total: 208,
-      success: 200,
-      fail: 3,
+      success: 170,
+      fail: 38,
     },
     {
       id: 'sysID_API_deviceinfo',
       total: 208,
-      success: 200,
-      fail: 3,
+      success: 125,
+      fail: 83,
     },
     {
       id: 'sysID_API_deviceinfo',
       total: 208,
-      success: 200,
-      fail: 3,
+      success: 208,
+      fail: 0,
     },
     {
       id: 'sysID_API_deviceinfo',
       total: 208,
-      success: 200,
-      fail: 3,
+      success: 50,
+      fail: 158,
     },
   ];
 }
