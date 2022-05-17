@@ -35,6 +35,20 @@ export default class TotalApiTraffic extends Vue {
     drawChart('totalApiTrafficTotal', this.totalApiTrafficOption);
     drawChart('totalApiTrafficSuccess', this.totalApiTrafficSuccsessOption);
     drawChart('totalApiTrafficFail', this.totalApiTrafficFailOption);
+    const dom = document.getElementById('totalApiTrafficTotal') as HTMLDivElement;
+    const myChart = echarts.init(dom);
+    myChart.setOption(this.totalApiTrafficOption);
+    const dom2 = document.getElementById('totalApiTrafficSuccess') as HTMLDivElement;
+    const myChart2 = echarts.init(dom2);
+    myChart2.setOption(this.totalApiTrafficSuccsessOption);
+    const dom3 = document.getElementById('totalApiTrafficFail') as HTMLDivElement;
+    const myChart3 = echarts.init(dom3);
+    myChart3.setOption(this.totalApiTrafficFailOption);
+    window.addEventListener('resize', () => {
+      myChart.resize();
+      myChart2.resize();
+      myChart3.resize();
+    });
   }
   totalApiTrafficOption: echarts.EChartsOption = {
     title: {
