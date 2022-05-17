@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td @click="routeDetail(apiData.id, apiData.sysId)">{{ index + 1 }}</td>
+    <td @click="routeDetail(apiData.id, apiData.sysId)" v-text="getIdx(index)"></td>
     <td @click="routeDetail(apiData.id, apiData.sysId)">
       <span class="bold">{{ apiData.sysId }}</span>
     </td>
@@ -43,6 +43,7 @@ import SelectBox from '@/components/api-mngt/search-option/SelectBox.vue';
 import { ApiDetailResponse } from '@/types/ApiType';
 import { getModule } from 'vuex-module-decorators';
 import ApiModule from '@/store/modules/ApiModule';
+import { Pagination } from '@/types/GateWayResponse';
 
 @Component({
   components: {
@@ -52,6 +53,7 @@ import ApiModule from '@/store/modules/ApiModule';
 })
 export default class ListRow extends Vue {
   @Prop() public apiData!: ApiDetailResponse | null;
+  @Prop() public pagination!: Pagination;
   @Prop() public index!: number;
 
   apiModule = getModule(ApiModule, this.$store);
@@ -66,6 +68,9 @@ export default class ListRow extends Vue {
   }
   routeEdit(id: string, sysId: string) {
     this.$router.push({ name: 'api-edit', query: { id, sysId } });
+  }
+  getIdx(index: number): number {
+    return this.pagination.totalElements - this.pagination.currentPage * 10 - index;
   }
 }
 </script>

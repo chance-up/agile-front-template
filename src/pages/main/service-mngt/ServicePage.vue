@@ -67,7 +67,7 @@
               </div>
               <tbody>
                 <tr v-for="(list, index) in listOption" :key="index">
-                  <td>{{ index + 1 }}</td>
+                  <td v-text="getIdx(index)"></td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
                     {{ list.id }}
                   </td>
@@ -255,6 +255,10 @@ export default class ServiceManagementPage extends Vue {
         },
       });
     }
+  }
+
+  getIdx(index: number): number {
+    return this.servicePagination.totalElements - this.servicePagination.currentPage * 10 - index;
   }
 
   onChangedPage(page: number) {
