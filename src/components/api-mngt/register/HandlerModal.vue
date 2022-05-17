@@ -13,10 +13,10 @@
 
         <ul class="handler-list inside-click">
           <li class="inside-click" v-for="(eachApi, index) in handlerGroup.hndlrId" :key="index">
-            <span class="inside-click">{{ eachApi }}</span>
+            <span class="inside-click">{{ eachApi.id }}</span>
             <p
               v-on:mouseout="handleMouseOut"
-              v-on:mouseover="[changeApiDesc(eachApi)]"
+              v-on:mouseover="[changeApiDesc(eachApi.desc), (apiDesc = eachApi.desc)]"
               href=""
               class="tip-btn inside-click"
             >
@@ -88,7 +88,7 @@ export default class HandlerModal extends Vue {
   }
   changeApiDesc(apiDesc: string) {
     if (!this.showHoverModal) {
-      this.sendApiDesc = apiDesc + '의 설명입니다.';
+      this.sendApiDesc = apiDesc;
       console.log(apiDesc);
       this.showHoverModal = true;
     }

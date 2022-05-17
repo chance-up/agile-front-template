@@ -1,19 +1,13 @@
 // import { GateWayResponse, Pagination } from './GateWayResponse';
 
 export interface HandlerDetail {
-  apiId: number | string;
-  apiNm: string;
-  apiDesc: string;
+  id: number | string;
+  desc: string;
 }
 export interface HandlerGroupDetail {
   id: string;
-  trtSect: string;
-  hndlrId: string[];
+  hndlr: HandlerDetail[];
   desc: string | null;
-  cretDt: string;
-  cretId: string;
-  updDt: string | null;
-  updId: string | null;
 }
 
 // 이런식으로 핸들러 타입 바뀔꺼니까 월요일 기준으로 변경해놓기

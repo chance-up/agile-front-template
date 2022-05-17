@@ -114,13 +114,8 @@ export default class HandlerGroupForm extends Vue {
   sendHandlerGroup: HandlerGroupDetail = {
     id: '',
     // apiGroupNm: 'API & Login Authentication Group Name',
-    trtSect: '',
-    hndlrId: [],
+    hndlr: [],
     desc: '',
-    cretDt: '',
-    cretId: '',
-    updDt: '',
-    updId: '',
   };
   showReqModalMethod(apiGroupId: string | number) {
     for (let index = 0; index < this.reqHandlerGroupList.length; index++) {
