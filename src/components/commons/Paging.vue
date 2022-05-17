@@ -8,7 +8,7 @@
         <a @click="onChangedPage(pagingOption.currentPage - 1)"><img src="@/assets/page_before.svg" alt="이전" /></a>
       </li>
       <li v-for="(page, index) in pageList" :key="index" :class="page === pagingOption.currentPage ? 'active' : ''">
-        <a @click="onChangedPage(page)">{{ page }}</a>
+        <a @click="onChangedPage(page)">{{ page + 1 }}</a>
       </li>
       <li class="page-btn" v-show="isShowNextBtn == true">
         <a @click="onChangedPage(pagingOption.currentPage + 1)"><img src="@/assets/page_after.svg" alt="다음" /></a>
@@ -31,15 +31,27 @@ export default class Paging extends Vue {
 
   get pageList(): number[] {
     const list = [];
-    for (let p = 0; p <= this.pagingOption.totalPage - 1; p++) {
+    const currQuot = Math.floor(this.pagingOption.currentPage / this.pagingOption.size); //현재 선택한 페이지의 범위
+
+    for (let p = currQuot * this.pagingOption.size; p < this.endPage; p++) {
       list.push(p);
     }
+
     return list;
   }
 
+  get endPage(): number {
+    const lastPage =
+      Math.floor(this.pagingOption.currentPage / this.pagingOption.size) * this.pagingOption.size +
+      this.pagingOption.size;
+    return lastPage > this.pagingOption.totalPage ? this.pagingOption.totalPage : lastPage;
+  }
+
   get isShowFirstBtn(): boolean {
-    // 총 페이지 수가 10개를 초과하고, 현재 페이지가 1이 아닌 경우에 true, 그 외에는 false
-    const rule = this.pagingOption.totalPage > 10 && this.pagingOption.currentPage == 0;
+    // 총 페이지 수가 10개를 초과하고, 현재 페이지가 가장 첫 번째 범위(1 ~ 10)에 속하지 않은 경우에 true, 그 외에는 false
+    const rule =
+      this.pagingOption.totalPage > 10 &&
+      Math.floor(this.pagingOption.currentPage / this.pagingOption.size) * this.pagingOption.size != 0;
     return rule;
   }
 
@@ -56,8 +68,11 @@ export default class Paging extends Vue {
   }
 
   get isShowLastBtn(): boolean {
-    // 총 페이지 수가 10개를 초과하고, 현재 페이지가 마지막 페이지가 아닌 경우에 true, 그 외에는 false
-    const rule = this.pagingOption.totalPage > 10 && this.pagingOption.currentPage == this.pagingOption.totalPage - 1;
+    // 총 페이지 수가 10개를 초과하고, 현재 페이지가 마지막 페이지 범위에 속하지 않는 않는 경우에 true, 그 외에는 false
+    const rule =
+      this.pagingOption.totalPage > 10 &&
+      Math.floor(this.pagingOption.currentPage / this.pagingOption.size) * this.pagingOption.size !=
+        Math.floor(this.pagingOption.totalPage / 10) * 10;
     return rule;
   }
 
