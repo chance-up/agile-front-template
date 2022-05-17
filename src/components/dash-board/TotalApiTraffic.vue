@@ -2,9 +2,9 @@
   <div class="chart-wrap">
     <h3 class="h3-tit">Total API Traffic (24Hour)</h3>
     <div class="chart-group api-traffic">
-      <div id="totalApiTrafficTotal" class="api-pie">total</div>
-      <div id="totalApiTrafficSuccess" class="api-pie">성공</div>
-      <div id="totalApiTrafficFail" class="api-pie">실패</div>
+      <div id="totalApiTrafficTotal" class="api-pie" data-echart-responsive="true">total</div>
+      <div id="totalApiTrafficSuccess" class="api-pie" data-echart-responsive="true">성공</div>
+      <div id="totalApiTrafficFail" class="api-pie" data-echart-responsive="true">실패</div>
     </div>
   </div>
 </template>
@@ -20,106 +20,115 @@ export default class TotalApiTraffic extends Vue {
     drawChart('totalApiTrafficFail', this.totalApiTrafficFailOption);
   }
   totalApiTrafficOption: echarts.EChartsOption = {
-    tooltip: {
-      trigger: 'item',
+    title: {
+      text: 'Total',
+      left: 'center',
+      top: 'bottom',
+      textStyle: {
+        color: '#fff',
+        fontSize: '17',
+      },
     },
+    // tooltip: {
+    //   trigger: 'item',
+    // },
     backgroundColor: '#FFA800',
     series: [
       {
         name: 'Access From',
         type: 'pie',
-        radius: ['40%', '70%'],
+        radius: ['55%', '80%'],
         avoidLabelOverlap: false,
 
         label: {
-          show: false,
+          show: true,
           position: 'center',
+          formatter: '4320' + '\n' + '건',
+          fontSize: '15',
+          color: '#fff',
         },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: '40',
-            fontWeight: 'bold',
-          },
-        },
+
         labelLine: {
           show: false,
         },
-        data: [
-          { value: 1048, name: 'Search Engine' },
-          { value: 735, name: 'Direct' },
-          { value: 580, name: 'Email' },
-          { value: 484, name: 'Union Ads' },
-          { value: 300, name: 'Video Ads' },
-        ],
+        data: [{ value: 4320, name: 'total' }],
       },
     ],
+    color: 'white',
   };
 
   totalApiTrafficSuccsessOption: echarts.EChartsOption = {
-    tooltip: {
-      trigger: 'item',
-    },
-    backgroundColor: '#FFA800',
-    series: [
-      {
-        name: 'Access From',
-        type: 'pie',
-        radius: ['40%', '70%'],
-        avoidLabelOverlap: false,
-        label: {
-          show: false,
-          position: 'center',
-        },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: '40',
-            fontWeight: 'bold',
-          },
-        },
-        labelLine: {
-          show: false,
-        },
-        data: [{ value: 1048, name: 'Search Engine' }],
+    title: {
+      text: '성공',
+      left: 'center',
+      top: 'bottom',
+      textStyle: {
+        color: '#fff',
+        fontSize: '17',
       },
-    ],
-  };
-
-  totalApiTrafficFailOption: echarts.EChartsOption = {
-    tooltip: {
-      trigger: 'item',
     },
+    // tooltip: {
+    //   trigger: 'item',
+    // },
     backgroundColor: '#FFA800',
     series: [
       {
         name: 'Access From',
         type: 'pie',
-        radius: ['40%', '70%'],
+        radius: ['55%', '80%'],
         avoidLabelOverlap: false,
+
         label: {
-          show: false,
+          show: true,
           position: 'center',
-        },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: '40',
-            fontWeight: 'bold',
-          },
-        },
-        labelLine: {
-          show: false,
+          formatter: '4000' + '\n' + '건',
+          fontSize: '15',
+          color: '#fff',
         },
         data: [
-          { value: 1048, name: 'Search Engine' },
-          { value: 735, name: 'Direct' },
-          { value: 580, name: 'Email' },
-          { value: 484, name: 'Union Ads' },
-          { value: 300, name: 'Video Ads' },
+          { value: 4000, name: '성공' },
+          { value: 320, name: '실패' },
         ],
       },
     ],
+    color: ['white', 'rgba(255, 255, 255, 0)'],
+  };
+
+  totalApiTrafficFailOption: echarts.EChartsOption = {
+    title: {
+      text: '실패',
+      left: 'center',
+      top: 'bottom',
+      textStyle: {
+        color: '#fff',
+        fontSize: '17',
+      },
+    },
+    // tooltip: {
+    //   trigger: 'item',
+    // },
+    backgroundColor: '#FFA800',
+    series: [
+      {
+        name: 'Access From',
+        type: 'pie',
+        radius: ['55%', '80%'],
+        avoidLabelOverlap: false,
+
+        label: {
+          show: true,
+          position: 'center',
+          formatter: '320' + '\n' + '건',
+          fontSize: '15',
+          color: '#fff',
+        },
+        data: [
+          { value: 320, name: '실패' },
+          { value: 4000, name: '성공' },
+        ],
+      },
+    ],
+    color: ['white', 'rgba(255, 255, 255, 0)'],
   };
 }
 </script>
