@@ -1540,4 +1540,28 @@ const realtimeTestData = [
   [38225, 81.4, 64715810, 'United Kingdom', 2015],
   [53354, 79.1, 321773631, 'United States', 2015],
 ];
+
+// const ApiTop5TestData={
+//   statBaseTm
+// }
+// common
+// 	code
+// 	message
+// data
+// 	statBaseTm
+// 	statPerd
+// 	apiStat
+// 		sysId
+// 		apiId
+// 		apiDesc
+// 		totCnt
+// 		sucesCnt
+// 		failCnt
+// 		sucesRate
+// 		failRate
+// 		crCnt
+// 		maCnt
+// 		miCnt
+// 		tps
+// 		avgResTm
 export default realtimeTestData;
