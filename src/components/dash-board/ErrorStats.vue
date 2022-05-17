@@ -1,28 +1,22 @@
-<template lang="">
-  <div class="row" id="TotalApiTrafficId">
-    <div class="col" id="TotalApiTrafficId1">
-      <DoughnutChart :option="option" />
-    </div>
-    <div class="col" id="TotalApiTrafficId2">
-      <DoughnutChart :option="option" />
-    </div>
-    <div class="col" id="TotalApiTrafficId3">
-      <DoughnutChart :option="option" />
+<template>
+  <div class="chart-wrap">
+    <h3 class="h3-tit">Error stats (24Hour)</h3>
+    <div class="chart-group error-stats">
+      <div id="errorStats" class="error-pie">실패율</div>
+      <div class="error-chart">Critical/Major/Minor</div>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import DoughnutChart from '@/components/dash-board/charts/DoughnutChart.vue';
+import { drawChart } from '@/utils/chart';
 import * as echarts from 'echarts';
-
-@Component({
-  components: {
-    DoughnutChart,
-  },
-})
-export default class TotalApiTraffic extends Vue {
-  option: echarts.EChartsOption = {
+@Component
+export default class ErrorStats extends Vue {
+  mounted() {
+    drawChart('errorStats', this.errorStatsOption);
+  }
+  errorStatsOption: echarts.EChartsOption = {
     tooltip: {
       trigger: 'item',
     },
@@ -32,6 +26,7 @@ export default class TotalApiTraffic extends Vue {
         type: 'pie',
         radius: ['40%', '70%'],
         avoidLabelOverlap: false,
+
         label: {
           show: false,
           position: 'center',
@@ -58,25 +53,4 @@ export default class TotalApiTraffic extends Vue {
   };
 }
 </script>
-<style scoped>
-.TotalApiTrafficId {
-  height: 200px;
-  margin: 0;
-  background: green;
-}
-#TotalApiTrafficId1 {
-  height: 100%;
-  margin: 0;
-  background: red;
-}
-#TotalApiTrafficId2 {
-  height: 100%;
-  margin: 0;
-  background: blue;
-}
-#TotalApiTrafficId3 {
-  height: 100%;
-  margin: 0;
-  background: green;
-}
-</style>
+<style></style>
