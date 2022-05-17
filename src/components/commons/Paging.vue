@@ -1,19 +1,19 @@
 <template>
-  <div class="page-wrap" v-if="!isListEmpty">
+  <div class="page-wrap">
     <ul>
-      <li class="page-btn" v-show="isShowFirstBtn == true">
+      <li class="page-btn" v-show="isShowFirstBtn == true && !isListEmpty">
         <a @click="onChangedPage(1)"><img src="@/assets/page_first.svg" alt="처음" /></a>
       </li>
-      <li class="page-btn" v-show="isShowPrevBtn == true">
+      <li class="page-btn" v-show="isShowPrevBtn == true && !isListEmpty">
         <a @click="onChangedPage(pagingOption.currentPage - 1)"><img src="@/assets/page_before.svg" alt="이전" /></a>
       </li>
       <li v-for="(page, index) in pageList" :key="index" :class="page === pagingOption.currentPage ? 'active' : ''">
         <a @click="onChangedPage(page)">{{ page + 1 }}</a>
       </li>
-      <li class="page-btn" v-show="isShowNextBtn == true">
+      <li class="page-btn" v-show="isShowNextBtn == true && !isListEmpty">
         <a @click="onChangedPage(pagingOption.currentPage + 1)"><img src="@/assets/page_after.svg" alt="다음" /></a>
       </li>
-      <li class="page-btn" v-show="isShowLastBtn == true">
+      <li class="page-btn" v-show="isShowLastBtn == true && !isListEmpty">
         <a @click="onChangedPage(pagingOption.totalPage)"><img src="@/assets/page_last.svg" alt="마지막" /></a>
       </li>
     </ul>
@@ -36,6 +36,8 @@ export default class Paging extends Vue {
     for (let p = currQuot * this.pagingOption.size; p < this.endPage; p++) {
       list.push(p);
     }
+
+    if (list.length == 0) list.push(0);
 
     return list;
   }
