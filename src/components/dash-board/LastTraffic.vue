@@ -22,9 +22,9 @@ export default class LastTraffic extends Vue {
       }
     }
     const lastTrafficOption: echarts.EChartsOption = {
-      legend: {
-        data: ['today, lastDay'],
-      },
+      // legend: {
+      //   data: ['today, lastDay'],
+      // },
 
       tooltip: {
         trigger: 'axis',

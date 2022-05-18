@@ -21,9 +21,9 @@ export default class LastResponse extends Vue {
       }
     }
     const option: echarts.EChartsOption = {
-      legend: {
-        data: ['today, lastDay, lastWeek'],
-      },
+      // legend: {
+      //   data: ['today, lastDay, lastWeek'],
+      // },
       tooltip: {
         trigger: 'axis',
       },
