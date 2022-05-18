@@ -121,10 +121,15 @@ export default class SystemDetailPage extends Vue {
       .then(() => {
         this.isDisabled = false;
         this.$router.push({ name: 'system' });
+        this.$toast.success(this.$t('common.delete_success'), {
+          toastClassName: ['toast-success-custom-class'],
+        });
       })
-      .catch(() => {
+      .catch((error) => {
         this.isDisabled = false;
-        this.$modal.show(`${this.$t('error.server_error')}`);
+        if (error.getErrorCode() == ErrorCode.SYSTEM_DELETE_FAIL) {
+          this.$toast.error(this.$t('system.system_delete_fail', { system_name: this.$route.params.id }));
+        }
       });
   }
 

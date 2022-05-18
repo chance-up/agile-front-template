@@ -1,15 +1,23 @@
 <template>
   <div class="chart-wrap">
     <h3 class="h3-tit">Error stats (24Hour)</h3>
-    <div class="chart-group error-stats mouse-hover">
-      <div id="errorStatsPie" class="error-pie" autoresize>실패율</div>
-      <div id="errorStateBar" class="error-chart" autoresize>Critical/Major/Minor</div>
+    <div
+      class="chart-group error-stats"
+      :class="{
+        ' mouse-hover': modal == false,
+        ' expand-modal': modal == true,
+      }"
+      @click="showModalDetail()"
+    >
+      <template v-if="modal == false">
+        <div id="errorStatsPie" class="error-pie" autoresize>실패율</div>
+        <div id="errorStateBar" class="error-chart" autoresize>Critical/Major/Minor</div>
+      </template>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { drawChart } from '@/utils/chart';
 import * as echarts from 'echarts';
 @Component
 export default class ErrorStats extends Vue {
@@ -149,10 +157,35 @@ export default class ErrorStats extends Vue {
       },
     ],
   };
+
+  modal = false;
+  showModalDetail() {
+    this.modal = true;
+  }
+  hideModalDetail() {
+    this.modal = false;
+  }
 }
 </script>
 <style scope>
 .mouse-hover:hover {
+  box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
+}
+
+.error-stats {
+  background-color: #fff;
+}
+
+.chart-group {
+  transition: width 0.5s, height 0.5s, position 0.5s, transform 0.5s;
+}
+
+.expand-modal {
+  width: 50%;
+  height: 200%;
+  z-index: 5;
+  position: absolute;
+  transform: translate(-18.5%, 0%);
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
 }
 </style>

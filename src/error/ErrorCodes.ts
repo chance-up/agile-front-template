@@ -8,6 +8,7 @@ const ErrorCode = {
   CONDITION_ERROR: 412,
   LOCK_ERROR: 423,
   SERVER_ERROR: 500,
+  SYSTEM_DELETE_FAIL: 500,
 } as const;
 
 export default ErrorCode;
