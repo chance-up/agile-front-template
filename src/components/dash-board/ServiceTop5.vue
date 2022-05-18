@@ -35,31 +35,31 @@ import ProgressBar from '@/components/commons/ProgressBar.vue';
 export default class ApiTop5 extends Vue {
   top5List: any[] = [
     {
-      id: 'sysID_API_deviceinfo',
+      id: 'service_deviceinfo',
       total: 208,
       success: 200,
       fail: 5,
     },
     {
-      id: 'sysID_API_deviceinfo',
+      id: 'service_deviceinfodevice',
       total: 208,
       success: 170,
       fail: 38,
     },
     {
-      id: 'sysID_API_deviceinfo',
+      id: 'service_deviceinfo',
       total: 208,
       success: 125,
       fail: 83,
     },
     {
-      id: 'sysID_API_deviceinfo',
+      id: 'service_deviceinfo',
       total: 208,
       success: 208,
       fail: 0,
     },
     {
-      id: 'sysID_API_deviceinfo',
+      id: 'service_deviceinfo_aaa',
       total: 208,
       success: 50,
       fail: 158,
