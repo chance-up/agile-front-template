@@ -12,7 +12,7 @@
         <p class="text inside-click">{{ handlerGroup.desc }}</p>
 
         <ul class="handler-list inside-click">
-          <li class="inside-click" v-for="(eachApi, index) in handlerGroup.hndlrId" :key="index">
+          <li class="inside-click" v-for="(eachApi, index) in handlerGroup.hndlr" :key="index">
             <span class="inside-click">{{ eachApi.id }}</span>
             <p
               v-on:mouseout="handleMouseOut"

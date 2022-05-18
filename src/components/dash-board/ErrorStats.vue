@@ -2,8 +2,8 @@
   <div class="chart-wrap">
     <h3 class="h3-tit">Error stats (24Hour)</h3>
     <div class="chart-group error-stats mouse-hover">
-      <div id="errorStatsPie" class="error-pie" data-echart-responsive="true">실패율</div>
-      <div id="errorStateBar" class="error-chart" data-echart-responsive="true">Critical/Major/Minor</div>
+      <div id="errorStatsPie" class="error-pie" autoresize>실패율</div>
+      <div id="errorStateBar" class="error-chart" autoresize>Critical/Major/Minor</div>
     </div>
   </div>
 </template>
@@ -14,8 +14,18 @@ import * as echarts from 'echarts';
 @Component
 export default class ErrorStats extends Vue {
   mounted() {
-    drawChart('errorStatsPie', this.errorStatsPieOption);
-    drawChart('errorStateBar', this.errorStatsBarOption);
+    // drawChart('errorStatsPie', this.errorStatsPieOption);
+    // drawChart('errorStateBar', this.errorStatsBarOption);
+    const dom = document.getElementById('errorStatsPie') as HTMLDivElement;
+    const myChart = echarts.init(dom);
+    myChart.setOption(this.errorStatsPieOption);
+    const dom2 = document.getElementById('errorStateBar') as HTMLDivElement;
+    const myChart2 = echarts.init(dom2);
+    myChart2.setOption(this.errorStatsBarOption);
+    window.addEventListener('resize', () => {
+      myChart.resize();
+      myChart2.resize();
+    });
   }
   errorStatsPieOption: echarts.EChartsOption = {
     title: {
@@ -44,7 +54,7 @@ export default class ErrorStats extends Vue {
           position: 'center',
           formatter: '15' + '%',
           color: 'red',
-          fontSize: '18',
+          fontSize: '16',
         },
         labelLine: {
           show: false,
