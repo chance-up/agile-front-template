@@ -3,7 +3,7 @@
     <transition v-if="!alert" name="modal" appear>
       <div class="modal-overlay">
         <!------- handler pop -------->
-        <div :class="{ large: l, medium: m, small: s, 'pop-wrap': true }">
+        <div :class="{ large: l, medium: m, small: s, 'lg-pop': lg, 'pop-wrap': true }">
           <div class="pop-header">
             <slot name="modalHeader" />
           </div>
@@ -22,7 +22,7 @@
     <transition v-else name="alertLayout" appear>
       <div class="modal-overlay">
         <!------- handler pop -------->
-        <div :class="{ large: l, medium: m, small: s, 'pop-wrap': true }">
+        <div :class="{ large: l, medium: m, small: s, 'lg-pop': lg, 'pop-wrap': true }">
           <div class="pop-header">
             <slot name="modalHeader" />
             <h1 class="h1-tit">{{ errorTitle }}</h1>
@@ -59,20 +59,29 @@ export default class ModalLayout extends Vue {
   l = false;
   m = false;
   s = false;
+  lg = false;
   created() {
     disableScrolling();
     if (this.size == 'l') {
       this.l = true;
       this.m = false;
       this.s = false;
+      this.lg = false;
     } else if (this.size == 'm') {
       this.l = false;
       this.m = true;
       this.s = false;
-    } else {
+      this.lg = false;
+    } else if (this.size == 's') {
       this.l = false;
       this.m = false;
       this.s = true;
+      this.lg = false;
+    } else if (this.size == 'lg') {
+      this.l = false;
+      this.m = false;
+      this.s = false;
+      this.lg = true;
     }
   }
   destroyed() {
