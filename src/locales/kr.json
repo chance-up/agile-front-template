@@ -17,7 +17,9 @@
     "add": "추가",
     "placeholder": "입력해주세요.",
     "necessary_input": "필수 입력사항입니다.",
-    "no_data": "표시할 데이터가 없습니다."
+    "no_data": "표시할 데이터가 없습니다.",
+    "total": "Total",
+    "more": "더보기"
   },
   "message": {
     "example": "예",
@@ -60,6 +62,11 @@
     "modal-register-message": "가입 하시겠습니까?",
 
     "title-stipulation": "약관 동의"
+  },
+  "dash-board": {
+    "api_top5_title": "API Top 5",
+    "success_rate": "성공률",
+    "service_top5_title": "Service Top 5"
   },
   "api": {
     "apiId": "API ID",

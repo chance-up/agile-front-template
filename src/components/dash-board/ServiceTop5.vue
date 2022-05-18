@@ -1,20 +1,22 @@
 <template>
   <div class="chart-wrap">
-    <h3 class="h3-tit">API Top 5</h3>
+    <h3 class="h3-tit">{{ $t('dash-board.service_top5_title') }}</h3>
     <ul class="list-wrap">
       <li v-for="(item, index) in top5List" :key="index">
         <p class="id-txt">{{ item.id }}</p>
         <dl>
-          <dt><em>Total :</em>{{ item.total }}</dt>
+          <dt>
+            <em>{{ $t('common.total') }} :</em>{{ item.total }}
+          </dt>
           <dd>
             <span class="syan">{{ item.success }}</span
             >/<span class="red">{{ item.fail }}</span>
           </dd>
         </dl>
-        <div class="sm-bar">성공률</div>
+        <div class="sm-bar">{{ $t('dash-board.success_rate') }}</div>
         <ProgressBar :listItem="item" />
         <button class="more-btn">
-          <i><img src="@/assets/more_ico.svg" alt="더보기" /></i>
+          <i><img src="@/assets/more_ico.svg" :alt="$t('common.more')" /></i>
         </button>
       </li>
     </ul>
