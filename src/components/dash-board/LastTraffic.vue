@@ -17,6 +17,7 @@ export default class LastTraffic extends Vue {
           statBaseTm: `2019-08-01 ${h < 10 ? '0' + h : h}:${m + '0'}:00`,
           todayCnt: this.randomInt(0, 1000),
           lastDayCnt: this.randomInt(0, 1000),
+          lastWeekCnt: this.randomInt(0, 1000),
         });
       }
     }
@@ -24,11 +25,9 @@ export default class LastTraffic extends Vue {
       legend: {
         data: ['today, lastDay'],
       },
+
       tooltip: {
-        triggerOn: 'none',
-        position: function (pt: any) {
-          return [pt[0], 130];
-        },
+        trigger: 'axis',
       },
       toolbox: {
         left: 'right',
@@ -52,10 +51,10 @@ export default class LastTraffic extends Vue {
             backgroundColor: '#777',
           },
         },
-        axisLabel: {
-          inside: true,
-          formatter: '{value}\n',
-        },
+        // axisLabel: {
+        //   inside: true,
+        //   formatter: '{value}\n',
+        // },
       },
       axisPointer: {
         label: {
@@ -66,13 +65,13 @@ export default class LastTraffic extends Vue {
       yAxis: {
         type: 'value',
         axisTick: {
-          inside: true,
+          inside: false,
         },
         splitLine: {
           show: true,
         },
         axisLabel: {
-          inside: true,
+          inside: false,
           formatter: '{value}\n',
         },
         z: 10,
@@ -82,6 +81,7 @@ export default class LastTraffic extends Vue {
         left: 0,
         right: 0,
         height: 148,
+        containLabel: true,
       },
       dataZoom: [
         {
@@ -104,6 +104,15 @@ export default class LastTraffic extends Vue {
           symbolSize: 5,
           data: this.trafcStatTrnd.map((item: any) => item.lastDayCnt),
         },
+        {
+          name: 'lastWeek',
+          type: 'line',
+          symbol: 'circle',
+          symbolSize: 5,
+          data: this.trafcStatTrnd.map((item: any) => {
+            return item.lastWeekCnt;
+          }),
+        },
       ],
     };
     drawChart('lastTraffic', lastTrafficOption);
@@ -117,7 +126,7 @@ export default class LastTraffic extends Vue {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  trafcStatTrnd: { statBaseTm: string; todayCnt: number; lastDayCnt: number }[] = [];
+  trafcStatTrnd: { statBaseTm: string; todayCnt: number; lastDayCnt: number; lastWeekCnt: number }[] = [];
 }
 </script>
 <style></style>

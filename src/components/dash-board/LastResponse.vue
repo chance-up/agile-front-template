@@ -17,7 +17,6 @@ export default class LastResponse extends Vue {
           statBaseTm: `2019-08-01 ${h < 10 ? '0' + h : h}:${m + '0'}:00`,
           todayCnt: this.randomInt(0, 1000),
           lastDayCnt: this.randomInt(0, 1000),
-          lastWeekCnt: this.randomInt(0, 1000),
         });
       }
     }
@@ -26,10 +25,7 @@ export default class LastResponse extends Vue {
         data: ['today, lastDay, lastWeek'],
       },
       tooltip: {
-        triggerOn: 'none',
-        position: function (pt: any) {
-          return [pt[0], 130];
-        },
+        trigger: 'axis',
       },
       toolbox: {
         left: 'right',
@@ -47,41 +43,19 @@ export default class LastResponse extends Vue {
         type: 'category',
         boundaryGap: false,
         data: this.trafcStatTrnd.map((item: any) => item.statBaseTm.slice(11, 16)),
-
-        axisPointer: {
-          type: 'line',
-          label: {
-            backgroundColor: '#777',
-          },
-        },
-        // axisTick: {
-        //   inside: true,
-        // },
-        axisLabel: {
-          inside: true,
-          formatter: '{value}\n',
+        splitLine: {
+          show: false,
         },
       },
       yAxis: {
         type: 'value',
-        axisTick: {
-          inside: true,
-        },
-        axisLabel: {
-          inside: true,
-          formatter: '{value}\n',
-        },
-        splitLine: {
-          show: true,
-        },
-
-        z: 10,
       },
       grid: {
         top: 0,
         left: 0,
         right: 0,
         height: 148,
+        containLabel: true,
       },
       dataZoom: [
         {
@@ -95,10 +69,9 @@ export default class LastResponse extends Vue {
           type: 'line',
           symbol: 'circle',
           symbolSize: 5,
-          sampling: 'average',
 
           data: this.trafcStatTrnd.map((item: any) => {
-            return item.todayCnt;
+            return item.todayCnt as number;
           }),
         },
         {
@@ -109,15 +82,6 @@ export default class LastResponse extends Vue {
 
           data: this.trafcStatTrnd.map((item: any) => {
             return item.lastDayCnt;
-          }),
-        },
-        {
-          name: 'lastWeek',
-          type: 'line',
-          symbol: 'circle',
-          symbolSize: 5,
-          data: this.trafcStatTrnd.map((item: any) => {
-            return item.lastWeekCnt;
           }),
         },
       ],
@@ -133,7 +97,7 @@ export default class LastResponse extends Vue {
   randomInt = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
-  trafcStatTrnd: { statBaseTm: string; todayCnt: number; lastDayCnt: number; lastWeekCnt: number }[] = [];
+  trafcStatTrnd: { statBaseTm: string; todayCnt: number; lastDayCnt: number }[] = [];
 }
 </script>
 <style>
