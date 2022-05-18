@@ -28,10 +28,10 @@
     </section>
 
     <section class="group col-2 bg-pastel">
-      <!--- API Top 5 area --->
+      <!--- Last Traffic --->
       <LastTraffic />
 
-      <!--- Service Top 5 area --->
+      <!--- Last Response --->
       <LastResponse />
     </section>
   </article>

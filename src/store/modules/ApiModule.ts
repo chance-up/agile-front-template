@@ -1,11 +1,7 @@
 import { GateWayResponse, Pagination } from '@/types/GateWayResponse';
 import {
   ApiSearchQuery,
-  apiMockList,
   ApiDetailResponse,
-  apiMockData,
-  dummyDeleteResData,
-  dummyApiIdValidCheck,
   ResponseApiIdValidCheck,
   ApiUpdateRequestBody,
   ApiCreateRequestBody,
