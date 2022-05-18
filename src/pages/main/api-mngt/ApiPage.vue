@@ -63,7 +63,7 @@
                     label="Large Spinner"
                   ></b-spinner>
                 </div>
-                <tbody>
+                <tbody v-if="apiList.length > 0">
                   <ListRow
                     v-for="(apiData, index) in apiList"
                     :key="index"
@@ -76,6 +76,11 @@
                       }
                     "
                   />
+                </tbody>
+                <tbody v-else>
+                  <tr>
+                    <td colspan="8">{{ $t('common.no_data') }}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>

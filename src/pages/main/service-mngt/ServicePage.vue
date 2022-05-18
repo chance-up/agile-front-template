@@ -65,7 +65,7 @@
                   label="Large Spinner"
                 ></b-spinner>
               </div>
-              <tbody>
+              <tbody v-if="listOption.length > 0">
                 <tr v-for="(list, index) in listOption" :key="index">
                   <td v-text="getIdx(index)"></td>
                   <td @click="$router.push({ name: 'service-detail', params: { id: list.id } })">
@@ -91,6 +91,11 @@
                       <i>{{ $t('common.delete') }}</i>
                     </button>
                   </td>
+                </tr>
+              </tbody>
+              <tbody v-else>
+                <tr>
+                  <td colspan="6">{{ $t('common.no_data') }}</td>
                 </tr>
               </tbody>
             </table>
