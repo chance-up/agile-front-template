@@ -41,7 +41,7 @@ export default class LastResponse extends Vue {
             restore: {},
           },
         },
-
+        backgroundColor: '#fff',
         xAxis: {
           type: 'category',
           boundaryGap: false,
@@ -104,6 +104,6 @@ export default class LastResponse extends Vue {
 </script>
 <style>
 #lastResponse {
-  width: 100%;
+  background-color: white;
 }
 </style>
