@@ -13,11 +13,19 @@ import Modal from '@/plugins/modal/Modal';
 import ModalPlugin from '@/plugins/modal/ModalPlugin';
 
 import 'bootstrap/dist/css/bootstrap.css';
+import Toast, { POSITION } from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(ModalPlugin);
 
+const toastOptions = {
+  position: POSITION.TOP_RIGHT,
+  timeout: 3000,
+};
+
+Vue.use(Toast, toastOptions);
 new Vue({
   router,
   store,

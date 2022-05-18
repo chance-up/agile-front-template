@@ -19,7 +19,8 @@
     "necessary_input": "필수 입력사항입니다.",
     "no_data": "표시할 데이터가 없습니다.",
     "total": "Total",
-    "more": "더보기"
+    "more": "더보기",
+    "delete_success" : "삭제되었습니다."
   },
   "message": {
     "example": "예",
@@ -217,7 +218,8 @@
     "modal_register_message": "시스템을 등록하시겠습니까?",
     "modal_system_edit": "시스템 수정",
     "modal_edit_message": "시스템을 수정하시겠습니까?",
-    "desc_length_check": "설명은 최대 1000자 까지 입력 가능합니다."
+    "desc_length_check": "설명은 최대 1000자 까지 입력 가능합니다.",
+    "system_delete_fail" : "{system_name} 시스템은 API에 등록 되어있어 삭제가 불가능합니다."
   },
   "my": {
     "modify_top_title": "회원정보 수정",

@@ -309,5 +309,7 @@
   top: 50%;
 }
 
-
+.toast-success-custom-class {
+  background-color: #8041F7 !important; 
+}
 

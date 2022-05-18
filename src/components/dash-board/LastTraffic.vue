@@ -42,6 +42,7 @@ export default class LastTraffic extends Vue {
             restore: {},
           },
         },
+        backgroundColor: '#fff',
         xAxis: {
           type: 'category',
           boundaryGap: false,
@@ -132,4 +133,8 @@ export default class LastTraffic extends Vue {
   // lastWeek = new Date(this.base.getTime() - 604800000).toISOString().slice(0, 10);
 }
 </script>
-<style></style>
+<style>
+#lastTraffic {
+  background-color: white;
+}
+</style>

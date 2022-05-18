@@ -165,8 +165,19 @@ export default class ApiDetailPage extends Vue {
     if (this.apiDetail) {
       this.showModal = false;
       this.isButtonDisabled = true;
-      await this.apiModule.deleteApi(query);
-      this.$router.push({ path: '/api' });
+      await this.apiModule
+        .deleteApi(query)
+        .then(() => {
+          this.$router.push({ path: '/api' });
+          this.isButtonDisabled = false;
+          this.$toast.success(this.$t('common.delete_success'), {
+            toastClassName: ['toast-success-custom-class'],
+          });
+        })
+        .catch((error) => {
+          this.isButtonDisabled = false;
+          this.$modal.show(`${this.$t('error.server_error')}`);
+        });
     }
   }
   // btn disabled

@@ -177,6 +177,9 @@ export default class ServiceManagementPage extends Vue {
         this._getServiceList();
         this.modal = false;
         this.isRegisterProgress = false;
+        this.$toast.success(this.$t('common.delete_success'), {
+          toastClassName: ['toast-success-custom-class'],
+        });
       })
       .catch(() => {
         this.isRegisterProgress = false;
