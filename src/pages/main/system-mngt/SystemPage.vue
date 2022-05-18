@@ -131,6 +131,8 @@ import { SystemResponse } from '@/types/SystemType';
 import { Pagination } from '@/types/GateWayResponse';
 
 import { convertDate, convertTime } from '@/utils/converter';
+import { GateWayError } from '@/error/GateWayError';
+import ErrorCode from '@/error/ErrorCodes';
 
 @Component({
   components: {
@@ -272,8 +274,15 @@ export default class SystemPage extends Vue {
         this.closeModal();
         this.isDisabled = false;
         this._getSystemList();
+        this.$toast.success(this.$t('common.delete_success'), {
+          toastClassName: ['toast-success-custom-class'],
+        });
       })
-      .catch(() => {
+      .catch((error: GateWayError | any) => {
+        console.log(error.getErrorCode());
+        if (error.getErrorCode() == ErrorCode.SYSTEM_DELETE_FAIL) {
+          this.$toast.error(this.$t('system.system_delete_fail', { system_name: this.currId }));
+        }
         this.isDisabled = false;
       });
   }
@@ -296,7 +305,6 @@ export default class SystemPage extends Vue {
   }
 
   closeModal() {
-    console.log('closeModal');
     this.isShowModal = false;
   }
 

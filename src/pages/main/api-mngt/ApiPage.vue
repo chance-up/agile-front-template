@@ -226,9 +226,21 @@ export default class ApiPage extends Vue {
     // await this.serviceModule.deleteServiceAction(ServiceId);
     const query = { id: this.deleteMsg.id, sysId: this.deleteMsg.sysId };
     this.isModalProgress = true;
-    await this.apiModule.deleteApi(query);
-    this.showModal = false;
-    this.isModalProgress = false;
+    await this.apiModule
+      .deleteApi(query)
+      .then(() => {
+        this.showModal = false;
+        this.isModalProgress = false;
+        this.$toast.success(this.$t('common.delete_success'), {
+          toastClassName: ['toast-success-custom-class'],
+        });
+      })
+      .catch((error) => {
+        this.showModal = false;
+        this.isModalProgress = false;
+        this.$modal.show(`${this.$t('error.server_error')}`);
+      });
+
     this.fetchApiList();
   }
 

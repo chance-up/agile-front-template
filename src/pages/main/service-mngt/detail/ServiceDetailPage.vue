@@ -159,6 +159,9 @@ export default class ServiceDetailPage extends Vue {
       .then(() => {
         this.$router.back();
         this.modal = false;
+        this.$toast.success(this.$t('common.delete_success'), {
+          toastClassName: ['toast-success-custom-class'],
+        });
       })
       .catch(() => {
         this.isRegisterProgress = false;
