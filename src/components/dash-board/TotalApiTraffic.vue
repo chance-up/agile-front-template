@@ -260,4 +260,16 @@ export default class TotalApiTraffic extends Vue {
 .mouse-hover:hover {
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
 }
+
+.chart-group {
+  width: 350px;
+  transition: width 1s, height 1s, position 1s, transform 1s;
+}
+
+.chart-group:active {
+  z-index: 5;
+  position: absolute;
+  transform: translate(50%, -20%) scale(2);
+  box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
+}
 </style>
