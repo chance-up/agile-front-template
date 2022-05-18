@@ -106,7 +106,13 @@ export default class LastTraffic extends Vue {
         },
       ],
     };
-    drawChart('lastTraffic', lastTrafficOption);
+    // drawChart('lastTraffic', lastTrafficOption);
+    const dom = document.getElementById('lastTraffic') as HTMLDivElement;
+    const myChart = echarts.init(dom);
+    myChart.setOption(lastTrafficOption);
+    window.addEventListener('resize', () => {
+      myChart.resize();
+    });
   }
   // base = new Date();
   // today = new Date(this.base.getTime()).toISOString().slice(0, 10);

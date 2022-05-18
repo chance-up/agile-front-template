@@ -123,7 +123,14 @@ export default class LastResponse extends Vue {
       ],
     };
 
-    drawChart('lastResponse', option);
+    // drawChart('lastResponse', option);
+
+    const dom = document.getElementById('lastResponse') as HTMLDivElement;
+    const myChart = echarts.init(dom);
+    myChart.setOption(option);
+    window.addEventListener('resize', () => {
+      myChart.resize();
+    });
   }
   // base = new Date();
   // today = new Date(this.base.getTime()).toISOString().slice(0, 10);
