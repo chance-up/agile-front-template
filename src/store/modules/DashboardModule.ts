@@ -34,7 +34,7 @@ export default class DashBoardModule extends GateWayModule {
       const mockList: LastTraffic[] = [];
       for (let h = 0; h < 24; h++) {
         for (let m = 0; m < 6; m++) {
-          const r = randomInt((1 + h + m) / 2, (h > 15 ? h / 2 : h) + m + 2);
+          const r = randomInt((1 + h + m) / 2, (h > 15 ? 25 - h : h) + m + 2) * 1000;
           mockList.push({
             statBaseTm: `2019-08-01 ${h < 10 ? '0' + h : h}:${m + '0'}:00`,
             todayAvgResTm: r,

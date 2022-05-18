@@ -82,7 +82,7 @@ export default class ApiModule extends GateWayModule {
       this.context.commit('setApiList', response.data.value);
       this.context.commit('setApiPagination', response.data.pagination);
     } catch (error: GateWayError | any) {
-      handleCommonError(error);
+      return Promise.reject(error);
 
       // 디테일 에러 처리
     }
@@ -112,7 +112,7 @@ export default class ApiModule extends GateWayModule {
       console.log('get API detail', response.data.value);
       this.context.commit('setApiDetail', response.data.value);
     } catch (error: GateWayError | any) {
-      handleCommonError(error);
+      return Promise.reject(error);
     }
   }
 
@@ -127,11 +127,7 @@ export default class ApiModule extends GateWayModule {
       );
       console.log('postApi response: ', response);
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        console.log('NetWork not connection');
-      } else {
-        console.log('서버통신에 실패하였습니다.');
-      }
+      return Promise.reject(error);
     }
   }
 
@@ -146,11 +142,7 @@ export default class ApiModule extends GateWayModule {
       );
       console.log('putApi response: ', response);
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        console.log('NetWork not connection');
-      } else {
-        console.log('서버통신에 실패하였습니다.');
-      }
+      return Promise.reject(error);
     }
   }
 
@@ -165,11 +157,7 @@ export default class ApiModule extends GateWayModule {
       );
       console.log('api delete response: ', response);
     } catch (error: GateWayError | any) {
-      if (error.getErrorCode() == ErrorCode.NETWORK_ERROR) {
-        console.log('NetWork not connection');
-      } else {
-        console.log('서버통신에 실패하였습니다.');
-      }
+      return Promise.reject(error);
     }
   }
 
@@ -193,7 +181,6 @@ export const apiValidationCheck = async (id: string, sysId: string) => {
     console.log('apiValidationCheck => ' + response);
     return response.data.value.isPkDuplicated as boolean;
   } catch (error: GateWayError | any) {
-    handleCommonError(error);
-    return false;
+    return Promise.reject(error);
   }
 };
