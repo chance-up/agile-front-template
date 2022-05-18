@@ -21,6 +21,9 @@ export default class RealTimeTraffic extends Vue {
     const seriesList: echarts.SeriesOption[] = [];
     const dom = document.getElementById(id) as HTMLDivElement;
     const myChart = echarts.init(dom);
+    window.addEventListener('resize', () => {
+      myChart.resize();
+    });
 
     echarts.util.each(countries, function (country) {
       const datasetId = 'dataset_' + country;
@@ -64,9 +67,6 @@ export default class RealTimeTraffic extends Vue {
         },
       });
     });
-    console.log(datasetWithFilters);
-    console.log(seriesList);
-    console.log(_rawData);
 
     const option = {
       animationDuration: 10000,
@@ -90,7 +90,10 @@ export default class RealTimeTraffic extends Vue {
         name: 'Income',
       },
       grid: {
-        right: 140,
+        top: 30,
+        left: 50,
+        bottom: 20,
+        right: 120,
       },
       series: seriesList,
       dataZoom: [
