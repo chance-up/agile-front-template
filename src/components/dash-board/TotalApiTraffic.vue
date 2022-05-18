@@ -1,12 +1,22 @@
 <template>
   <div class="chart-wrap">
     <h3 class="h3-tit">Total API Traffic (24Hour)</h3>
-    <div class="chart-group api-traffic mouse-hover" @click="showModalDetail()">
-      <div id="totalApiTrafficTotal" class="api-pie" data-echart-responsive="true">total</div>
-      <div id="totalApiTrafficSuccess" class="api-pie" data-echart-responsive="true">성공</div>
-      <div id="totalApiTrafficFail" class="api-pie" data-echart-responsive="true">실패</div>
+    <div
+      class="chart-group api-traffic"
+      :class="{
+        ' mouse-hover': modal == false,
+        ' expand-modal': modal == true,
+      }"
+      @click="showModalDetail()"
+    >
+      <div v-show="modal == false" id="totalApiTrafficTotal" class="api-pie" data-echart-responsive="true">total</div>
+      <div v-show="modal == false" id="totalApiTrafficSuccess" class="api-pie" data-echart-responsive="true">성공</div>
+      <div v-show="modal == false" id="totalApiTrafficFail" class="api-pie" data-echart-responsive="true">실패</div>
+      <template
+        ><div v-show="modal == true" style="width: 540px; height: 300px" id="totalApiTrafficDetail"></div
+      ></template>
     </div>
-    <ModalLayout size="l" v-if="modal">
+    <!-- <ModalLayout size="l" v-if="modal">
       <template v-slot:modalHeader
         ><h2 class="h1-tit">팝업 title</h2>
         <button @click="hideModalDetail()">
@@ -17,12 +27,11 @@
         <div style="width: 540px; height: 300px" id="totalApiTrafficDetail"></div>
       </template>
       <template v-slot:modalFooter> </template>
-    </ModalLayout>
+    </ModalLayout> -->
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { drawChart } from '@/utils/chart';
 import * as echarts from 'echarts';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 @Component({
@@ -32,9 +41,6 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 })
 export default class TotalApiTraffic extends Vue {
   mounted() {
-    drawChart('totalApiTrafficTotal', this.totalApiTrafficOption);
-    drawChart('totalApiTrafficSuccess', this.totalApiTrafficSuccsessOption);
-    drawChart('totalApiTrafficFail', this.totalApiTrafficFailOption);
     const dom = document.getElementById('totalApiTrafficTotal') as HTMLDivElement;
     const myChart = echarts.init(dom);
     myChart.setOption(this.totalApiTrafficOption);
@@ -43,6 +49,9 @@ export default class TotalApiTraffic extends Vue {
     myChart2.setOption(this.totalApiTrafficSuccsessOption);
     const dom3 = document.getElementById('totalApiTrafficFail') as HTMLDivElement;
     const myChart3 = echarts.init(dom3);
+    myChart3.setOption(this.totalApiTrafficFailOption);
+    const dom4 = document.getElementById('totalApiTrafficFail') as HTMLDivElement;
+    const myChart4 = echarts.init(dom4);
     myChart3.setOption(this.totalApiTrafficFailOption);
     window.addEventListener('resize', () => {
       myChart.resize();
@@ -246,30 +255,45 @@ export default class TotalApiTraffic extends Vue {
 
   modal = false;
   showModalDetail() {
+    this.test();
     this.modal = true;
-    setTimeout(() => {
-      drawChart('totalApiTrafficDetail', this.totalApiTrafficDetail);
-    }, 0);
+    // setTimeout(() => {
+    //   drawChart('totalApiTrafficDetail', this.totalApiTrafficDetail);
+    // }, 0);
   }
   hideModalDetail() {
     this.modal = false;
   }
+  widthValue = '';
+  test() {
+    const val = document.querySelector('.chart-group')?.clientWidth;
+    this.widthValue = `${val}px`;
+    document.documentElement.style.setProperty('--box-width', this.widthValue);
+  }
 }
 </script>
 <style scoped>
+:root {
+  --box-width: 100%;
+}
 .mouse-hover:hover {
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
 }
 
 .chart-group {
-  width: 350px;
-  transition: width 1s, height 1s, position 1s, transform 1s;
+  width: var(--box-width);
 }
 
-.chart-group:active {
+.expand-modal {
+  width: 50%;
+  height: 200%;
   z-index: 5;
   position: absolute;
-  transform: translate(50%, -20%) scale(2);
+  transform: translate(50%, -15%);
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
+  transition: all 5s;
 }
 </style>
