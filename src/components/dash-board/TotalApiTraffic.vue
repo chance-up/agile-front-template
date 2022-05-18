@@ -2,19 +2,18 @@
   <div class="chart-wrap">
     <h3 class="h3-tit">Total API Traffic (24Hour)</h3>
     <div
+      id="totalApiTraffic"
       class="chart-group api-traffic"
       :class="{
-        ' mouse-hover': modal == false,
-        ' expand-modal': modal == true,
+        'boxWidth mouse-hover': modal == false,
+        'expand-modal': modal == true,
       }"
       @click="showModalDetail()"
     >
       <div v-show="modal == false" id="totalApiTrafficTotal" class="api-pie" data-echart-responsive="true">total</div>
       <div v-show="modal == false" id="totalApiTrafficSuccess" class="api-pie" data-echart-responsive="true">성공</div>
       <div v-show="modal == false" id="totalApiTrafficFail" class="api-pie" data-echart-responsive="true">실패</div>
-      <template
-        ><div v-show="modal == true" style="width: 540px; height: 300px" id="totalApiTrafficDetail"></div
-      ></template>
+      <div v-show="modal == true" style="width: 540px; height: 300px" id="totalApiTrafficDetail"></div>
     </div>
     <!-- <ModalLayout size="l" v-if="modal">
       <template v-slot:modalHeader
@@ -41,9 +40,9 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 })
 export default class TotalApiTraffic extends Vue {
   mounted() {
-    const dom = document.getElementById('totalApiTrafficTotal') as HTMLDivElement;
-    const myChart = echarts.init(dom);
-    myChart.setOption(this.totalApiTrafficOption);
+    const dom1 = document.getElementById('totalApiTrafficTotal') as HTMLDivElement;
+    const myChart1 = echarts.init(dom1);
+    myChart1.setOption(this.totalApiTrafficOption);
     const dom2 = document.getElementById('totalApiTrafficSuccess') as HTMLDivElement;
     const myChart2 = echarts.init(dom2);
     myChart2.setOption(this.totalApiTrafficSuccsessOption);
@@ -52,13 +51,16 @@ export default class TotalApiTraffic extends Vue {
     myChart3.setOption(this.totalApiTrafficFailOption);
     const dom4 = document.getElementById('totalApiTrafficFail') as HTMLDivElement;
     const myChart4 = echarts.init(dom4);
-    myChart3.setOption(this.totalApiTrafficFailOption);
+    myChart4.setOption(this.totalApiTrafficFailOption);
+
     window.addEventListener('resize', () => {
-      myChart.resize();
+      myChart1.resize();
       myChart2.resize();
       myChart3.resize();
+      myChart4.resize();
     });
   }
+
   totalApiTrafficOption: echarts.EChartsOption = {
     title: {
       text: 'Total',
@@ -255,17 +257,18 @@ export default class TotalApiTraffic extends Vue {
 
   modal = false;
   showModalDetail() {
-    this.test();
-    this.modal = true;
-    // setTimeout(() => {
-    //   drawChart('totalApiTrafficDetail', this.totalApiTrafficDetail);
-    // }, 0);
+    this.setBoxWidth();
+
+    setTimeout(() => {
+      this.modal = true;
+    }, 0);
   }
   hideModalDetail() {
     this.modal = false;
   }
   widthValue = '';
-  test() {
+
+  setBoxWidth() {
     const val = document.querySelector('.chart-group')?.clientWidth;
     this.widthValue = `${val}px`;
     document.documentElement.style.setProperty('--box-width', this.widthValue);
@@ -280,20 +283,19 @@ export default class TotalApiTraffic extends Vue {
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
 }
 
-.chart-group {
+.boxWidth {
   width: var(--box-width);
 }
 
 .expand-modal {
   width: 50%;
-  height: 200%;
   z-index: 5;
   position: absolute;
-  transform: translate(50%, -15%);
+  transform: translate(0%, 50%) scaleY(2);
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
-  transition: all 5s;
+  transition: all 0.5s;
 }
 </style>

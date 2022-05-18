@@ -4,8 +4,8 @@
     <div
       class="chart-group error-stats"
       :class="{
-        ' mouse-hover': modal == false,
-        ' expand-modal': modal == true,
+        'boxWidth mouse-hover': modal == false,
+        'expand-modal': modal == true,
       }"
       @click="showModalDetail()"
     >
@@ -160,10 +160,21 @@ export default class ErrorStats extends Vue {
 
   modal = false;
   showModalDetail() {
-    this.modal = true;
+    this.setBoxWidth();
+
+    setTimeout(() => {
+      this.modal = true;
+    }, 0);
   }
   hideModalDetail() {
     this.modal = false;
+  }
+  widthValue = '';
+
+  setBoxWidth() {
+    const val = document.querySelector('.chart-group')?.clientWidth;
+    this.widthValue = `${val}px`;
+    document.documentElement.style.setProperty('--box-width', this.widthValue);
   }
 }
 </script>
@@ -176,16 +187,19 @@ export default class ErrorStats extends Vue {
   background-color: #fff;
 }
 
-.chart-group {
-  transition: width 0.5s, height 0.5s, position 0.5s, transform 0.5s;
+.boxWidth {
+  width: var(--box-width);
 }
 
 .expand-modal {
   width: 50%;
-  height: 200%;
   z-index: 5;
   position: absolute;
-  transform: translate(-18.5%, 0%);
+  transform: translate(-18.8%, 50%) scaleY(2);
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
+  transition: all 0.5s;
 }
 </style>
