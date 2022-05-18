@@ -13,11 +13,12 @@ export default class LastTraffic extends Vue {
   mounted() {
     for (let h = 0; h < 24; h++) {
       for (let m = 0; m < 6; m++) {
+        let r = this.randomInt((1 + h + m) / 2, h + m + 2);
         this.trafcStatTrnd.push({
           statBaseTm: `2019-08-01 ${h < 10 ? '0' + h : h}:${m + '0'}:00`,
-          todayCnt: this.randomInt(0, 1000),
-          lastDayCnt: this.randomInt(0, 1000),
-          lastWeekCnt: this.randomInt(0, 1000),
+          todayCnt: r,
+          lastDayCnt: (r * this.randomInt(900, 1100)) / 1000,
+          lastWeekCnt: (r * this.randomInt(1000, 1400)) / 1000,
         });
       }
     }
