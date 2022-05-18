@@ -7,6 +7,7 @@ import ServiceModule from '@/store/modules/ServiceModule';
 import ApiModule from '@/store/modules/ApiModule';
 import HandlerModule from '@/store/modules/HandlerModule';
 import UserModule from '@/store/modules/UserModule';
+import DashBoardModule from '@/store/modules/DashBoardModule';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -17,5 +18,6 @@ export default new Vuex.Store({
     ApiModule,
     HandlerModule,
     UserModule,
+    DashBoardModule,
   },
 });

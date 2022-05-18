@@ -5,106 +5,101 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import * as echarts from 'echarts';
-import { drawChart } from '@/utils/chart';
+import { getModule } from 'vuex-module-decorators';
+import DashBoardModule from '@/store/modules/DashBoardModule';
 @Component
 export default class LastResponse extends Vue {
-  mounted() {
-    for (let h = 0; h < 24; h++) {
-      for (let m = 0; m < 6; m++) {
-        this.trafcStatTrnd.push({
-          statBaseTm: `2019-08-01 ${h < 10 ? '0' + h : h}:${m + '0'}:00`,
-          todayCnt: this.randomInt(0, 1000),
-          lastDayCnt: this.randomInt(0, 1000),
-        });
-      }
-    }
-    const option: echarts.EChartsOption = {
-      // legend: {
-      //   data: ['today, lastDay, lastWeek'],
-      // },
-      tooltip: {
-        trigger: 'axis',
-      },
-      toolbox: {
-        left: 'right',
-        itemSize: 20,
-        top: -5,
-        feature: {
-          dataZoom: {
-            yAxisIndex: 'none',
-          },
-          restore: {},
-        },
-      },
-
-      xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        data: this.trafcStatTrnd.map((item: any) => item.statBaseTm.slice(11, 16)),
-        splitLine: {
-          show: false,
-        },
-      },
-      yAxis: {
-        type: 'value',
-      },
-      grid: {
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 148,
-        containLabel: true,
-      },
-      dataZoom: [
-        {
-          type: 'inside',
-          throttle: 50,
-        },
-      ],
-      series: [
-        {
-          name: 'today',
-          type: 'line',
-          symbol: 'circle',
-          symbolSize: 5,
-
-          data: this.trafcStatTrnd.map((item: any) => {
-            return item.todayCnt as number;
-          }),
-        },
-        {
-          name: 'lastDay',
-          type: 'line',
-          symbol: 'circle',
-          symbolSize: 5,
-
-          data: this.trafcStatTrnd.map((item: any) => {
-            return item.lastDayCnt;
-          }),
-        },
-      ],
-    };
-
-    // drawChart('lastResponse', option);
-
-    const dom = document.getElementById('lastResponse') as HTMLDivElement;
-    const myChart = echarts.init(dom);
-    myChart.setOption(option);
-    window.addEventListener('resize', () => {
-      myChart.resize();
-    });
+  dashBoardModule = getModule(DashBoardModule, this.$store);
+  get lastResponseList() {
+    console.log(this.dashBoardModule);
+    return this.dashBoardModule.lastResponseList;
   }
-  // base = new Date();
-  // today = new Date(this.base.getTime()).toISOString().slice(0, 10);
-  // lastDay = new Date(this.base.getTime() - 86400000).toISOString().slice(0, 10);
-  // lastWeek = new Date(this.base.getTime() - 604800000).toISOString().slice(0, 10);
+  mounted() {
+    this.dashBoardModule.getLastResponseList();
+  }
 
-  randomInt = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-  trafcStatTrnd: { statBaseTm: string; todayCnt: number; lastDayCnt: number }[] = [];
+  @Watch('lastResponseList')
+  changedLastResponseList() {
+    if (this.lastResponseList.length) {
+      const option: echarts.EChartsOption = {
+        // legend: {
+        //   data: ['today, lastDay, lastWeek'],
+        // },
+        tooltip: {
+          trigger: 'axis',
+        },
+        toolbox: {
+          left: 'right',
+          itemSize: 20,
+          top: -5,
+          feature: {
+            dataZoom: {
+              yAxisIndex: 'none',
+            },
+            restore: {},
+          },
+        },
+
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: this.lastResponseList.map((item) => item.statBaseTm.slice(11, 16)),
+          splitLine: {
+            show: false,
+          },
+        },
+        yAxis: {
+          type: 'value',
+        },
+        grid: {
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 148,
+          containLabel: true,
+        },
+        dataZoom: [
+          {
+            type: 'inside',
+            throttle: 50,
+          },
+        ],
+        series: [
+          {
+            name: 'today',
+            type: 'line',
+            symbol: 'circle',
+            symbolSize: 5,
+
+            data: this.lastResponseList.map((item) => {
+              return item.todayCnt as number;
+            }),
+          },
+          {
+            name: 'lastDay',
+            type: 'line',
+            symbol: 'circle',
+            symbolSize: 5,
+
+            data: this.lastResponseList.map((item) => {
+              return item.ystdayCnt;
+            }),
+          },
+        ],
+      };
+
+      // drawChart('lastResponse', option);
+
+      const dom = document.getElementById('lastResponse') as HTMLDivElement;
+      const myChart = echarts.init(dom);
+      myChart.setOption(option);
+      window.addEventListener('resize', () => {
+        myChart.resize();
+      });
+    }
+  }
 }
 </script>
 <style>
