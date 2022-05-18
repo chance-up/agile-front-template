@@ -64,9 +64,6 @@ export default class RealTimeTraffic extends Vue {
         },
       });
     });
-    console.log(datasetWithFilters);
-    console.log(seriesList);
-    console.log(_rawData);
 
     const option = {
       animationDuration: 10000,
