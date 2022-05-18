@@ -185,12 +185,6 @@ export default class MainHeader extends Vue {
   text-decoration: none;
 }
 
-/* #navi ul li > .depth-menu {
-  display: none;
-} */
-
-/* #navi ul li.on {
-} */
 #navi ul li.on a {
   color: #8041f7;
 }
@@ -224,12 +218,5 @@ export default class MainHeader extends Vue {
   font-weight: 500;
   line-height: 20px;
   color: #333;
-}
-
-#navi ul li.on > .depth-menu ul li.active {
-}
-#navi ul li.on > .depth-menu ul li.active i {
-}
-#navi ul li.on > .depth-menu ul li.active a {
 }
 </style>
