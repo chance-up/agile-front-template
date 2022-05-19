@@ -14,8 +14,17 @@
               <div class="chart-div" id="stacked-area-chart-servicetop5"></div>
               <div class="chart-div" id="stacked-horizontal-bar-servicetop5"></div>
             </div>
-
-            <ApiDetailModalApiList />
+            <div class="stati-wrap">
+              <div class="tit-wrap">
+                <h3 class="h3-tit">API List</h3>
+                <p class="total">total : <span>8</span></p>
+              </div>
+              <div class="stati-list">
+                <ul>
+                  <ApiDetailModalApiList v-for="(item, index) in 3" :key="index" />
+                </ul>
+              </div>
+            </div>
           </div>
           <div class="pop-footer">
             <button class="lg-btn purple-btn" @click="$emit('close')">확인</button>
