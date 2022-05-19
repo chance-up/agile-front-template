@@ -24,9 +24,9 @@ export default class LastTraffic extends Vue {
   changedLastResponseList() {
     if (this.lastTrafficList.length) {
       const lastTrafficOption: echarts.EChartsOption = {
-        // legend: {
-        //   data: ['today, lastDay'],
-        // },
+        legend: {
+          show: true,
+        },
 
         tooltip: {
           trigger: 'axis',
@@ -37,6 +37,7 @@ export default class LastTraffic extends Vue {
           top: -5,
           feature: {
             dataZoom: {
+              show: false,
               yAxisIndex: 'none',
             },
             restore: {},
@@ -80,10 +81,10 @@ export default class LastTraffic extends Vue {
           z: 10,
         },
         grid: {
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 148,
+          top: 40,
+          left: 5,
+          right: 20,
+          bottom: 20,
           containLabel: true,
         },
         dataZoom: [
@@ -136,5 +137,8 @@ export default class LastTraffic extends Vue {
 <style>
 #lastTraffic {
   background-color: white;
+  height: 290px;
+  padding: 10px;
+  margin: 10px;
 }
 </style>

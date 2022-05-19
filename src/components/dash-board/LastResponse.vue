@@ -27,6 +27,9 @@ export default class LastResponse extends Vue {
         // legend: {
         //   data: ['today, lastDay, lastWeek'],
         // },
+        legend: {
+          show: true,
+        },
         tooltip: {
           trigger: 'axis',
         },
@@ -36,6 +39,7 @@ export default class LastResponse extends Vue {
           top: -5,
           feature: {
             dataZoom: {
+              show: false,
               yAxisIndex: 'none',
             },
             restore: {},
@@ -54,10 +58,10 @@ export default class LastResponse extends Vue {
           type: 'value',
         },
         grid: {
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 148,
+          top: 40,
+          left: 5,
+          right: 20,
+          bottom: 20,
           containLabel: true,
         },
         dataZoom: [
@@ -105,5 +109,8 @@ export default class LastResponse extends Vue {
 <style>
 #lastResponse {
   background-color: white;
+  height: 290px;
+  padding: 10px;
+  margin: 10px;
 }
 </style>
