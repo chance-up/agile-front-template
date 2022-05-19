@@ -117,14 +117,9 @@ const routes: Array<RouteConfig> = [
         component: () => import('@/pages/main/monitoring/Monitoring.vue'),
         children: [
           {
-            path: '/dashboard',
-            name: 'dashboard',
-            component: () => import('@/pages/main/monitoring/children/DashboardPage.vue'),
-          },
-          {
-            path: '/log',
-            name: 'log',
-            component: () => import('@/pages/main/monitoring/children/LogPage.vue'),
+            path: '/control',
+            name: 'control',
+            component: () => import('@/pages/main/monitoring/children/ControlPage.vue'),
           },
           {
             path: '/statistic',

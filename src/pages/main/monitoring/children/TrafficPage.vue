@@ -4,6 +4,9 @@
   </div>
 </template>
 <script>
-export default {};
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component({})
+export default class ControlPage extends Vue {}
 </script>
 <style lang=""></style>

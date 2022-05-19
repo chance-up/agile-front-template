@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>this is Statistic Page</h1>
+    <h1>this is Control Page</h1>
   </div>
 </template>
 <script>

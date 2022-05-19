@@ -25,17 +25,23 @@
             <div class="depth-menu" v-if="navState.showMornitoring">
               <ul>
                 <li>
-                  <i><img src="@/assets/user_ico.svg" alt="사용자 관리" /></i>
+                  <i><img src="@/assets/user_ico.svg" alt="관제" /></i>
                   <!-- <router-link :to="`${mornitoringPath}`">모니터링</router-link> -->
-                  <router-link :to="`${mornitoringPath}`" @click="changeNavState('monitoringState')">관제</router-link>
+                  <router-link :to="`${mornitoringPath}/control`" @click="changeNavState('monitoringState')"
+                    >관제</router-link
+                  >
                 </li>
                 <li>
-                  <i><img src="@/assets/power_ico.svg" alt="권한관리" /></i>
-                  <a href="javascript:void(0)" @click="changeNavState('monitoringState')">통계</a>
+                  <i><img src="@/assets/power_ico.svg" alt="통계" /></i>
+                  <router-link :to="`${mornitoringPath}/statistic`" @click="changeNavState('monitoringState')"
+                    >통계</router-link
+                  >
                 </li>
                 <li>
-                  <i><img src="@/assets/power_ico.svg" alt="권한관리" /></i>
-                  <a href="javascript:void(0)" @click="changeNavState('monitoringState')">트래픽</a>
+                  <i><img src="@/assets/power_ico.svg" alt="트래픽" /></i>
+                  <router-link :to="`${mornitoringPath}/traffic`" @click="changeNavState('monitoringState')"
+                    >트래픽</router-link
+                  >
                 </li>
               </ul>
             </div>
