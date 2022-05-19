@@ -131,6 +131,7 @@ export default class ApiTop5 extends Vue {
     },
   ];
 
+  // 전체/성공/실패 추이 데이터
   apiTop5TransitionSeries: echarts.LineSeriesOption[] = [
     {
       name: 'Email',
@@ -154,6 +155,7 @@ export default class ApiTop5 extends Vue {
     },
   ];
 
+  // 전체/성공/실패 추이 그래프 옵션
   apiTop5TransitionOption: echarts.EChartsOption = {
     tooltip: {
       trigger: 'axis',
@@ -192,7 +194,7 @@ export default class ApiTop5 extends Vue {
     series: this.apiTop5TransitionSeries.map((item, index) =>
       Object.assign(item, {
         type: 'line',
-        stack: 'Total',
+        // stack: 'Total',
         areaStyle: {},
         emphasis: {
           focus: 'series',
@@ -207,12 +209,28 @@ export default class ApiTop5 extends Vue {
     ),
   };
 
+  // 최근 7일 성공/실패 추이 데이터
+  apiTop5AWeekTransitionSeries: echarts.LineSeriesOption[] = [
+    {
+      name: 'Direct',
+      data: [320, 302, 301, 334, 390, 330, 320],
+    },
+    {
+      name: 'Mail Ad',
+      data: [120, 132, 101, 134, 90, 230, 210],
+    },
+    {
+      name: 'Affiliate Ad',
+      data: [150, 212, 201, 154, 190, 330, 410],
+    },
+  ];
+
+  // 최근 7일 성공/실패 추이 그래프 옵션
   ApiTop5AWeekTransitionOption: echarts.EChartsOption = {
     tooltip: {
       trigger: 'axis',
-      extraCssText: 'z-index: 9999999;',
       axisPointer: {
-        type: 'shadow', // 'shadow' as default; can also be 'line' or 'shadow'
+        type: 'shadow',
       },
     },
     grid: {
@@ -229,44 +247,19 @@ export default class ApiTop5 extends Vue {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     },
-    series: [
-      {
-        name: 'Direct',
+    series: this.apiTop5AWeekTransitionSeries.map((item) =>
+      Object.assign(item, {
         type: 'bar',
         stack: 'total',
         label: {
           show: true,
+          fontSize: 9,
         },
         emphasis: {
           focus: 'series',
         },
-        data: [320, 302, 301, 334, 390, 330, 320],
-      },
-      {
-        name: 'Mail Ad',
-        type: 'bar',
-        stack: 'total',
-        label: {
-          show: true,
-        },
-        emphasis: {
-          focus: 'series',
-        },
-        data: [120, 132, 101, 134, 90, 230, 210],
-      },
-      {
-        name: 'Affiliate Ad',
-        type: 'bar',
-        stack: 'total',
-        label: {
-          show: true,
-        },
-        emphasis: {
-          focus: 'series',
-        },
-        data: [150, 212, 201, 154, 190, 330, 410],
-      },
-    ],
+      })
+    ),
   };
 
   isShowModal = false;
@@ -313,6 +306,7 @@ export default class ApiTop5 extends Vue {
 </script>
 <style scoped>
 .chart-size {
+  display: inline-block;
   width: 380px;
   height: 160px;
 }
