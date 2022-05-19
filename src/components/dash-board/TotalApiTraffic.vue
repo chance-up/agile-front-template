@@ -2,10 +2,10 @@
   <div class="chart-wrap">
     <h3 class="h3-tit">Total API Traffic (24Hour)</h3>
     <div
-      id="totalApiTraffic"
+      ref="totalApiTraffic"
       class="chart-group api-traffic"
       :class="{
-        'boxWidth mouse-hover': modal == false,
+        'total-collapse-modal  mouse-hover': modal == false,
         'total-expand-modal': modal == true,
       }"
       @click="showModalDetail()"
@@ -13,7 +13,17 @@
       <div v-show="modal == false" id="totalApiTrafficTotal" class="api-pie" data-echart-responsive="true">total</div>
       <div v-show="modal == false" id="totalApiTrafficSuccess" class="api-pie" data-echart-responsive="true">성공</div>
       <div v-show="modal == false" id="totalApiTrafficFail" class="api-pie" data-echart-responsive="true">실패</div>
-      <div v-show="modal == true" style="width: 540px; height: 300px" id="totalApiTrafficDetail"></div>
+      <div v-show="modal == true" style="width: 100%; height: 100%">
+        <h5 class="h5-tit">Total API Traffic Deetail</h5>
+        <div
+          class="total-modal-detail"
+          :class="{
+            'total-modal-detail-collapse': modal == false,
+            'total-modal-detail-expand': modal == true,
+          }"
+          id="totalApiTrafficDetail"
+        ></div>
+      </div>
     </div>
     <!-- <ModalLayout size="l" v-if="modal">
       <template v-slot:modalHeader
@@ -30,7 +40,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import * as echarts from 'echarts';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 @Component({
@@ -39,26 +49,53 @@ import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
   },
 })
 export default class TotalApiTraffic extends Vue {
-  mounted() {
-    const dom1 = document.getElementById('totalApiTrafficTotal') as HTMLDivElement;
-    const myChart1 = echarts.init(dom1);
-    myChart1.setOption(this.totalApiTrafficOption);
-    const dom2 = document.getElementById('totalApiTrafficSuccess') as HTMLDivElement;
-    const myChart2 = echarts.init(dom2);
-    myChart2.setOption(this.totalApiTrafficSuccsessOption);
-    const dom3 = document.getElementById('totalApiTrafficFail') as HTMLDivElement;
-    const myChart3 = echarts.init(dom3);
-    myChart3.setOption(this.totalApiTrafficFailOption);
-    const dom4 = document.getElementById('totalApiTrafficFail') as HTMLDivElement;
-    const myChart4 = echarts.init(dom4);
-    myChart4.setOption(this.totalApiTrafficFailOption);
+  dom1 = {} as HTMLDivElement;
+  myChart1 = {} as echarts.EChartsType;
+  dom2 = {} as HTMLDivElement;
+  myChart2 = {} as echarts.EChartsType;
+  dom3 = {} as HTMLDivElement;
+  myChart3 = {} as echarts.EChartsType;
+  dom4 = {} as HTMLDivElement;
+  myChart4 = {} as echarts.EChartsType;
 
-    window.addEventListener('resize', () => {
-      myChart1.resize();
-      myChart2.resize();
-      myChart3.resize();
-      myChart4.resize();
+  mounted() {
+    this.dom1 = document.getElementById('totalApiTrafficTotal') as HTMLDivElement;
+    this.myChart1 = echarts.init(this.dom1);
+    this.myChart1.setOption(this.totalApiTrafficOption);
+    this.dom2 = document.getElementById('totalApiTrafficSuccess') as HTMLDivElement;
+    this.myChart2 = echarts.init(this.dom2);
+    this.myChart2.setOption(this.totalApiTrafficSuccsessOption);
+    this.dom3 = document.getElementById('totalApiTrafficFail') as HTMLDivElement;
+    this.myChart3 = echarts.init(this.dom3);
+    this.myChart3.setOption(this.totalApiTrafficFailOption);
+    this.dom4 = document.getElementById('totalApiTrafficDetail') as HTMLDivElement;
+    this.myChart4 = echarts.init(this.dom4);
+    this.myChart4.setOption(this.totalApiTrafficDeetailOption);
+    this.observeSize();
+  }
+
+  resizeChart() {
+    this.myChart1.resize();
+    this.myChart2.resize();
+    this.myChart3.resize();
+    this.myChart4.resize();
+  }
+  width = 0;
+  height = 0;
+  observeSize() {
+    const ro = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        const { width, height } = entry.contentRect;
+        this.width = width;
+        this.height = height;
+      });
     });
+    ro.observe(this.$refs.totalApiTraffic as HTMLDivElement);
+  }
+
+  @Watch('width')
+  onWidthChang() {
+    this.resizeChart();
   }
 
   totalApiTrafficOption: echarts.EChartsOption = {
@@ -185,7 +222,7 @@ export default class TotalApiTraffic extends Vue {
     color: ['#FFF6E5', 'rgba(255, 255, 255, 0)'],
   };
 
-  totalApiTrafficDetail: echarts.EChartsOption = {
+  totalApiTrafficDeetailOption: echarts.EChartsOption = {
     color: '#FFBF00',
     tooltip: {
       trigger: 'axis',
@@ -203,7 +240,8 @@ export default class TotalApiTraffic extends Vue {
     //   },
     // },
     grid: {
-      left: '3%',
+      top: '5%',
+      left: '2%',
       right: '4%',
       bottom: '3%',
       containLabel: true,
@@ -213,16 +251,19 @@ export default class TotalApiTraffic extends Vue {
         type: 'category',
         boundaryGap: false,
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        axisLine: { show: true, lineStyle: { color: '#fff' } },
+        axisLabel: { show: true, fontSize: '13', fontWeight: 550, color: '#fff' },
       },
     ],
     yAxis: [
       {
         type: 'value',
+        // splitLine: { show: true, lineStyle: { color: '#000' } },
+        axisLabel: { show: true, fontSize: '13', fontWeight: 550, color: '#fff' },
       },
     ],
     series: [
       {
-        name: 'Line 5',
         type: 'line',
         stack: 'Total',
         smooth: true,
@@ -239,11 +280,11 @@ export default class TotalApiTraffic extends Vue {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
-              color: 'rgb(255, 191, 0)',
+              color: '#E2F9FF',
             },
             {
               offset: 1,
-              color: 'rgb(224, 62, 76)',
+              color: '#FF2121',
             },
           ]),
         },
@@ -257,11 +298,17 @@ export default class TotalApiTraffic extends Vue {
 
   modal = false;
   showModalDetail() {
-    this.setBoxWidth();
-
-    setTimeout(() => {
-      this.modal = true;
-    }, 0);
+    if (this.modal == true) {
+      this.resetBoxWidth();
+      setTimeout(() => {
+        this.modal = false;
+      }, 0);
+    } else {
+      this.setBoxWidth();
+      setTimeout(() => {
+        this.modal = true;
+      }, 0);
+    }
   }
   hideModalDetail() {
     this.modal = false;
@@ -269,31 +316,49 @@ export default class TotalApiTraffic extends Vue {
   widthValue = '';
 
   setBoxWidth() {
-    const val = document.querySelector('.chart-group')?.clientWidth;
-    this.widthValue = `${val}px`;
-    document.documentElement.style.setProperty('--box-width', this.widthValue);
+    const val = document.querySelector('.chart-group')?.clientWidth as number;
+    this.widthValue = `${val + 2}px`;
+    document.documentElement.style.setProperty('--total-box-width', this.widthValue);
+  }
+  resetBoxWidth() {
+    document.documentElement.style.setProperty('--total-box-width', '100%');
   }
 }
 </script>
 <style scoped>
 :root {
-  --box-width: 100%;
+  --total-box-width: 100%;
 }
 .mouse-hover:hover {
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
 }
 
-.boxWidth {
-  width: var(--box-width);
+.total-modal-detail {
+  width: 100%;
+  height: 90%;
+  opacity: 0;
+}
+
+.total-modal-detail-collapse {
+  opacity: 0;
+}
+
+.total-modal-detail-expand {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.total-collapse-modal {
+  width: var(--total-box-width);
 }
 
 .total-expand-modal {
-  width: 80%;
+  width: 60%;
   height: 200%;
   z-index: 5;
   position: absolute;
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
-  transition: all 0.5s;
   transform-origin: top left;
+  transition: all 0.5s;
 }
 </style>
