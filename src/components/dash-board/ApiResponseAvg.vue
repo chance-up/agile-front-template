@@ -5,7 +5,7 @@
       class="chart-group tps-group"
       :class="{
         'boxWidth mouse-hover': modal == false,
-        'expand-modal': modal == true,
+        'avg-expand-modal': modal == true,
       }"
       @click="showModalDetail()"
     >
@@ -58,15 +58,13 @@ export default class ApiResponseAvg extends Vue {
   width: var(--box-width);
 }
 
-.expand-modal {
-  width: 50%;
+.avg-expand-modal {
+  width: 80%;
+  height: 200%;
   z-index: 5;
   position: absolute;
-  transform: translate(-87.6%, 50%) scaleY(2);
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
+  right: 0px;
   transition: all 0.5s;
+  transform-origin: top right;
 }
 </style>

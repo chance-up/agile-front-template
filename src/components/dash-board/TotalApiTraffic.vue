@@ -6,7 +6,7 @@
       class="chart-group api-traffic"
       :class="{
         'boxWidth mouse-hover': modal == false,
-        'expand-modal': modal == true,
+        'total-expand-modal': modal == true,
       }"
       @click="showModalDetail()"
     >
@@ -287,16 +287,13 @@ export default class TotalApiTraffic extends Vue {
   width: var(--box-width);
 }
 
-.expand-modal {
-  width: 50%;
+.total-expand-modal {
+  width: 80%;
+  height: 200%;
   z-index: 5;
   position: absolute;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
   transition: all 0.5s;
-  transform: scaleY(2);
-  transform-origin: left top;
+  transform-origin: top left;
 }
 </style>
