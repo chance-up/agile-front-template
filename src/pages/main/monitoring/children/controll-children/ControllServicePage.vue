@@ -21,57 +21,9 @@
       <!--- cardtype list --->
       <div class="card-wrap">
         <ul>
-          <li v-for="(item, index) in serviceList" :key="index">
-            <div class="card-tit">
-              <h2 class="h2-tit">{{ item.nm }}</h2>
-
-              <!-- <div class="tip">
-                <button class="tip-btn">
-                  <i><img src="@/assets/tip_ico.svg" alt="tip" /></i>
-                </button>
-                <span class="tip-area">서비스 설명 ~ Lorem ipsum dolor sit amet</span>
-              </div> -->
-            </div>
-
-            <div class="script-wrap">
-              <div class="script-cont">
-                <i><img src="@/assets/req_sm.svg" alt="평균 응답시간" /></i>
-                <p class="text">
-                  평균 응답시간 : <span>{{ item.avgTime }}</span
-                  >ms
-                </p>
-              </div>
-              <div class="script-cont">
-                <i><img src="@/assets/tps_sm.svg" alt="TPS" /></i>
-                <p class="text">
-                  TPS : <span>{{ item.tps }}</span>
-                </p>
-              </div>
-            </div>
-
-            <div class="card-chart col-2">
-              <div class="chart-div">차트영역</div>
-              <dl>
-                <dt>
-                  성공률 : <span class="syan">{{ item.successRate }}%</span>
-                </dt>
-                <dd>
-                  Total : <span class="purple">{{ item.total }}</span>
-                </dd>
-                <dd>
-                  Success : <span class="syan">{{ item.success }}</span>
-                </dd>
-                <dd>
-                  Fail : <span class="red">{{ item.fail }}</span>
-                </dd>
-              </dl>
-            </div>
-
-            <div class="card-chart">
-              <h4 class="h4-tit">실패 구분</h4>
-              <div class="chart-div">차트영역</div>
-            </div>
-          </li>
+          <!-- <li v-for="(item, index) in serviceList" :key="index"> -->
+          <ControlCard v-for="(item, index) in serviceList" :key="index" :item="item"></ControlCard>
+          <!-- <ControlCard v-for="(item, index) in serviceList" :key="index"></ControlCard> -->
         </ul>
       </div>
       <!--- // cardtype list --->
@@ -81,8 +33,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import TimeGroup from '@/components/monitoring/TimeGroup.vue';
+import ControlCard from '@/components/monitoring/ControlCard.vue';
 
-@Component({ components: { TimeGroup } })
+@Component({ components: { TimeGroup, ControlCard } })
 export default class ControlPage extends Vue {
   serviceList: any[] = [
     {
