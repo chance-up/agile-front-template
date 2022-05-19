@@ -247,5 +247,8 @@
   "error": {
     "invalid_input": "형식에 맞지 않는 항목이 존재합니다.",
     "server_error": "서버 오류입니다."
+  },
+  "dash_board": {
+    "pause_time" : "정지 시간"
   }
 }

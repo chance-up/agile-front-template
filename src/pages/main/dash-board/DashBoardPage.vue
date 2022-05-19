@@ -1,7 +1,7 @@
 <template>
   <article class="dashboard">
     <!--- refresh play/pause area --->
-    <TimeCheck />
+    <TimeCheck :callBack="onCallBack" />
 
     <section class="group col-3">
       <!--- Total API Traffic (24Hour) area --->
@@ -62,6 +62,14 @@ import LastResponse from '@/components/dash-board/LastResponse.vue';
     LastResponse,
   },
 })
-export default class DashBoardPage extends Vue {}
+export default class DashBoardPage extends Vue {
+  onCallBack() {
+    console.log('callBack');
+
+    Promise.all([]).then(() => {
+      console.log('callBack');
+    });
+  }
+}
 </script>
 <style lang=""></style>
