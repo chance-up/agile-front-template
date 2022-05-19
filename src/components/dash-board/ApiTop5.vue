@@ -13,7 +13,8 @@
         </dl>
         <div class="sm-bar">{{ $t('dash-board.success_rate') }}</div>
         <ProgressBar :listItem="item" />
-        <button class="more-btn" @click="showModal">
+        <button class="more-btn" @click="(isShowModal = true), (apiDetailData = item)">
+          <!-- <button class="more-btn" @click="showModal"> -->
           <i><img src="@/assets/more_ico.svg" :alt="$t('common.more')" /></i>
         </button>
       </li>
@@ -62,30 +63,7 @@
         </button>
       </li> -->
     </ul>
-    <ModalLayout size="lg" v-if="isShowModal">
-      <template v-slot:modalHeader
-        ><h2 class="h1-tit">{{ $t('dash-board.api_top5_title') }}</h2>
-        <button @click="hideModal()">
-          <i><img src="@/assets/close.svg" :alt="$t('common.close')" :title="$t('common.close')" /></i>
-        </button>
-      </template>
-      <template v-slot:modalContainer>
-        <div class="chart-wrap">
-          <div class="chart-group error-stats">
-            <div ref="apiTop5AWeekTransition" class="chart-size"></div>
-          </div>
-          <div class="chart-group error-stats">
-            <div ref="apiTop5Transition" class="chart-size"></div>
-          </div>
-        </div>
-        <div class="api-list-area">API List</div>
-      </template>
-      <template v-slot:modalFooter>
-        <button class="purple-btn lg-btn" @click="hideModal">
-          {{ $t('common.ok') }}
-        </button>
-      </template>
-    </ModalLayout>
+    <ApiDetailModal v-if="isShowModal" @close="isShowModal = false" :apiDetailData="apiDetailData"></ApiDetailModal>
   </div>
 </template>
 <script lang="ts">
@@ -95,7 +73,7 @@ import { drawChart } from '@/utils/chart';
 import * as echarts from 'echarts';
 
 import ProgressBar from '@/components/commons/ProgressBar.vue';
-import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
+import ApiDetailModal from '@/components/commons/modal/ApiDetailModal.vue';
 
 interface FormatterType {
   componentType: 'series';
@@ -115,10 +93,11 @@ interface FormatterType {
 @Component({
   components: {
     ProgressBar,
-    ModalLayout,
+    ApiDetailModal,
   },
 })
 export default class ApiTop5 extends Vue {
+  apiDetailData: any = {};
   top5List: any[] = [
     {
       id: 'sysID_API_deviceinfo',
