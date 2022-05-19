@@ -1,5 +1,5 @@
 <template>
-  <li>
+  <li @click="showApiDetailModal = true">
     <div class="card-tit">
       <h2 class="h2-tit">{{ item.nm }}</h2>
 
@@ -49,15 +49,34 @@
       <h4 class="h4-tit">실패 구분</h4>
       <div class="chart-div">차트영역</div>
     </div>
+    <ApiDetailModal
+      v-if="showApiDetailModal"
+      @close="showApiDetailModal = false"
+      :apiDetailData="apiDetailData"
+    ></ApiDetailModal>
   </li>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import ApiDetailModal from '@/components/commons/modal/ApiDetailModal.vue';
+interface ApiDetail {
+  id: string;
+  total: number;
+  success: number;
+  fail: number;
+}
 @Component({
-  components: {},
+  components: { ApiDetailModal },
 })
 export default class ControlCard extends Vue {
   @Prop() item!: any;
   tipBox = false;
+  showApiDetailModal = false;
+  apiDetailData: ApiDetail = {
+    id: '',
+    total: 0,
+    success: 0,
+    fail: 0,
+  };
 }
 </script>
