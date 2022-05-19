@@ -112,26 +112,19 @@ const routes: Array<RouteConfig> = [
         component: () => import('@/pages/main/service-mngt/edit/ServiceEditPage.vue'),
       },
       {
-        path: MONITORING,
-        name: 'monitoring',
-        component: () => import('@/pages/main/monitoring/Monitoring.vue'),
-        children: [
-          {
-            path: '/control',
-            name: 'control',
-            component: () => import('@/pages/main/monitoring/children/ControlPage.vue'),
-          },
-          {
-            path: '/statistic',
-            name: 'statistic',
-            component: () => import('@/pages/main/monitoring/children/StatisticPage.vue'),
-          },
-          {
-            path: '/traffic',
-            name: 'traffic',
-            component: () => import('@/pages/main/monitoring/children/TrafficPage.vue'),
-          },
-        ],
+        path: MONITORING + '/control',
+        name: 'control',
+        component: () => import('@/pages/main/monitoring/children/ControlPage.vue'),
+      },
+      {
+        path: MONITORING + '/statistic',
+        name: 'statistic',
+        component: () => import('@/pages/main/monitoring/children/StatisticPage.vue'),
+      },
+      {
+        path: MONITORING + '/traffic',
+        name: 'traffic',
+        component: () => import('@/pages/main/monitoring/children/TrafficPage.vue'),
       },
       {
         path: MANAGEMENT,
