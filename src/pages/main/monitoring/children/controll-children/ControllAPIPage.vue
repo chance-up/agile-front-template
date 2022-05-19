@@ -2,6 +2,7 @@
   <div>
     <TimeGroup @changeTime="handle" />
     <div class="monitor-comp">
+      <!-- 정렬 -->
       <div class="tb-tit">
         <div class="search-cont">
           <label class="label">정렬기준</label>
@@ -15,6 +16,7 @@
 
         <p class="total">total : <span>8</span></p>
       </div>
+      <!-- // 정렬 -->
 
       <!--- cardtype list --->
       <div class="card-wrap">
@@ -23,12 +25,12 @@
             <div class="card-tit">
               <h2 class="h2-tit">{{ item.nm }}</h2>
 
-              <div class="tip">
+              <!-- <div class="tip">
                 <button class="tip-btn">
                   <i><img src="@/assets/tip_ico.svg" alt="tip" /></i>
                 </button>
-                <!-- <span class="tip-area">api 설명 ~ Lorem ipsum dolor sit amet</span> -->
-              </div>
+                <span class="tip-area">api 설명 ~ Lorem ipsum dolor sit amet</span>
+              </div> -->
             </div>
 
             <div class="script-wrap">
