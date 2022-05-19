@@ -3,22 +3,49 @@
     <div class="tit-wrap">
       <h1 class="h1-tit">관제</h1>
     </div>
-
-    <!------- tab -------->
     <div class="tab-wrap">
       <ul>
-        <li><router-link :to="{ name: 'controll-service' }">Service</router-link></li>
-        <!-- :class="{ on: navState.dashboardState }" -->
-        <li><router-link :to="{ name: 'controll-api' }">API</router-link></li>
+        <li :class="{ on: navState.controllServiceState }">
+          <router-link :to="{ name: 'controll-service' }">Service</router-link>
+        </li>
+        <li :class="{ on: navState.controllApiState }">
+          <router-link :to="{ name: 'controll-api' }">API</router-link>
+        </li>
       </ul>
     </div>
     <router-view />
   </article>
 </template>
-<script>
-import { Component, Vue } from 'vue-property-decorator';
+<script lang="ts">
+import { Component, Vue, Watch } from 'vue-property-decorator';
+
+interface NavState {
+  [key: string]: boolean;
+  controllServiceState: boolean;
+  controllApiState: boolean;
+}
 
 @Component({})
-export default class ControlPage extends Vue {}
+export default class ControlPage extends Vue {
+  navState: NavState = {
+    controllServiceState: false,
+    controllApiState: false,
+  };
+
+  created() {
+    this.navState.controllServiceState = true;
+  }
+
+  @Watch('$route', { immediate: true, deep: true })
+  onRouteChange(newVal: any) {
+    if (newVal.name === 'controll-service') {
+      this.navState.controllServiceState = true;
+      this.navState.controllApiState = false;
+    } else if (newVal.name === 'controll-api') {
+      this.navState.controllServiceState = false;
+      this.navState.controllApiState = true;
+    }
+  }
+}
 </script>
 <style lang=""></style>

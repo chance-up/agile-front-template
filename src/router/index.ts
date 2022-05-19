@@ -115,6 +115,7 @@ const routes: Array<RouteConfig> = [
         path: MONITORING + '/control',
         name: 'control',
         component: () => import('@/pages/main/monitoring/children/ControlPage.vue'),
+        redirect: MONITORING + '/control/service',
         children: [
           {
             path: 'service',
