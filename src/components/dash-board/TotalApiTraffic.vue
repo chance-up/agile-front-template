@@ -291,11 +291,12 @@ export default class TotalApiTraffic extends Vue {
   width: 50%;
   z-index: 5;
   position: absolute;
-  transform: translate(50%, 50%) scaleY(2);
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
   transition: all 0.5s;
+  transform: scaleY(2);
+  transform-origin: left top;
 }
 </style>

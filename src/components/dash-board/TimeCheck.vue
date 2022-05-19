@@ -26,9 +26,11 @@ export default class TimeCheck extends Vue {
     title: {
       show: false,
     },
+
     backgroundColor: '#FFFFFF',
     series: [
       {
+        center: ['40%', '58%'],
         name: 'Access From',
         type: 'pie',
         radius: ['40%', '70%'],
@@ -57,6 +59,7 @@ export default class TimeCheck extends Vue {
 <style>
 .test {
   background-color: #f3f3f3;
-  width: 30%;
+  width: 24px;
+  height: 24px;
 }
 </style>
