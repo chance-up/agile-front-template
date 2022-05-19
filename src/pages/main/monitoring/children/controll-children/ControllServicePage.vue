@@ -22,21 +22,39 @@
       <div class="card-wrap">
         <ul>
           <!-- <li v-for="(item, index) in serviceList" :key="index"> -->
-          <ControlCard v-for="(item, index) in serviceList" :key="index" :item="item"></ControlCard>
+          <ControlCard
+            v-for="(item, index) in serviceList"
+            :key="index"
+            :item="item"
+            @val="showApiDetailModal = true"
+          ></ControlCard>
           <!-- <ControlCard v-for="(item, index) in serviceList" :key="index"></ControlCard> -->
         </ul>
       </div>
       <!--- // cardtype list --->
     </div>
+    <ApiDetailModal v-if="showApiDetailModal" @close="closeModal" :apiDetailData="apiDetailData"></ApiDetailModal>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import TimeGroup from '@/components/monitoring/TimeGroup.vue';
 import ControlCard from '@/components/monitoring/ControlCard.vue';
+import ApiDetailModal from '@/components/commons/modal/ApiDetailModal.vue';
 
-@Component({ components: { TimeGroup, ControlCard } })
+@Component({ components: { TimeGroup, ControlCard, ApiDetailModal } })
 export default class ControlPage extends Vue {
+  closeModal() {
+    console.log('test', 'this is controllservicepage');
+    this.showApiDetailModal = false;
+  }
+  showApiDetailModal = false;
+  apiDetailData: any = {
+    id: 'service_deviceinfo',
+    total: 208,
+    success: 200,
+    fail: 5,
+  };
   serviceList: any[] = [
     {
       nm: 'service_0001',

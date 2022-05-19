@@ -1,5 +1,5 @@
 <template>
-  <li @click="showApiDetailModal = true">
+  <li @click="cardDetail">
     <div class="card-tit">
       <h2 class="h2-tit">{{ item.nm }}</h2>
 
@@ -49,16 +49,18 @@
       <h4 class="h4-tit">실패 구분</h4>
       <div class="chart-div">차트영역</div>
     </div>
-    <ApiDetailModal
+    <!-- <ApiDetailModal
       v-if="showApiDetailModal"
       @close="showApiDetailModal = false"
       :apiDetailData="apiDetailData"
-    ></ApiDetailModal>
+    ></ApiDetailModal> -->
+    <!-- <ModalLayout v-if="showApiDetailModal" @close="showApiDetailModal = false" :alert="true"></ModalLayout> -->
   </li>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ApiDetailModal from '@/components/commons/modal/ApiDetailModal.vue';
+import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 interface ApiDetail {
   id: string;
   total: number;
@@ -66,17 +68,24 @@ interface ApiDetail {
   fail: number;
 }
 @Component({
-  components: { ApiDetailModal },
+  components: { ApiDetailModal, ModalLayout },
 })
 export default class ControlCard extends Vue {
+  cardDetail() {
+    console.log('test', this.item);
+    this.$emit('val', this.item);
+  }
   @Prop() item!: any;
   tipBox = false;
   showApiDetailModal = false;
   apiDetailData: ApiDetail = {
-    id: '',
-    total: 0,
-    success: 0,
-    fail: 0,
+    id: 'service_deviceinfo',
+    total: 208,
+    success: 200,
+    fail: 5,
   };
+  mounted() {
+    this.apiDetailData.id = this.item.nm;
+  }
 }
 </script>
