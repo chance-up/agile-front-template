@@ -2,55 +2,25 @@
   <div>
     <transition name="modal" appear>
       <div class="modal-overlay">
-        <div class="pop-wrap mid-pop">
+        <div class="pop-wrap lg-pop">
           <div class="pop-header">
-            <!-- <h1 class="h1-tit">차트 name</h1> -->
             <h1 class="h1-tit">{{ apiDetailData.id }}</h1>
             <button @click="$emit('close')">
               <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
             </button>
           </div>
-          <b-container>
-            <b-row>
-              <b-col>
-                <div style="height: 230px; margin: 0">
-                  <div id="stacked-area-chart-servicetop5" style="height: 100%"></div>
-                </div>
-              </b-col>
-              <b-col>
-                <div style="height: 230px; margin: 0">
-                  <div id="stacked-horizontal-bar-servicetop5" style="height: 100%"></div>
-                </div>
-              </b-col>
-            </b-row>
-            <b-row>
-              <h6>API LIST</h6>
-            </b-row>
-            <b-row>
-              <div class="mb-3">
-                <p>
-                  sysID_001_API Total : 208 Success : 190 Fail : 18 85%
-                  <b-button v-b-toggle.my-collapse>Detail</b-button>
-                </p>
-              </div>
-            </b-row>
-            <b-row>
-              <b-collapse id="my-collapse">
-                <b-card title="Collapsible card"> Hello world! </b-card>
-              </b-collapse>
-            </b-row>
-          </b-container>
-          <!-- <div class="pop-container">
-            <div class="chart-wrap">
-              <div style="height: 400px; margin: 0">
-                <div id="stacked-area-chart-servicetop5" style="height: 100%"></div>
-              </div>
-              <div style="height: 400px; margin: 0">
-                <div id="stacked-horizontal-bar-servicetop5" style="height: 100%"></div>
-              </div>
+          <div class="pop-container">
+            <div class="pop-chart col-2">
+              <div class="chart-div" id="stacked-area-chart-servicetop5"></div>
+              <div class="chart-div" id="stacked-horizontal-bar-servicetop5"></div>
             </div>
-          </div> -->
-          <!--  // pop-container   -->
+
+            <ApiDetailModalApiList />
+          </div>
+          <div class="pop-footer">
+            <button class="lg-btn purple-btn" @click="$emit('close')">확인</button>
+            <button class="lg-btn white-btn" @click="$emit('close')">취소</button>
+          </div>
         </div>
       </div>
     </transition>
@@ -60,6 +30,8 @@
 import * as echarts from 'echarts';
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { disableScrolling, enableScrolling } from '@/utils/screen';
+
+import ApiDetailModalApiList from '@/components/commons/modal/ApiDetailModalApiList.vue';
 interface ApiDetail {
   id: string;
   total: number;
@@ -67,7 +39,7 @@ interface ApiDetail {
   fail: number;
 }
 @Component({
-  components: {},
+  components: { ApiDetailModalApiList },
 })
 export default class ApiDetailModal extends Vue {
   @Prop() apiDetailData!: ApiDetail;
