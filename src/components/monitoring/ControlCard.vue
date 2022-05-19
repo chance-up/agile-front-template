@@ -28,7 +28,8 @@
     </div>
 
     <div class="card-chart col-2">
-      <div class="chart-div">차트영역</div>
+      <div :id="'statsPie_' + apiDetailData.id" class="chart-div" autoresize></div>
+      <!-- <div class="chart-div">차트영역</div> -->
       <dl>
         <dt>
           성공률 : <span class="syan">{{ item.successRate }}%</span>
@@ -47,7 +48,8 @@
 
     <div class="card-chart">
       <h4 class="h4-tit">실패 구분</h4>
-      <div class="chart-div">차트영역</div>
+      <div :id="'errorStateBar_' + apiDetailData.id" class="chart-div" autoresize></div>
+      <!-- <div class="chart-div">차트영역</div> -->
     </div>
     <!-- <ApiDetailModal
       v-if="showApiDetailModal"
@@ -59,6 +61,8 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import * as echarts from 'echarts';
+
 import ApiDetailModal from '@/components/commons/modal/ApiDetailModal.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 interface ApiDetail {
@@ -71,11 +75,8 @@ interface ApiDetail {
   components: { ApiDetailModal, ModalLayout },
 })
 export default class ControlCard extends Vue {
-  cardDetail() {
-    console.log('test', this.item);
-    this.$emit('val', this.item);
-  }
   @Prop() item!: any;
+
   tipBox = false;
   showApiDetailModal = false;
   apiDetailData: ApiDetail = {
@@ -84,8 +85,150 @@ export default class ControlCard extends Vue {
     success: 200,
     fail: 5,
   };
+
+  statsPieOption: echarts.EChartsOption = {
+    // title: {
+    //   text: '실패율',
+    //   left: 'center',
+    //   top: '75%',
+    //   textStyle: {
+    //     color: 'black',
+    //     fontSize: '13',
+    //     fontWeight: 400,
+    //   },
+    // },
+    // tooltip: {
+    //   trigger: 'item',
+    // },
+    backgroundColor: '#FFFFFF',
+    series: [
+      {
+        name: 'Access From',
+        type: 'pie',
+        radius: ['40%', '70%'],
+        avoidLabelOverlap: false,
+
+        label: {
+          show: true,
+          position: 'center',
+          formatter: '15' + '%',
+          color: 'red',
+          fontSize: '16',
+        },
+        labelLine: {
+          show: false,
+        },
+        data: [
+          { value: 15, name: '실패율' },
+          { value: 85, name: '성공률' },
+        ],
+        center: ['50%', '35%'],
+        emphasis: {
+          disabled: true,
+        },
+      },
+    ],
+    color: ['#6650EE', '#FF4E63'],
+  };
+
+  errorStatsBarOption: echarts.EChartsOption = {
+    // tooltip: {
+    //   trigger: 'item',
+    // },
+    backgroundColor: '#FFFFFF',
+    xAxis: {
+      type: 'value',
+      max: 8,
+      axisLine: { show: false },
+      axisLabel: { show: false },
+      axisTick: { show: false },
+      splitLine: { show: false },
+    },
+    yAxis: [
+      {
+        data: ['Minor', 'Major', 'Critical'],
+        type: 'category',
+        axisLine: { show: false },
+        axisLabel: { show: true, fontSize: '13', fontWeight: 600, color: '#000' },
+        axisTick: { show: false },
+        splitLine: { show: false },
+      },
+      {
+        type: 'category',
+        data: ['1건', '5건', '2건'],
+        axisLine: { show: false },
+        axisLabel: { show: true, fontSize: '13', fontWeight: 600, color: '#000' },
+        axisTick: { show: false },
+        splitLine: { show: false },
+      },
+    ],
+    grid: {
+      top: 10,
+      left: 50,
+      bottom: 10,
+      right: 50,
+    },
+    series: [
+      {
+        data: [
+          {
+            value: 1,
+            itemStyle: {
+              color: '#6998FF',
+            },
+          },
+          {
+            value: 5,
+            itemStyle: {
+              color: '#FFB43D',
+            },
+          },
+          {
+            value: 2,
+            itemStyle: {
+              color: '#FF4E63',
+            },
+          },
+        ],
+        type: 'bar',
+        showBackground: true,
+        backgroundStyle: {
+          color: 'rgba(180, 180, 180, 0.5)',
+          borderRadius: [100, 100, 100, 100],
+        },
+        // label: {
+        //   show: true,
+        //   position: 'right',
+        //   valueAnimation: true,
+        //   formatter: '{c}' + '건',
+        // },
+        barWidth: '40%',
+        itemStyle: {
+          borderRadius: [100, 100, 100, 100],
+        },
+      },
+    ],
+  };
+
   mounted() {
     this.apiDetailData.id = this.item.nm;
+    setTimeout(() => {
+      this.domInit();
+    }, 0);
+  }
+
+  domInit() {
+    const dom = document.getElementById('statsPie_' + this.apiDetailData.id) as HTMLDivElement;
+    const myChart = echarts.init(dom);
+    myChart.setOption(this.statsPieOption);
+    const dom2 = document.getElementById('errorStateBar_' + this.apiDetailData.id) as HTMLDivElement;
+    const myChart2 = echarts.init(dom2);
+    myChart2.setOption(this.errorStatsBarOption);
+  }
+
+  cardDetail() {
+    console.log('test', this.item);
+    this.$emit('val', this.item);
   }
 }
 </script>

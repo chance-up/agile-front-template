@@ -66,7 +66,7 @@ export default class ControlPage extends Vue {
       fail: '8',
     },
     {
-      nm: 'service_0001',
+      nm: 'service_0002',
       avgTime: '80,000',
       tps: '0.894',
       successRate: '90',
@@ -75,7 +75,7 @@ export default class ControlPage extends Vue {
       fail: '8',
     },
     {
-      nm: 'service_0001',
+      nm: 'service_0003',
       avgTime: '80,000',
       tps: '0.894',
       successRate: '90',
@@ -84,7 +84,7 @@ export default class ControlPage extends Vue {
       fail: '8',
     },
     {
-      nm: 'service_0001',
+      nm: 'service_0004',
       avgTime: '80,000',
       tps: '0.894',
       successRate: '90',
@@ -93,7 +93,7 @@ export default class ControlPage extends Vue {
       fail: '8',
     },
     {
-      nm: 'service_0001',
+      nm: 'service_0005',
       avgTime: '80,000',
       tps: '0.894',
       successRate: '90',
