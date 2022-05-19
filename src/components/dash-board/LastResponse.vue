@@ -72,7 +72,7 @@ export default class LastResponse extends Vue {
         ],
         series: [
           {
-            name: 'today',
+            name: '금일',
             type: 'line',
             symbol: 'circle',
             symbolSize: 5,
@@ -82,7 +82,7 @@ export default class LastResponse extends Vue {
             }),
           },
           {
-            name: 'lastDay',
+            name: '전일',
             type: 'line',
             symbol: 'circle',
             symbolSize: 5,

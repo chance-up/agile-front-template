@@ -95,21 +95,21 @@ export default class LastTraffic extends Vue {
         ],
         series: [
           {
-            name: 'today',
+            name: '금일',
             type: 'line',
             symbol: 'circle',
             symbolSize: 5,
             data: this.lastTrafficList.map((item) => item.todayAvgResTm),
           },
           {
-            name: 'lastDay',
+            name: '전일',
             type: 'line',
             symbol: 'circle',
             symbolSize: 5,
             data: this.lastTrafficList.map((item) => item.ystdayAvgResTm),
           },
           {
-            name: 'lastWeek',
+            name: '전주',
             type: 'line',
             symbol: 'circle',
             symbolSize: 5,
