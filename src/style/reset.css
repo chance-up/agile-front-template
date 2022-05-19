@@ -119,7 +119,7 @@ select:disabled{background:#e5e5e5 !important; border: 1px #e5e5e5 solid !import
 textarea:focus, textarea:active{outline:1px #8041F7 solid; background-color: #fff;}
 
 address, i {
-    font-style: normal;
+    font-style: normal; display: flex;
 }
 table {
     border-collapse: collapse;
