@@ -115,6 +115,18 @@ const routes: Array<RouteConfig> = [
         path: MONITORING + '/control',
         name: 'control',
         component: () => import('@/pages/main/monitoring/children/ControlPage.vue'),
+        children: [
+          {
+            path: 'service',
+            name: 'controll-service',
+            component: () => import('@/pages/main/monitoring/children/controll-children/ControllServicePage.vue'),
+          },
+          {
+            path: 'api',
+            name: 'controll-api',
+            component: () => import('@/pages/main/monitoring/children/controll-children/ControllAPIPage.vue'),
+          },
+        ],
       },
       {
         path: MONITORING + '/statistic',
