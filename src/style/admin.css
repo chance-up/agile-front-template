@@ -471,6 +471,17 @@
 
 .stati-wrap{position: relative;}
 
+.service-list{}
+.service-list ul{}
+.service-list ul li{ position: relative; display: flex; justify-content: left; flex-direction: column; margin-bottom: 10px;}
+.service-list ul li:last-child{margin-bottom:0px; border: 0px #ddd solid;}
+
+.service-list ul li .stati-list{padding: 0px 40px; border-left: 1px #8041f7 dashed;}
+.service-list ul li .stati-list ul li{    border: 1px #ddd solid;}
+.service-list ul li .stati-list ul li .list-comp{margin-bottom:0px; border: 0px #ddd solid;}
+
+.service-list ul li .list-comp{border: 1px #ddd solid; margin-bottom: 10px;}
+
 .stati-list{position: relative;}
 .stati-list ul{}
 .stati-list ul li{ position: relative; display: flex; justify-content: left; flex-direction: column; margin-bottom: 10px; border: 1px #ddd solid; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px;}
@@ -480,6 +491,10 @@
 .list-comp{display: flex; align-items: center; padding: 0px 15px 0px 0px;}
 .list-comp .more-btn{margin: 0px 0px 0px 20px; width: 22px; height: 22px;}
 .list-comp .more-btn i{display: flex;}
+
+.stati-service{flex: 1; display: flex; justify-content: space-between;}
+.stati-service .h4-tit{padding: 13px 0px 13px 20px; line-height: 22px;}
+.stati-service .h4-tit::before{content: ''; display: inline-block; position: absolute; left: 0; top: 0; width: 3px; height: 47px; background-color: #000; border-radius: 3px;}
 
 
 .stati-group{flex: 1; display: flex; justify-content: space-between;}
@@ -514,7 +529,7 @@
 
 
 .result-group .error-list{position: relative; margin: 10px 0px 0px 76px;}
-.result-group .error-list li{display: flex; justify-content: left; flex-direction: row; margin-bottom: 8px; border: none; padding-left: 10px;}
+.result-group .error-list li{display: flex; justify-content: left; flex-direction: row; margin-bottom: 8px; border: none; padding-left: 10px; border: 0px #ddd solid !important;}
 .result-group .error-list li .text{}
 .result-group .error-list li .text em{}
 
