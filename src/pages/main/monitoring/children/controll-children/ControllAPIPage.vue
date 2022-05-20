@@ -224,6 +224,10 @@ export default class ControlPage extends Vue {
     console.log('test', 'this is controllservicepage');
     this.showApiDetailModal = false;
   }
+
+  destroyed() {
+    this.mornitoringControlModule.controllReset();
+  }
 }
 </script>
 <style lang=""></style>
