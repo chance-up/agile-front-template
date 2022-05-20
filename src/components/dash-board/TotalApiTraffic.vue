@@ -13,41 +13,25 @@
       <div v-show="modal == false" id="totalApiTrafficTotal" class="api-pie" data-echart-responsive="true">total</div>
       <div v-show="modal == false" id="totalApiTrafficSuccess" class="api-pie" data-echart-responsive="true">성공</div>
       <div v-show="modal == false" id="totalApiTrafficFail" class="api-pie" data-echart-responsive="true">실패</div>
-      <div v-show="modal == true" style="width: 100%; height: 100%">
-        <h5 class="h5-tit">Total API Traffic Deetail</h5>
-        <div
-          class="total-modal-detail"
-          :class="{
-            'total-modal-detail-collapse': modal == false,
-            'total-modal-detail-expand': modal == true,
-          }"
-          id="totalApiTrafficDetail"
-        ></div>
+      <div
+        v-show="modal == true"
+        class="total-modal-detail"
+        :class="{
+          'total-modal-detail-collapse': modal == false,
+          'total-modal-detail-expand': modal == true,
+        }"
+      >
+        <h5 class="h5-tit" style="color: #fff6e5">Total API Traffic Detail</h5>
+        <div id="totalApiTrafficDetail" style="width: 100%; height: 90%"></div>
       </div>
     </div>
-    <!-- <ModalLayout size="l" v-if="modal">
-      <template v-slot:modalHeader
-        ><h2 class="h1-tit">팝업 title</h2>
-        <button @click="hideModalDetail()">
-          <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
-        </button>
-      </template>
-      <template v-slot:modalContainer>
-        <div style="width: 540px; height: 300px" id="totalApiTrafficDetail"></div>
-      </template>
-      <template v-slot:modalFooter> </template>
-    </ModalLayout> -->
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import * as echarts from 'echarts';
-import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
-@Component({
-  components: {
-    ModalLayout,
-  },
-})
+
+@Component
 export default class TotalApiTraffic extends Vue {
   dom1 = {} as HTMLDivElement;
   myChart1 = {} as echarts.EChartsType;
@@ -251,15 +235,15 @@ export default class TotalApiTraffic extends Vue {
         type: 'category',
         boundaryGap: false,
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        axisLine: { show: true, lineStyle: { color: '#fff' } },
-        axisLabel: { show: true, fontSize: '13', fontWeight: 550, color: '#fff' },
+        axisLine: { show: true, lineStyle: { color: '#FFF6E5' } },
+        axisLabel: { show: true, fontSize: '13', fontWeight: 550, color: '#FFF6E5' },
       },
     ],
     yAxis: [
       {
         type: 'value',
         // splitLine: { show: true, lineStyle: { color: '#000' } },
-        axisLabel: { show: true, fontSize: '13', fontWeight: 550, color: '#fff' },
+        axisLabel: { show: true, fontSize: '13', fontWeight: 550, color: '#FFF6E5' },
       },
     ],
     series: [
@@ -335,8 +319,7 @@ export default class TotalApiTraffic extends Vue {
 
 .total-modal-detail {
   width: 100%;
-  height: 90%;
-  opacity: 0;
+  height: 100%;
 }
 
 .total-modal-detail-collapse {
@@ -345,13 +328,12 @@ export default class TotalApiTraffic extends Vue {
 
 .total-modal-detail-expand {
   opacity: 1;
-  transition: opacity 0.5s;
+  transition: all 5s;
 }
 
 .total-collapse-modal {
   width: var(--total-box-width);
 }
-
 .total-expand-modal {
   width: 60%;
   height: 200%;

@@ -46,6 +46,8 @@ export default class ErrorStats extends Vue {
     this.myChart2 = echarts.init(this.dom2);
     this.myChart2.setOption(this.errorStatsBarOption);
     this.dom3 = document.getElementById('errorStateDetail') as HTMLDivElement;
+    this.myChart3 = echarts.init(this.dom3);
+    this.myChart3.setOption(this.errorStatsDetailOption);
     this.observeSize();
   }
 
@@ -257,8 +259,6 @@ export default class ErrorStats extends Vue {
       setTimeout(() => {
         this.modal = true;
       }, 0);
-      this.myChart3 = echarts.init(this.dom3);
-      this.myChart3.setOption(this.errorStatsDetailOption);
     }
   }
   hideModalDetail() {
