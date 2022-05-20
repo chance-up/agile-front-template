@@ -74,6 +74,9 @@ export default class ErrorStats extends Vue {
 
   mounted() {
     this.initChartAndDom();
+  }
+
+  updated() {
     this.observeSize();
   }
 
@@ -120,6 +123,7 @@ export default class ErrorStats extends Vue {
 }
 
 .error-expand-modal {
+  margin-left: -34.4%;
   width: 100%;
   height: 200%;
   position: absolute;

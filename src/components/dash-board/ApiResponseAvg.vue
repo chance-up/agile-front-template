@@ -97,6 +97,9 @@ export default class ApiResponseAvg extends Vue {
 
   mounted() {
     this.initChartAndDom();
+  }
+
+  updated() {
     this.observeSize();
   }
 
