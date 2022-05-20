@@ -48,18 +48,18 @@ export default class ServiceRow extends Vue {
 <style scoped>
 .list {
   background-color: white;
-  overflow: hidden;
   z-index: 5;
+  height: auto;
 }
 .list-slider {
-  transition: 1s;
-  position: inherit;
+  transform-origin: top;
+  height: fit-content;
+  transform: scaleY(100%);
+  transition: all 0.3s ease-out;
 }
 .list-slider-none {
-  position: absolute;
-  top: -100%;
-  overflow: hidden;
-  transition-duration: 1s;
-  z-index: 1;
+  transform-origin: top;
+  height: 0;
+  transform: scaleY(0%);
 }
 </style>
