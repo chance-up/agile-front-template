@@ -130,9 +130,6 @@ export default class ControlCard extends Vue {
   };
 
   errorStatsBarOption: echarts.EChartsOption = {
-    // tooltip: {
-    //   trigger: 'item',
-    // },
     backgroundColor: '#FFFFFF',
     xAxis: {
       type: 'value',
@@ -194,12 +191,6 @@ export default class ControlCard extends Vue {
           color: 'rgba(180, 180, 180, 0.5)',
           borderRadius: [100, 100, 100, 100],
         },
-        // label: {
-        //   show: true,
-        //   position: 'right',
-        //   valueAnimation: true,
-        //   formatter: '{c}' + '건',
-        // },
         barWidth: '40%',
         itemStyle: {
           borderRadius: [100, 100, 100, 100],
@@ -242,6 +233,76 @@ export default class ControlCard extends Vue {
       ],
       color: ['#FF4E63', '#6650EE'],
     };
+    // bar
+    this.errorStatsBarOption = {
+      backgroundColor: '#FFFFFF',
+      xAxis: {
+        type: 'value',
+        max: this.item.failCnt,
+        axisLine: { show: false },
+        axisLabel: { show: false },
+        axisTick: { show: false },
+        splitLine: { show: false },
+      },
+      yAxis: [
+        {
+          data: ['Minor', 'Major', 'Critical'],
+          type: 'category',
+          axisLine: { show: false },
+          axisLabel: { show: true, fontSize: '13', fontWeight: 600, color: '#000' },
+          axisTick: { show: false },
+          splitLine: { show: false },
+        },
+        {
+          type: 'category',
+          data: [this.item.miCnt + '건', this.item.maCnt + '건', this.item.crCnt + '건'],
+          axisLine: { show: false },
+          axisLabel: { show: true, fontSize: '13', fontWeight: 600, color: '#000' },
+          axisTick: { show: false },
+          splitLine: { show: false },
+        },
+      ],
+      grid: {
+        top: 10,
+        left: '21%',
+        bottom: 10,
+        right: '20%',
+      },
+      series: [
+        {
+          data: [
+            {
+              value: this.item.miCnt,
+              itemStyle: {
+                color: '#6998FF',
+              },
+            },
+            {
+              value: this.item.maCnt,
+              itemStyle: {
+                color: '#FFB43D',
+              },
+            },
+            {
+              value: this.item.crCnt,
+              itemStyle: {
+                color: '#FF4E63',
+              },
+            },
+          ],
+          type: 'bar',
+          showBackground: true,
+          backgroundStyle: {
+            color: 'rgba(180, 180, 180, 0.5)',
+            borderRadius: [100, 100, 100, 100],
+          },
+          barWidth: '40%',
+          itemStyle: {
+            borderRadius: [100, 100, 100, 100],
+          },
+        },
+      ],
+    };
     this.apiDetailData.id =
       this.item.svcId != undefined ? this.item.svcId : this.item.apiId != undefined ? this.item.apiId : '';
     setTimeout(() => {
@@ -282,6 +343,75 @@ export default class ControlCard extends Vue {
         },
       ],
       color: ['#FF4E63', '#6650EE'],
+    };
+    this.errorStatsBarOption = {
+      backgroundColor: '#FFFFFF',
+      xAxis: {
+        type: 'value',
+        max: this.item.failCnt,
+        axisLine: { show: false },
+        axisLabel: { show: false },
+        axisTick: { show: false },
+        splitLine: { show: false },
+      },
+      yAxis: [
+        {
+          data: ['Minor', 'Major', 'Critical'],
+          type: 'category',
+          axisLine: { show: false },
+          axisLabel: { show: true, fontSize: '13', fontWeight: 600, color: '#000' },
+          axisTick: { show: false },
+          splitLine: { show: false },
+        },
+        {
+          type: 'category',
+          data: [this.item.miCnt + '건', this.item.maCnt + '건', this.item.crCnt + '건'],
+          axisLine: { show: false },
+          axisLabel: { show: true, fontSize: '13', fontWeight: 600, color: '#000' },
+          axisTick: { show: false },
+          splitLine: { show: false },
+        },
+      ],
+      grid: {
+        top: 10,
+        left: '21%',
+        bottom: 10,
+        right: '20%',
+      },
+      series: [
+        {
+          data: [
+            {
+              value: this.item.miCnt,
+              itemStyle: {
+                color: '#6998FF',
+              },
+            },
+            {
+              value: this.item.maCnt,
+              itemStyle: {
+                color: '#FFB43D',
+              },
+            },
+            {
+              value: this.item.crCnt,
+              itemStyle: {
+                color: '#FF4E63',
+              },
+            },
+          ],
+          type: 'bar',
+          showBackground: true,
+          backgroundStyle: {
+            color: 'rgba(180, 180, 180, 0.5)',
+            borderRadius: [100, 100, 100, 100],
+          },
+          barWidth: '40%',
+          itemStyle: {
+            borderRadius: [100, 100, 100, 100],
+          },
+        },
+      ],
     };
 
     this.myChart.setOption(this.statsPieOption);
