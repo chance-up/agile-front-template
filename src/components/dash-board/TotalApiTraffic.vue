@@ -10,9 +10,43 @@
       }"
       @click="toggleModal()"
     >
-      <div v-show="modal == false" id="totalApiTrafficTotal" class="api-pie" data-echart-responsive="true">total</div>
-      <div v-show="modal == false" id="totalApiTrafficSuccess" class="api-pie" data-echart-responsive="true">성공</div>
-      <div v-show="modal == false" id="totalApiTrafficFail" class="api-pie" data-echart-responsive="true">실패</div>
+      <div
+        id="totalApiTrafficTotal"
+        v-show="modal == false"
+        class="api-pie"
+        :class="{
+          'total-modal-detail-collapse': modal == true,
+          'total-modal-detail-expand': modal == false,
+        }"
+        data-echart-responsive="true"
+      >
+        total
+      </div>
+      <div
+        v-show="modal == false"
+        id="totalApiTrafficSuccess"
+        class="api-pie"
+        :class="{
+          'total-modal-detail-collapse': modal == true,
+          'total-modal-detail-expand': modal == false,
+        }"
+        data-echart-responsive="true"
+      >
+        성공
+      </div>
+      <div
+        v-show="modal == false"
+        id="totalApiTrafficFail"
+        class="api-pie"
+        :class="{
+          'total-modal-detail-collapse': modal == true,
+          'total-modal-detail-expand': modal == false,
+        }"
+        data-echart-responsive="true"
+      >
+        실패
+      </div>
+
       <div
         v-show="modal == true"
         class="total-modal-detail"
@@ -313,12 +347,11 @@ export default class TotalApiTraffic extends Vue {
 }
 
 .total-modal-detail-collapse {
-  opacity: 0;
+  animation: collapse-opacity 0s forwards;
 }
 
 .total-modal-detail-expand {
-  opacity: 1;
-  transition: all 5s;
+  animation: expand-opacity 0.3s forwards;
 }
 
 .total-collapse-modal {
@@ -340,5 +373,31 @@ export default class TotalApiTraffic extends Vue {
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
   transform-origin: top left;
   transition: all 0.3s;
+}
+
+@keyframes expand-opacity {
+  0% {
+    scale: 0;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@keyframes collapse-opacity {
+  0% {
+    scale: 1;
+    opacity: 1;
+  }
+
+  100% {
+    scale: 0;
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 </style>
