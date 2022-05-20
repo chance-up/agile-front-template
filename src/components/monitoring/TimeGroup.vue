@@ -86,7 +86,7 @@ export default class TimeGroup extends Vue {
   }
 
   handleChangeTime(event: any) {
-    this.timer = INTERVAL_VALUE + 1;
+    this.timer = 0;
     console.log('selectVal : ', this.selectVal);
     this.nowDate = this.getPauseTime('nowDate', this.selectVal);
     this.selectDate = this.getPauseTime('selectDate', this.selectVal);
