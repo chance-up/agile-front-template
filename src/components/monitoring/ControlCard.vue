@@ -105,30 +105,30 @@ export default class ControlCard extends Vue {
       {
         name: 'Access From',
         type: 'pie',
-        radius: ['40%', '70%'],
+        radius: ['50%', '90%'],
         avoidLabelOverlap: false,
-
-        label: {
-          show: true,
-          position: 'center',
-          formatter: '15' + '%',
-          color: 'red',
-          fontSize: '16',
-        },
+        // width: '50%',
+        // label: {
+        //   show: true,
+        //   position: 'center',
+        //   formatter: '15' + '%',
+        //   color: 'red',
+        //   fontSize: '16',
+        // },
         labelLine: {
           show: false,
         },
         data: [
-          { value: 15, name: '실패율' },
-          { value: 85, name: '성공률' },
+          { value: 10, name: '실패율' },
+          { value: 90, name: '성공률' },
         ],
-        center: ['50%', '35%'],
+        // center: ['50%', '50%'],
         emphasis: {
           disabled: true,
         },
       },
     ],
-    color: ['#6650EE', '#FF4E63'],
+    color: ['#FF4E63', '#6650EE'],
   };
 
   errorStatsBarOption: echarts.EChartsOption = {
@@ -164,9 +164,9 @@ export default class ControlCard extends Vue {
     ],
     grid: {
       top: 10,
-      left: 50,
+      left: '21%',
       bottom: 10,
-      right: 50,
+      right: '20%',
     },
     series: [
       {
@@ -224,6 +224,13 @@ export default class ControlCard extends Vue {
     const dom2 = document.getElementById('errorStateBar_' + this.apiDetailData.id) as HTMLDivElement;
     const myChart2 = echarts.init(dom2);
     myChart2.setOption(this.errorStatsBarOption);
+
+    window.addEventListener('resize', {
+      handleEvent() {
+        myChart.resize();
+        myChart2.resize();
+      },
+    });
   }
 
   cardDetail() {
