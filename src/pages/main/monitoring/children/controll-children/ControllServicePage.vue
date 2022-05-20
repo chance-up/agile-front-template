@@ -1,53 +1,42 @@
 <template>
   <div>
-    <TimeGroup @changeTime="handle" />
+    <TimeGroup @changeTime="handleTime" />
     <div class="monitor-comp">
-      <!-- 정렬 -->
-      <div class="tb-tit">
-        <div class="search-cont">
-          <label class="label">정렬기준</label>
-          <select class="select-box">
-            <option>건수</option>
-            <option>에러율</option>
-            <option>TPS</option>
-            <option>응답시간</option>
-          </select>
-        </div>
-
-        <p class="total">total : <span>8</span></p>
-      </div>
-      <!-- // 정렬 -->
-
-      <!--- cardtype list --->
+      <CardSort :cnt="serviceList.length" @changeSort="handleSort" />
       <div class="card-wrap">
         <ul>
-          <!-- <li v-for="(item, index) in serviceList" :key="index"> -->
           <ControlCard
             v-for="(item, index) in serviceList"
             :key="index"
             :item="item"
             @val="showApiDetailModal = true"
           ></ControlCard>
-          <!-- <ControlCard v-for="(item, index) in serviceList" :key="index"></ControlCard> -->
         </ul>
       </div>
-      <!--- // cardtype list --->
     </div>
     <ApiDetailModal v-if="showApiDetailModal" @close="closeModal" :apiDetailData="apiDetailData"></ApiDetailModal>
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import TimeGroup from '@/components/monitoring/TimeGroup.vue';
 import ControlCard from '@/components/monitoring/ControlCard.vue';
 import ApiDetailModal from '@/components/commons/modal/ApiDetailModal.vue';
+import CardSort from '@/components/monitoring/CardSort.vue';
 
-@Component({ components: { TimeGroup, ControlCard, ApiDetailModal } })
+interface ControllRequest {
+  statPerd: number;
+  sortBase: string;
+  retvCnt?: number;
+}
+
+@Component({ components: { TimeGroup, ControlCard, ApiDetailModal, CardSort } })
 export default class ControlPage extends Vue {
-  closeModal() {
-    console.log('test', 'this is controllservicepage');
-    this.showApiDetailModal = false;
-  }
+  searchData: ControllRequest = {
+    statPerd: 0,
+    sortBase: '',
+  };
+
   showApiDetailModal = false;
   apiDetailData: any = {
     id: 'service_deviceinfo',
@@ -55,6 +44,7 @@ export default class ControlPage extends Vue {
     success: 200,
     fail: 5,
   };
+
   serviceList: any[] = [
     {
       nm: 'service_0001',
@@ -103,8 +93,22 @@ export default class ControlPage extends Vue {
     },
   ];
 
-  handle(event: any) {
-    console.log(event);
+  @Watch('searchData', { deep: true })
+  onSearchDataChange(val: ControllRequest) {
+    //api 통신 로직 추가
+  }
+
+  handleTime(event: any) {
+    this.searchData.statPerd = event;
+  }
+
+  handleSort(event: any) {
+    this.searchData.sortBase = event;
+  }
+
+  closeModal() {
+    console.log('test', 'this is controllservicepage');
+    this.showApiDetailModal = false;
   }
 }
 </script>

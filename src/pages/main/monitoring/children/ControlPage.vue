@@ -32,10 +32,6 @@ export default class ControlPage extends Vue {
     controllApiState: false,
   };
 
-  created() {
-    this.navState.controllServiceState = true;
-  }
-
   @Watch('$route', { immediate: true, deep: true })
   onRouteChange(newVal: any) {
     if (newVal.name === 'controll-service') {
