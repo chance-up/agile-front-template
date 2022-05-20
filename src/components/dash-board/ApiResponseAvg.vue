@@ -71,7 +71,6 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { calcCompactCardWidth } from '@/utils/screen';
 import * as echarts from 'echarts';
 import { avgDetailOption, tpsDetailOption } from '@/components/dash-board/chartDummy';
 
