@@ -137,7 +137,7 @@ export default class TotalApiTraffic extends Vue {
 .total-collapse-modal {
   width: 31.2%;
   position: absolute;
-  z-index: 6;
+  z-index: 1;
   transition: all 0.3s;
 }
 
@@ -145,7 +145,7 @@ export default class TotalApiTraffic extends Vue {
   width: 100%;
   height: 200%;
   position: absolute;
-  z-index: 6;
+  z-index: 5;
   transition: all 0.3s;
 }
 

@@ -24,31 +24,20 @@ import ControlCard from '@/components/monitoring/ControlCard.vue';
 import ApiDetailModal from '@/components/commons/modal/ApiDetailModal.vue';
 import CardSort from '@/components/monitoring/CardSort.vue';
 
+import { getModule } from 'vuex-module-decorators';
+import MornitoringControlModule from '@/store/modules/MornitoringControlModule';
+import { EachService, EachApi } from '@/types/MornitoringControllType';
+
 interface ControllRequest {
   statPerd: number;
   sortBase: string;
   retvCnt?: number;
 }
 
-interface EachApi {
-  statPerd: number; // 통계 기준 시간
-  sysId: string; // 시스템 ID
-  apiId: string; // Api ID
-  apiDesc: string; // Api 설명
-  totCnt: number; // 전체 서비스 건수
-  sucesCnt: number; // 성공 건수
-  failCnt: number; // 실패 건수
-  sucesRate: number; // 성공율
-  failRate: number; // 실패율
-  crCnt: number; // Critical 건수
-  maCnt: number; // Major 건수
-  miCnt: number; // Minor 건수
-  tps: number; // TPS
-  avgResTm: number; // 평균 응답시간
-}
-
 @Component({ components: { TimeGroup, ControlCard, ApiDetailModal, CardSort } })
 export default class ControlPage extends Vue {
+  public mornitoringControlModule = getModule(MornitoringControlModule, this.$store);
+
   searchData: ControllRequest = {
     statPerd: 0,
     sortBase: '',
@@ -62,156 +51,157 @@ export default class ControlPage extends Vue {
     fail: 5,
   };
 
-  apiList: EachApi[] = [
-    {
-      statPerd: 1440,
-      sysId: 'system_0001',
-      apiId: 'api_0001',
-      apiDesc: 'api_0001에 대한 설명입니다.',
-      totCnt: 5,
-      sucesCnt: 200,
-      failCnt: 8,
-      sucesRate: 90,
-      failRate: 10,
-      crCnt: 2,
-      maCnt: 5,
-      miCnt: 1,
-      tps: 0.894,
-      avgResTm: 80000,
-    },
-    {
-      statPerd: 1440,
-      sysId: 'system_0001',
-      apiId: 'api_0002',
-      apiDesc: 'api_0002에 대한 설명입니다.',
-      totCnt: 5,
-      sucesCnt: 200,
-      failCnt: 8,
-      sucesRate: 90,
-      failRate: 10,
-      crCnt: 2,
-      maCnt: 5,
-      miCnt: 1,
-      tps: 0.894,
-      avgResTm: 80000,
-    },
-    {
-      statPerd: 1440,
-      sysId: 'system_0002',
-      apiId: 'api_0003',
-      apiDesc: 'api_0003에 대한 설명입니다.',
-      totCnt: 5,
-      sucesCnt: 200,
-      failCnt: 8,
-      sucesRate: 90,
-      failRate: 10,
-      crCnt: 2,
-      maCnt: 5,
-      miCnt: 1,
-      tps: 0.894,
-      avgResTm: 80000,
-    },
-    {
-      statPerd: 1440,
-      sysId: 'system_0002',
-      apiId: 'api_0004',
-      apiDesc: 'api_0004에 대한 설명입니다.',
-      totCnt: 5,
-      sucesCnt: 200,
-      failCnt: 8,
-      sucesRate: 90,
-      failRate: 10,
-      crCnt: 2,
-      maCnt: 5,
-      miCnt: 1,
-      tps: 0.894,
-      avgResTm: 80000,
-    },
-    {
-      statPerd: 1440,
-      sysId: 'system_0002',
-      apiId: 'api_0005',
-      apiDesc: 'api_0005에 대한 설명입니다.',
-      totCnt: 5,
-      sucesCnt: 200,
-      failCnt: 8,
-      sucesRate: 90,
-      failRate: 10,
-      crCnt: 2,
-      maCnt: 5,
-      miCnt: 1,
-      tps: 0.894,
-      avgResTm: 80000,
-    },
-    {
-      statPerd: 1440,
-      sysId: 'system_0003',
-      apiId: 'api_0006',
-      apiDesc: 'api_0006에 대한 설명입니다.',
-      totCnt: 5,
-      sucesCnt: 200,
-      failCnt: 8,
-      sucesRate: 90,
-      failRate: 10,
-      crCnt: 2,
-      maCnt: 5,
-      miCnt: 1,
-      tps: 0.894,
-      avgResTm: 80000,
-    },
-    {
-      statPerd: 1440,
-      sysId: 'system_0003',
-      apiId: 'api_0007',
-      apiDesc: 'api_0007에 대한 설명입니다.',
-      totCnt: 5,
-      sucesCnt: 200,
-      failCnt: 8,
-      sucesRate: 90,
-      failRate: 10,
-      crCnt: 2,
-      maCnt: 5,
-      miCnt: 1,
-      tps: 0.894,
-      avgResTm: 80000,
-    },
-    {
-      statPerd: 1440,
-      sysId: 'system_0004',
-      apiId: 'api_0008',
-      apiDesc: 'api_0008에 대한 설명입니다.',
-      totCnt: 5,
-      sucesCnt: 200,
-      failCnt: 8,
-      sucesRate: 90,
-      failRate: 10,
-      crCnt: 2,
-      maCnt: 5,
-      miCnt: 1,
-      tps: 0.894,
-      avgResTm: 80000,
-    },
-    {
-      statPerd: 1440,
-      sysId: 'system_0004',
-      apiId: 'api_0009',
-      apiDesc: 'api_0009에 대한 설명입니다.',
-      totCnt: 5,
-      sucesCnt: 200,
-      failCnt: 8,
-      sucesRate: 90,
-      failRate: 10,
-      crCnt: 2,
-      maCnt: 5,
-      miCnt: 1,
-      tps: 0.894,
-      avgResTm: 80000,
-    },
-  ];
+  // apiList: EachApi[] = [
+  //   {
+  //     statPerd: 1440,
+  //     sysId: 'system_0001',
+  //     apiId: 'api_0001',
+  //     apiDesc: 'api_0001에 대한 설명입니다.',
+  //     totCnt: 5,
+  //     sucesCnt: 200,
+  //     failCnt: 8,
+  //     sucesRate: 90,
+  //     failRate: 10,
+  //     crCnt: 2,
+  //     maCnt: 5,
+  //     miCnt: 1,
+  //     tps: 0.894,
+  //     avgResTm: 80000,
+  //   },
+  //   {
+  //     statPerd: 1440,
+  //     sysId: 'system_0001',
+  //     apiId: 'api_0002',
+  //     apiDesc: 'api_0002에 대한 설명입니다.',
+  //     totCnt: 5,
+  //     sucesCnt: 200,
+  //     failCnt: 8,
+  //     sucesRate: 90,
+  //     failRate: 10,
+  //     crCnt: 2,
+  //     maCnt: 5,
+  //     miCnt: 1,
+  //     tps: 0.894,
+  //     avgResTm: 80000,
+  //   },
+  //   {
+  //     statPerd: 1440,
+  //     sysId: 'system_0002',
+  //     apiId: 'api_0003',
+  //     apiDesc: 'api_0003에 대한 설명입니다.',
+  //     totCnt: 5,
+  //     sucesCnt: 200,
+  //     failCnt: 8,
+  //     sucesRate: 90,
+  //     failRate: 10,
+  //     crCnt: 2,
+  //     maCnt: 5,
+  //     miCnt: 1,
+  //     tps: 0.894,
+  //     avgResTm: 80000,
+  //   },
+  //   {
+  //     statPerd: 1440,
+  //     sysId: 'system_0002',
+  //     apiId: 'api_0004',
+  //     apiDesc: 'api_0004에 대한 설명입니다.',
+  //     totCnt: 5,
+  //     sucesCnt: 200,
+  //     failCnt: 8,
+  //     sucesRate: 90,
+  //     failRate: 10,
+  //     crCnt: 2,
+  //     maCnt: 5,
+  //     miCnt: 1,
+  //     tps: 0.894,
+  //     avgResTm: 80000,
+  //   },
+  //   {
+  //     statPerd: 1440,
+  //     sysId: 'system_0002',
+  //     apiId: 'api_0005',
+  //     apiDesc: 'api_0005에 대한 설명입니다.',
+  //     totCnt: 5,
+  //     sucesCnt: 200,
+  //     failCnt: 8,
+  //     sucesRate: 90,
+  //     failRate: 10,
+  //     crCnt: 2,
+  //     maCnt: 5,
+  //     miCnt: 1,
+  //     tps: 0.894,
+  //     avgResTm: 80000,
+  //   },
+  //   {
+  //     statPerd: 1440,
+  //     sysId: 'system_0003',
+  //     apiId: 'api_0006',
+  //     apiDesc: 'api_0006에 대한 설명입니다.',
+  //     totCnt: 5,
+  //     sucesCnt: 200,
+  //     failCnt: 8,
+  //     sucesRate: 90,
+  //     failRate: 10,
+  //     crCnt: 2,
+  //     maCnt: 5,
+  //     miCnt: 1,
+  //     tps: 0.894,
+  //     avgResTm: 80000,
+  //   },
+  //   {
+  //     statPerd: 1440,
+  //     sysId: 'system_0003',
+  //     apiId: 'api_0007',
+  //     apiDesc: 'api_0007에 대한 설명입니다.',
+  //     totCnt: 5,
+  //     sucesCnt: 200,
+  //     failCnt: 8,
+  //     sucesRate: 90,
+  //     failRate: 10,
+  //     crCnt: 2,
+  //     maCnt: 5,
+  //     miCnt: 1,
+  //     tps: 0.894,
+  //     avgResTm: 80000,
+  //   },
+  //   {
+  //     statPerd: 1440,
+  //     sysId: 'system_0004',
+  //     apiId: 'api_0008',
+  //     apiDesc: 'api_0008에 대한 설명입니다.',
+  //     totCnt: 5,
+  //     sucesCnt: 200,
+  //     failCnt: 8,
+  //     sucesRate: 90,
+  //     failRate: 10,
+  //     crCnt: 2,
+  //     maCnt: 5,
+  //     miCnt: 1,
+  //     tps: 0.894,
+  //     avgResTm: 80000,
+  //   },
+  //   {
+  //     statPerd: 1440,
+  //     sysId: 'system_0004',
+  //     apiId: 'api_0009',
+  //     apiDesc: 'api_0009에 대한 설명입니다.',
+  //     totCnt: 5,
+  //     sucesCnt: 200,
+  //     failCnt: 8,
+  //     sucesRate: 90,
+  //     failRate: 10,
+  //     crCnt: 2,
+  //     maCnt: 5,
+  //     miCnt: 1,
+  //     tps: 0.894,
+  //     avgResTm: 80000,
+  //   },
+  // ];
 
   @Watch('searchData', { deep: true })
   onSearchDataChange(val: ControllRequest) {
     //api 통신 로직 추가
+    this.mornitoringControlModule.getServiceList(this.searchData.statPerd);
   }
 
   handleTime(event: any) {
@@ -222,6 +212,14 @@ export default class ControlPage extends Vue {
     this.searchData.sortBase = event;
   }
 
+  get apiList() {
+    return this.mornitoringControlModule.apiList;
+  }
+  created() {
+    // this.mornitoringControlModule.getServiceList(1440);
+    console.log('monitoringControl created');
+    console.log(this.mornitoringControlModule.apiList);
+  }
   closeModal() {
     console.log('test', 'this is controllservicepage');
     this.showApiDetailModal = false;
