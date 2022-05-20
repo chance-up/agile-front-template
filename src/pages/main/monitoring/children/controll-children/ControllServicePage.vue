@@ -142,20 +142,20 @@ export default class ControlPage extends Vue {
   onSearchDataChange(val: ControllRequest) {
     console.log('searchData changed', val);
     //api 통신 로직 추가
+    this.mornitoringControlModule.getServiceList(this.searchData.statPerd);
   }
 
   handleTime(event: any) {
     this.searchData.statPerd = event;
-    this.time = event;
-    console.log(this.time);
-    this.mornitoringControlModule.getServiceList(this.time);
+    // this.time = event;
+    // console.log(this.time);
   }
 
   handleSort(event: any) {
     this.searchData.sortBase = event;
   }
 
-  time = 1440;
+  // time = 1440;
   get serviceList() {
     return this.mornitoringControlModule.serviceList;
   }

@@ -65,7 +65,7 @@ export default class ControlPage extends Vue {
   apiList: EachApi[] = [
     {
       statPerd: 1440,
-      sysId: 'service_0001',
+      sysId: 'system_0001',
       apiId: 'api_0001',
       apiDesc: 'api_0001에 대한 설명입니다.',
       totCnt: 5,
@@ -81,7 +81,7 @@ export default class ControlPage extends Vue {
     },
     {
       statPerd: 1440,
-      sysId: 'service_0001',
+      sysId: 'system_0001',
       apiId: 'api_0002',
       apiDesc: 'api_0002에 대한 설명입니다.',
       totCnt: 5,
@@ -97,7 +97,7 @@ export default class ControlPage extends Vue {
     },
     {
       statPerd: 1440,
-      sysId: 'service_0002',
+      sysId: 'system_0002',
       apiId: 'api_0003',
       apiDesc: 'api_0003에 대한 설명입니다.',
       totCnt: 5,
@@ -113,7 +113,7 @@ export default class ControlPage extends Vue {
     },
     {
       statPerd: 1440,
-      sysId: 'service_0002',
+      sysId: 'system_0002',
       apiId: 'api_0004',
       apiDesc: 'api_0004에 대한 설명입니다.',
       totCnt: 5,
@@ -129,7 +129,7 @@ export default class ControlPage extends Vue {
     },
     {
       statPerd: 1440,
-      sysId: 'service_0002',
+      sysId: 'system_0002',
       apiId: 'api_0005',
       apiDesc: 'api_0005에 대한 설명입니다.',
       totCnt: 5,
@@ -145,7 +145,7 @@ export default class ControlPage extends Vue {
     },
     {
       statPerd: 1440,
-      sysId: 'service_0003',
+      sysId: 'system_0003',
       apiId: 'api_0006',
       apiDesc: 'api_0006에 대한 설명입니다.',
       totCnt: 5,
@@ -161,7 +161,7 @@ export default class ControlPage extends Vue {
     },
     {
       statPerd: 1440,
-      sysId: 'service_0003',
+      sysId: 'system_0003',
       apiId: 'api_0007',
       apiDesc: 'api_0007에 대한 설명입니다.',
       totCnt: 5,
@@ -177,7 +177,7 @@ export default class ControlPage extends Vue {
     },
     {
       statPerd: 1440,
-      sysId: 'service_0004',
+      sysId: 'system_0004',
       apiId: 'api_0008',
       apiDesc: 'api_0008에 대한 설명입니다.',
       totCnt: 5,
@@ -193,7 +193,7 @@ export default class ControlPage extends Vue {
     },
     {
       statPerd: 1440,
-      sysId: 'service_0004',
+      sysId: 'system_0004',
       apiId: 'api_0009',
       apiDesc: 'api_0009에 대한 설명입니다.',
       totCnt: 5,

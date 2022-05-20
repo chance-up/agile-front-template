@@ -60,7 +60,7 @@
   </li>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import * as echarts from 'echarts';
 
 import ApiDetailModal from '@/components/commons/modal/ApiDetailModal.vue';
@@ -208,6 +208,17 @@ export default class ControlCard extends Vue {
     ],
   };
 
+  dom: HTMLDivElement = {} as HTMLDivElement;
+  dom2: HTMLDivElement = {} as HTMLDivElement;
+
+  myChart: echarts.EChartsType = {} as echarts.EChartsType;
+  myChart2: echarts.EChartsType = {} as echarts.EChartsType;
+
+  @Watch('item')
+  onItemChange(val: EachResponse) {
+    this.setChartOption();
+  }
+
   mounted() {
     this.statsPieOption = {
       backgroundColor: '#FFFFFF',
@@ -239,19 +250,42 @@ export default class ControlCard extends Vue {
   }
 
   domInit() {
-    const dom = document.getElementById('statsPie_' + this.apiDetailData.id) as HTMLDivElement;
-    const myChart = echarts.init(dom);
-    myChart.setOption(this.statsPieOption);
-    const dom2 = document.getElementById('errorStateBar_' + this.apiDetailData.id) as HTMLDivElement;
-    const myChart2 = echarts.init(dom2);
-    myChart2.setOption(this.errorStatsBarOption);
+    this.dom = document.getElementById('statsPie_' + this.apiDetailData.id) as HTMLDivElement;
+    this.myChart = echarts.init(this.dom);
+    this.dom2 = document.getElementById('errorStateBar_' + this.apiDetailData.id) as HTMLDivElement;
+    this.myChart2 = echarts.init(this.dom2);
 
-    window.addEventListener('resize', {
-      handleEvent() {
-        myChart.resize();
-        myChart2.resize();
-      },
+    this.setChartOption();
+
+    window.addEventListener('resize', () => {
+      this.myChart.resize();
+      this.myChart2.resize();
     });
+  }
+
+  setChartOption() {
+    this.statsPieOption = {
+      backgroundColor: '#FFFFFF',
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: ['50%', '90%'],
+          avoidLabelOverlap: false,
+          labelLine: {
+            show: false,
+          },
+          data: [{ value: this.item.failRate }, { value: this.item.sucesRate }],
+          emphasis: {
+            disabled: true,
+          },
+        },
+      ],
+      color: ['#FF4E63', '#6650EE'],
+    };
+
+    this.myChart.setOption(this.statsPieOption);
+    this.myChart2.setOption(this.errorStatsBarOption);
   }
 
   cardDetail() {
