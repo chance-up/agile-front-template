@@ -23,7 +23,7 @@
       </button>
     </div>
 
-    <div v-if="isOpen" class="stati-detail" :class="{ block: isOpen, none: !isOpen }">
+    <div class="stati-detail" :class="{ 'list-slider': isOpen, 'list-slider-none': !isOpen }">
       <div class="result-group">
         <div class="comp">
           <label class="badge syan">Success</label>
@@ -69,3 +69,17 @@ export default class ApiRow extends Vue {
   }
 }
 </script>
+<style scoped>
+.list-slider {
+  transform-origin: top;
+  height: fit-content;
+  transform: scaleY(100%);
+  transition: all 0.3s ease-out;
+}
+.list-slider-none {
+  transform-origin: top;
+  height: 0;
+  transform: scaleY(0%);
+  padding: 0 30px;
+}
+</style>
