@@ -3,33 +3,33 @@ import { EachApi, EachService } from '@/types/MornitoringControllType';
 import { Module, Mutation, Action } from 'vuex-module-decorators';
 import GateWayModule from '../GateWayModule';
 
-@Module({ name: 'MornitoringControllModule' })
-export default class MornitoringControllModule extends GateWayModule {
+@Module({ namespaced: true, name: 'MornitoringControlModule' })
+export default class MornitoringControlModule extends GateWayModule {
   //
   apiList: EachApi[] = [];
-  serviceList: EachService[] = [];
+  public serviceList: EachService[] = [];
 
   @Mutation
   setApiList(list: EachApi[]): void {
     this.apiList = list;
   }
   @Action({ rawError: true })
-  async getApiList(time: number) {
-    let cnt = Math.random() * 4 + 5;
+  getApiList(time: number) {
+    const cnt = Math.random() * 4 + 5;
 
-    let list: EachApi[] = [];
+    const list: EachApi[] = [];
     for (let i = 0; i < cnt; i++) {
-      let totCnt = Math.random() * 190 + 10;
-      let sucesCnt = Math.floor(totCnt * Math.random());
-      let failCnt = totCnt - sucesCnt;
-      let sucesRate = Math.floor((sucesCnt / totCnt) * 100);
-      let failRate = 100 - sucesRate;
-      let crCnt = Math.floor(failCnt * Math.random());
-      let maCnt = Math.floor((failCnt - crCnt) * Math.random());
-      let miCnt = failCnt - crCnt - maCnt;
-      let tps = Math.random();
-      let avgResTm = Math.random() * 10 + 1;
-      let api: EachApi = {
+      const totCnt = Math.floor(Math.random() * 190 + 10);
+      const sucesCnt = Math.floor(totCnt * Math.random());
+      const failCnt = totCnt - sucesCnt;
+      const sucesRate = Math.floor((sucesCnt / totCnt) * 100);
+      const failRate = 100 - sucesRate;
+      const crCnt = Math.floor(failCnt * Math.random());
+      const maCnt = Math.floor((failCnt - crCnt) * Math.random());
+      const miCnt = failCnt - crCnt - maCnt;
+      const tps = Math.floor(Math.random() * 1000) / 1000;
+      const avgResTm = Math.floor(Math.random() * 10 + 1);
+      const api: EachApi = {
         statPerd: time, // 통계 기준 시간
         sysId: 'sysId' + i, // 시스템 ID
         apiId: 'apiId' + i, // Api ID
@@ -51,35 +51,37 @@ export default class MornitoringControllModule extends GateWayModule {
   }
 
   @Mutation
-  setServiceList(list: EachService[]): void {
+  setServiceList(list: EachService[]) {
+    console.log('setServiceList');
     this.serviceList = list;
   }
   @Action({ rawError: true })
-  async getServiceList(time: number) {
-    let cnt = Math.random() * 4 + 5;
-    let list: EachService[] = [];
+  getServiceList(time: number) {
+    console.log('getServiceList');
+    const cnt = Math.random() * 4 + 5;
+    const list: EachService[] = [];
     for (let i = 0; i < cnt; i++) {
-      let totCnt = Math.random() * 190 + 10;
-      let sucesCnt = Math.floor(totCnt * Math.random());
-      let failCnt = totCnt - sucesCnt;
-      let sucesRate = Math.floor((sucesCnt / totCnt) * 100);
-      let failRate = 100 - sucesRate;
-      let crCnt = Math.floor(failCnt * Math.random());
-      let maCnt = Math.floor((failCnt - crCnt) * Math.random());
-      let miCnt = failCnt - crCnt - maCnt;
-      let tps = Math.random();
-      let avgResTm = Math.random() * 10 + 1;
+      const totCnt = Math.floor(Math.random() * 190 + 10);
+      const sucesCnt = Math.floor(totCnt * Math.random());
+      const failCnt = totCnt - sucesCnt;
+      const sucesRate = Math.floor((sucesCnt / totCnt) * 100);
+      const failRate = 100 - sucesRate;
+      const crCnt = Math.floor(failCnt * Math.random());
+      const maCnt = Math.floor((failCnt - crCnt) * Math.random());
+      const miCnt = failCnt - crCnt - maCnt;
+      const tps = Math.floor(Math.random() * 1000) / 1000;
+      const avgResTm = Math.floor(Math.random() * 10 + 1);
       this.getApiList(time);
-      let apiList: EachApi[] = [];
+      const apiList: EachApi[] = [];
       for (let j = 0; j < this.apiList.length; j++) {
         if (Math.random() > 0.5) {
           apiList.push(this.apiList[j]);
         }
       }
-      if(apiList.length === 0) {
-          apiList.push(this.apiList[0]);
+      if (apiList.length === 0) {
+        apiList.push(this.apiList[0]);
       }
-      let service: EachService = {
+      const service: EachService = {
         statPerd: time, // 통계 기준 시간
         svcId: 'svcId' + i, // 서비스 ID
         svcDesc: 'svcDesc' + i, // 서비스 설명
@@ -97,5 +99,6 @@ export default class MornitoringControllModule extends GateWayModule {
       };
       list.push(service);
     }
+    this.context.commit('setServiceList', list);
   }
 }

@@ -9,6 +9,7 @@ import HandlerModule from '@/store/modules/HandlerModule';
 import UserModule from '@/store/modules/UserModule';
 import DashBoardModule from '@/store/modules/DashBoardModule';
 import MonitoringModule from '@/store/modules/MonitoringModule';
+import MornitoringControlModule from '@/store/modules/MornitoringControlModule';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -21,5 +22,6 @@ export default new Vuex.Store({
     UserModule,
     DashBoardModule,
     MonitoringModule,
+    MornitoringControlModule,
   },
 });
