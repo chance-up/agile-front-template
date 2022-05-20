@@ -132,7 +132,7 @@ export default class ApiResponseAvg extends Vue {
   width: 31.2%;
   position: absolute;
   right: 0px;
-  z-index: 5;
+  z-index: 1;
   transition: all 0.3s;
 }
 

@@ -1,11 +1,12 @@
 <template>
   <section class="time-wrap">
-    <span v-show="!isPlay">{{ getPauseTime() }}</span>
+    <span v-show="!isPlay && !isLoading">{{ getPauseTime() }}</span>
     <button>
-      <i><img src="@/assets/pause_ico.svg" v-show="isPlay" @click="onPause()" alt="pause" /></i>
-      <i><img src="@/assets/play_arrow.svg" v-show="!isPlay" @click="onStart()" alt="play" /></i>
+      <i><img src="@/assets/pause_ico.svg" v-show="isPlay && !isLoading" @click="onCountPause()" alt="pause" /></i>
+      <i><img src="@/assets/play_arrow.svg" v-show="!isPlay && !isLoading" @click="onCountStart()" alt="play" /></i>
     </button>
-    <div id="timer" class="cicle-timer" />
+    <div v-show="!isLoading" id="timer" class="cicle-timer" />
+    <div id="progressChart" style="height: 20%; width: 10%"></div>
   </section>
 </template>
 <script lang="ts">
@@ -13,7 +14,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import * as echarts from 'echarts';
 import { EChartsType } from 'echarts';
 
-const INTERVAL_VALUE = 60;
+const INTERVAL_VALUE = 10;
 
 @Component
 export default class TimeCheck extends Vue {
@@ -23,6 +24,7 @@ export default class TimeCheck extends Vue {
   myChart: EChartsType | null = null;
   intervalId = 0;
   isPlay = true;
+  isLoading = false;
   @Prop() callBack!: () => void;
 
   countTimer() {
@@ -34,6 +36,7 @@ export default class TimeCheck extends Vue {
     if (this.timer > INTERVAL_VALUE) {
       this.timer = 0;
       this.callBack();
+      this.isLoading = true;
     }
     this.chartCountPercentData = (this.timer / INTERVAL_VALUE) * 100;
     this.chartCountTotalData = ((INTERVAL_VALUE - this.timer) / INTERVAL_VALUE) * 100;
@@ -43,17 +46,75 @@ export default class TimeCheck extends Vue {
     clearInterval(this.intervalId);
   }
 
-  onPause() {
+  onCountPause() {
     this.isPlay = false;
     clearInterval(this.intervalId);
   }
 
-  onStart() {
+  onCountStart() {
     this.isPlay = true;
     this.countTimer();
   }
 
   mounted() {
+    this.setCountChart();
+    this.setProgressChart();
+
+    this.onCountStart();
+  }
+
+  setProgressChart() {
+    var chartDom = document.getElementById('progressChart') as HTMLDivElement;
+    var progressChart = echarts.init(chartDom);
+    var option: echarts.EChartsOption;
+    option = {
+      graphic: {
+        elements: [
+          {
+            type: 'group',
+            left: 'center',
+            top: 'center',
+            children: new Array(7).fill(0).map((val, i) => ({
+              type: 'rect',
+              x: i * 12,
+              shape: {
+                x: 0,
+                y: -10,
+                width: 4,
+                height: 20,
+              },
+              style: {
+                fill: '#8041F7',
+              },
+              keyframeAnimation: {
+                duration: 800,
+                delay: i * 200,
+                loop: true,
+                keyframes: [
+                  {
+                    percent: 0.5,
+                    scaleY: 0.3,
+                    easing: 'cubicIn',
+                  },
+                  {
+                    percent: 1,
+                    scaleY: 1,
+                    easing: 'cubicOut',
+                  },
+                ],
+              },
+            })),
+          },
+        ],
+      },
+    };
+    progressChart.setOption(option);
+    window.addEventListener('resize', () => {
+      progressChart.resize();
+    });
+  }
+
+  setCountChart() {
     const dom = document.getElementById('timer') as HTMLDivElement;
     this.myChart = echarts.init(dom);
 
@@ -61,8 +122,6 @@ export default class TimeCheck extends Vue {
     window.addEventListener('resize', () => {
       this.myChart?.resize();
     });
-
-    this.countTimer();
   }
 
   getPauseTime(): string {
