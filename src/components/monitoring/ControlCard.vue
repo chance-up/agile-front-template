@@ -64,6 +64,8 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import * as echarts from 'echarts';
 import { EChartsType } from 'echarts';
 
+import { EachApi } from '@/types/MornitoringControllType';
+
 import ApiDetailModal from '@/components/commons/modal/ApiDetailModal.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
 interface ApiDetail {
@@ -90,7 +92,7 @@ interface EachResponse {
   miCnt: number; // Minor 건수
   tps: number; // TPS
   avgResTm: number; // 평균 응답시간
-  apiList?: string[]; // API 리스트
+  apiList?: EachApi[]; // API 리스트
 }
 @Component({
   components: { ApiDetailModal, ModalLayout },

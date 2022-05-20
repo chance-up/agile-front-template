@@ -61,26 +61,50 @@ export default class MornitoringControlModule extends GateWayModule {
     const cnt = Math.random() * 4 + 5;
     const list: EachService[] = [];
     for (let i = 0; i < cnt; i++) {
-      const totCnt = Math.floor(Math.random() * 190 + 10);
-      const sucesCnt = Math.floor(totCnt * Math.random());
-      const failCnt = totCnt - sucesCnt;
-      const sucesRate = Math.floor((sucesCnt / totCnt) * 100);
-      const failRate = 100 - sucesRate;
-      const crCnt = Math.floor(failCnt * Math.random());
-      const maCnt = Math.floor((failCnt - crCnt) * Math.random());
-      const miCnt = failCnt - crCnt - maCnt;
+      let totCnt = 0;
+      let sucesCnt = 0;
+      let failCnt = 0;
+
+      let crCnt = 0;
+      let maCnt = 0;
+      let miCnt = 0;
       const tps = Math.floor(Math.random() * 1000) / 1000;
       const avgResTm = Math.floor(Math.random() * 10 + 1);
+      // const totCnt = Math.floor(Math.random() * 190 + 10);
+      // const sucesCnt = Math.floor(totCnt * Math.random());
+      // const failCnt = totCnt - sucesCnt;
+      // const sucesRate = Math.floor((sucesCnt / totCnt) * 100);
+      // const failRate = 100 - sucesRate;
+      // const crCnt = Math.floor(failCnt * Math.random());
+      // const maCnt = Math.floor((failCnt - crCnt) * Math.random());
+      // const miCnt = failCnt - crCnt - maCnt;
+      // const tps = Math.floor(Math.random() * 1000) / 1000;
+      // const avgResTm = Math.floor(Math.random() * 10 + 1);
       this.getApiList(time);
       const apiList: EachApi[] = [];
       for (let j = 0; j < this.apiList.length; j++) {
         if (Math.random() > 0.5) {
+          totCnt += this.apiList[j].totCnt;
+          sucesCnt += this.apiList[j].sucesCnt;
+          failCnt += this.apiList[j].failCnt;
+          crCnt += this.apiList[j].crCnt;
+          maCnt += this.apiList[j].maCnt;
+          miCnt += this.apiList[j].miCnt;
           apiList.push(this.apiList[j]);
         }
       }
       if (apiList.length === 0) {
+        totCnt += this.apiList[0].totCnt;
+        sucesCnt += this.apiList[0].sucesCnt;
+        failCnt += this.apiList[0].failCnt;
+        crCnt += this.apiList[0].crCnt;
+        maCnt += this.apiList[0].maCnt;
+        miCnt += this.apiList[0].miCnt;
         apiList.push(this.apiList[0]);
       }
+      const sucesRate = Math.floor((sucesCnt / totCnt) * 100);
+      const failRate = 100 - sucesRate;
+
       const service: EachService = {
         statPerd: time, // 통계 기준 시간
         svcId: 'svcId' + i, // 서비스 ID
