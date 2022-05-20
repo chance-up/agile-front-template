@@ -48,7 +48,6 @@ export default class ServiceRow extends Vue {
 <style scoped>
 .list {
   background-color: white;
-  z-index: 5;
   height: auto;
 }
 .list-slider {

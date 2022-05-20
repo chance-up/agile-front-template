@@ -6,7 +6,7 @@
     </div>
 
     <!------- 검색 -------->
-
+    <SelectSearch />
     <!------- // 검색 -------->
 
     <div class="service-list">
@@ -24,7 +24,8 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator';
 import ServiceRow from '@/components/monitoring/ServiceRow.vue';
-@Component({ components: { ServiceRow } })
+import SelectSearch from '@/components/monitoring/SelectSearch.vue';
+@Component({ components: { ServiceRow, SelectSearch } })
 export default class ControlPage extends Vue {}
 </script>
 <style lang=""></style>

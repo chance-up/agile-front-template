@@ -143,8 +143,8 @@
 .multi-wrap{position: relative;}
 .multi-wrap .select-row{width:380px; height: 42px; background-color: #F3F7F9; border: 1px #F3F7F9 solid; background-image: url(../assets/select_down.svg); background-repeat: no-repeat; background-position: right center; background-size: 24px 24px; padding: 0px 12px; border-radius: 8px; font-size: 14px; font-weight: 400; line-height: 42px; color: #333; text-align: left;}
 .multi-wrap .select-row:focus, .multi-wrap .select-row.active{outline:1px #8041F7 solid;}
-.multi-wrap .select-form{padding: 15px 0px; border: 1px #ddd solid; border-radius: 8px; background: #fff; height: 160px; overflow-y: auto; position: absolute; z-index: 3; top: 48px; width: 390px;}
-.multi-wrap .select-form ul{}
+.multi-wrap .select-form{padding: 15px 0px; border: 1px #ddd solid; border-radius: 8px; background: #fff;max-height: 160px; overflow-y: auto; position: absolute; z-index: 3; top: 48px; width: 380px;}
+.multi-wrap .select-form ul{    margin: 0 0;}
 .multi-wrap .select-form ul li{margin-bottom: 0px; text-align: left; display: flex; flex-direction: initial; justify-content: space-between; padding: 0px 15px; height: 40px;}
 .multi-wrap .select-form ul li:hover, .multi-wrap .select-form ul li:focus{cursor: pointer; background-color:#F3F3F3;}
 .multi-wrap .select-form ul li span{line-height: 40px;}
@@ -413,7 +413,8 @@
 
 .monitor-search{display: flex; justify-content: space-between;}
 .monitor-search .search-cont{margin-right: 0px; display: flex;}
-.monitor-search .search-cont .label-tit{    font-size: 14px; font-weight: 700; line-height: 22px; color: #333; text-align: left; margin: 0px 30px 0px 0px;}
+.monitor-search .search-cont .label-tit{width: 70px;
+    text-align: right; font-size: 14px; font-weight: 700; line-height: 22px; color: #333; margin: 0px 30px 0px 0px;}
 .monitor-search .time-wrap{margin: 0;}
 .monitor-search .time-wrap span{line-height: 26px; margin-right: 10px;}
 .monitor-search .time-wrap button{margin: 0 0;}
@@ -538,8 +539,15 @@
 .error-list .major::before{background-color: #FFB43D;}
 .error-list .critical::before{background-color: #FF4E63;}
 
+.key-search{justify-content: left; flex-direction: column;}
+.key-search .border-cont.search-cont{border-bottom:1px #ddd dashed !important ; align-items: center; width: 100%; padding: 0px 0px 10px 0px;}
+.key-search .search-cont{padding: 10px 0px 0px 0px; align-items: center; width: 100%;}
 
 
+.service-search{display: flex; flex-direction: column; width: 90%;}
+.word-wrap{flex-flow: wrap;}
+.service-search .multi-wrap .select-form{top: 0;}
+.service-search .multi-wrap .mid-btn{margin-left: 30px;}
 
 
 
