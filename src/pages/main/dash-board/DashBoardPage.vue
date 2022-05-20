@@ -3,7 +3,7 @@
     <!--- refresh play/pause area --->
     <TimeCheck :callBack="onCallBack" />
 
-    <section class="group col-3">
+    <section class="group col-3" style="height: 228px">
       <!--- Total API Traffic (24Hour) area --->
       <TotalApiTraffic />
 

@@ -111,7 +111,7 @@ export default class RealTimeTraffic extends Vue {
     });
 
     const option = {
-      animationDuration: 10000,
+      animationDuration: 2000,
       dataset: [
         {
           id: 'dataset_raw',
