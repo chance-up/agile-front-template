@@ -68,7 +68,7 @@
           </template>
           <template v-slot:modalFooter>
             <button class="lg-btn purple-btn" @click="onSubmit">{{ $t('common.ok') }}</button>
-            <button class="lg-btn purple-btn" @click="showModal = false">{{ $t('common.cancel') }}</button>
+            <button class="lg-btn white-btn" @click="showModal = false">{{ $t('common.cancel') }}</button>
           </template>
         </ModalLayout>
       </ul>
