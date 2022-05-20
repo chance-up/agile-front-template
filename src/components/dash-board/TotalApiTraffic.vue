@@ -1,59 +1,57 @@
 <template>
   <div class="chart-wrap">
     <h3 class="h3-tit">Total API Traffic (24Hour)</h3>
+    <div class="dash-modal-background" v-if="modal === true" @click="modal = false"></div>
     <div
-      ref="totalApiTraffic"
       class="chart-group api-traffic"
       :class="{
-        'total-collapse-modal  mouse-hover': modal == false,
+        'total-collapse-modal': modal == false,
         'total-expand-modal': modal == true,
       }"
       @click="toggleModal()"
+      ref="totalApiTraffic"
     >
       <div
         id="totalApiTrafficTotal"
         v-show="modal == false"
-        class="api-pie"
         :class="{
-          'total-modal-detail-collapse': modal == true,
-          'total-modal-detail-expand': modal == false,
+          'dash-modal-detail-collapse': modal == true,
+          'dash-modal-detail-expand': modal == false,
         }"
-        data-echart-responsive="true"
+        class="api-pie"
       >
         total
       </div>
       <div
         v-show="modal == false"
         id="totalApiTrafficSuccess"
-        class="api-pie"
         :class="{
-          'total-modal-detail-collapse': modal == true,
-          'total-modal-detail-expand': modal == false,
+          'dash-modal-detail-collapse': modal == true,
+          'dash-modal-detail-expand': modal == false,
         }"
-        data-echart-responsive="true"
+        class="api-pie"
       >
         성공
       </div>
       <div
         v-show="modal == false"
         id="totalApiTrafficFail"
-        class="api-pie"
         :class="{
-          'total-modal-detail-collapse': modal == true,
-          'total-modal-detail-expand': modal == false,
+          'dash-modal-detail-collapse': modal == true,
+          'dash-modal-detail-expand': modal == false,
         }"
-        data-echart-responsive="true"
+        class="api-pie"
       >
         실패
       </div>
 
       <div
         v-show="modal == true"
-        class="total-modal-detail"
         :class="{
-          'total-modal-detail-collapse': modal == false,
-          'total-modal-detail-expand': modal == true,
+          'dash-modal-detail-collapse': modal == false,
+          'dash-modal-detail-expand': modal == true,
         }"
+        style="width: 100%; height: 100%"
       >
         <h5 class="h5-tit" style="color: #fff6e5">Total API Traffic Detail</h5>
         <div id="totalApiTrafficDetail" style="width: 100%; height: 90%"></div>
@@ -64,7 +62,13 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import * as echarts from 'echarts';
-import { calcCompactCardWidth } from '@/utils/screen';
+import {
+  totalApiTrafficOption,
+  totalApiTrafficSuccsessOption,
+  totalApiTrafficFailOption,
+  totalApiTrafficDetailOption,
+} from '@/components/dash-board/chartDummy';
+
 @Component
 export default class TotalApiTraffic extends Vue {
   dom1 = {} as HTMLDivElement;
@@ -76,24 +80,27 @@ export default class TotalApiTraffic extends Vue {
   dom4 = {} as HTMLDivElement;
   myChart4 = {} as echarts.EChartsType;
 
-  mounted() {
+  initChartAndDom() {
     this.dom1 = document.getElementById('totalApiTrafficTotal') as HTMLDivElement;
     this.myChart1 = echarts.init(this.dom1);
-    this.myChart1.setOption(this.totalApiTrafficOption);
+    this.myChart1.setOption(totalApiTrafficOption);
     this.dom2 = document.getElementById('totalApiTrafficSuccess') as HTMLDivElement;
     this.myChart2 = echarts.init(this.dom2);
-    this.myChart2.setOption(this.totalApiTrafficSuccsessOption);
+    this.myChart2.setOption(totalApiTrafficSuccsessOption);
     this.dom3 = document.getElementById('totalApiTrafficFail') as HTMLDivElement;
     this.myChart3 = echarts.init(this.dom3);
-    this.myChart3.setOption(this.totalApiTrafficFailOption);
+    this.myChart3.setOption(totalApiTrafficFailOption);
     this.dom4 = document.getElementById('totalApiTrafficDetail') as HTMLDivElement;
     this.myChart4 = echarts.init(this.dom4);
-    this.myChart4.setOption(this.totalApiTrafficDeetailOption);
+    this.myChart4.setOption(totalApiTrafficDetailOption);
+  }
+
+  mounted() {
+    this.initChartAndDom();
+  }
+
+  updated() {
     this.observeSize();
-    this.initModal();
-    window.addEventListener('resize', () => {
-      this.initModal();
-    });
   }
 
   resizeChart() {
@@ -102,6 +109,7 @@ export default class TotalApiTraffic extends Vue {
     this.myChart3.resize();
     this.myChart4.resize();
   }
+
   width = 0;
   height = 0;
   observeSize() {
@@ -116,288 +124,34 @@ export default class TotalApiTraffic extends Vue {
   }
 
   @Watch('width')
-  onWidthChang() {
+  onWidthChange() {
     this.resizeChart();
   }
 
-  totalApiTrafficOption: echarts.EChartsOption = {
-    title: {
-      text: 'Total',
-      left: 'center',
-      top: 'bottom',
-      textStyle: {
-        color: '#FFF6E5',
-        fontSize: '17',
-      },
-    },
-
-    // tooltip: {
-    //   trigger: 'item',
-    // },
-    backgroundColor: '#FFA800',
-    series: [
-      {
-        name: 'Access From',
-        type: 'pie',
-        radius: ['57%', '80%'],
-        avoidLabelOverlap: false,
-        label: {
-          show: true,
-          position: 'center',
-          formatter: '4320' + '\n' + '건',
-          fontSize: '15',
-          color: '#FFF6E5',
-        },
-
-        labelLine: {
-          show: false,
-        },
-        data: [{ value: 4320, name: 'total' }],
-        center: ['50%', '35%'],
-        emphasis: {
-          disabled: true,
-        },
-      },
-    ],
-    color: '#FFF6E5',
-  };
-
-  totalApiTrafficSuccsessOption: echarts.EChartsOption = {
-    title: {
-      text: '성공',
-      left: 'center',
-      top: 'bottom',
-      textStyle: {
-        color: '#FFF6E5',
-        fontSize: '17',
-      },
-    },
-    // tooltip: {
-    //   trigger: 'item',
-    // },
-    backgroundColor: '#FFA800',
-    series: [
-      {
-        name: 'Access From',
-        type: 'pie',
-        radius: ['57%', '80%'],
-        avoidLabelOverlap: false,
-
-        label: {
-          show: true,
-          position: 'center',
-          formatter: '4000' + '\n' + '건',
-          fontSize: '15',
-          color: '#FFF6E5',
-        },
-        data: [
-          { value: 4000, name: '성공' },
-          { value: 320, name: '실패' },
-        ],
-        center: ['50%', '35%'],
-        emphasis: {
-          disabled: true,
-        },
-      },
-    ],
-    color: ['#FFF6E5', 'rgba(255, 255, 255, 0)'],
-  };
-
-  totalApiTrafficFailOption: echarts.EChartsOption = {
-    title: {
-      text: '실패',
-      left: 'center',
-      top: 'bottom',
-      textStyle: {
-        color: '#FFF6E5',
-        fontSize: '17',
-      },
-    },
-    // tooltip: {
-    //   trigger: 'item',
-    // },
-    backgroundColor: '#FFA800',
-    series: [
-      {
-        name: 'Access From',
-        type: 'pie',
-        radius: ['57%', '80%'],
-        avoidLabelOverlap: false,
-
-        label: {
-          show: true,
-          position: 'center',
-          formatter: '320' + '\n' + '건',
-          fontSize: '15',
-          color: '#FFF6E5',
-        },
-        data: [
-          { value: 320, name: '실패' },
-          { value: 4000, name: '성공' },
-        ],
-        center: ['50%', '35%'],
-        emphasis: {
-          disabled: true,
-        },
-      },
-    ],
-    color: ['#FFF6E5', 'rgba(255, 255, 255, 0)'],
-  };
-
-  totalApiTrafficDeetailOption: echarts.EChartsOption = {
-    color: '#FFBF00',
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'cross',
-        label: {
-          backgroundColor: '#6a7985',
-        },
-      },
-    },
-    // 차트 이미지 저장
-    // toolbox: {
-    //   feature: {
-    //     saveAsImage: {},
-    //   },
-    // },
-    grid: {
-      top: '5%',
-      left: '2%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
-    xAxis: [
-      {
-        type: 'category',
-        boundaryGap: false,
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        axisLine: { show: true, lineStyle: { color: '#FFF6E5' } },
-        axisLabel: { show: true, fontSize: '13', fontWeight: 550, color: '#FFF6E5' },
-      },
-    ],
-    yAxis: [
-      {
-        type: 'value',
-        // splitLine: { show: true, lineStyle: { color: '#000' } },
-        axisLabel: { show: true, fontSize: '13', fontWeight: 550, color: '#FFF6E5' },
-      },
-    ],
-    series: [
-      {
-        type: 'line',
-        stack: 'Total',
-        smooth: true,
-        lineStyle: {
-          width: 0,
-        },
-        showSymbol: false,
-        label: {
-          show: true,
-          position: 'top',
-        },
-        areaStyle: {
-          opacity: 0.8,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: '#E2F9FF',
-            },
-            {
-              offset: 1,
-              color: '#FF2121',
-            },
-          ]),
-        },
-        emphasis: {
-          focus: 'series',
-        },
-        data: [220, 302, 181, 234, 210, 290, 150],
-      },
-    ],
-  };
-
   modal = false;
   toggleModal() {
-    document.documentElement.style.setProperty('--total-box-position', 'absolute');
-    this.setStartWidth();
     this.modal = !this.modal;
   }
-
-  setStartWidth() {
-    const startWidth = calcCompactCardWidth(document.querySelector('.chart-group')?.clientWidth as number);
-    document.documentElement.style.setProperty('--total-box-width', `${startWidth}px`);
-  }
-
-  initModal = () => {
-    this.setStartWidth();
-    document.documentElement.style.setProperty('--total-box-position', 'relative');
-  };
 }
 </script>
 <style scoped>
-:root {
-  --total-box-width: 100%;
-  --total-box-position: relative;
-}
-.total-modal-detail {
-  width: 100%;
-  height: 100%;
-}
-
-.total-modal-detail-collapse {
-  animation: collapse-opacity 0s forwards;
-}
-
-.total-modal-detail-expand {
-  animation: expand-opacity 0.3s forwards;
-}
-
 .total-collapse-modal {
-  width: var(--total-box-width);
-  z-index: 5;
-  position: var(--total-box-position);
-  left: 0px;
+  width: 31.2%;
+  position: absolute;
+  z-index: 1;
   transition: all 0.3s;
-}
-.total-collapse-modal:hover {
-  box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
 }
 
 .total-expand-modal {
-  width: 60%;
+  width: 100%;
   height: 200%;
-  z-index: 5;
   position: absolute;
-  box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
-  transform-origin: top left;
+  z-index: 5;
   transition: all 0.3s;
 }
 
-@keyframes expand-opacity {
-  0% {
-    scale: 0;
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  100% {
-    scale: 1;
-    opacity: 1;
-  }
-}
-
-@keyframes collapse-opacity {
-  0% {
-    scale: 1;
-    opacity: 1;
-  }
-
-  100% {
-    scale: 0;
-    opacity: 0;
-    visibility: hidden;
-  }
+.total-expand-modal:hover,
+.total-collapse-modal:hover {
+  box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
 }
 </style>

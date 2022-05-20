@@ -1,9 +1,9 @@
 <template>
   <article class="dashboard">
     <!--- refresh play/pause area --->
-    <TimeCheck :callBack="onCallBack" />
+    <TimeCheck :isLoadData.sync="isLoadData" :callBack="onCallBack" />
 
-    <section class="group col-3">
+    <section class="group col-3" style="height: 228px">
       <!--- Total API Traffic (24Hour) area --->
       <TotalApiTraffic />
 
@@ -63,11 +63,15 @@ import LastResponse from '@/components/dash-board/LastResponse.vue';
   },
 })
 export default class DashBoardPage extends Vue {
+  isLoadData = false;
+
   onCallBack() {
-    console.log('callBack');
+    this.isLoadData = true;
 
     Promise.all([]).then(() => {
-      console.log('callBack');
+      setTimeout(() => {
+        this.isLoadData = false;
+      }, 1000);
     });
   }
 }
