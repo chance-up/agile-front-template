@@ -8,7 +8,7 @@
         'total-collapse-modal  mouse-hover': modal == false,
         'total-expand-modal': modal == true,
       }"
-      @click="showModalDetail()"
+      @click="toggleModal()"
     >
       <div v-show="modal == false" id="totalApiTrafficTotal" class="api-pie" data-echart-responsive="true">total</div>
       <div v-show="modal == false" id="totalApiTrafficSuccess" class="api-pie" data-echart-responsive="true">성공</div>
@@ -30,7 +30,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import * as echarts from 'echarts';
-
+import { calcCompactCardWidth } from '@/utils/screen';
 @Component
 export default class TotalApiTraffic extends Vue {
   dom1 = {} as HTMLDivElement;
@@ -56,6 +56,10 @@ export default class TotalApiTraffic extends Vue {
     this.myChart4 = echarts.init(this.dom4);
     this.myChart4.setOption(this.totalApiTrafficDeetailOption);
     this.observeSize();
+    this.initModal();
+    window.addEventListener('resize', () => {
+      this.initModal();
+    });
   }
 
   resizeChart() {
@@ -281,42 +285,28 @@ export default class TotalApiTraffic extends Vue {
   };
 
   modal = false;
-  showModalDetail() {
-    if (this.modal == true) {
-      this.resetBoxWidth();
-      setTimeout(() => {
-        this.modal = false;
-      }, 0);
-    } else {
-      this.setBoxWidth();
-      setTimeout(() => {
-        this.modal = true;
-      }, 0);
-    }
+  toggleModal() {
+    document.documentElement.style.setProperty('--total-box-position', 'absolute');
+    this.setStartWidth();
+    this.modal = !this.modal;
   }
-  hideModalDetail() {
-    this.modal = false;
-  }
-  widthValue = '';
 
-  setBoxWidth() {
-    const val = document.querySelector('.chart-group')?.clientWidth as number;
-    this.widthValue = `${val + 2}px`;
-    document.documentElement.style.setProperty('--total-box-width', this.widthValue);
+  setStartWidth() {
+    const startWidth = calcCompactCardWidth(document.querySelector('.chart-group')?.clientWidth as number);
+    document.documentElement.style.setProperty('--total-box-width', `${startWidth}px`);
   }
-  resetBoxWidth() {
-    document.documentElement.style.setProperty('--total-box-width', '100%');
-  }
+
+  initModal = () => {
+    this.setStartWidth();
+    document.documentElement.style.setProperty('--total-box-position', 'relative');
+  };
 }
 </script>
 <style scoped>
 :root {
   --total-box-width: 100%;
+  --total-box-position: relative;
 }
-.mouse-hover:hover {
-  box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
-}
-
 .total-modal-detail {
   width: 100%;
   height: 100%;
@@ -333,7 +323,15 @@ export default class TotalApiTraffic extends Vue {
 
 .total-collapse-modal {
   width: var(--total-box-width);
+  z-index: 5;
+  position: var(--total-box-position);
+  left: 0px;
+  transition: all 0.3s;
 }
+.total-collapse-modal:hover {
+  box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
+}
+
 .total-expand-modal {
   width: 60%;
   height: 200%;
@@ -341,6 +339,6 @@ export default class TotalApiTraffic extends Vue {
   position: absolute;
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.3);
   transform-origin: top left;
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 </style>
