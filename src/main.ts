@@ -8,6 +8,7 @@ import { BootstrapVue } from 'bootstrap-vue';
 import '@/style/reset.css';
 import '@/style/common.css';
 import '@/style/admin.css';
+import '@/style/dash-board.css';
 // Modal 삭제 금지($modal 사용)
 import Modal from '@/plugins/modal/Modal';
 import ModalPlugin from '@/plugins/modal/ModalPlugin';
