@@ -35,13 +35,13 @@ const INTERVAL_VALUE = 60;
 
 @Component({})
 export default class TimeGroup extends Vue {
-  selectVal = 1440;
+  selectVal = 0;
   timer = 0;
   chartCountPercentData = 0;
   chartCountTotalData = 100;
   myChart: EChartsType | null = null;
-  nowDate = this.getPauseTime(new Date());
-  selectDate = this.getPauseTime(new Date(new Date().getTime() - this.selectVal * (60 * 1000)));
+  nowDate = this.getPauseTime('nowDate', 1440);
+  selectDate = this.getPauseTime('selectDate', 1440);
   callbackId = 0;
 
   @Watch('chartCountTotalData')
@@ -50,6 +50,7 @@ export default class TimeGroup extends Vue {
   }
 
   mounted() {
+    this.selectVal = 1440;
     const dom = document.getElementById('timer') as HTMLDivElement;
     this.myChart = echarts.init(dom);
 
@@ -58,8 +59,8 @@ export default class TimeGroup extends Vue {
       this.myChart?.resize();
     });
 
-    this.countTimer();
     this.$emit('changeTime', '1440');
+    this.countTimer();
   }
 
   countTimer() {
@@ -72,9 +73,8 @@ export default class TimeGroup extends Vue {
     this.timer = this.timer + 1;
     if (this.timer > INTERVAL_VALUE) {
       this.timer = 0;
-      const date = new Date();
-      this.nowDate = this.getPauseTime(date);
-      this.selectDate = this.getPauseTime(new Date(date.getTime() - this.selectVal * (60 * 1000)));
+      this.nowDate = this.getPauseTime('nowDate', this.selectVal);
+      this.selectDate = this.getPauseTime('selectDate', this.selectVal);
       this.$emit('changeTime', this.selectVal);
     }
     this.chartCountPercentData = (this.timer / INTERVAL_VALUE) * 100;
@@ -86,10 +86,18 @@ export default class TimeGroup extends Vue {
   }
 
   handleChangeTime(event: any) {
+    this.timer = 0;
+    console.log('selectVal : ', this.selectVal);
+    this.nowDate = this.getPauseTime('nowDate', this.selectVal);
+    this.selectDate = this.getPauseTime('selectDate', this.selectVal);
     this.$emit('changeTime', event.target.value);
   }
 
-  getPauseTime(today: Date): string {
+  getPauseTime(d: string, selectTm: number): string {
+    let today = new Date();
+
+    if (d != 'nowDate') today = new Date(today.getTime() - selectTm * (60 * 1000));
+
     let year = today.getFullYear();
     let month = String(today.getMonth() + 1).padStart(2, '0');
     let date = today.getDate();

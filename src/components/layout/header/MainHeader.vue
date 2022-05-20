@@ -49,7 +49,7 @@
           <li :class="{ on: navState.managementState }" @click="changeShowManagement">
             <!-- <button @click="navState.showManagement = !navState.showManagement">ss</button> -->
             <!-- <a href="javascript:void(0)" @click="test2">Menagement</a> -->
-            <a href="javascript:void(0)">Menagement</a>
+            <a href="javascript:void(0)">Management</a>
             <div class="depth-menu" v-if="navState.showManagement">
               <ul>
                 <li>

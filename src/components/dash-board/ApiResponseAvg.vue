@@ -1,5 +1,6 @@
 <template>
   <div class="chart-wrap">
+    <div class="dash-modal-background" v-if="modal === true" @click="modal = false"></div>
     <h3 class="h3-tit">API 평균 응답시간 및 TPS</h3>
     <div
       class="chart-group tps-group"
@@ -70,7 +71,6 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { calcCompactCardWidth } from '@/utils/screen';
 import * as echarts from 'echarts';
 import { avgDetailOption, tpsDetailOption } from '@/components/dash-board/chartDummy';
 
@@ -97,6 +97,9 @@ export default class ApiResponseAvg extends Vue {
 
   mounted() {
     this.initChartAndDom();
+  }
+
+  updated() {
     this.observeSize();
   }
 
@@ -132,7 +135,7 @@ export default class ApiResponseAvg extends Vue {
   width: 31.2%;
   position: absolute;
   right: 0px;
-  z-index: 5;
+  z-index: 1;
   transition: all 0.3s;
 }
 

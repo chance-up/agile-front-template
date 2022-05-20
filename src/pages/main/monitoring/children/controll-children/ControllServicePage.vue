@@ -70,7 +70,6 @@ export default class ControlPage extends Vue {
 
   @Watch('searchData', { deep: true })
   onSearchDataChange(val: ControllRequest) {
-    console.log('searchData changed', val);
     //api 통신 로직 추가
     this.mornitoringControlModule.getServiceList(this.searchData.statPerd);
   }

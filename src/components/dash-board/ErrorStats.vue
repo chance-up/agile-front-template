@@ -1,6 +1,7 @@
 <template>
   <div class="chart-wrap">
     <h3 class="h3-tit">Error stats (24Hour)</h3>
+    <div class="dash-modal-background" v-if="modal === true" @click="modal = false"></div>
     <div
       class="chart-group error-stats"
       :class="{
@@ -74,6 +75,9 @@ export default class ErrorStats extends Vue {
 
   mounted() {
     this.initChartAndDom();
+  }
+
+  updated() {
     this.observeSize();
   }
 
@@ -115,11 +119,12 @@ export default class ErrorStats extends Vue {
 .error-collapse-modal {
   width: 31.2%;
   position: absolute;
-  z-index: 5;
+  z-index: 1;
   transition: all 0.3s;
 }
 
 .error-expand-modal {
+  margin-left: -34.4%;
   width: 100%;
   height: 200%;
   position: absolute;

@@ -1,6 +1,7 @@
 <template>
   <div class="chart-wrap">
     <h3 class="h3-tit">Total API Traffic (24Hour)</h3>
+    <div class="dash-modal-background" v-if="modal === true" @click="modal = false"></div>
     <div
       class="chart-group api-traffic"
       :class="{
@@ -137,7 +138,7 @@ export default class TotalApiTraffic extends Vue {
 .total-collapse-modal {
   width: 31.2%;
   position: absolute;
-  z-index: 6;
+  z-index: 1;
   transition: all 0.3s;
 }
 
@@ -145,7 +146,7 @@ export default class TotalApiTraffic extends Vue {
   width: 100%;
   height: 200%;
   position: absolute;
-  z-index: 6;
+  z-index: 5;
   transition: all 0.3s;
 }
 
