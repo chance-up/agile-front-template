@@ -1,13 +1,13 @@
 <template>
   <li @click="cardDetail">
     <div class="card-tit">
-      <h2 class="h2-tit">{{ item.svcId }}</h2>
+      <h2 class="h2-tit">{{ item.svcId ? item.svcId : item.apiId }}</h2>
 
       <div class="tip">
         <button class="tip-btn" v-on:mouseout="tipBox = false" v-on:mouseover="tipBox = true">
           <i><img src="@/assets/tip_ico.svg" alt="tip" /></i>
         </button>
-        <span v-if="tipBox" class="tip-area">{{ item.svcDesc }}</span>
+        <span v-if="tipBox" class="tip-area">{{ item.svcDesc ? item.svcDesc : item.apiDesc }}</span>
       </div>
     </div>
 
@@ -72,10 +72,13 @@ interface ApiDetail {
   fail: number;
 }
 
-interface EachService {
+interface EachResponse {
   statPerd: number; // 통계 기준 시간
-  svcId: string; // 서비스 ID
-  svcDesc: string; // 서비스 설명
+  svcId?: string; // 서비스 ID
+  sysId?: string; // 시스템 ID
+  apiId?: string; // API ID
+  svcDesc?: string; // 서비스 설명
+  apiDesc?: string; // API 설명
   totCnt: number; // 전체 서비스 건수
   sucesCnt: number; // 성공 건수
   failCnt: number; // 실패 건수
@@ -92,15 +95,15 @@ interface EachService {
   components: { ApiDetailModal, ModalLayout },
 })
 export default class ControlCard extends Vue {
-  @Prop() item!: EachService;
+  @Prop() item!: EachResponse;
 
   tipBox = false;
   showApiDetailModal = false;
-  apiDetailData: ApiDetail = {
-    id: 'service_deviceinfo',
-    total: 208,
-    success: 200,
-    fail: 5,
+  apiDetailData = {
+    id: '',
+    total: 0,
+    success: 0,
+    fail: 0,
   };
 
   statsPieOption: echarts.EChartsOption = {
@@ -228,7 +231,8 @@ export default class ControlCard extends Vue {
   };
 
   mounted() {
-    this.apiDetailData.id = this.item.svcId;
+    this.apiDetailData.id =
+      this.item.svcId != undefined ? this.item.svcId : this.item.apiId != undefined ? this.item.apiId : '';
     setTimeout(() => {
       this.domInit();
     }, 0);
