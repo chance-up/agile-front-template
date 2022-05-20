@@ -47,6 +47,21 @@ interface ApiDetail {
   success: number;
   fail: number;
 }
+
+interface FormatterType {
+  componentType: 'series';
+  seriesType: string;
+  seriesIndex: number;
+  seriesName: string;
+  name: string;
+  dataIndex: number;
+  data: object;
+  value: number | object;
+  encode: object;
+  dimensionNames: Array<string>;
+  dimensionIndex: number;
+  color: string;
+}
 @Component({
   components: { ApiDetailModalApiList },
 })
@@ -56,13 +71,27 @@ export default class ApiDetailModal extends Vue {
     disableScrolling();
   }
 
-  destroyed() {
-    enableScrolling();
-  }
   mounted() {
     this.drawChart1('stacked-area-chart-servicetop5', 'asdf');
     this.drawChart2('stacked-horizontal-bar-servicetop5', 'asdf');
   }
+
+  destroyed() {
+    enableScrolling();
+  }
+
+  // x축 value 합계
+  getFormatter(series: echarts.LineSeriesOption[]) {
+    return (params: FormatterType) => {
+      let sum = 0;
+      series.forEach((item) => {
+        const data = item.data as number[];
+        sum += data[params.dataIndex];
+      });
+      return sum;
+    };
+  }
+
   drawChart1 = (id: string, _rawData: any) => {
     type EChartsOption = echarts.EChartsOption;
 
@@ -71,12 +100,33 @@ export default class ApiDetailModal extends Vue {
     // window.addEventListener('resize', () => {
     //   myChart.resize();
     // });
+
+    let apiTop5TransitionSeries: echarts.LineSeriesOption[] = [
+      {
+        name: 'Email',
+        data: [120, 132, 101, 134, 90, 230, 210],
+      },
+      {
+        name: 'Union Ads',
+        data: [220, 182, 191, 234, 290, 330, 310],
+      },
+      {
+        name: 'Video Ads',
+        data: [150, 232, 201, 154, 190, 330, 410],
+      },
+      {
+        name: 'Direct',
+        data: [320, 332, 301, 334, 390, 330, 320],
+      },
+      {
+        name: 'Search Engine',
+        data: [820, 932, 901, 934, 1290, 1330, 1320],
+      },
+    ];
+
     var option: EChartsOption;
 
     option = {
-      //   title: {
-      //     text: '전체/성공/실패 추이',
-      //   },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -86,18 +136,14 @@ export default class ApiDetailModal extends Vue {
           },
         },
       },
-      //   legend: {
-      //     data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine'],
-      //   },
-      //   toolbox: {
-      //     feature: {
-      //       saveAsImage: {},
-      //     },
-      //   },
+      // legend: {
+      //   data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine'],
+      // },
       grid: {
+        top: '10%',
+        bottom: '3%',
         left: '3%',
         right: '4%',
-        bottom: '3%',
         containLabel: true,
       },
       xAxis: [
@@ -112,66 +158,27 @@ export default class ApiDetailModal extends Vue {
           type: 'value',
         },
       ],
-      series: [
-        {
-          name: 'Email',
+      series: apiTop5TransitionSeries.map((item, index) =>
+        Object.assign(item, {
           type: 'line',
           stack: 'Total',
           areaStyle: {},
           emphasis: {
             focus: 'series',
           },
-          data: [120, 132, 101, 134, 90, 230, 210],
-        },
-        {
-          name: 'Union Ads',
-          type: 'line',
-          stack: 'Total',
-          areaStyle: {},
-          emphasis: {
-            focus: 'series',
-          },
-          data: [220, 182, 191, 234, 290, 330, 310],
-        },
-        {
-          name: 'Video Ads',
-          type: 'line',
-          stack: 'Total',
-          areaStyle: {},
-          emphasis: {
-            focus: 'series',
-          },
-          data: [150, 232, 201, 154, 190, 330, 410],
-        },
-        {
-          name: 'Direct',
-          type: 'line',
-          stack: 'Total',
-          areaStyle: {},
-          emphasis: {
-            focus: 'series',
-          },
-          data: [320, 332, 301, 334, 390, 330, 320],
-        },
-        {
-          name: 'Search Engine',
-          type: 'line',
-          stack: 'Total',
-          label: {
-            show: true,
-            position: 'top',
-          },
-          areaStyle: {},
-          emphasis: {
-            focus: 'series',
-          },
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
-        },
-      ],
+          // label: {
+          //   show: index === apiTop5TransitionSeries.length - 1 ? true : false,
+          //   position: 'top',
+          //   formatter: this.getFormatter(apiTop5TransitionSeries),
+          //   fontSize: 9,
+          // },
+        })
+      ),
     };
 
     option && myChart.setOption(option);
   };
+
   drawChart2 = (id: string, _rawData: any) => {
     type EChartsOption = echarts.EChartsOption;
     var chartDom = document.getElementById(id) as HTMLDivElement;
@@ -179,18 +186,33 @@ export default class ApiDetailModal extends Vue {
 
     var option: EChartsOption;
 
+    // 최근 7일 성공/실패 추이 데이터
+    let apiTop5AWeekTransitionSeries: echarts.LineSeriesOption[] = [
+      {
+        name: 'Direct',
+        data: [320, 302, 301, 334, 390, 330, 320],
+      },
+      {
+        name: 'Mail Ad',
+        data: [120, 132, 101, 134, 90, 230, 210],
+      },
+      {
+        name: 'Affiliate Ad',
+        data: [150, 212, 201, 154, 190, 330, 410],
+      },
+    ];
+
     option = {
       tooltip: {
         trigger: 'axis',
         axisPointer: {
-          // Use axis to trigger tooltip
-          type: 'shadow', // 'shadow' as default; can also be 'line' or 'shadow'
+          type: 'shadow',
         },
       },
-      //   legend: {},
       grid: {
+        top: '5%',
         left: '3%',
-        right: '4%',
+        right: '6%',
         bottom: '3%',
         containLabel: true,
       },
@@ -201,68 +223,19 @@ export default class ApiDetailModal extends Vue {
         type: 'category',
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       },
-      series: [
-        {
-          name: 'Direct',
+      series: apiTop5AWeekTransitionSeries.map((item) =>
+        Object.assign(item, {
           type: 'bar',
           stack: 'total',
           label: {
             show: true,
+            fontSize: 9,
           },
           emphasis: {
             focus: 'series',
           },
-          data: [320, 302, 301, 334, 390, 330, 320],
-        },
-        {
-          name: 'Mail Ad',
-          type: 'bar',
-          stack: 'total',
-          label: {
-            show: true,
-          },
-          emphasis: {
-            focus: 'series',
-          },
-          data: [120, 132, 101, 134, 90, 230, 210],
-        },
-        {
-          name: 'Affiliate Ad',
-          type: 'bar',
-          stack: 'total',
-          label: {
-            show: true,
-          },
-          emphasis: {
-            focus: 'series',
-          },
-          data: [220, 182, 191, 234, 290, 330, 310],
-        },
-        {
-          name: 'Video Ad',
-          type: 'bar',
-          stack: 'total',
-          label: {
-            show: true,
-          },
-          emphasis: {
-            focus: 'series',
-          },
-          data: [150, 212, 201, 154, 190, 330, 410],
-        },
-        {
-          name: 'Search Engine',
-          type: 'bar',
-          stack: 'total',
-          label: {
-            show: true,
-          },
-          emphasis: {
-            focus: 'series',
-          },
-          data: [820, 832, 901, 934, 1290, 1330, 1320],
-        },
-      ],
+        })
+      ),
     };
 
     option && myChart.setOption(option);
