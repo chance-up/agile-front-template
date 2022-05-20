@@ -107,19 +107,6 @@ export default class ControlCard extends Vue {
   };
 
   statsPieOption: echarts.EChartsOption = {
-    // title: {
-    //   text: '실패율',
-    //   left: 'center',
-    //   top: '75%',
-    //   textStyle: {
-    //     color: 'black',
-    //     fontSize: '13',
-    //     fontWeight: 400,
-    //   },
-    // },
-    // tooltip: {
-    //   trigger: 'item',
-    // },
     backgroundColor: '#FFFFFF',
     series: [
       {
@@ -127,14 +114,6 @@ export default class ControlCard extends Vue {
         type: 'pie',
         radius: ['50%', '90%'],
         avoidLabelOverlap: false,
-        // width: '50%',
-        // label: {
-        //   show: true,
-        //   position: 'center',
-        //   formatter: '15' + '%',
-        //   color: 'red',
-        //   fontSize: '16',
-        // },
         labelLine: {
           show: false,
         },
@@ -142,7 +121,6 @@ export default class ControlCard extends Vue {
           { value: 10, name: '실패율' },
           { value: 90, name: '성공률' },
         ],
-        // center: ['50%', '50%'],
         emphasis: {
           disabled: true,
         },
@@ -231,6 +209,28 @@ export default class ControlCard extends Vue {
   };
 
   mounted() {
+    this.statsPieOption = {
+      backgroundColor: '#FFFFFF',
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: ['50%', '90%'],
+          avoidLabelOverlap: false,
+          labelLine: {
+            show: false,
+          },
+          data: [
+            { value: this.item.failRate, name: '실패율' },
+            { value: this.item.sucesRate, name: '성공률' },
+          ],
+          emphasis: {
+            disabled: true,
+          },
+        },
+      ],
+      color: ['#FF4E63', '#6650EE'],
+    };
     this.apiDetailData.id =
       this.item.svcId != undefined ? this.item.svcId : this.item.apiId != undefined ? this.item.apiId : '';
     setTimeout(() => {
