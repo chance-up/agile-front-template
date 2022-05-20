@@ -4,7 +4,7 @@
       <div class="modal-overlay">
         <div class="pop-wrap lg-pop">
           <div class="pop-header">
-            <h1 class="h1-tit">{{ apiDetailData.id }}</h1>
+            <h1 class="h1-tit">{{ apiDetailData.sysId == undefined ? apiDetailData.svcId : apiDetailData.apiId }}</h1>
             <button @click="$emit('close')">
               <i><img src="@/assets/close.svg" alt="닫기" title="닫기" /></i>
             </button>
@@ -17,11 +17,25 @@
             <div class="stati-wrap">
               <div class="tit-wrap">
                 <h3 class="h3-tit">API List</h3>
-                <p class="total">total : <span>8</span></p>
+                <p class="total">
+                  total :
+                  <span>{{ apiDetailData.sysId == undefined ? apiDetailData.totCnt : apiDetailData.totCnt }}</span>
+                </p>
               </div>
               <div class="stati-list">
-                <ul>
-                  <ApiDetailModalApiList v-for="(item, index) in 3" :key="index" />
+                <ul v-if="apiDetailData.sysId == undefined ? true : false">
+                  <ApiDetailModalApiList
+                    v-for="(item, index) in apiDetailData.sysId == undefined ? apiDetailData.apiList : apiDetailData"
+                    :key="index"
+                    :kind="apiDetailData.sysId == undefined ? 'svc' : 'api'"
+                    :item="item"
+                  />
+                </ul>
+                <ul v-if="apiDetailData.sysId == undefined ? false : true">
+                  <ApiDetailModalApiList
+                    :kind="apiDetailData.sysId == undefined ? 'svc' : 'api'"
+                    :item="apiDetailData"
+                  />
                 </ul>
               </div>
             </div>
@@ -39,6 +53,7 @@
 import * as echarts from 'echarts';
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { disableScrolling, enableScrolling } from '@/utils/screen';
+import { EachApi } from '@/types/MornitoringControllType';
 
 import ApiDetailModalApiList from '@/components/commons/modal/ApiDetailModalApiList.vue';
 interface ApiDetail {
@@ -62,11 +77,30 @@ interface FormatterType {
   dimensionIndex: number;
   color: string;
 }
+interface EachResponse {
+  statPerd: number; // 통계 기준 시간
+  svcId?: string; // 서비스 ID
+  sysId?: string; // 시스템 ID
+  apiId?: string; // API ID
+  svcDesc?: string; // 서비스 설명
+  apiDesc?: string; // API 설명
+  totCnt: number; // 전체 서비스 건수
+  sucesCnt: number; // 성공 건수
+  failCnt: number; // 실패 건수
+  sucesRate: number; // 성공율
+  failRate: number; // 실패율
+  crCnt: number; // Critical 건수
+  maCnt: number; // Major 건수
+  miCnt: number; // Minor 건수
+  tps: number; // TPS
+  avgResTm: number; // 평균 응답시간
+  apiList?: EachApi[]; // API 리스트
+}
 @Component({
   components: { ApiDetailModalApiList },
 })
 export default class ApiDetailModal extends Vue {
-  @Prop() apiDetailData!: ApiDetail;
+  @Prop() apiDetailData!: EachResponse;
   created() {
     disableScrolling();
   }
