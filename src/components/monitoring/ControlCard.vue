@@ -1,13 +1,13 @@
 <template>
   <li @click="cardDetail">
     <div class="card-tit">
-      <h2 class="h2-tit">{{ item.nm }}</h2>
+      <h2 class="h2-tit">{{ item.svcId }}</h2>
 
       <div class="tip">
         <button class="tip-btn" v-on:mouseout="tipBox = false" v-on:mouseover="tipBox = true">
           <i><img src="@/assets/tip_ico.svg" alt="tip" /></i>
         </button>
-        <span v-if="tipBox" class="tip-area">서비스 설명 ~ Lorem ipsum dolor sit amet</span>
+        <span v-if="tipBox" class="tip-area">{{ item.svcDesc }}</span>
       </div>
     </div>
 
@@ -15,7 +15,7 @@
       <div class="script-cont">
         <i><img src="@/assets/req_sm.svg" alt="평균 응답시간" /></i>
         <p class="text">
-          평균 응답시간 : <span>{{ item.avgTime }}</span
+          평균 응답시간 : <span>{{ item.avgResTm }}</span
           >ms
         </p>
       </div>
@@ -32,16 +32,16 @@
       <!-- <div class="chart-div">차트영역</div> -->
       <dl>
         <dt>
-          성공률 : <span class="syan">{{ item.successRate }}%</span>
+          성공률 : <span class="syan">{{ item.sucesRate }}%</span>
         </dt>
         <dd>
-          Total : <span class="purple">{{ item.total }}</span>
+          Total : <span class="purple">{{ item.totCnt }}</span>
         </dd>
         <dd>
-          Success : <span class="syan">{{ item.success }}</span>
+          Success : <span class="syan">{{ item.sucesCnt }}</span>
         </dd>
         <dd>
-          Fail : <span class="red">{{ item.fail }}</span>
+          Fail : <span class="red">{{ item.failCnt }}</span>
         </dd>
       </dl>
     </div>
@@ -71,11 +71,28 @@ interface ApiDetail {
   success: number;
   fail: number;
 }
+
+interface EachService {
+  statPerd: number; // 통계 기준 시간
+  svcId: string; // 서비스 ID
+  svcDesc: string; // 서비스 설명
+  totCnt: number; // 전체 서비스 건수
+  sucesCnt: number; // 성공 건수
+  failCnt: number; // 실패 건수
+  sucesRate: number; // 성공율
+  failRate: number; // 실패율
+  crCnt: number; // Critical 건수
+  maCnt: number; // Major 건수
+  miCnt: number; // Minor 건수
+  tps: number; // TPS
+  avgResTm: number; // 평균 응답시간
+  apiList?: string[]; // API 리스트
+}
 @Component({
   components: { ApiDetailModal, ModalLayout },
 })
 export default class ControlCard extends Vue {
-  @Prop() item!: any;
+  @Prop() item!: EachService;
 
   tipBox = false;
   showApiDetailModal = false;
@@ -211,7 +228,7 @@ export default class ControlCard extends Vue {
   };
 
   mounted() {
-    this.apiDetailData.id = this.item.nm;
+    this.apiDetailData.id = this.item.svcId;
     setTimeout(() => {
       this.domInit();
     }, 0);
