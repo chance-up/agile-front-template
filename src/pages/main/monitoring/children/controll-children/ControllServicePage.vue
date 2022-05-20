@@ -64,7 +64,9 @@ export default class ControlPage extends Vue {
     statPerd: 0,
     sortBase: '',
   };
-
+  get sortedServiceList() {
+    return this.mornitoringControlModule.serviceList.sort((a, b) => (a.totCnt > b.totCnt ? -1 : 1));
+  }
   showApiDetailModal = false;
   apiDetailData?: EachResponse;
 
