@@ -1,6 +1,7 @@
 <template>
   <div class="chart-wrap">
     <h3 class="h3-tit">Total API Traffic (24Hour)</h3>
+    <div class="dash-modal-background" v-if="modal === true" @click="modal = false"></div>
     <div
       class="chart-group api-traffic"
       :class="{

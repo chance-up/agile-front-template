@@ -1,5 +1,6 @@
 <template>
   <div class="chart-wrap">
+    <div class="dash-modal-background" v-if="modal === true" @click="modal = false"></div>
     <h3 class="h3-tit">API 평균 응답시간 및 TPS</h3>
     <div
       class="chart-group tps-group"
