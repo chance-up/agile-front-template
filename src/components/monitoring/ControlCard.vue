@@ -62,6 +62,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import * as echarts from 'echarts';
+import { EChartsType } from 'echarts';
 
 import ApiDetailModal from '@/components/commons/modal/ApiDetailModal.vue';
 import ModalLayout from '@/components/commons/modal/ModalLayout.vue';
@@ -202,8 +203,8 @@ export default class ControlCard extends Vue {
   dom: HTMLDivElement = {} as HTMLDivElement;
   dom2: HTMLDivElement = {} as HTMLDivElement;
 
-  myChart: echarts.EChartsType = {} as echarts.EChartsType;
-  myChart2: echarts.EChartsType = {} as echarts.EChartsType;
+  myChart: EChartsType | null = null;
+  myChart2: EChartsType | null = null;
 
   @Watch('item')
   onItemChange(val: EachResponse) {
@@ -319,8 +320,8 @@ export default class ControlCard extends Vue {
     this.setChartOption();
 
     window.addEventListener('resize', () => {
-      this.myChart.resize();
-      this.myChart2.resize();
+      this.myChart?.resize();
+      this.myChart2?.resize();
     });
   }
 
@@ -414,8 +415,8 @@ export default class ControlCard extends Vue {
       ],
     };
 
-    this.myChart.setOption(this.statsPieOption);
-    this.myChart2.setOption(this.errorStatsBarOption);
+    this.myChart?.setOption(this.statsPieOption);
+    this.myChart2?.setOption(this.errorStatsBarOption);
   }
 
   cardDetail() {
